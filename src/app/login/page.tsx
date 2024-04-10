@@ -1,25 +1,11 @@
-"use client"
-import Link from "next/link"
-
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useRouter } from "next/navigation"
-import { useState } from "react"
-import {
-    InputOTP,
-    InputOTPGroup,
-    InputOTPSeparator,
-    InputOTPSlot,
-  } from "@/components/ui/input-otp"
+import Link from "next/link"
   
 
 export default function Dashboard() {
- 
-  const router = useRouter() 
-
-  const [sent, setSent] = useState(false)
-
   return (
     <div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px]">
       <div className="h-[100vh]">
@@ -33,49 +19,20 @@ export default function Dashboard() {
               Enter your email below to login to your account
             </p>
           </div>
-          {
-            !sent ? 
-                <div className="grid gap-6">
-                    <div className="grid gap-2">
-                    <Label htmlFor="email">Email</Label>
-                    <Input
-                        id="email"
-                        type="email"
-                        placeholder="m@example.com"
-                        required
-                    />
-                    </div>
-                    <Button type="submit" className="w-full" onClick={() => {
-                        setSent(true)
-                        // router.push('/dashboard')
-                    }}>
-                        Login
-                    </Button>
-                </div> 
-            : 
-                <div className="grid gap-6 ">
-                    <div className="flex items-center justify-center">
-                        <InputOTP maxLength={6}>
-                            <InputOTPGroup>
-                            <InputOTPSlot index={0} />
-                            <InputOTPSlot index={1} />
-                            <InputOTPSlot index={2} />
-                            </InputOTPGroup>
-                            <InputOTPSeparator />
-                            <InputOTPGroup>
-                            <InputOTPSlot index={3} />
-                            <InputOTPSlot index={4} />
-                            <InputOTPSlot index={5} />
-                            </InputOTPGroup>
-                        </InputOTP>
-                    </div>
-                    <Button type="submit" className="w-full" onClick={() => {
-                        router.push('/dashboard/home')
-                    }}>
-                        Confirm
-                    </Button>
-                </div>
-          }
+              <div className="grid gap-6">
+                  <div className="grid gap-2">
+                  <Label htmlFor="email">Email</Label>
+                  <Input
+                      id="email"
+                      type="email"
+                      placeholder="m@example.com"
+                      required
+                  />
+                  </div>
+                  <Button type="submit" className="w-full" asChild>
+                      <Link href={"/login/confirm"}>Login</Link>
+                  </Button>
+              </div> 
           <div className="mt-4 text-center text-sm">
             Don&apos;t have an account?{" "}
             <Link href="#" className="underline">

@@ -25,6 +25,7 @@ import { SideBar } from "@/components/side-bar"
 import { MobileSideBar } from "@/components/mobile-side-bar"
 import { Label } from "@/components/ui/label"
 import { useState } from "react"
+import { ThemePickerHeader } from "@/components/theme-picker-header"
 
 interface Props {
     children: JSX.Element
@@ -112,6 +113,8 @@ export default function DashboardLayout({ children }: Props) {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <ThemePickerHeader></ThemePickerHeader>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>Settings</DropdownMenuItem>
                 <DropdownMenuItem>Support</DropdownMenuItem>

@@ -1,6 +1,7 @@
+import { Webhook } from "./webhook";
 
 export default function WebHooksComponent() {
     return <div>
-        webhooks
+        <Webhook></Webhook>
     </div>
 }

@@ -26,6 +26,13 @@ import { MobileSideBar } from "@/components/mobile-side-bar"
 import { Label } from "@/components/ui/label"
 import { useState } from "react"
 import { ThemePickerHeader } from "@/components/theme-picker-header"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 interface Props {
     children: JSX.Element
@@ -45,7 +52,7 @@ export default function DashboardLayout({ children }: Props) {
   return (
     <>
       <div 
-        className={`grid min-h-screen w-full md:grid-cols-[220px_1fr] ${sideBarOpen ? "lg:grid-cols-[280px_1fr]" : "lg:grid-cols-[max-content_1fr]" }`}
+        className={`grid min-h-screen w-full ${sideBarOpen ? "md:grid-cols-[220px_1fr]" : "md:grid-cols-[max-content_1fr]"} ${sideBarOpen ? "lg:grid-cols-[280px_1fr]" : "lg:grid-cols-[max-content_1fr]" }`}
       >
         {
           sideBarOpen ? 
@@ -94,8 +101,20 @@ export default function DashboardLayout({ children }: Props) {
           </div> 
         }
         <div className="flex flex-col">
-          <header className="flex h-14 items-center lg:justify-end gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
+          <header className="flex h-14 items-center md:justify-end gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
             <MobileSideBar></MobileSideBar>
+            <div className="flex items-center justify-center space-x-4 border px-4 py-1 m-2 rounded-lg bg-secondary">
+              <Label>Integração</Label>
+              <Select defaultValue="prazeroculto">
+                <SelectTrigger className="h-8 w-[180px] font-bold">
+                  <SelectValue placeholder="Integração"/>
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="chatbttis">Chat Bttis</SelectItem>
+                  <SelectItem value="prazeroculto">Prazer Oculto</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
             <DropdownMenu onOpenChange={handleToggle}>
               <DropdownMenuTrigger asChild className="hover:cursor-pointer">
                 <div className="flex items-center space-x-4 px-4 rounded-lg hover:bg-secondary">
@@ -127,6 +146,8 @@ export default function DashboardLayout({ children }: Props) {
           <div className="gap-4 p-4 lg:gap-6 lg:p-6">
             <ApiKeys></ApiKeys>
           </div>
+
+          <hr />
 
           <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
               {children}

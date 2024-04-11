@@ -3,7 +3,7 @@
 import { Button } from "./ui/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "./ui/card";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Menu, Package2, Home, ShoppingCart, Badge, Package, Users, LineChart, DollarSign, Webhook } from "lucide-react";
+import { Menu, Package2, Home, ShoppingCart, Badge, Package, Users, LineChart, DollarSign, Webhook, List } from "lucide-react";
 import Link from "next/link"
 import { usePathname } from "next/navigation";
 
@@ -52,6 +52,13 @@ export function MobileSideBar() {
               Cobranças
             </Link>
             <Link
+              href={"/dashboard/subscribers"}
+              className={`flex items-center gap-3 rounded-lg py-2 ${path[2]  === "subscribers" ? "text-primary text-lg" : "text-muted-foreground transition-all hover:text-primary"}`}
+            >
+              <List className="h-5 w-5" />
+              Assinantes
+            </Link>
+            <Link
               href={"/dashboard/products"} 
               className={`flex items-center gap-3 rounded-lg py-2 ${path[2] === "products" ? "text-primary text-lg" : "text-muted-foreground transition-all hover:text-primary"}`}
             >
@@ -66,22 +73,6 @@ export function MobileSideBar() {
               Web hooks
             </Link>
           </nav>
-          <div className="mt-auto">
-            <Card>
-              <CardHeader>
-                <CardTitle>Upgrade to Pro</CardTitle>
-                <CardDescription>
-                  Unlock all features and get unlimited access to our
-                  support team.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Button size="sm" className="w-full">
-                  Upgrade
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
         </SheetContent>
       </Sheet>
     )

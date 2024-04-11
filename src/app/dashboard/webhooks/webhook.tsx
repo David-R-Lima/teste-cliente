@@ -13,29 +13,19 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { useState } from "react"
-import { Check, CircleCheck, CircleUser, Eye, EyeOff } from "lucide-react"
+import { Check, ChevronDown, ChevronUp, CircleCheck, CircleUser, Eye, EyeOff, X } from "lucide-react"
 import { WebHookEvents } from "./events"
 
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-  } from "@/components/ui/popover"
-  
 const languages = [
-    { label: "English", value: "en" },
-    { label: "French", value: "fr" },
-    { label: "German", value: "de" },
-    { label: "Spanish", value: "es" },
-    { label: "Portuguese", value: "pt" },
-    { label: "Russian", value: "ru" },
-    { label: "Japanese", value: "ja" },
-    { label: "Korean", value: "ko" },
-    { label: "Chinese", value: "zh" },
+    { label: "Cobrança", value: "en" },
+    { label: "Assinatura", value: "fr" },
+    { label: "Estorno", value: "de" },
+    { label: "Teste", value: "de" },
   ] as const
 
 export function Webhook() {
     const [displaySecret, setDisplaySecret] = useState(false)
+    const [eventsOpen, setEventsOpen] = useState(false)
     return (
         <div>
             <Card>
@@ -50,20 +40,7 @@ export function Webhook() {
                     </div>
                     <div className="flex flex-col space-y-3">
                         <Label>Eventos</Label>
-                        <div className="relative w-full h-10 border rounded-lg">
-                            <div className="absolute top-10 bg-white p-2 rounded-lg">
-                                {languages.map(languages => (
-                                    <div key={languages.value} className="flex w-full items-center p-2 hover:bg-secondary rounded-lg hover:cursor-pointer">
-                                        <div>
-                                        <CircleCheck />
-                                        </div>
-                                        <div className="flex items-center space-x-4 p-2 rounded-lg">
-                                            <Label>{languages.label}</Label>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
+                        <WebHookEvents></WebHookEvents>
 
                     </div>
                     <div className="flex flex-col space-y-3">

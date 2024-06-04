@@ -84,7 +84,7 @@ export function Webhook() {
                             setUrlState(e.target.value)
                         }}></Input>
                     </div>
-                    <div className="flex flex-col space-y-3">
+                    {/* <div className="flex flex-col space-y-3">
                         <Label>Eventos</Label>
                         <WebHookEvents></WebHookEvents>
 
@@ -105,7 +105,7 @@ export function Webhook() {
                                 : 
                                 <Input defaultValue={"*****************"}></Input>
                         }
-                    </div>
+                    </div> */}
                 </CardContent>
                 <CardFooter>
                     <div>

@@ -12,9 +12,12 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
-import { useState } from "react"
-import { Check, ChevronDown, ChevronUp, CircleCheck, CircleUser, Eye, EyeOff, X } from "lucide-react"
+import { useEffect, useState } from "react"
+import { Eye, EyeOff, Loader2 } from "lucide-react"
 import { WebHookEvents } from "./events"
+import { useMutation, useQuery } from "@tanstack/react-query"
+import { CreateWebhook, GetWebhook, UpdateWebhook } from "@/services/webhook"
+import { toast } from "sonner"
 
 const languages = [
     { label: "Cobrança", value: "en" },
@@ -25,7 +28,48 @@ const languages = [
 
 export function Webhook() {
     const [displaySecret, setDisplaySecret] = useState(false)
+    const [urlState, setUrlState] = useState("")
     const [eventsOpen, setEventsOpen] = useState(false)
+
+    const {data, refetch} = useQuery({
+        queryKey: ['webhook'],
+        queryFn: GetWebhook
+    })
+
+    const createWebhookMutation = useMutation({
+        mutationFn: CreateWebhook,
+        onSuccess: () => {
+            refetch()
+            toast.success("Webhook created successfully", {
+                id: "create-mutation"
+            })
+        }
+    })
+
+    const handleWebhookMutation = (url: string) => {
+        createWebhookMutation.mutate({str: url})
+    }
+
+    const updateWebhookMutation = useMutation({
+        mutationFn: UpdateWebhook,
+        onSuccess: () => {
+            refetch()
+            toast.success("Webhook updated successfully", {
+                id: "update-mutation"
+            })
+        }
+    })
+
+    const handleUpdateWebhookMutation = (url: string) => {
+        updateWebhookMutation.mutate({str: url})
+    }
+
+    useEffect(() => {
+        if(data) {
+            setUrlState(data.type_string ?? "")
+        }
+    }, [data])
+
     return (
         <div>
             <Card>
@@ -36,7 +80,9 @@ export function Webhook() {
                 <CardContent className="flex flex-col space-y-4">
                     <div className="flex flex-col space-y-3">
                         <Label>Url</Label>
-                        <Input placeholder="Ex: https://www.seusite.com"></Input>
+                        <Input placeholder="Ex: https://www.seusite.com" value={urlState} onChange={(e) => {
+                            setUrlState(e.target.value)
+                        }}></Input>
                     </div>
                     <div className="flex flex-col space-y-3">
                         <Label>Eventos</Label>
@@ -63,7 +109,16 @@ export function Webhook() {
                 </CardContent>
                 <CardFooter>
                     <div>
-                        <Button>Salvar</Button>
+                        {data ? (
+                            <Button onClick={() => {
+                                handleUpdateWebhookMutation(urlState)
+                            }}>{updateWebhookMutation.isPending ? <Loader2 className="animate-spin"/> : "Salvar"}</Button>
+                        ) : (                        
+                            <Button onClick={() => {
+                                handleWebhookMutation(urlState)
+                            }}>{createWebhookMutation.isPending ? <Loader2 className="animate-spin"/> : "Salvar"}</Button>
+                            )
+                        }
                     </div>
                 </CardFooter>
             </Card>

@@ -2,11 +2,13 @@ import axios, { AxiosError } from 'axios'
 
 export const api = axios.create({
   baseURL: "http://localhost:3333",
+  headers: {
+    Authorization: "Bearer MERCHANT_TEST_ID"
+  }
 })
 
 api.interceptors.response.use(
   function (response) {
-    console.log('response: ', response);
     return response
   },
   function (error: AxiosError) {

@@ -37,19 +37,25 @@ import {
   } from "@/components/ui/pagination"
   
 
-  import { useState } from 'react'
+  import { Dispatch, useState } from 'react'
+import { Button } from './ui/button'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 
   interface DataTableProps<TData, TValue> {
     name: string
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
+    page: number,
+    setPage: React.Dispatch<React.SetStateAction<number>>
   }
 
   export function TableComponent<TData, TValue>({
     name,
     columns,
     data,
+    page,
+    setPage
   }: DataTableProps<TData, TValue>)  {
 
     const [sorting, setSorting] = useState<SortingState>([])
@@ -67,13 +73,13 @@ import {
       })
 
     return (
-        <Card>
+        <Card className='relative'>
             <CardHeader>
                 <CardTitle>{name}</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className='mb-[4rem] min-h-[10vh]'>
                 <Table>
-                    <TableHeader>
+                    <TableHeader >
                         {table.getHeaderGroups().map((headerGroup) => (
                         <TableRow key={headerGroup.id}>
                             {headerGroup.headers.map((header) => {
@@ -89,7 +95,7 @@ import {
                         </TableRow>
                         ))}
                     </TableHeader>
-                    <TableBody>
+                    <TableBody className='w-full'>
                         {table.getRowModel().rows?.length ? (
                         table.getRowModel().rows.map((row) => (
                             <TableRow
@@ -108,32 +114,47 @@ import {
                             </TableRow>
                         ))
                         ) : (
-                        <TableRow>
-                            <TableCell
-                            colSpan={table._getColumnDefs.length}
-                            className="h-24 text-center"
-                            >
-                            Sem resultados.
+                            <TableRow className='relative'>
+                            <TableCell colSpan={columns.length} className='text-center '>
+                              Sem resultados.
                             </TableCell>
-                        </TableRow>
+                          </TableRow>
                         )}
                     </TableBody>
                 </Table>
             </CardContent>
-            <CardFooter>
-                <Pagination>
-                    <PaginationContent>
+            <CardFooter className=''>
+                <Pagination >
+                    <PaginationContent className='space-x-4'>
                         <PaginationItem>
-                        <PaginationPrevious href="#" />
+                            <Button className='space-x-2' disabled={page === 1} onClick={() => {
+                                if(page > 1) {
+                                    setPage((previousValue) => {
+                                        return previousValue - 1
+                                    })
+                                }
+                            }}>
+                                <ChevronLeft className='size-5'></ChevronLeft>
+                                <p>Anterior</p>
+                            </Button>
                         </PaginationItem>
                         <PaginationItem>
-                        <PaginationLink href="#">1</PaginationLink>
+                            <PaginationLink>{page}</PaginationLink>
                         </PaginationItem>
                         <PaginationItem>
                         <PaginationEllipsis />
                         </PaginationItem>
-                        <PaginationItem>
-                        <PaginationNext href="#" />
+                        <PaginationItem >      
+                            <Button className='space-x-2' disabled={data.length < 10} onClick={() => {
+                                setPage((previousValue) => {
+                                    return previousValue + 1
+                                })
+                            }}>
+                                <p>Próximo</p>
+                                <ChevronRight className='size-5'></ChevronRight>
+                            </Button>
+
+                            
                         </PaginationItem>
                     </PaginationContent>
                 </Pagination>

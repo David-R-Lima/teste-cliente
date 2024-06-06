@@ -18,6 +18,7 @@ import { WebHookEvents } from "./events"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { CreateWebhook, GetWebhook, UpdateWebhook } from "@/services/webhook"
 import { toast } from "sonner"
+import { TableComponentError, TableComponentSkeleton } from "@/components/table"
 
 const languages = [
     { label: "Cobrança", value: "en" },
@@ -31,7 +32,7 @@ export function Webhook() {
     const [urlState, setUrlState] = useState("")
     const [eventsOpen, setEventsOpen] = useState(false)
 
-    const {data, refetch} = useQuery({
+    const {data, refetch, isLoading, isError} = useQuery({
         queryKey: ['webhook'],
         queryFn: GetWebhook
     })
@@ -69,6 +70,10 @@ export function Webhook() {
             setUrlState(data.type_string ?? "")
         }
     }, [data])
+
+    if(isLoading) return <TableComponentSkeleton />
+
+    if(isError) return <TableComponentError />
 
     return (
         <div>

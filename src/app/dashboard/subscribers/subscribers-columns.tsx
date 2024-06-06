@@ -2,13 +2,14 @@
 
 import { Button } from '@/components/ui/button'
 import { ColumnDef } from '@tanstack/react-table'
-import { ArrowUpDown, MoreVertical } from 'lucide-react'
+import { ArrowUpDown, CircleCheck, CircleX, MoreVertical } from 'lucide-react'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { Subscriber } from '@/services/subscribers/types'
+import dayjs from "dayjs";
 
 export const SubscribersColumns = (): ColumnDef<Subscriber>[] => {
   const columns: ColumnDef<Subscriber>[] = [
@@ -41,18 +42,42 @@ export const SubscribersColumns = (): ColumnDef<Subscriber>[] => {
       },
     },
     {
-      accessorKey: 'payment_type',
+      accessorKey: 'first_charge',
       header: ({ column }) => {
         return (
           <Button
             variant="link"
             onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           >
-            Payment type
+            Primeira cobrança
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         )
       },
+      accessorFn: (original: Subscriber) => {
+        if(original.first_charge) {
+          return dayjs(original.first_charge).format('DD-MM-YY HH:mm')
+        }
+      }
+    },
+    {
+      accessorKey: 'next_charge',
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="link"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          >
+            Próxima cobrança
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        )
+      },
+      accessorFn: (original: Subscriber) => {
+        if(original.next_charge) {
+          return dayjs(original.next_charge).format('DD-MM-YY HH:mm')
+        }
+      }
     },
     {
       accessorKey: 'is_active',
@@ -63,10 +88,21 @@ export const SubscribersColumns = (): ColumnDef<Subscriber>[] => {
             onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
             className='text-primary'
           >
-            Active
+            Ativo
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         )
+      },
+      cell: ({row}) => {
+        const subscriber = row.original
+        if(subscriber.is_active) {
+          return <div className='flex w-full items-center justify-center'><CircleCheck className='text-green-500' /></div>
+        }
+        else {
+          return <div className='flex w-full items-center justify-center'>
+            <CircleX className='text-red-500' />
+          </div>
+        }
       },
     },
     {

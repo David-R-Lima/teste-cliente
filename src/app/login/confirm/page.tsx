@@ -34,7 +34,7 @@ export default function Confirm() {
                     </InputOTP>
                 </div>
                 <Button type="submit" className="w-full" asChild>
-                    <Link href={"/dashboard/home"}>Confirm</Link>
+                    <Link href={"/dashboard"}>Confirm</Link>
                 </Button>
             </div>
             <div className="mt-4 text-center text-sm">

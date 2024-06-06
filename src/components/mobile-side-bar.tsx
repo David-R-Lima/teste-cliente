@@ -31,8 +31,8 @@ export function MobileSideBar() {
               <span className="sr-only">PagBttis</span>
             </Link>
             <Link
-              href={"/dashboard/home"}
-              className={`flex items-center gap-3 rounded-lg py-2 ${path[2] === "home" ? "text-primary text-lg" : "text-muted-foreground transition-all hover:text-primary"}`}
+              href={"/dashboard"}
+              className={`flex items-center gap-3 rounded-lg py-2 ${path[2] === undefined ? "text-primary text-lg" : "text-muted-foreground transition-all hover:text-primary"}`}
             >
               <Home className="h-5 w-5" />
               Home

@@ -16,8 +16,8 @@ export function SideBar({open}: Props) {
             <div>
                 <div>
                     <Link 
-                        href={"/dashboard/home"} 
-                        className={`flex items-center gap-3 rounded-lg px-3 py-2 ${path[2] === "home" ? "text-primary text-lg" : "text-muted-foreground transition-all hover:text-primary"}`}
+                        href={"/dashboard"} 
+                        className={`flex items-center gap-3 rounded-lg px-3 py-2 ${path[2] === undefined ? "text-primary text-lg" : "text-muted-foreground transition-all hover:text-primary"}`}
                     >
                         <Home className="h-6 w-6" /> 
                         Home
@@ -76,8 +76,8 @@ export function SideBar({open}: Props) {
         <div className="flex flex-col items-center">
             <div>
                 <Link 
-                    href={"/dashboard/home"} 
-                    className={`flex items-center gap-3 rounded-lg px-3 py-2 ${path[2] === "home" ? "text-primary text-lg" : "text-muted-foreground transition-all hover:text-primary"}`}
+                    href={"/dashboard"} 
+                    className={`flex items-center gap-3 rounded-lg px-3 py-2 ${path[2] === undefined ? "text-primary text-lg" : "text-muted-foreground transition-all hover:text-primary"}`}
                 >
                     <Home className="h-6 w-6" /> 
                 </Link>

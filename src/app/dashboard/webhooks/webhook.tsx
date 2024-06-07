@@ -125,15 +125,6 @@ export function Webhook() {
                     </div>
                 </CardFooter>
             </Card>
-            {/* <div className="flex space-x-2 hover:underline hover:cursor-pointer">
-                <p className="font-bold">Response</p>
-                <ChevronDown></ChevronDown>
-            </div>
-            <Card>
-                <CardContent>
-                    
-                </CardContent>
-            </Card> */}
         </div>
     )
 }

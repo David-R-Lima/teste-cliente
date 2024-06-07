@@ -107,7 +107,8 @@ export default function DashboardLayout({ children }: Props) {
         <div className="flex flex-col">
           <header className="flex h-14 items-center md:justify-end gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
             <MobileSideBar></MobileSideBar>
-            <div className="flex items-center justify-center space-x-4 border px-4 py-1 m-2 rounded-lg bg-secondary">
+            {/* //TODO: future content */}
+            {/* <div className="flex items-center justify-center space-x-4 border px-4 py-1 m-2 rounded-lg bg-secondary">
               <Label>Integração</Label>
               <Select defaultValue="prazeroculto">
                 <SelectTrigger className="h-8 w-[180px] font-bold">
@@ -118,7 +119,7 @@ export default function DashboardLayout({ children }: Props) {
                   <SelectItem value="prazeroculto">Prazer Oculto</SelectItem>
                 </SelectContent>
               </Select>
-            </div>
+            </div> */}
             <DropdownMenu onOpenChange={handleToggle}>
               <DropdownMenuTrigger asChild className="hover:cursor-pointer">
                 <div className="flex items-center space-x-4 px-4 rounded-lg hover:bg-secondary">

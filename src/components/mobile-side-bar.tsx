@@ -21,7 +21,7 @@ export function MobileSideBar() {
             <span className="sr-only">Toggle navigation menu</span>
           </Button>
         </SheetTrigger>
-        <SheetContent side="left" className="flex flex-col">
+        <SheetContent side="left" className="flex flex-col w-[80vw]">
           <nav className="grid gap-2 text-lg font-medium">
             <Link
               href="#"

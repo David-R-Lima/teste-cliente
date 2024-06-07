@@ -33,6 +33,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { useSession } from "next-auth/react"
 
 interface Props {
     children: JSX.Element
@@ -40,6 +41,7 @@ interface Props {
 export default function DashboardLayout({ children }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const [sideBarOpen, setSideBarOpen] = useState(true)
+  const session = useSession()
 
   const handleToggle = () => {
     setIsOpen(!isOpen);
@@ -121,7 +123,7 @@ export default function DashboardLayout({ children }: Props) {
                   <Button variant="secondary" size="icon" className="rounded-full">
                     <CircleUser className="h-6 w-6" />
                   </Button>
-                  <Label>Olá</Label>
+                  <Label>Olá {session.data?.user?.name}</Label>
                   {
                     isOpen ? 
                     <ChevronUp className="h-6 w-6"/> 

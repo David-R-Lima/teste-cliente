@@ -2,7 +2,6 @@ import NextAuth from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { cookies } from 'next/headers'
 import dayjs from 'dayjs'
-// import { decode } from 'next-auth/jwt'
 import { apiGateway } from '@/services/apiGateway'
 
 const handler = NextAuth({
@@ -30,13 +29,11 @@ const handler = NextAuth({
           expires: dayjs().add(3, 'day').toDate(),
         })
 
-        const session = await apiGateway.get<User>('/users', {
+        const session = await apiGateway.get('/users', {
           headers: {
             Authorization: 'Bearer ' + token,
           },
         })
-
-        // const decodedToken = decode(token)
 
         const user =
           session.data

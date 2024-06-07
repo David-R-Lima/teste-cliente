@@ -19,20 +19,14 @@ import { useMutation, useQuery } from "@tanstack/react-query"
 import { CreateWebhook, GetWebhook, UpdateWebhook } from "@/services/webhook"
 import { toast } from "sonner"
 import { TableComponentError, TableComponentSkeleton } from "@/components/table"
-
-const languages = [
-    { label: "Cobrança", value: "en" },
-    { label: "Assinatura", value: "fr" },
-    { label: "Estorno", value: "de" },
-    { label: "Teste", value: "de" },
-  ] as const
+import { AxiosError } from "axios"
 
 export function Webhook() {
     const [displaySecret, setDisplaySecret] = useState(false)
     const [urlState, setUrlState] = useState("")
     const [eventsOpen, setEventsOpen] = useState(false)
 
-    const {data, refetch, isLoading, isError} = useQuery({
+    const {data, refetch, isLoading} = useQuery({
         queryKey: ['webhook'],
         queryFn: GetWebhook
     })
@@ -44,6 +38,12 @@ export function Webhook() {
             toast.success("Webhook created successfully", {
                 id: "create-mutation"
             })
+        },
+        onError: (error) => {
+            if(error instanceof AxiosError) {
+                if(error?.code === "404")
+                    return error
+            }
         }
     })
 
@@ -72,8 +72,6 @@ export function Webhook() {
     }, [data])
 
     if(isLoading) return <TableComponentSkeleton />
-
-    if(isError) return <TableComponentError />
 
     return (
         <div>

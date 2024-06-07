@@ -1,10 +1,8 @@
 import axios, { AxiosError } from 'axios'
+import { getSession } from 'next-auth/react';
 
 export const api = axios.create({
-  baseURL: process.env.PAYMENT_API_URL,
-  headers: {
-    Authorization: "Bearer MERCHANT_TEST_ID"
-  }
+  baseURL: "http://localhost:3333",
 })
 
 api.interceptors.response.use(
@@ -12,6 +10,7 @@ api.interceptors.response.use(
     return response
   },
   function (error: AxiosError) {
+    console.log('error: ', error);
     if (error instanceof AxiosError) {
       if (error.request.status === 500) {
         console.log(error)
@@ -24,3 +23,16 @@ api.interceptors.response.use(
     return Promise.reject(error)
   },
 )
+
+api.interceptors.request.use(
+  async (config) => {
+    const session = await getSession(); // obtenha a sessão do NextAuth
+    if (session?.user.id) {
+      api.defaults.headers.Authorization = "Bearer " + session?.user.id
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);

@@ -8,8 +8,10 @@ import {
 import { Label } from "./ui/label"
 import { useState } from "react"
 import { Clipboard, Eye, EyeOff } from "lucide-react"
+import { useSession } from "next-auth/react"
 export function ApiKeys() {
     const [displaySecret, setDisplaySecret] = useState(false)
+    const session = useSession()
     return <Card>
                 <CardHeader>
                 <CardTitle className="text-primary">Teste de Integração</CardTitle>
@@ -51,7 +53,16 @@ export function ApiKeys() {
                                     <Label>Merchant id:</Label>
                                 </div>
                                 <div className="flex items-center space-x-2">
-                                    <p className="p-2 border rounded-lg font-bold w-[30%] truncate">MERCHANT_TEST_ID</p>
+                                    <p className="p-2 border rounded-lg font-bold w-[30%] truncate">{session.data?.user.id}</p>
+                                    <Clipboard className="hover:cursor-pointer" />
+                                </div>
+                            </div>
+                            <div className="grid grid-cols-[8rem,2fr]">
+                                <div className="flex items-center">
+                                    <Label>Access token:</Label>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                    <p className="p-2 border rounded-lg font-bold w-[30%] truncate">Pegar ainda</p>
                                     <Clipboard className="hover:cursor-pointer" />
                                 </div>
                             </div>

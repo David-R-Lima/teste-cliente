@@ -4,6 +4,7 @@ import "./globals.css";
 import { ReactQueryProvider } from "@/components/providers/react-query-provider";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Toaster } from 'sonner'
+import { NextAuthSessionProvider } from "@/components/providers/next-auth-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,6 +22,7 @@ export default function RootLayout({
       <html lang="en">
         <body className={inter.className}>
           <ReactQueryProvider>
+          <NextAuthSessionProvider>
             <ThemeProvider
               attribute="class"
               defaultTheme="system"
@@ -30,6 +32,7 @@ export default function RootLayout({
               {children}
               <Toaster />
             </ThemeProvider>
+            </NextAuthSessionProvider>
           </ReactQueryProvider>
         </body>
       </html>

@@ -1,13 +1,15 @@
 import axios, { AxiosError } from 'axios'
+import { getCookie } from 'cookies-next';
 
-export const api = axios.create({
-  baseURL: process.env.PAYMENT_API_URL,
-  headers: {
-    Authorization: "Bearer MERCHANT_TEST_ID"
-  }
+export const apiGateway = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
 })
 
-api.interceptors.response.use(
+apiGateway.defaults.headers.common.Authorization = `Bearer ${getCookie(
+    'access_token.hub',
+)}`
+
+apiGateway.interceptors.response.use(
   function (response) {
     return response
   },

@@ -33,7 +33,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { useSession } from "next-auth/react"
+import { signOut, useSession } from "next-auth/react"
+import { useRouter } from "next/navigation"
 
 interface Props {
     children: JSX.Element
@@ -42,6 +43,7 @@ export default function DashboardLayout({ children }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const [sideBarOpen, setSideBarOpen] = useState(true)
   const session = useSession()
+  const router = useRouter()
 
   const handleToggle = () => {
     setIsOpen(!isOpen);
@@ -133,14 +135,18 @@ export default function DashboardLayout({ children }: Props) {
                 </div>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuLabel>Minha conta</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <ThemePickerHeader></ThemePickerHeader>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>Settings</DropdownMenuItem>
-                <DropdownMenuItem>Support</DropdownMenuItem>
+                <DropdownMenuItem>Suporte</DropdownMenuItem>
+                <DropdownMenuItem>Configurações</DropdownMenuItem>
+                <DropdownMenuItem>Documentação</DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>Logout</DropdownMenuItem>
+                <DropdownMenuItem onClick={async () => {
+                  await signOut({redirect: false})
+                  router.push("/")
+                }}>Sair</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </header>

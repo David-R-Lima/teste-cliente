@@ -2,8 +2,22 @@ import axios, { AxiosError } from 'axios'
 import { getSession } from 'next-auth/react';
 
 export const api = axios.create({
-  baseURL: "http://localhost:3333",
+  baseURL: process.env.NEXT_PUBLIC_PAYMENT_API_URL
 })
+
+api.interceptors.request.use(
+  async (config) => {
+    const session = await getSession();
+
+    if (session?.user.id) {
+      config.headers.Authorization = "Bearer " + session?.user.id
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 api.interceptors.response.use(
   function (response) {
@@ -23,16 +37,3 @@ api.interceptors.response.use(
     return Promise.reject(error)
   },
 )
-
-api.interceptors.request.use(
-  async (config) => {
-    const session = await getSession(); // obtenha a sessão do NextAuth
-    if (session?.user.id) {
-      api.defaults.headers.Authorization = "Bearer " + session?.user.id
-    }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);

@@ -30,7 +30,7 @@ const handler = NextAuth({
           expires: dayjs().add(3, 'day').toDate(),
         })
 
-        const session = await apiGateway.get('/users', {
+        const session = await apiGateway.get<User>('/users', {
           headers: {
             Authorization: 'Bearer ' + token,
           },
@@ -38,14 +38,19 @@ const handler = NextAuth({
 
         // const decodedToken = decode(token)
 
-        const { user } =
+        const user =
           session.data
 
         if (user) {
           return {
-            id: user.id_user,
+            id: user.id,
             name: user.name,
             email: user.email,
+            user_type: user.user_type,
+            document: user.document,
+            status: user.status,
+            created_at: user.created_at,
+            updated_at: user.updated_at,
           }
         } else {
           return null

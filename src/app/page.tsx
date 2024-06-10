@@ -22,7 +22,10 @@ export default function Home() {
           </div>
       </header>
       <div className="flex-col justify-center items-center min-h-[80vh] w-full">
-        <div className="flex items-center justify-center p-2 w-full">
+        <div className="h-[100vh]">
+
+        </div>
+        <div className="flex items-center justify-center p-2 w-full ">
           <h1 className="text-primary text-2xl italic">Opiniões de usuários</h1>
         </div>
 

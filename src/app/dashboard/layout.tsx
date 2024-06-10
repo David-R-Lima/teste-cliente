@@ -35,6 +35,8 @@ import {
 } from "@/components/ui/select"
 import { signOut, useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
+import { UserConfigDialog } from "@/components/user-config-dialog"
+import { User } from "@/services/user/types"
 
 interface Props {
     children: JSX.Element
@@ -141,7 +143,11 @@ export default function DashboardLayout({ children }: Props) {
                 <ThemePickerHeader></ThemePickerHeader>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>Suporte</DropdownMenuItem>
-                <DropdownMenuItem>Configurações</DropdownMenuItem>
+                <DropdownMenuItem onClick={(e) => {
+                  e.preventDefault();
+                }}>
+                  <UserConfigDialog user={session.data?.user as User}></UserConfigDialog>
+                </DropdownMenuItem>
                 <DropdownMenuItem>Documentação</DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={async () => {

@@ -9,6 +9,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { Charges } from '@/services/charges/types'
+import { AdditionalInformation } from './components/additional-information'
 
 export const ChargesColumns = (): ColumnDef<Charges>[] => {
   const columns: ColumnDef<Charges>[] = [
@@ -91,13 +92,14 @@ export const ChargesColumns = (): ColumnDef<Charges>[] => {
     {
       id: 'actions',
       cell: ({ row }) => {
-        const promptGroup = row.original
+        const charge = row.original
         return (
           <Popover>
             <PopoverTrigger>
               <MoreVertical />
             </PopoverTrigger>
             <PopoverContent className="w-full">
+            <AdditionalInformation charge={charge}></AdditionalInformation>
             </PopoverContent>
           </Popover>
         )

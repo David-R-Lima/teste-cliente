@@ -87,21 +87,21 @@ export const PlansColumns = (): ColumnDef<Plans>[] => {
           return original.test_days? original.test_days : "-"
         }
       },
-    {
-      id: 'actions',
-      cell: ({ row }) => {
-        const promptGroup = row.original
-        return (
-          <Popover>
-            <PopoverTrigger>
-              <MoreVertical />
-            </PopoverTrigger>
-            <PopoverContent className="w-full">
-            </PopoverContent>
-          </Popover>
-        )
-      },
-    },
+    // {
+    //   id: 'actions',
+    //   cell: ({ row }) => {
+    //     const promptGroup = row.original
+    //     return (
+    //       <Popover>
+    //         <PopoverTrigger>
+    //           <MoreVertical />
+    //         </PopoverTrigger>
+    //         <PopoverContent className="w-full">
+    //         </PopoverContent>
+    //       </Popover>
+    //     )
+    //   },
+    // },
   ]
 
   return columns

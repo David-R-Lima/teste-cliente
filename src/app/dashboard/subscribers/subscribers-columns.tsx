@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/popover'
 import { Subscriber } from '@/services/subscribers/types'
 import dayjs from "dayjs";
+import { AdditionalInformation } from './components/additional-information'
 
 export const SubscribersColumns = (): ColumnDef<Subscriber>[] => {
   const columns: ColumnDef<Subscriber>[] = [
@@ -108,13 +109,14 @@ export const SubscribersColumns = (): ColumnDef<Subscriber>[] => {
     {
       id: 'actions',
       cell: ({ row }) => {
-        const promptGroup = row.original
+        const subscriber = row.original
         return (
           <Popover>
             <PopoverTrigger>
               <MoreVertical />
             </PopoverTrigger>
             <PopoverContent className="w-full">
+            <AdditionalInformation subscriber={subscriber}></AdditionalInformation>
             </PopoverContent>
           </Popover>
         )

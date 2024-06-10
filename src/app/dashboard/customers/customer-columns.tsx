@@ -9,6 +9,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { Customers } from '@/services/customers/types'
+import { AdditionalInformation } from './components/additional-information'
 
 export const CustomersColumns = (): ColumnDef<Customers>[] => {
   const columns: ColumnDef<Customers>[] = [
@@ -72,13 +73,15 @@ export const CustomersColumns = (): ColumnDef<Customers>[] => {
     {
       id: 'actions',
       cell: ({ row }) => {
-        const promptGroup = row.original
+        const customer = row.original
         return (
           <Popover>
             <PopoverTrigger>
               <MoreVertical />
             </PopoverTrigger>
             <PopoverContent className="w-full">
+              <AdditionalInformation customer={customer}
+              ></AdditionalInformation>
             </PopoverContent>
           </Popover>
         )

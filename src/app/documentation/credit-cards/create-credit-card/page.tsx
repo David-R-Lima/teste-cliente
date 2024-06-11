@@ -4,53 +4,49 @@ import { Post } from "../../components/http-methods";
 import { PathParams } from "../../components/parameters";
 import { BodyProps } from "../../type";
 
-const path: BodyProps = {
-    properties: [
-        {
-            name: "id",
-            type: "string",
-            description: "Id do cliente",
-            required: true,
-        }
-    ]
-}
+const path: BodyProps[] = [
+    {
+        name: "id",
+        type: "string",
+        description: "Id do cliente",
+        required: true,
+    }
+]
 
-const data: BodyProps = {
-    properties: [
-        {
-            name: "name",
-            type: "object",
-            description: "Nome do cartão",
-            required: true,
-            additionalProperties: [
-                {
-                    name: "token",
-                    type: "string",
-                    description: "Número do cartão",
-                    required: true,
-                },
-                {
-                    name: "brand",
-                    type: "string",
-                    description: "Bandeira do cartão. Ex: MASTERCARD | AMERICAN_EXPRESS | VISA | ELO",
-                    required: true,
-                },
-                {
-                    name: "first_six_digits",
-                    type: "string",
-                    description: "Primeiros 6 dígitos do cartão",
-                    required: true,
-                },
-                {
-                    name: "last_four_digits",
-                    type: "string",
-                    description: "Últimos 4 dígitos do cartão",
-                    required: true,
-                }
-            ]
-        }
-    ]
-}
+const data: BodyProps[] = [
+    {
+        name: "name",
+        type: "object",
+        description: "Nome do cartão",
+        required: true,
+        additionalProperties: [
+            {
+                name: "token",
+                type: "string",
+                description: "Número do cartão",
+                required: true,
+            },
+            {
+                name: "brand",
+                type: "string",
+                description: "Bandeira do cartão. Ex: MASTERCARD | AMERICAN_EXPRESS | VISA | ELO",
+                required: true,
+            },
+            {
+                name: "first_six_digits",
+                type: "string",
+                description: "Primeiros 6 dígitos do cartão",
+                required: true,
+            },
+            {
+                name: "last_four_digits",
+                type: "string",
+                description: "Últimos 4 dígitos do cartão",
+                required: true,
+            }
+        ]
+    }
+]
 
 
 export default function CreateCreditCard() {
@@ -68,8 +64,8 @@ export default function CreateCreditCard() {
             </div>
             <hr />
             <Header></Header>
-            <PathParams properties={path.properties}></PathParams>
-            <Body properties={data.properties}></Body>
+            <PathParams properties={path}></PathParams>
+            <Body properties={data}></Body>
         </div>
     )
 }

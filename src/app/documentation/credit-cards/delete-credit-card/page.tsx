@@ -3,16 +3,14 @@ import { Delete } from "../../components/http-methods";
 import { PathParams } from "../../components/parameters";
 import { BodyProps } from "../../type";
 
-const path: BodyProps = {
-    properties: [
-        {
-            name: "id",
-            type: "string",
-            description: "Id do cliente",
-            required: true,
-        }
-    ]
-}
+const path: BodyProps[] = [
+    {
+        name: "id",
+        type: "string",
+        description: "Id do cliente",
+        required: true,
+    }
+]
 
 export default function DeleteCreditCard() {
     return (
@@ -29,7 +27,7 @@ export default function DeleteCreditCard() {
             </div>
             <hr />
             <Header></Header>
-            <PathParams properties={path.properties}></PathParams>
+            <PathParams properties={path}></PathParams>
         </div>
     )
 }

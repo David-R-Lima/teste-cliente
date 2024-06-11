@@ -6,8 +6,11 @@ import {
   } from "@/components/ui/accordion"
 import { BodyProps } from "../type"
   
+interface Props {
+    properties: BodyProps[]
+}
 
-export function QueryParams({properties}: BodyProps) {
+export function QueryParams({properties}: Props) {
     return (
         <Accordion type="single" collapsible>
         <AccordionItem value="item-1">

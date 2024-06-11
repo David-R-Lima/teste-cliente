@@ -3,16 +3,14 @@ import { Get } from "../../components/http-methods";
 import { PathParams } from "../../components/parameters";
 import { BodyProps } from "../../type";
 
-const path: BodyProps = {
-    properties: [
-        {
-            name: "card_id",
-            type: "string",
-            description: "Id do cartão",
-            required: true,
-        }
-    ]
-}
+const path: BodyProps[] = [
+    {
+        name: "card_id",
+        type: "string",
+        description: "Id do cartão",
+        required: true,
+    }
+]
 
 export default function GetCreditCard() {
     return (
@@ -29,7 +27,7 @@ export default function GetCreditCard() {
             </div>
             <hr />
             <Header></Header>
-            <PathParams properties={path.properties}></PathParams>
+            <PathParams properties={path}></PathParams>
         </div>
     )
 }

@@ -4,16 +4,14 @@ import { PathParams } from "../../components/parameters";
 import { BodyProps } from "../../type";
 
 
-const data: BodyProps = {
-    properties: [
-        {
-            name: "id",
-            type: "string",
-            description: "Id do cliente",
-            required: true,
-        }
-    ]
-}
+const data: BodyProps[] = [
+    {
+        name: "id",
+        type: "string",
+        description: "Id do cliente",
+        required: true,
+    }
+] 
 
 
 export default function GetCustomerById() {
@@ -31,7 +29,7 @@ export default function GetCustomerById() {
             </div>
             <hr />
             <Header></Header>
-            <PathParams properties={data.properties}></PathParams>
+            <PathParams properties={data}></PathParams>
         </div>
     )
 }

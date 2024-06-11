@@ -4,116 +4,114 @@ import { Post } from "../../components/http-methods";
 import { BodyProps } from "../../type";
 
 
-const data: BodyProps = {
-    properties: [
-        {
-            name: "name",
-            type: "string",
-            description: "Nome do cliente",
-            required: true,
-        },
-        {
-            name: "email",
-            type: "string",
-            description: "Email do cliente",
-            required: true,
-        },
-        {
-            name: "phone",
-            type: "string",
-            description: "Telefone do cliente",
-            required: false,
-        },
-        {
-            name: "is_active",
-            type: "boolean",
-            description: "Status do cliente",
-            required: false,
-        },
-        {
-            name: "document",
-            type: "object",
-            description: "Documento do cliente",
-            required: true,    
-            additionalProperties: [
-                {
-                    name: "type",
-                    type: "string",
-                    description: "Tipo do documento. Ex: CPf | CNPJ",
-                    required: true,
-                },
-                {
-                    name: "text",
-                    type: "string",
-                    description: "Número do documento",
-                    required: true,
-                },
-                {
-                    name: "country",
-                    type: "string",
-                    description: "País do documento",
-                    required: true,
-                }
-            ]
-        },
-        {
-            name: "address",
-            type: "object",
-            description: "Endereço do cliente",
-            required: false,
-            additionalProperties: [
-                {
-                    name: "street",
-                    type: "string",
-                    description: "Rua do endereço",
-                    required: true,
-                },
-                {
-                    name: "number",
-                    type: "string",
-                    description: "Número do endereço",
-                    required: true,
-                },
-                {
-                    name: "complement",
-                    type: "string",
-                    description: "Complemento do endereço",
-                    required: false,
-                },
-                {
-                    name: "neighborhood",
-                    type: "string",
-                    description: "Bairro do endereço",
-                    required: true,
-                },
-                {
-                    name: "zip_code",
-                    type: "string",
-                    description: "CEP do endereço",
-                    required: true,
-                },
-                {
-                    name: "city",
-                    type: "string",
-                    description: "Cidade do endereço",
-                    required: true,
-                },
-                {
-                    name: "state",
-                    type: "string",
-                    description: "Estado do endereço",
-                    required: true,
-                },
-                {
-                    name: "country",
-                    type: "string",
-                    description: "País do endereço. Ex: BR",
-                    required: true,
-                }
-            ]
-        }
-    ]
-}
+const data: BodyProps[] = [
+    {
+        name: "name",
+        type: "string",
+        description: "Nome do cliente",
+        required: true,
+    },
+    {
+        name: "email",
+        type: "string",
+        description: "Email do cliente",
+        required: true,
+    },
+    {
+        name: "phone",
+        type: "string",
+        description: "Telefone do cliente",
+        required: false,
+    },
+    {
+        name: "is_active",
+        type: "boolean",
+        description: "Status do cliente",
+        required: false,
+    },
+    {
+        name: "document",
+        type: "object",
+        description: "Documento do cliente",
+        required: true,    
+        additionalProperties: [
+            {
+                name: "type",
+                type: "string",
+                description: "Tipo do documento. Ex: CPf | CNPJ",
+                required: true,
+            },
+            {
+                name: "text",
+                type: "string",
+                description: "Número do documento",
+                required: true,
+            },
+            {
+                name: "country",
+                type: "string",
+                description: "País do documento",
+                required: true,
+            }
+        ]
+    },
+    {
+        name: "address",
+        type: "object",
+        description: "Endereço do cliente",
+        required: false,
+        additionalProperties: [
+            {
+                name: "street",
+                type: "string",
+                description: "Rua do endereço",
+                required: true,
+            },
+            {
+                name: "number",
+                type: "string",
+                description: "Número do endereço",
+                required: true,
+            },
+            {
+                name: "complement",
+                type: "string",
+                description: "Complemento do endereço",
+                required: false,
+            },
+            {
+                name: "neighborhood",
+                type: "string",
+                description: "Bairro do endereço",
+                required: true,
+            },
+            {
+                name: "zip_code",
+                type: "string",
+                description: "CEP do endereço",
+                required: true,
+            },
+            {
+                name: "city",
+                type: "string",
+                description: "Cidade do endereço",
+                required: true,
+            },
+            {
+                name: "state",
+                type: "string",
+                description: "Estado do endereço",
+                required: true,
+            },
+            {
+                name: "country",
+                type: "string",
+                description: "País do endereço. Ex: BR",
+                required: true,
+            }
+        ]
+    }
+]
 
 
 export default function CreateCustomer() {
@@ -131,7 +129,7 @@ export default function CreateCustomer() {
             </div>
             <hr />
             <Header></Header>
-            <Body properties={data.properties}></Body>
+            <Body properties={data}></Body>
         </div>
     )
 }

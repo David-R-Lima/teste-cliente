@@ -5,22 +5,20 @@ import { QueryParams } from "../../components/query-params";
 import { BodyProps } from "../../type";
 
 
-const data: BodyProps = {
-    properties: [
-        {
-            name: "page",
-            type: "string",
-            description: "Número da página",
-            required: false,
-        },
-        {
-            name: "itemsPerPage",
-            type: "string",
-            description: "Número de items por página",
-            required: false,
-        }
-    ]
-}
+const data: BodyProps[] = [
+    {
+        name: "page",
+        type: "string",
+        description: "Número da página",
+        required: false,
+    },
+    {
+        name: "itemsPerPage",
+        type: "string",
+        description: "Número de items por página",
+        required: false,
+    }
+]
 
 
 export default function GetCustomer() {
@@ -38,7 +36,7 @@ export default function GetCustomer() {
             </div>
             <hr />
             <Header></Header>
-            <QueryParams properties={data.properties}></QueryParams>
+            <QueryParams properties={data}></QueryParams>
         </div>
     )
 }

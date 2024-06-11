@@ -15,7 +15,7 @@ const path: BodyProps[] = [
 
 const data: BodyProps[] = [
     {
-        name: "name",
+        name: "card",
         type: "object",
         description: "Nome do cartão",
         required: true,

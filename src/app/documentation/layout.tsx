@@ -12,13 +12,15 @@ export default function Layout({
 
     return (
         <div>
-            <header className="flex h-[8vh] p-8 border-b-2 items-center justify-between">
+            <header className="relative flex h-[8vh] p-8 border-b-2 items-center justify-between">
                 <p className="text-primary text-2xl">PagBttis</p>
-                <div className="relative flex space-x-4 text-center justify-center">
-                    {/* <ThemePicker  /> */}
+                <div className="flex space-x-4 text-center justify-center">
                     <p className="hover:underline hover:text-primary"><Link href={"#"}>Suporte</Link></p>
                     <p className="hover:underline hover:text-primary"><Link href={"/documentation"}>Documentação</Link></p>
                     <p className="hover:underline hover:text-primary"><Link href={"/login"}>Acessar dashboard</Link></p>
+                </div>
+                <div className="absolute right-4 -bottom-14">
+                    <ThemePicker/>    
                 </div>
             </header>
         <div className="flex">
@@ -29,7 +31,7 @@ export default function Layout({
                         {/* <ChevronLeft className="hover:cursor-pointer"></ChevronLeft> */}
                     </div>
                     <div className="space-y-1">
-                        <h1 className="font-bold">Customers</h1>
+                        <h1 className="font-bold">Clientes</h1>
                         <a href="/documentation/customer/create-customer" className="flex space-x-2 items-center p-2 hover:cursor-pointer">
                             <Post/>
                             <p className="text-sm">Criar cliente</p>

@@ -6,125 +6,125 @@ import { BodyProps } from "../../type";
 
 const body: BodyProps[] = [
     {
-        name: "name",
+        name: "plan_id",
         type: "string",
-        description: "Nome do cliente",
+        description: "Id do plano",
         required: true,
     },
     {
-        name: "email",
+        name: "customer_id",
         type: "string",
-        description: "Email do cliente",
+        description: "Id do cliente",
         required: true,
     },
     {
-        name: "phone",
+        name: "payment_type",
         type: "string",
-        description: "Telefone do cliente",
-        required: false,
+        description: "Tipo de pagamento. Ex: CARTAO_CREDITO | PIX | BOLETO",
+        required: true,
     },
     {
-        name: "is_active",
+        name: "currency",
+        type: "string",
+        description: "Moeda. Ex: BRL | USD",
+        required: true,
+    },
+    {
+        name: "invoice_description",
+        type: "string",
+        description: "Descrição da fatura",
+        required: true,
+    },
+    {
+        name: "capture",
         type: "boolean",
-        description: "Status do cliente",
+        description: "Captura da cobrança",
+        required: true,
+    },
+    {
+        name: "provider_id",
+        type: "string",
+        description: "Id do provedor",
         required: false,
     },
     {
-        name: "document",
-        type: "object",
-        description: "Documento do cliente",
-        required: true,    
-        additionalProperties: [
-            {
-                name: "type",
-                type: "string",
-                description: "Tipo do documento. Ex: CPf | CNPJ",
-                required: true,
-            },
-            {
-                name: "text",
-                type: "string",
-                description: "Número do documento",
-                required: true,
-            },
-            {
-                name: "country",
-                type: "string",
-                description: "País do documento",
-                required: true,
-            }
-        ]
+        name: "description",
+        type: "string",
+        description: "Descrição da cobrança",
+        required: false,
     },
     {
-        name: "address",
+        name: "card_payment_method",
         type: "object",
-        description: "Endereço do cliente",
+        description: "Método de pagamento Cartão",
         required: false,
         additionalProperties: [
             {
-                name: "street",
+                name: "payment_type_card",
                 type: "string",
-                description: "Rua do endereço",
+                description: "Tipo do cartão. Ex: CREDIT_CARD",
                 required: true,
             },
             {
-                name: "number",
-                type: "string",
-                description: "Número do endereço",
+                name: "installments",
+                type: "number",
+                description: "Número de parcelas",
                 required: true,
             },
             {
-                name: "complement",
+                name: "token",
                 type: "string",
-                description: "Complemento do endereço",
-                required: false,
-            },
-            {
-                name: "neighborhood",
-                type: "string",
-                description: "Bairro do endereço",
+                description: "Cartão tokenizado",
                 required: true,
             },
             {
-                name: "zip_code",
+                name: "card_id",
                 type: "string",
-                description: "CEP do endereço",
+                description: "Id do cartão",
                 required: true,
             },
             {
-                name: "city",
-                type: "string",
-                description: "Cidade do endereço",
+                name: "items",
+                type: "array",
+                description: "Itens da cobrança",
                 required: true,
-            },
-            {
-                name: "state",
-                type: "string",
-                description: "Estado do endereço",
-                required: true,
-            },
-            {
-                name: "country",
-                type: "string",
-                description: "País do endereço. Ex: BR",
-                required: true,
+                additionalProperties: [
+                    {
+                        name: "description",
+                        type: "string",
+                        description: "Descrição do item",
+                        required: true,
+                    },
+                    {
+                        name: "unity_value",
+                        type: "number",
+                        description: "Valor do item",
+                        required: true,
+                    },
+                    {
+                        name: "quantity",
+                        type: "number",
+                        description: "Quantidade do item",
+                        required: true,
+                    }
+                ]
             }
         ]
-    }
+    },
 ]
 
-export default function CreateCustomer() {
+export default function CreateSignature() {
     return (
         <div className="space-y-4 min-w-[50vw]">
-            <h1 className="text-2xl">Criar cliente</h1>
+            <h1 className="text-2xl">Criar assinatura</h1>
 
             <div className="flex space-x-2 items-center">
                 <h1><Post></Post></h1>
-                <p className="text-bold">{process.env.NEXT_PUBLIC_PAYMENT_API_URL}/api/customers</p>
+                <p className="text-bold">{process.env.NEXT_PUBLIC_PAYMENT_API_URL}/api/subscriptions</p>
             </div>
 
             <div>
-                <h1>Utilize este endpoint para criar nos cliente, você vai precisar de um cliente cadastrado para criar cartões e assinaturas</h1>
+                <h1>Utilize este endpoint para criar uma assinatura para um cliente.</h1>
             </div>
             <hr />
             <Header></Header>

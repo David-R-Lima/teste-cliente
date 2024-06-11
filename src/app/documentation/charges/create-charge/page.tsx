@@ -79,6 +79,266 @@ const data: BodyProps[] = [
                 ]
             }
         ]
+    },
+    {
+        name: "card_payment_method",
+        type: "object",
+        description: "Método de pagamento Cartão",
+        required: false,
+        additionalProperties: [
+            {
+                name: "payment_type_card",
+                type: "string",
+                description: "Tipo do cartão. Ex: CREDIT_CARD",
+                required: true,
+            },
+            {
+                name: "installments",
+                type: "number",
+                description: "Número de parcelas",
+                required: true,
+            },
+            {
+                name: "token",
+                type: "string",
+                description: "Cartão tokenizado",
+                required: false,
+            },
+            {
+                name: "card_id",
+                type: "string",
+                description: "Id do cartão",
+                required: false,
+            },
+            {
+                name: "items",
+                type: "array",
+                description: "Itens da cobrança",
+                required: true,
+                additionalProperties: [
+                    {
+                        name: "description",
+                        type: "string",
+                        description: "Descrição do item",
+                        required: true,
+                    },
+                    {
+                        name: "unity_value",
+                        type: "number",
+                        description: "Valor do item",
+                        required: true,
+                    },
+                    {
+                        name: "quantity",
+                        type: "number",
+                        description: "Quantidade do item",
+                        required: true,
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        name: "boleto_payment_method",
+        type: "object",
+        description: "Método de pagamento Boleto",
+        required: false,
+        additionalProperties: [
+            {
+                name: "expiration_date",
+                type: "date",
+                description: "Data de expiração do boleto",
+                required: true,
+            },
+            {
+                name: "instructions",
+                type: "string",
+                description: "instruções",
+                required: true,
+            },
+            {
+                name: "expiration_days_for_fees",
+                type: "number",
+                description: "Quantos dias apés o vencimento para começar a cobrar",
+                required: false,
+            },
+            {
+                name: "fee_value_per_day",
+                type: "number",
+                description: "Valor da cobrança por dia",
+                required: false,
+            },
+            {
+                name: "fee_percentage_per_month",
+                type: "number",
+                description: "Porcentagem do valor por mês",
+                required: false,
+            },
+            {
+                name: "expiration_days_for_fine",
+                type: "number",
+                description: "Quantos dias apés o vencimento para começar a multar",
+                required: false,
+            },
+            {
+                name: "fine_value",
+                type: "number",
+                description: "Valor da multa",
+                required: false,
+            },
+            {
+                name: "fine_percentage",
+                type: "number",
+                description: "Valor da porcentagem da multa",
+                required: false,
+            },
+            {
+                name: "items",
+                type: "array",
+                description: "Itens da cobrança",
+                required: true,
+                additionalProperties: [
+                    {
+                        name: "description",
+                        type: "string",
+                        description: "Descrição do item",
+                        required: true,
+                    },
+                    {
+                        name: "unity_value",
+                        type: "number",
+                        description: "Valor do item",
+                        required: true,
+                    },
+                    {
+                        name: "quantity",
+                        type: "number",
+                        description: "Quantidade do item",
+                        required: true,
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        name: "payer",
+        type: "object",
+        description: "Dados do pagador",
+        required: false,
+        additionalProperties: [
+            {
+                name: "name",
+                type: "string",
+                description: "Nome do pagador",
+                required: true,
+            },
+            {
+                name: "email",
+                type: "string",
+                description: "Email do pagador",
+                required: true,
+            },
+            {
+                name: "phone",
+                type: "string",
+                description: "Telefone do pagador",
+                required: true,
+            },
+            {
+                name: "document",
+                type: "object",
+                description: "Documento do pagador",
+                required: true,
+                additionalProperties: [
+                    {
+                        name: "type",
+                        type: "string",
+                        description: "Tipo do documento. Ex: CPF | CNPJ",
+                        required: true,
+                    },
+                    {
+                        name: "text",
+                        type: "string",
+                        description: "Texto do documento",
+                        required: true,
+                    },
+                    {
+                        name: "country",
+                        type: "string",
+                        description: "País do documento. EX: BR",
+                        required: true,
+                    }
+                ]
+            },
+            {
+                name: "address",
+                type: "object",
+                description: "Endereço do pagador",
+                required: true,
+                additionalProperties: [
+                    {
+                        name: "street",
+                        type: "string",
+                        description: "Rua do endereço",
+                        required: false,
+                    },
+                    {
+                        name: "number",
+                        type: "string",
+                        description: "Número do endereço",
+                        required: false,
+                    },
+                    {
+                        name: "complement",
+                        type: "string",
+                        description: "Complemento do endereço",
+                        required: false,
+                    },
+                    {
+                        name: "neighborhood",
+                        type: "string",
+                        description: "Bairro do endereço",
+                        required: false,
+                    },
+                    {
+                        name: "zip_code",
+                        type: "string",
+                        description: "CEP do endereço",
+                        required: true,
+                    },
+                    {
+                        name: "city",
+                        type: "string",
+                        description: "Cidade do endereço",
+                        required: false,
+                    },
+                    {
+                        name: "state",
+                        type: "string",
+                        description: "Estado do endereço",
+                        required: false,
+                    },
+                    {
+                        name: "country",
+                        type: "string",
+                        description: "País do endereço. Ex: BR",
+                        required: false,
+                    },
+                    {
+                        name: "city_code",
+                        type: "string",
+                        description: "Código da cidade",
+                        required: false,
+                    },
+                    {
+                        name: "country_code",
+                        type: "string",
+                        description: "Código do país",
+                        required: false,
+                    }
+                ]
+            }
+        ]
     }
 ]
 

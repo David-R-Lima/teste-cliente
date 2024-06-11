@@ -1,7 +1,8 @@
 import { Header } from "../../components/header";
 import { Delete } from "../../components/http-methods";
 import { PathParams } from "../../components/parameters";
-import { BodyProps } from "../../type";
+import { Response } from "../../components/response";
+import { BodyProps, ResponseProps } from "../../type";
 
 const path: BodyProps[] = [
     {
@@ -9,6 +10,58 @@ const path: BodyProps[] = [
         type: "string",
         description: "Id do cliente",
         required: true,
+    }
+]
+
+const responseProps: ResponseProps[] = [
+    {
+        code: 200,
+        properties: [
+            {
+                name: "deleted",
+                type: "boolean",
+                description: "",
+                required: false,
+            }
+        ]
+    },
+    {
+        code: 400,
+        properties: [
+            {
+                name: "Bad request exection",
+                type: "object",
+                description: "",
+                required: false,
+                additionalProperties: [
+                    {
+                        name: "message",
+                        type: "string",
+                        description: "Mensagem de erro",
+                        required: false,
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        code: 404,
+        properties: [
+            {
+                name: "Not found exection",
+                type: "object",
+                description: "",
+                required: false,
+                additionalProperties: [
+                    {
+                        name: "message",
+                        type: "string",
+                        description: "Mensagem de erro",
+                        required: false,
+                    }
+                ]
+            }
+        ]
     }
 ]
 
@@ -28,6 +81,7 @@ export default function DeleteCreditCard() {
             <hr />
             <Header></Header>
             <PathParams properties={path}></PathParams>
+            <Response data={responseProps} ></Response>
         </div>
     )
 }

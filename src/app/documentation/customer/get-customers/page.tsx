@@ -1,99 +1,23 @@
 import { Body } from "../../components/body";
 import { Header } from "../../components/header";
-import { Patch } from "../../components/http-methods";
-import { PathParams } from "../../components/parameters";
+import { Get } from "../../components/http-methods";
+import { QueryParams } from "../../components/query-params";
 import { Response } from "../../components/response";
 import { BodyProps, ResponseProps } from "../../type";
 
-const path: BodyProps[] = [
-    {
-        name: "id",
-        type: "string",
-        description: "Id do cliente",
-        required: true,
-    }
-]
 
 const data: BodyProps[] = [
     {
-        name: "name",
+        name: "page",
         type: "string",
-        description: "Nome do cliente",
+        description: "Número da página",
         required: false,
     },
     {
-        name: "email",
+        name: "itemsPerPage",
         type: "string",
-        description: "Email do cliente",
+        description: "Número de items por página",
         required: false,
-    },
-    {
-        name: "phone",
-        type: "string",
-        description: "Telefone do cliente",
-        required: false,
-    },
-    {
-        name: "is_active",
-        type: "boolean",
-        description: "Status do cliente",
-        required: false,
-    },
-    {
-        name: "address",
-        type: "object",
-        description: "Endereço do cliente",
-        required: false,
-        additionalProperties: [
-            {
-                name: "street",
-                type: "string",
-                description: "Rua do endereço",
-                required: true,
-            },
-            {
-                name: "number",
-                type: "string",
-                description: "Número do endereço",
-                required: true,
-            },
-            {
-                name: "complement",
-                type: "string",
-                description: "Complemento do endereço",
-                required: false,
-            },
-            {
-                name: "neighborhood",
-                type: "string",
-                description: "Bairro do endereço",
-                required: true,
-            },
-            {
-                name: "zip_code",
-                type: "string",
-                description: "CEP do endereço",
-                required: true,
-            },
-            {
-                name: "city",
-                type: "string",
-                description: "Cidade do endereço",
-                required: true,
-            },
-            {
-                name: "state",
-                type: "string",
-                description: "Estado do endereço",
-                required: true,
-            },
-            {
-                name: "country",
-                type: "string",
-                description: "País do endereço. Ex: BR",
-                required: true,
-            }
-        ]
     }
 ]
 
@@ -102,7 +26,7 @@ const responseProps: ResponseProps[] = [
         code: 200,
         properties: [
             {
-                name: "customer",
+                name: "customers",
                 type: "object",
                 description: "Dados do cliente",
                 required: false,
@@ -225,23 +149,22 @@ const responseProps: ResponseProps[] = [
     }
 ]
 
-export default function CreateCustomer() {
+export default function GetCustomer() {
     return (
         <div className="space-y-4 min-w-[50vw]">
-            <h1 className="text-2xl">Criar cliente</h1>
+            <h1 className="text-2xl">Buscar clientes</h1>
 
             <div className="flex space-x-2 items-center">
-                <h1><Patch></Patch></h1>
-                <p className="text-bold">{process.env.NEXT_PUBLIC_PAYMENT_API_URL}/api/customers/:id</p>
+                <h1><Get></Get></h1>
+                <p className="text-bold">{process.env.NEXT_PUBLIC_PAYMENT_API_URL}/api/customers?page={1}&itemsPerPage={10}</p>
             </div>
 
             <div>
-                <h1>Utilize este endpoint para atualizar os dados de um cliente</h1>
+                <h1>Utilize este endpoint para buscar seus clientes</h1>
             </div>
             <hr />
             <Header></Header>
-            <PathParams properties={path}></PathParams>
-            <Body properties={data}></Body>
+            <QueryParams properties={data}></QueryParams>
             <Response data={responseProps} ></Response>
         </div>
     )

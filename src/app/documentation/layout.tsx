@@ -36,9 +36,9 @@ export default function Layout({
                                 <Post/>
                                 <p className="text-sm">Criar cliente</p>
                             </a>
-                            <a href="/documentation/customer/get-customer" className="flex space-x-2 items-center p-2 hover:cursor-pointer">
+                            <a href="/documentation/customer/get-customers" className="flex space-x-2 items-center p-2 hover:cursor-pointer">
                                 <Get/>
-                                <p className="text-sm">Buscar cliente</p>
+                                <p className="text-sm">Buscar clientes</p>
                             </a>
                             <a href="/documentation/customer/get-customer-by-id" className="flex space-x-2 items-center p-2 hover:cursor-pointer">
                                 <Get/>

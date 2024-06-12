@@ -125,10 +125,10 @@ export default function DashboardLayout({ children }: Props) {
             <DropdownMenu onOpenChange={handleToggle}>
               <DropdownMenuTrigger asChild className="hover:cursor-pointer">
                 <div className="flex items-center space-x-4 px-4 rounded-lg hover:bg-secondary">
-                  <Button variant="secondary" size="icon" className="rounded-full">
+                  {/* <Button variant="secondary" size="icon" className="rounded-full">
                     <CircleUser className="h-6 w-6" />
-                  </Button>
-                  <Label>Olá {session.data?.user?.name}</Label>
+                  </Button> */}
+                  <Label className="p-4">Olá {session.data?.user?.name}</Label>
                   {
                     isOpen ? 
                     <ChevronUp className="h-6 w-6"/> 
@@ -148,7 +148,9 @@ export default function DashboardLayout({ children }: Props) {
                 }}>
                   <UserConfigDialog user={session.data?.user as User}></UserConfigDialog>
                 </DropdownMenuItem>
-                <DropdownMenuItem>Documentação</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => {
+                  router.push("/documentation")
+                }}>Documentação</DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={async () => {
                   await signOut({redirect: false})

@@ -5,6 +5,8 @@ import { getCharges } from "@/services/charges";
 import { useQuery } from "@tanstack/react-query";
 import { ChargesColumns } from "./charges-columns";
 import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Filter, Plus } from "lucide-react";
 
 export default function ChargesComponent() {
     const columns = ChargesColumns()
@@ -23,7 +25,10 @@ export default function ChargesComponent() {
     if(isError) return <TableComponentError />
 
     return (
-        <div>
+        <div className="space-y-4">
+            <div className="flex space-x-4">
+                <Button className="space-x-2"><Filter /><p>Filtros</p></Button>
+            </div>
             <TableComponent name={"Cobranças"} columns={columns} data={charges} page={page} setPage={setPage}/>
         </div>
     );

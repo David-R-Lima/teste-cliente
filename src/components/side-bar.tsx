@@ -52,11 +52,11 @@ export function SideBar({open}: Props) {
             </div>
                 <div>
                     <Link 
-                        href={"/dashboard/products"} 
-                        className={`flex items-center gap-3 rounded-lg px-3 py-2 ${path[2]  === "products" ? "text-primary text-lg" : "text-muted-foreground transition-all hover:text-primary"}`}
+                        href={"/dashboard/plans"} 
+                        className={`flex items-center gap-3 rounded-lg px-3 py-2 ${path[2]  === "plans" ? "text-primary text-lg" : "text-muted-foreground transition-all hover:text-primary"}`}
                     >
                         <Package className="h-6 w-6" />
-                        Produtos
+                        Planos
                     </Link>
                 </div>
                 <div>
@@ -108,8 +108,8 @@ export function SideBar({open}: Props) {
             </div>
             <div>
                 <Link 
-                    href={"/dashboard/products"} 
-                    className={`flex items-center gap-3 rounded-lg px-3 py-2 ${path[2]  === "products" ? "text-primary text-lg" : "text-muted-foreground transition-all hover:text-primary"}`}
+                    href={"/dashboard/plans"} 
+                    className={`flex items-center gap-3 rounded-lg px-3 py-2 ${path[2]  === "plans" ? "text-primary text-lg" : "text-muted-foreground transition-all hover:text-primary"}`}
                 >
                     <Package className="h-6 w-6" />
                 </Link>

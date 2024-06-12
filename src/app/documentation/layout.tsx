@@ -12,7 +12,7 @@ export default function Layout({
 
     return (
         <div>
-            <header className="relative flex h-[8vh] p-8 border-b-2 items-center justify-between">
+            <header className="relative flex h-[8vh] p-8 border-b-2 items-center justify-between w-full">
                 <p className="text-primary text-2xl">PagBttis</p>
                 <div className="flex space-x-4 text-center justify-center">
                     <p className="hover:underline hover:text-primary"><Link href={"#"}>Suporte</Link></p>

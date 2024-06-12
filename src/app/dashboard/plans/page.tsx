@@ -6,6 +6,8 @@ import { PlansColumns } from "./plans-columns";
 import { useQuery } from "@tanstack/react-query";
 import { getPlans } from "@/services/products/plans";
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Filter, Plus } from "lucide-react";
 
 export default function ProductsComponent() {
     const columns = PlansColumns()
@@ -23,7 +25,11 @@ export default function ProductsComponent() {
     if(data?.plans) {
         return (
             <div className="flex flex-col space-y-6">
-                <CardProducts></CardProducts>
+                {/* <CardProducts></CardProducts> */}
+                <div className="flex space-x-4">
+                    <Button className="space-x-2"><Filter /><p>Filtros</p></Button>
+                    <Button className="space-x-2"><Plus/><p>Plano</p></Button>
+                </div>
                 <TableComponent name="Planos" columns={columns} data={data.plans} page={page} setPage={setPage}></TableComponent>
             </div>
         )

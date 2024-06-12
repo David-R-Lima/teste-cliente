@@ -57,7 +57,7 @@ export function ApiKeys() {
                                     <Clipboard className="hover:cursor-pointer" />
                                 </div>
                             </div>
-                            <div className="grid grid-cols-[8rem,2fr]">
+                            {/* <div className="grid grid-cols-[8rem,2fr]">
                                 <div className="flex items-center">
                                     <Label>Access token:</Label>
                                 </div>
@@ -65,7 +65,7 @@ export function ApiKeys() {
                                     <p className="p-2 border rounded-lg font-bold w-[30%] truncate">Pegar ainda</p>
                                     <Clipboard className="hover:cursor-pointer" />
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                     </CardContent>
             </Card>

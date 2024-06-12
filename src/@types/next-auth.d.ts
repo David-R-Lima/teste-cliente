@@ -12,6 +12,7 @@ declare module 'next-auth' {
     status: string
     created_at: Date,
     updated_at: Date,
+    access_token: string
   }
 
   interface Session {

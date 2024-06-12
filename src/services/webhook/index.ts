@@ -16,9 +16,9 @@ export async function CreateWebhook(request: CreateWebhookRequest) {
 }
 
 export async function GetWebhook() {
-    const { data } = await api.get<{merchantSetting: MerchantSetting}>('/merchant-setting?parameter_name=TX_MER_NOT_PAG')
+    const { data } = await api.get<{merchant_setting: MerchantSetting}>('/merchant-setting?parameter_name=TX_MER_NOT_PAG')
 
-    return data.merchantSetting
+    return data.merchant_setting
 
 }
 

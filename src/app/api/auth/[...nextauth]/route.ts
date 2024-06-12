@@ -23,6 +23,8 @@ const handler = NextAuth({
           password: credentials?.password,
         })
 
+        console.log(res)
+
         const token = res.data.access_token
         
         cookies().set('access_token.hub', token, {
@@ -48,6 +50,7 @@ const handler = NextAuth({
             status: user.status,
             created_at: user.created_at,
             updated_at: user.updated_at,
+            access_token: token
           }
         } else {
           return null

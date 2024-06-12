@@ -10,7 +10,7 @@ api.interceptors.request.use(
     const session = await getSession();
 
     if (session?.user.id) {
-      config.headers.Authorization = "Bearer " + session?.user.id
+      config.headers.Authorization = "Bearer " + session?.user.access_token
     }
     return config;
   },

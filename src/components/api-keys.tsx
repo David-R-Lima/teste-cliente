@@ -9,6 +9,7 @@ import { Label } from "./ui/label"
 import { useState } from "react"
 import { Clipboard, Eye, EyeOff } from "lucide-react"
 import { useSession } from "next-auth/react"
+import { CreateAccessToken } from "./create-access-token"
 export function ApiKeys() {
     const [displaySecret, setDisplaySecret] = useState(false)
     const session = useSession()
@@ -18,7 +19,7 @@ export function ApiKeys() {
                 </CardHeader>
                     <CardContent>
                         <div className="flex flex-col space-y-4">
-                            <div className="grid grid-cols-[8rem,2fr]">
+                            {/* <div className="grid grid-cols-[8rem,2fr]">
                                 <div className="flex items-center">
                                     <Label>Chave pública:</Label>
                                 </div>
@@ -47,7 +48,7 @@ export function ApiKeys() {
                                     }
                                     <Clipboard className="hover:cursor-pointer" />
                                 </div>
-                            </div>
+                            </div> */}
                             <div className="grid grid-cols-[8rem,2fr]">
                                 <div className="flex items-center">
                                     <Label>Merchant id:</Label>
@@ -57,15 +58,12 @@ export function ApiKeys() {
                                     <Clipboard className="hover:cursor-pointer" />
                                 </div>
                             </div>
-                            {/* <div className="grid grid-cols-[8rem,2fr]">
+                            <div className="grid grid-cols-[8rem,2fr]">
                                 <div className="flex items-center">
                                     <Label>Access token:</Label>
                                 </div>
-                                <div className="flex items-center space-x-2">
-                                    <p className="p-2 border rounded-lg font-bold w-[30%] truncate">Pegar ainda</p>
-                                    <Clipboard className="hover:cursor-pointer" />
-                                </div>
-                            </div> */}
+                                <CreateAccessToken></CreateAccessToken>
+                            </div>
                         </div>
                     </CardContent>
             </Card>

@@ -34,7 +34,10 @@ export function CreateAccessToken() {
                 <DialogHeader>
                 <DialogTitle>Criar token</DialogTitle>
                 <DialogDescription>
-                    Este é o token de autenticação que você usara para consumir o serviço de pagamento. Ao gerar ele será visto apenas uma vez, lembre-se de salvar ele em algum lugar.
+                    <p>Este é o token de autenticação que você usara para consumir o serviço de pagamento. Ao gerar ele será visto apenas uma vez, lembre-se de salvar ele em algum lugar.</p>
+                    <br/>
+                    <p>Atenção: Caso você ja tiver um token, ao criar um, o novo token irá substiuir o anterior.</p>
+
                 </DialogDescription>
                 </DialogHeader>
                 <div>

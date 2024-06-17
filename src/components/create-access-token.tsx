@@ -10,6 +10,7 @@ import { Button } from "./ui/button"
 import { useMutation } from "@tanstack/react-query"
 import { useState } from "react"
 import { Clipboard, Eye, EyeOff, Loader2 } from "lucide-react"
+import { CreateToken } from "@/services/token"
 
 
 export function CreateAccessToken() {
@@ -18,12 +19,10 @@ export function CreateAccessToken() {
 
     const generateToken = useMutation({
         mutationFn: async () => {
-            return new Promise((resolve, reject) => {
-                resolve("access_token")
-            })
+            return CreateToken()
         },
-        onSuccess: (data) => {
-            setToken(data as string)
+        onSuccess: ({data}) => {
+            setToken(data.access_token)
         }
     })
 
@@ -31,7 +30,7 @@ export function CreateAccessToken() {
         <DialogTrigger asChild>
             <Button className="w-[200px]">Criar token</Button>
         </DialogTrigger>
-            <DialogContent>
+            <DialogContent className="w-full max-w-lg">
                 <DialogHeader>
                 <DialogTitle>Criar token</DialogTitle>
                 <DialogDescription>
@@ -45,39 +44,22 @@ export function CreateAccessToken() {
                         <Loader2 className="animate-spin"></Loader2>
                     ): "Gerar token"}</Button>
                 </div>
-                {
-                    token ? (
-                        display ? (
-                            <div>
-                                <hr />
-                                <div className="flex items-center space-x-2 mt-4">
-                                    <p className="p-2 border rounded-lg font-bold w-[100%] truncate">{token}</p>
-                                    <Clipboard className="hover:cursor-pointer" />
-                                    {
-                                        display ? 
-                                                <EyeOff className="hover:cursor-pointer" onClick={() => setDisplay(false)} /> 
-                                            : 
-                                                <Eye className="hover:cursor-pointer" onClick={() => setDisplay(true)} />
-                                    }
-                                </div>
-                            </div>
-                        ) : (
-                            <div>
-                                <hr />
-                                <div className="flex items-center space-x-2 mt-4">
-                                    <p className="p-2 border rounded-lg font-bold w-[100%] truncate">*********************</p>
-                                    <Clipboard className="hover:cursor-pointer" onClick={() => {navigator.clipboard.writeText(token)}}/>
-                                    {
-                                        display ? 
-                                                <EyeOff className="hover:cursor-pointer" onClick={() => setDisplay(false)} /> 
-                                            : 
-                                                <Eye className="hover:cursor-pointer" onClick={() => setDisplay(true)} />
-                                    }
-                                </div>
-                            </div>
-                        )
-                    ) : null
-                }
+                {token && (
+                    <div className="w-full mt-4"> {/* Ensure full width and some spacing at the top */}
+                        <hr />
+                        <div className="flex items-center space-x-2 mt-4 w-full">
+                        <p className="p-2 border rounded-lg font-bold w-[100%] ">
+                            {display ? token : '*********************'}
+                        </p>
+                            <Clipboard className="hover:cursor-pointer" onClick={() => navigator.clipboard.writeText(token)} />
+                            {display ? (
+                                <EyeOff className="hover:cursor-pointer" onClick={() => setDisplay(false)} />
+                            ) : (
+                                <Eye className="hover:cursor-pointer" onClick={() => setDisplay(true)} />
+                            )}
+                        </div>
+                    </div>
+                )}
             </DialogContent>
     </Dialog>
 }

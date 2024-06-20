@@ -214,7 +214,7 @@ export function CreateCustomerForm() {
           <p>Cliente</p>
         </Button>
       </DialogTrigger>
-      <DialogContent className="flex flex-col min-w-[80vw] h-[90vh] overflow-auto">
+      <DialogContent className="flex flex-col min-w-[80vw] h-[90vh] ">
         <DialogHeader>
           <DialogTitle>Cadastrar cliente</DialogTitle>
           <DialogDescription>
@@ -226,7 +226,7 @@ export function CreateCustomerForm() {
         </DialogHeader>
         <form
           onSubmit={handleSubmit(handleSumbitMutation)}
-          className="space-y-4 p-4 bg-muted rounded-lg"
+          className="space-y-4 p-4 bg-muted rounded-lg max-h-[80vh] overflow-auto"
         >
           <div className="space-y-2">
             <h2>Nome</h2>

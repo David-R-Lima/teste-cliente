@@ -8,9 +8,10 @@ import {
 import { getCharges } from '@/services/charges'
 import { useQuery } from '@tanstack/react-query'
 import { ChargesColumns } from './charges-columns'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Button } from '@/components/ui/button'
-import { Filter, Plus } from 'lucide-react'
+import { Filter } from 'lucide-react'
+import { CreateChargeForm } from './components/create-charge-form'
 
 export default function ChargesComponent() {
   const columns = ChargesColumns()
@@ -35,6 +36,7 @@ export default function ChargesComponent() {
           <Filter />
           <p>Filtros</p>
         </Button>
+        <CreateChargeForm></CreateChargeForm>
       </div>
       <TableComponent
         name={'Cobranças'}

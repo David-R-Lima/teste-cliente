@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form'
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
@@ -8,7 +9,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
-import { Plus } from 'lucide-react'
+import { Loader2, Plus } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -25,330 +26,57 @@ import {
 } from '@/components/ui/select'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Country, DocumentType } from '@/services/customers/types'
-import {
-  Currency,
-  PaymentCardType,
-  PaymentType,
-} from '@/services/charges/types'
+import { PaymentCardType, PaymentType } from '@/services/charges/types'
 import { createCharge } from '@/services/charges'
 import { useState } from 'react'
 import { useHookFormMask } from 'use-mask-input'
 import { fetchAddress } from '@/lib/viacep'
+import { ChargeFormSchema } from './schema'
+import { BttisCreditCard } from '../../../../../node_modules/.pnpm/bttis-encrypt1-sdk-js@2.0.6/node_modules/bttis-encrypt1-sdk-js/dist/src/index.js'
 
-const FormSchema = z.object({
-  customer_id: z.string().optional(),
-
-  value: z.coerce.number().min(1, {
-    message: 'Value must have atleast 1 character',
-  }),
-
-  currency: z
-    .nativeEnum(Currency, {
-      required_error: 'Currency is required',
-    })
-    .default(Currency.BRL),
-
-  invoice_description: z
-    .string({
-      required_error: "Invoice description 'invoice_description'  is required",
-    })
-    .max(20, {
-      message: 'Invoice description must have at most 20 characters',
-    }),
-
-  capture: z.boolean({
-    required_error: 'Capture is required',
-  }),
-
-  description: z.string().max(50, {
-    message: 'Description must have at most 50 characters',
-  }),
-
-  payment_type: z.nativeEnum(PaymentType, {
-    required_error: 'Payment type is required',
-  }),
-
-  pix_payment_method: z
-    .object({
-      expiration_time: z.coerce
-        .number({
-          required_error: 'Expiration time is required',
-        })
-        .refine((value) => {
-          const regex = /^[0-9]+$/
-          return regex.test(value.toString())
-        }),
-
-      items: z
-        .array(
-          z.object({
-            description: z.string({
-              required_error: 'Item description is required',
-            }),
-
-            unity_value: z.coerce
-              .number({
-                required_error: 'Unity value is required',
-              })
-              .refine(
-                (value) => {
-                  const regex = /^[0-9]+(\.[0-9]+)?$/
-                  return regex.test(value.toString())
-                },
-                {
-                  message: 'Only number is accepted',
-                },
-              ),
-
-            quantity: z.coerce
-              .number({
-                required_error: 'Quantity is required',
-              })
-              .refine(
-                (value) => {
-                  const regex = /^[0-9]+$/
-                  return regex.test(value.toString())
-                },
-                {
-                  message: 'Only number is accepted',
-                },
-              ),
-          }),
-        )
-        .optional(),
-    })
-    .optional(),
-
-  card_payment_method: z
-    .object({
-      payment_type_card: z.nativeEnum(PaymentCardType, {
-        required_error: 'Payment card type is required',
-      }),
-
-      installments: z.coerce
-        .number({
-          required_error: 'Installments is required',
-        })
-        .refine(
-          (value) => {
-            const regex = /^[0-9]+$/
-            return regex.test(value.toString())
-          },
-          {
-            message: 'Only number is accepted',
-          },
-        ),
-
-      token: z.string().optional(),
-      card_id: z.string().optional(),
-      store_card: z.boolean().optional(),
-      items: z.array(
-        z.object({
-          description: z.string(),
-          unity_value: z.coerce.number().refine((value) => {
-            const regex = /^[0-9]+(\.[0-9]+)?$/
-            return regex.test(value.toString())
-          }),
-
-          quantity: z.coerce.number().refine((value) => {
-            const regex = /^[0-9]+$/
-            return regex.test(value.toString())
-          }),
-        }),
-      ),
-    })
-    .optional(),
-  boleto_payment_method: z
-    .object({
-      expiration_date: z.coerce.date(),
-      instructions: z.string(),
-      expiration_days_for_fees: z.coerce.number(),
-      fee_value_per_day: z.coerce.number(),
-      fee_percentage_per_month: z.coerce.number(),
-      expiration_days_for_fine: z.coerce.number(),
-      fine_value: z.coerce.number(),
-      fine_percentage: z.coerce.number(),
-      items: z.array(
-        z.object({
-          description: z.string(),
-          unity_value: z.coerce.number().refine((value) => {
-            const regex = /^[0-9]+(\.[0-9]+)?$/
-            return regex.test(value.toString())
-          }),
-
-          quantity: z.coerce.number().refine((value) => {
-            const regex = /^[0-9]+$/
-            return regex.test(value.toString())
-          }),
-        }),
-      ),
-    })
-    .optional(),
-  payer: z
-    .object({
-      name: z
-        .string({
-          required_error: 'Payer name is required',
-        })
-        .max(50, {
-          message: 'Payer name must have at most 50 characters',
-        }),
-
-      document: z.object({
-        type: z.nativeEnum(DocumentType, {
-          required_error: 'Document type is required',
-        }),
-
-        text: z
-          .string({
-            required_error: 'Document text is required',
-          })
-          .refine(
-            (value) => {
-              const regex = value.length === 11 ? /^\d{11}$/ : /^\d{14}$/
-
-              return regex.test(value)
-            },
-            {
-              message: 'Document is invalid. It must have only numbers',
-            },
-          ),
-
-        country: z
-          .nativeEnum(Country, {
-            required_error: 'Country is required',
-          })
-          .default(Country.BR)
-          .optional(),
-      }),
-
-      email: z
-        .string({
-          required_error: 'Payer email is required',
-        })
-        .email({
-          message: 'Payer email is invalid',
-        }),
-
-      phone: z.string().max(15, {
-        message: 'Payer phone is invalid',
-      }),
-
-      address: z
-        .object({
-          street: z
-            .string()
-            .max(200, {
-              message: 'Description must have at most 200 characters',
-            })
-            .optional(),
-
-          number: z
-            .string()
-            .max(10, {
-              message: 'Number must have at most 10 characters',
-            })
-            .optional(),
-
-          complement: z
-            .string()
-            .max(50, {
-              message: 'Complement must have at most 50 characters',
-            })
-            .optional(),
-
-          neighborhood: z
-            .string()
-            .max(50, {
-              message: 'Neighborhood must have at most 50 characters',
-            })
-            .optional(),
-
-          zip_code: z
-            .string({
-              required_error: 'Zip code is required',
-            })
-            .max(8, {
-              message: 'Zip code must have at most 8 characters',
-            })
-            .refine(
-              (value) => {
-                const regex = /^\d{8}$/
-
-                return regex.test(value)
-              },
-              {
-                message: 'Zip code is invalid. Must have only numbers',
-              },
-            ),
-
-          state: z
-            .string()
-            .max(2, {
-              message: 'State must have at most 8 characters',
-            })
-            .refine(
-              (value) => {
-                const regex = /^[A-Z]{2}$/
-
-                return regex.test(value)
-              },
-              {
-                message:
-                  'State must be in uppercase and have only 2 characters. E.g: SP',
-              },
-            )
-            .optional(),
-
-          city: z
-            .string()
-            .max(50, {
-              message: 'Number must have at most 50 characters',
-            })
-            .optional(),
-
-          country: z
-            .nativeEnum(Country, {
-              invalid_type_error: 'Invalid country',
-            })
-            .default(Country.BR)
-            .optional(),
-
-          city_code: z
-            .string()
-            .refine(
-              (value) => {
-                const regex = /^\d{7}$/
-                return regex.test(value)
-              },
-              {
-                message:
-                  'City code is invalid. Must have only numbers and 7 characters. E.g: 2706703',
-              },
-            )
-            .optional(),
-
-          country_code: z.string().optional(),
-        })
-        .optional(),
-    })
-    .optional(),
-})
-
-export type formSchema = z.infer<typeof FormSchema>
+export type formSchema = z.infer<typeof ChargeFormSchema>
 
 export function CreateChargeForm() {
   const [isInternal, setIsInternal] = useState<boolean>(true)
   const [inputAddressOpen, setInputAddressOpen] = useState<boolean>(false)
 
+  const [cardToTokenize, setCardToTokenize] = useState<{
+    card_holder: string
+    card_number: string
+    card_cvv: string
+    card_expiration_month: string
+    card_expiration_year: string
+  }>({
+    card_holder: '',
+    card_number: '',
+    card_cvv: '',
+    card_expiration_month: '',
+    card_expiration_year: '',
+  })
+
+  const [itemToAdd, setItemToAdd] = useState<{
+    description: string
+    quantity: number
+    unity_value: number
+  }>({
+    description: '',
+    quantity: 0,
+    unity_value: 0,
+  })
+
   const {
     register,
     handleSubmit,
     setValue,
+    getValues,
     watch,
     formState: { errors },
   } = useForm<formSchema>({
-    resolver: zodResolver(FormSchema),
+    resolver: zodResolver(ChargeFormSchema),
+    defaultValues: {
+      payer: undefined,
+      capture: true,
+    },
   })
 
   const registerWithMask = useHookFormMask(register)
@@ -384,8 +112,49 @@ export function CreateChargeForm() {
   })
 
   const handleSumbitMutation = async (data: formSchema) => {
-    await submit.mutateAsync({ ...data })
+    if (data.payer && !isInternal) {
+      await submit.mutateAsync({
+        ...data,
+        customer_id: undefined,
+        payer: {
+          ...data.payer,
+          document: {
+            ...data.payer.document,
+            country: Country.BR,
+          },
+        },
+      })
+    } else {
+      await submit.mutateAsync({ ...data })
+    }
   }
+
+  const tokenize = async () => {
+    BttisCreditCard.setPubKey('sdadasdasdadasd').setCreditCard({
+      number: cardToTokenize.card_number,
+      cvc: cardToTokenize.card_cvv,
+      expirationMonth: cardToTokenize.card_expiration_month,
+      expirationYear: cardToTokenize.card_expiration_year,
+      cardHolder: cardToTokenize.card_holder,
+      cpf: '02116136652',
+    })
+
+    const card = await BttisCreditCard.hash()
+
+    if (card) {
+      setValue('card_payment_method.token', card)
+    }
+
+    setCardToTokenize({
+      card_holder: '',
+      card_number: '',
+      card_cvv: '',
+      card_expiration_month: '',
+      card_expiration_year: '',
+    })
+  }
+
+  console.log(errors)
 
   return (
     <Dialog>
@@ -395,7 +164,7 @@ export function CreateChargeForm() {
           <p>Cobrança</p>
         </Button>
       </DialogTrigger>
-      <DialogContent className="flex flex-col min-w-[80vw] min-h-[90vh] overflow-auto">
+      <DialogContent className="flex flex-col min-w-[80vw] min-h-[90vh]">
         <DialogHeader>
           <DialogTitle>Criar cobrança</DialogTitle>
           <DialogDescription>
@@ -407,7 +176,7 @@ export function CreateChargeForm() {
         </DialogHeader>
         <form
           onSubmit={handleSubmit(handleSumbitMutation)}
-          className="space-y-4 p-4 bg-muted rounded-lg w-full max-h-full"
+          className="space-y-4 p-4 bg-muted rounded-lg w-full h-[80vh] overflow-y-auto"
         >
           <div className="space-y-2">
             <h2>Valor</h2>
@@ -431,14 +200,35 @@ export function CreateChargeForm() {
                 {errors.invoice_description.message}
               </span>
             )}
+            <div className="flex space-x-2 items-center">
+              <Checkbox
+                checked={watch('capture')}
+                onClick={() => {
+                  const capture = getValues('capture')
+                  setValue('capture', !capture)
+                }}
+              ></Checkbox>
+              <p>Caputre?</p>
+            </div>
           </div>
           <hr />
-          <div className="flex flex-col space-y-2">
-            <h2>Customer id</h2>
+          <div className="flex flex-col space-y-2 max-h-full">
+            <strong>Dados do cliente</strong>
+            <p
+              className="text-sm underline"
+              onClick={() => {
+                setIsInternal(!isInternal)
+              }}
+            >
+              {isInternal ? 'O cliente é externo?' : 'O cliente é interno?'}
+            </p>
             {isInternal ? (
-              <Input {...register('customer_id')}></Input>
-            ) : (
               <div>
+                <h2>Customer id</h2>
+                <Input {...register('customer_id')}></Input>
+              </div>
+            ) : (
+              <div className="space-y-4">
                 <div className="space-y-2">
                   <h2>Nome</h2>
                   <Input {...register('payer.name')}></Input>
@@ -467,6 +257,7 @@ export function CreateChargeForm() {
                   )}
                 </div>
 
+                <hr />
                 <div className="space-y-2">
                   <RadioGroup
                     defaultValue={watch('payer.document.type')}
@@ -530,10 +321,7 @@ export function CreateChargeForm() {
                     </div>
                   )}
                 </div>
-
-                <h1>
-                  <strong>Endereço</strong>
-                </h1>
+                <hr />
                 <div className="flex flex-col space-y-4 xl:min-w-[30rem]">
                   <Input
                     placeholder="CEP"
@@ -607,24 +395,37 @@ export function CreateChargeForm() {
                 </div>
               </div>
             )}
-            <p
-              className="text-sm underline"
-              onClick={() => {
-                setIsInternal(!isInternal)
-              }}
-            >
-              O cliente é externo?
-            </p>
           </div>
           <hr />
           <div className="space-y-4">
+            <h1>
+              <strong>Dados de pagamento</strong>
+            </h1>
             <Select
+              defaultValue={PaymentType.PIX}
               onValueChange={(e) => {
+                switch (e as PaymentType) {
+                  case PaymentType.CREDIT_CARD: {
+                    setValue('pix_payment_method', undefined)
+                    setValue('boleto_payment_method', undefined)
+                    break
+                  }
+                  case PaymentType.BOLETO: {
+                    setValue('pix_payment_method', undefined)
+                    setValue('card_payment_method', undefined)
+                    break
+                  }
+                  case PaymentType.PIX: {
+                    setValue('card_payment_method', undefined)
+                    setValue('boleto_payment_method', undefined)
+                    break
+                  }
+                }
                 setValue('payment_type', e as PaymentType)
               }}
             >
               <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Tipo do plano" />
+                <SelectValue placeholder="Tipo da cobrança" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value={PaymentType.CREDIT_CARD}>
@@ -640,7 +441,483 @@ export function CreateChargeForm() {
               </span>
             )}
           </div>
-          <Button>Cadastrar</Button>
+          <hr />
+          <div>
+            {watch('payment_type') === PaymentType.CREDIT_CARD && (
+              <div className="space-y-2">
+                <Select
+                  onValueChange={(e) => {
+                    setValue(
+                      'card_payment_method.payment_type_card',
+                      e as PaymentCardType,
+                    )
+                  }}
+                >
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Tipo do cartão" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value={PaymentCardType.CREDIT_CARD}>
+                      Cartão de crédito
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+                <Input
+                  {...register('card_payment_method.token')}
+                  placeholder="Token"
+                ></Input>
+                <Dialog>
+                  <DialogTrigger>
+                    <p className="text-sm italic">Não tem um token?</p>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <div className="space-y-2">
+                      <Label>Card Holder</Label>
+                      <Input
+                        onChange={(e) => {
+                          setCardToTokenize({
+                            ...cardToTokenize,
+                            card_holder: e.currentTarget.value,
+                          })
+                        }}
+                      ></Input>
+                      <Label>Number</Label>
+                      <Input
+                        onChange={(e) => {
+                          setCardToTokenize({
+                            ...cardToTokenize,
+                            card_number: e.currentTarget.value,
+                          })
+                        }}
+                      ></Input>
+                      <Label>Cvv</Label>
+                      <Input
+                        onChange={(e) => {
+                          setCardToTokenize({
+                            ...cardToTokenize,
+                            card_cvv: e.currentTarget.value,
+                          })
+                        }}
+                      ></Input>
+                      <div className="flex items-center space-x-2">
+                        <div>
+                          <Label>Expiration month</Label>
+                          <Input
+                            className="max-w-[50px]"
+                            onChange={(e) => {
+                              setCardToTokenize({
+                                ...cardToTokenize,
+                                card_expiration_month: e.currentTarget.value,
+                              })
+                            }}
+                          ></Input>
+                        </div>
+                        <div>
+                          <Label>Expiration year</Label>
+                          <Input
+                            className="max-w-[150px]"
+                            onChange={(e) => {
+                              setCardToTokenize({
+                                ...cardToTokenize,
+                                card_expiration_year: e.currentTarget.value,
+                              })
+                            }}
+                          ></Input>
+                        </div>
+                      </div>
+                      <Button
+                        onClick={() => {
+                          tokenize()
+                        }}
+                      >
+                        Tokenizar
+                      </Button>
+                    </div>
+                  </DialogContent>
+                </Dialog>
+                <Input
+                  {...register('card_payment_method.card_id')}
+                  placeholder="Card id"
+                ></Input>
+                <div className="flex space-x-2 items-center">
+                  <Checkbox></Checkbox>
+                  <p>Salvar cartão?</p>
+                </div>
+                {/** TODO: tokeniar */}
+                <div className="space-y-2 border-2 p-2 rounded-lg">
+                  <div className="flex space-x-2">
+                    <h1>Itens</h1>
+                    <Dialog>
+                      <DialogTrigger>
+                        <Plus></Plus>
+                      </DialogTrigger>
+                      <DialogContent>
+                        <Label>Descrição</Label>
+                        <Input
+                          onChange={(e) => {
+                            setItemToAdd({
+                              ...itemToAdd,
+                              description: e.currentTarget.value,
+                            })
+                          }}
+                        ></Input>
+                        <Label>Valor</Label>
+                        <Input
+                          type="number"
+                          min={1}
+                          onChange={(e) => {
+                            setItemToAdd({
+                              ...itemToAdd,
+                              unity_value: Number(e.currentTarget.value),
+                            })
+                          }}
+                        ></Input>
+                        <Label>Quantidade</Label>
+                        <Input
+                          type="number"
+                          min={1}
+                          onChange={(e) => {
+                            setItemToAdd({
+                              ...itemToAdd,
+                              quantity: Number(e.currentTarget.value),
+                            })
+                          }}
+                        ></Input>
+                        <DialogClose>
+                          <Button
+                            onClick={() => {
+                              const previousValues = getValues(
+                                'card_payment_method.items',
+                              )
+
+                              if (previousValues === undefined) {
+                                setValue('card_payment_method.items', [
+                                  itemToAdd,
+                                ])
+                              } else {
+                                previousValues.push(itemToAdd)
+
+                                setValue(
+                                  'card_payment_method.items',
+                                  previousValues,
+                                )
+                              }
+                            }}
+                          >
+                            Adicionar item
+                          </Button>
+                        </DialogClose>
+                      </DialogContent>
+                    </Dialog>
+                  </div>
+                  <div className="w-full min-h-[50px] max-h-300px space-y-2">
+                    {watch('card_payment_method.items')?.map((items, index) => {
+                      return (
+                        <div
+                          className="flex space-x-2 items-center p-2 border-2 rounded-lg"
+                          key={index}
+                        >
+                          <div>
+                            <h2>
+                              <strong>Descrição</strong>
+                            </h2>
+                            <p>{items.description}</p>
+                          </div>
+                          <div>
+                            <h2>
+                              <strong>Valor</strong>
+                            </h2>
+                            <p>{items.unity_value}</p>
+                          </div>
+                          <div>
+                            <h2>
+                              <strong>Quantidade</strong>
+                            </h2>
+                            <p>{items.quantity}</p>
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+                <Input
+                  placeholder="Parcelas"
+                  type="number"
+                  min={1}
+                  {...register('card_payment_method.installments')}
+                ></Input>
+              </div>
+            )}
+            {watch('payment_type') === PaymentType.PIX && (
+              <div className="space-y-2">
+                <Input
+                  type="number"
+                  min={10000}
+                  placeholder="Tempo de expiração. Em milisegundos"
+                  {...register('pix_payment_method.expiration_time')}
+                ></Input>
+                <div className="space-y-2 border-2 p-2 rounded-lg">
+                  <div className="flex space-x-2">
+                    <h1>Itens</h1>
+                    <Dialog>
+                      <DialogTrigger>
+                        <Plus></Plus>
+                      </DialogTrigger>
+                      <DialogContent>
+                        <Label>Descrição</Label>
+                        <Input
+                          onChange={(e) => {
+                            setItemToAdd({
+                              ...itemToAdd,
+                              description: e.currentTarget.value,
+                            })
+                          }}
+                        ></Input>
+                        <Label>Valor</Label>
+                        <Input
+                          type="number"
+                          min={1}
+                          onChange={(e) => {
+                            setItemToAdd({
+                              ...itemToAdd,
+                              unity_value: Number(e.currentTarget.value),
+                            })
+                          }}
+                        ></Input>
+                        <Label>Quantidade</Label>
+                        <Input
+                          type="number"
+                          min={1}
+                          onChange={(e) => {
+                            setItemToAdd({
+                              ...itemToAdd,
+                              quantity: Number(e.currentTarget.value),
+                            })
+                          }}
+                        ></Input>
+                        <DialogClose>
+                          <Button
+                            onClick={() => {
+                              const previousValues = getValues(
+                                'pix_payment_method.items',
+                              )
+
+                              if (previousValues === undefined) {
+                                setValue('pix_payment_method.items', [
+                                  itemToAdd,
+                                ])
+                              } else {
+                                previousValues.push(itemToAdd)
+
+                                setValue(
+                                  'pix_payment_method.items',
+                                  previousValues,
+                                )
+                              }
+                            }}
+                          >
+                            Adicionar item
+                          </Button>
+                        </DialogClose>
+                      </DialogContent>
+                    </Dialog>
+                  </div>
+                  <div className="w-full min-h-[50px] max-h-300px space-y-2">
+                    {watch('pix_payment_method.items')?.map((items, index) => {
+                      return (
+                        <div
+                          className="flex space-x-2 items-center p-2 border-2 rounded-lg"
+                          key={index}
+                        >
+                          <div>
+                            <h2>
+                              <strong>Descrição</strong>
+                            </h2>
+                            <p>{items.description}</p>
+                          </div>
+                          <div>
+                            <h2>
+                              <strong>Valor</strong>
+                            </h2>
+                            <p>{items.unity_value}</p>
+                          </div>
+                          <div>
+                            <h2>
+                              <strong>Quantidade</strong>
+                            </h2>
+                            <p>{items.quantity}</p>
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+              </div>
+            )}
+            {watch('payment_type') === PaymentType.BOLETO && (
+              <div className="space-y-2">
+                <Input
+                  type="datetime-local"
+                  placeholder="Data de expiração"
+                  {...registerWithMask(
+                    'boleto_payment_method.expiration_date',
+                    '99/99/9999',
+                  )}
+                ></Input>
+                <Input
+                  placeholder="Instruções?"
+                  {...register('boleto_payment_method.instructions')}
+                ></Input>
+                <Input
+                  type="number"
+                  min={0}
+                  placeholder="Dias de expiração para fee?"
+                  {...register(
+                    'boleto_payment_method.expiration_days_for_fees',
+                  )}
+                ></Input>
+                <Input
+                  type="number"
+                  min={0}
+                  placeholder="Valor do fee por dia?"
+                  {...register('boleto_payment_method.fee_value_per_day')}
+                ></Input>
+                <Input
+                  type="number"
+                  min={0}
+                  placeholder="Porcentagem do fee por mês?"
+                  {...register(
+                    'boleto_payment_method.fee_percentage_per_month',
+                  )}
+                ></Input>
+                <Input
+                  type="number"
+                  min={0}
+                  placeholder="Dias para multar"
+                  {...register(
+                    'boleto_payment_method.expiration_days_for_fine',
+                  )}
+                ></Input>
+                <Input
+                  type="number"
+                  min={0}
+                  placeholder="Valor da multa"
+                  {...register('boleto_payment_method.fine_value')}
+                ></Input>
+                <Input
+                  type="number"
+                  min={0}
+                  placeholder="Porcentagem da multa"
+                  {...register('boleto_payment_method.fine_percentage')}
+                ></Input>
+                <div className="space-y-2 border-2 p-2 rounded-lg">
+                  <div className="flex space-x-2">
+                    <h1>Itens</h1>
+                    <Dialog>
+                      <DialogTrigger>
+                        <Plus></Plus>
+                      </DialogTrigger>
+                      <DialogContent>
+                        <Label>Descrição</Label>
+                        <Input
+                          onChange={(e) => {
+                            setItemToAdd({
+                              ...itemToAdd,
+                              description: e.currentTarget.value,
+                            })
+                          }}
+                        ></Input>
+                        <Label>Valor</Label>
+                        <Input
+                          type="number"
+                          min={1}
+                          onChange={(e) => {
+                            setItemToAdd({
+                              ...itemToAdd,
+                              unity_value: Number(e.currentTarget.value),
+                            })
+                          }}
+                        ></Input>
+                        <Label>Quantidade</Label>
+                        <Input
+                          type="number"
+                          min={1}
+                          onChange={(e) => {
+                            setItemToAdd({
+                              ...itemToAdd,
+                              quantity: Number(e.currentTarget.value),
+                            })
+                          }}
+                        ></Input>
+                        <DialogClose>
+                          <Button
+                            onClick={() => {
+                              const previousValues = getValues(
+                                'boleto_payment_method.items',
+                              )
+
+                              if (previousValues === undefined) {
+                                setValue('boleto_payment_method.items', [
+                                  itemToAdd,
+                                ])
+                              } else {
+                                previousValues.push(itemToAdd)
+
+                                setValue(
+                                  'boleto_payment_method.items',
+                                  previousValues,
+                                )
+                              }
+                            }}
+                          >
+                            Adicionar item
+                          </Button>
+                        </DialogClose>
+                      </DialogContent>
+                    </Dialog>
+                  </div>
+                  <div className="w-full min-h-[50px] max-h-300px space-y-2">
+                    {watch('boleto_payment_method.items')?.map(
+                      (items, index) => {
+                        return (
+                          <div
+                            className="flex space-x-2 items-center p-2 border-2 rounded-lg"
+                            key={index}
+                          >
+                            <div>
+                              <h2>
+                                <strong>Descrição</strong>
+                              </h2>
+                              <p>{items.description}</p>
+                            </div>
+                            <div>
+                              <h2>
+                                <strong>Valor</strong>
+                              </h2>
+                              <p>{items.unity_value}</p>
+                            </div>
+                            <div>
+                              <h2>
+                                <strong>Quantidade</strong>
+                              </h2>
+                              <p>{items.quantity}</p>
+                            </div>
+                          </div>
+                        )
+                      },
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+          <Button>
+            {submit.isPending ? (
+              <Loader2 className="animate-spin"></Loader2>
+            ) : (
+              'Criar cobrança'
+            )}
+          </Button>
         </form>
       </DialogContent>
     </Dialog>

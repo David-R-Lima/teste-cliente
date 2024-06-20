@@ -10,9 +10,8 @@ import { useQuery } from '@tanstack/react-query'
 import { getCustomers } from '@/services/customers'
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
-import { Filter, Plus } from 'lucide-react'
+import { Filter } from 'lucide-react'
 import { CreateCustomerForm } from './components/create-customer-form'
-import { CreateChargeForm } from '../charges/components/create-charge-form'
 
 export default function CustomersComponent() {
   const columns = CustomersColumns()
@@ -38,7 +37,6 @@ export default function CustomersComponent() {
           <p>Filtros</p>
         </Button>
         <CreateCustomerForm></CreateCustomerForm>
-        <CreateChargeForm></CreateChargeForm>
       </div>
       <TableComponent
         name={'Clientes'}

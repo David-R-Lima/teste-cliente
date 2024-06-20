@@ -47,6 +47,9 @@ dependencies:
   axios:
     specifier: ^1.6.8
     version: 1.6.8
+  bttis-encrypt1-sdk-js:
+    specifier: ^2.0.6
+    version: 2.0.6
   class-variance-authority:
     specifier: ^0.7.0
     version: 0.7.0
@@ -1997,6 +2000,10 @@ packages:
       node-releases: 2.0.14
       update-browserslist-db: 1.0.13(browserslist@4.23.0)
     dev: true
+
+  /bttis-encrypt1-sdk-js@2.0.6:
+    resolution: {integrity: sha512-Sf5VG6zDZfWiOohgC/mg6/pk8yMByqNfvRvWZ8fLqCxC3R3NMCirP4ksluYIJaGfSKnZ6ZzSn8r2Go21bIZABw==}
+    dev: false
 
   /builtin-modules@3.3.0:
     resolution: {integrity: sha512-zhaCDicdLuWN5UbN5IMnFqNMhNfo919sH85y2/ea+5Yg9TsTkeZxpL+JLbp6cgYFS4sRLp3YV4S6yDuqVWHYOw==}

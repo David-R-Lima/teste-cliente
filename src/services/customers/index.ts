@@ -1,8 +1,16 @@
-import { api } from "../api"
 import { Customers } from "./types"
+import { apiGateway } from "../apiGateway"
+import { formSchema } from "@/app/dashboard/customers/components/create-customer-form"
 
 export const getCustomers = async () => {
-    const { data } = await api.get<{customers: Customers[]}>('/customers')
+    const { data } = await apiGateway.get<{customers: Customers[]}>('/customers')
 
     return data.customers
+}
+
+export const createCustomer = async (formData: formSchema) => {
+    const { data } = await apiGateway.post<{customer: Customers}>('/customers', formData)
+    console.log('data: ', data);
+
+    return data.customer
 }

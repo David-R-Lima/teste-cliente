@@ -7,6 +7,7 @@ import { getCustomers } from "@/services/customers";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Filter, Plus } from "lucide-react";
+import { CreateCustomerForm } from "./components/create-customer-form";
 
 export default function CustomersComponent() {
     const columns = CustomersColumns()
@@ -28,7 +29,7 @@ export default function CustomersComponent() {
         <div className="space-y-4">
             <div className="flex space-x-4">
                 <Button className="space-x-2"><Filter /><p>Filtros</p></Button>
-                <Button className="space-x-2"><Plus/><p>Cliente</p></Button>
+                <CreateCustomerForm></CreateCustomerForm>
             </div>
             <TableComponent name={"Clientes"} columns={columns} data={customers} page={page} setPage={setPage}/>
         </div>

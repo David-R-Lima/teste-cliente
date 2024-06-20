@@ -1,8 +1,8 @@
-import { api } from "../../api"
 import { Plans } from "./types"
+import { apiGateway } from "@/services/apiGateway"
 
 export const getPlans = async () => {
-    const { data } = await api.get<{plans: Plans[]}>('/plans')
+    const { data } = await apiGateway.get<{plans: Plans[]}>('/plans')
 
     return data
 }

@@ -1,3 +1,15 @@
+
+export enum DocumentType {
+    CPF = 'CPF',
+    CNPJ = 'CNPJ',
+  }
+
+  export enum Country {
+    BR = 'BR',
+  }
+  
+  
+
 export interface Customers {
     id: string
     merchant_id: string
@@ -6,7 +18,7 @@ export interface Customers {
     phone: string
     is_active: boolean
     document?: {
-        text: string
+        text: DocumentType
         document_type: string
         country: string
     }

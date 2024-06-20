@@ -62,7 +62,7 @@ export const CustomersColumns = (): ColumnDef<Customers>[] => {
           <Button
             variant="link"
             onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-            className='text-primary'
+            className="text-primary"
           >
             Celular
             <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -80,7 +80,8 @@ export const CustomersColumns = (): ColumnDef<Customers>[] => {
               <MoreVertical />
             </PopoverTrigger>
             <PopoverContent className="w-full">
-              <AdditionalInformation customer={customer}
+              <AdditionalInformation
+                customer={customer}
               ></AdditionalInformation>
             </PopoverContent>
           </Popover>

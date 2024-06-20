@@ -61,7 +61,7 @@ export const PlansColumns = (): ColumnDef<Plans>[] => {
           <Button
             variant="link"
             onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-            className='text-primary'
+            className="text-primary"
           >
             Period type
             <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -70,23 +70,23 @@ export const PlansColumns = (): ColumnDef<Plans>[] => {
       },
     },
     {
-        accessorKey: 'test_days',
-        header: ({ column }) => {
-          return (
-            <Button
-              variant="link"
-              onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-              className='text-primary'
-            >
-              Test days
-              <ArrowUpDown className="ml-2 h-4 w-4" />
-            </Button>
-          )
-        },
-        accessorFn: (original: Plans) => {
-          return original.test_days? original.test_days : "-"
-        }
+      accessorKey: 'test_days',
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="link"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+            className="text-primary"
+          >
+            Test days
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        )
       },
+      accessorFn: (original: Plans) => {
+        return original.test_days ? original.test_days : '-'
+      },
+    },
     // {
     //   id: 'actions',
     //   cell: ({ row }) => {

@@ -1,25 +1,21 @@
-"use client"
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-  } from "@/components/ui/card"
-import { Label } from "./ui/label"
-import { useState } from "react"
-import { Clipboard, Eye, EyeOff } from "lucide-react"
-import { useSession } from "next-auth/react"
-import { CreateAccessToken } from "./create-access-token"
+'use client'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Label } from './ui/label'
+import { useState } from 'react'
+import { Clipboard, Eye, EyeOff } from 'lucide-react'
+import { useSession } from 'next-auth/react'
+import { CreateAccessToken } from './create-access-token'
 export function ApiKeys() {
-    const [displaySecret, setDisplaySecret] = useState(false)
-    const session = useSession()
-    return <Card>
-                <CardHeader>
-                <CardTitle className="text-primary">Teste de Integração</CardTitle>
-                </CardHeader>
-                    <CardContent>
-                        <div className="flex flex-col space-y-4">
-                            {/* <div className="grid grid-cols-[8rem,2fr]">
+  const [displaySecret, setDisplaySecret] = useState(false)
+  const session = useSession()
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="text-primary">Teste de Integração</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="flex flex-col space-y-4">
+          {/* <div className="grid grid-cols-[8rem,2fr]">
                                 <div className="flex items-center">
                                     <Label>Chave pública:</Label>
                                 </div>
@@ -49,23 +45,25 @@ export function ApiKeys() {
                                     <Clipboard className="hover:cursor-pointer" />
                                 </div>
                             </div> */}
-                            <div className="grid grid-cols-[8rem,2fr]">
-                                <div className="flex items-center">
-                                    <Label>Merchant id:</Label>
-                                </div>
-                                <div className="flex items-center space-x-2">
-                                    <p className="p-2 border rounded-lg font-bold w-[30%] truncate">{session.data?.user.id}</p>
-                                    <Clipboard className="hover:cursor-pointer" />
-                                </div>
-                            </div>
-                            <div className="grid grid-cols-[8rem,2fr]">
-                                <div className="flex items-center">
-                                    <Label>Access token:</Label>
-                                </div>
-                                <CreateAccessToken></CreateAccessToken>
-                            </div>
-                        </div>
-                    </CardContent>
-            </Card>
-  
+          <div className="grid grid-cols-[8rem,2fr]">
+            <div className="flex items-center">
+              <Label>Merchant id:</Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <p className="p-2 border rounded-lg font-bold w-[30%] truncate">
+                {session.data?.user.id}
+              </p>
+              <Clipboard className="hover:cursor-pointer" />
+            </div>
+          </div>
+          <div className="grid grid-cols-[8rem,2fr]">
+            <div className="flex items-center">
+              <Label>Access token:</Label>
+            </div>
+            <CreateAccessToken></CreateAccessToken>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  )
 }

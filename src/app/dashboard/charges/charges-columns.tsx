@@ -27,8 +27,8 @@ export const ChargesColumns = (): ColumnDef<Charges>[] => {
         )
       },
       accessorFn: (original: Charges) => {
-        return original.customer_id ? original.customer_id : "External"
-      }
+        return original.customer_id ? original.customer_id : 'External'
+      },
     },
     {
       accessorKey: 'value',
@@ -51,7 +51,7 @@ export const ChargesColumns = (): ColumnDef<Charges>[] => {
           <Button
             variant="link"
             onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-            className='text-primary'
+            className="text-primary"
           >
             Descrição
             <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -66,7 +66,7 @@ export const ChargesColumns = (): ColumnDef<Charges>[] => {
           <Button
             variant="link"
             onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-            className='text-primary'
+            className="text-primary"
           >
             Situação
             <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -81,7 +81,7 @@ export const ChargesColumns = (): ColumnDef<Charges>[] => {
           <Button
             variant="link"
             onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-            className='text-primary'
+            className="text-primary"
           >
             Método de pagamento
             <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -99,7 +99,7 @@ export const ChargesColumns = (): ColumnDef<Charges>[] => {
               <MoreVertical />
             </PopoverTrigger>
             <PopoverContent className="w-full">
-            <AdditionalInformation charge={charge}></AdditionalInformation>
+              <AdditionalInformation charge={charge}></AdditionalInformation>
             </PopoverContent>
           </Popover>
         )

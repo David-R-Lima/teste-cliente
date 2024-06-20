@@ -9,7 +9,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { Subscriber } from '@/services/subscribers/types'
-import dayjs from "dayjs";
+import dayjs from 'dayjs'
 import { AdditionalInformation } from './components/additional-information'
 
 export const SubscribersColumns = (): ColumnDef<Subscriber>[] => {
@@ -56,10 +56,10 @@ export const SubscribersColumns = (): ColumnDef<Subscriber>[] => {
         )
       },
       accessorFn: (original: Subscriber) => {
-        if(original.first_charge) {
+        if (original.first_charge) {
           return dayjs(original.first_charge).format('DD-MM-YY HH:mm')
         }
-      }
+      },
     },
     {
       accessorKey: 'next_charge',
@@ -75,10 +75,10 @@ export const SubscribersColumns = (): ColumnDef<Subscriber>[] => {
         )
       },
       accessorFn: (original: Subscriber) => {
-        if(original.next_charge) {
+        if (original.next_charge) {
           return dayjs(original.next_charge).format('DD-MM-YY HH:mm')
         }
-      }
+      },
     },
     {
       accessorKey: 'is_active',
@@ -87,22 +87,27 @@ export const SubscribersColumns = (): ColumnDef<Subscriber>[] => {
           <Button
             variant="link"
             onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-            className='text-primary'
+            className="text-primary"
           >
             Ativo
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         )
       },
-      cell: ({row}) => {
+      cell: ({ row }) => {
         const subscriber = row.original
-        if(subscriber.is_active) {
-          return <div className='flex w-full items-center justify-center'><CircleCheck className='text-green-500' /></div>
-        }
-        else {
-          return <div className='flex w-full items-center justify-center'>
-            <CircleX className='text-red-500' />
-          </div>
+        if (subscriber.is_active) {
+          return (
+            <div className="flex w-full items-center justify-center">
+              <CircleCheck className="text-green-500" />
+            </div>
+          )
+        } else {
+          return (
+            <div className="flex w-full items-center justify-center">
+              <CircleX className="text-red-500" />
+            </div>
+          )
         }
       },
     },
@@ -116,7 +121,9 @@ export const SubscribersColumns = (): ColumnDef<Subscriber>[] => {
               <MoreVertical />
             </PopoverTrigger>
             <PopoverContent className="w-full">
-            <AdditionalInformation subscriber={subscriber}></AdditionalInformation>
+              <AdditionalInformation
+                subscriber={subscriber}
+              ></AdditionalInformation>
             </PopoverContent>
           </Popover>
         )

@@ -1,35 +1,48 @@
 'use client'
 
-import { TableComponent, TableComponentError, TableComponentSkeleton } from "@/components/table";
-import { getCharges } from "@/services/charges";
-import { useQuery } from "@tanstack/react-query";
-import { ChargesColumns } from "./charges-columns";
-import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Filter, Plus } from "lucide-react";
+import {
+  TableComponent,
+  TableComponentError,
+  TableComponentSkeleton,
+} from '@/components/table'
+import { getCharges } from '@/services/charges'
+import { useQuery } from '@tanstack/react-query'
+import { ChargesColumns } from './charges-columns'
+import { useEffect, useState } from 'react'
+import { Button } from '@/components/ui/button'
+import { Filter, Plus } from 'lucide-react'
 
 export default function ChargesComponent() {
-    const columns = ChargesColumns()
-    const [page, setPage] = useState<number>(1)
+  const columns = ChargesColumns()
+  const [page, setPage] = useState<number>(1)
 
-    const { data, isLoading, isError} = useQuery({
-        queryKey: ['charges', page],
-        queryFn: getCharges,
-        retry: 0,
-    })
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['charges', page],
+    queryFn: getCharges,
+    retry: 0,
+  })
 
-    const charges = data ?? [];
+  const charges = data ?? []
 
-    if(isLoading) return <TableComponentSkeleton />
+  if (isLoading) return <TableComponentSkeleton />
 
-    if(isError) return <TableComponentError />
+  if (isError) return <TableComponentError />
 
-    return (
-        <div className="space-y-4">
-            <div className="flex space-x-4">
-                <Button className="space-x-2"><Filter /><p>Filtros</p></Button>
-            </div>
-            <TableComponent name={"Cobranças"} columns={columns} data={charges} page={page} setPage={setPage}/>
-        </div>
-    );
+  return (
+    <div className="space-y-4">
+      <div className="flex space-x-4">
+        <Button className="space-x-2">
+          <Filter />
+          <p>Filtros</p>
+        </Button>
+      </div>
+      <TableComponent
+        name={'Cobranças'}
+        columns={columns}
+        data={charges}
+        page={page}
+        setPage={setPage}
+      />
+    </div>
+  )
 }

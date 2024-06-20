@@ -1,5 +1,3 @@
-import Link from "next/link";
+import Link from 'next/link'
 
-export default function Documentation() {
-    return 
-}
+export default function Documentation() {}

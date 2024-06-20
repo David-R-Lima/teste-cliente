@@ -26,7 +26,7 @@ const handler = NextAuth({
         console.log(res)
 
         const token = res.data.access_token
-        
+
         cookies().set('access_token.hub', token, {
           expires: dayjs().add(3, 'day').toDate(),
         })
@@ -37,8 +37,7 @@ const handler = NextAuth({
           },
         })
 
-        const user =
-          session.data
+        const user = session.data
 
         if (user) {
           return {
@@ -50,7 +49,7 @@ const handler = NextAuth({
             status: user.status,
             created_at: user.created_at,
             updated_at: user.updated_at,
-            access_token: token
+            access_token: token,
           }
         } else {
           return null
@@ -73,6 +72,7 @@ const handler = NextAuth({
       return { ...token, ...user }
     },
     async session({ session, token }) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       session.user = token as any
       return session
     },

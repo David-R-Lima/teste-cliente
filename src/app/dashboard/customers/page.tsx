@@ -1,37 +1,52 @@
-"use client"
+'use client'
 
-import { TableComponent, TableComponentError, TableComponentSkeleton } from "@/components/table";
-import { CustomersColumns } from "./customer-columns";
-import { useQuery } from "@tanstack/react-query";
-import { getCustomers } from "@/services/customers";
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Filter, Plus } from "lucide-react";
-import { CreateCustomerForm } from "./components/create-customer-form";
+import {
+  TableComponent,
+  TableComponentError,
+  TableComponentSkeleton,
+} from '@/components/table'
+import { CustomersColumns } from './customer-columns'
+import { useQuery } from '@tanstack/react-query'
+import { getCustomers } from '@/services/customers'
+import { useState } from 'react'
+import { Button } from '@/components/ui/button'
+import { Filter, Plus } from 'lucide-react'
+import { CreateCustomerForm } from './components/create-customer-form'
+import { CreateChargeForm } from '../charges/components/create-charge-form'
 
 export default function CustomersComponent() {
-    const columns = CustomersColumns()
-    const [page, setPage] = useState<number>(1)
+  const columns = CustomersColumns()
+  const [page, setPage] = useState<number>(1)
 
-    const { data, isLoading, isError } = useQuery({
-        queryKey: ['customers', page],
-        queryFn: getCustomers,
-        retry: 0,
-    })
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['customers', page],
+    queryFn: getCustomers,
+    retry: 0,
+  })
 
-    const customers = data ?? [];
+  const customers = data ?? []
 
-    if(isLoading) return <TableComponentSkeleton />
+  if (isLoading) return <TableComponentSkeleton />
 
-    if(isError) return <TableComponentError />
+  if (isError) return <TableComponentError />
 
-    return (
-        <div className="space-y-4">
-            <div className="flex space-x-4">
-                <Button className="space-x-2"><Filter /><p>Filtros</p></Button>
-                <CreateCustomerForm></CreateCustomerForm>
-            </div>
-            <TableComponent name={"Clientes"} columns={columns} data={customers} page={page} setPage={setPage}/>
-        </div>
-    );
+  return (
+    <div className="space-y-4">
+      <div className="flex space-x-4">
+        <Button className="space-x-2">
+          <Filter />
+          <p>Filtros</p>
+        </Button>
+        <CreateCustomerForm></CreateCustomerForm>
+        <CreateChargeForm></CreateChargeForm>
+      </div>
+      <TableComponent
+        name={'Clientes'}
+        columns={columns}
+        data={customers}
+        page={page}
+        setPage={setPage}
+      />
+    </div>
+  )
 }

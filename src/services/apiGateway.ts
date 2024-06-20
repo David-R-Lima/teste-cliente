@@ -1,12 +1,12 @@
 import axios, { AxiosError } from 'axios'
-import { getCookie } from 'cookies-next';
+import { getCookie } from 'cookies-next'
 
 export const apiGateway = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
 })
 
 apiGateway.defaults.headers.common.Authorization = `Bearer ${getCookie(
-    'access_token.hub',
+  'access_token.hub',
 )}`
 
 apiGateway.interceptors.response.use(

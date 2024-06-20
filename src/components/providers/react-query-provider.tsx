@@ -20,8 +20,6 @@ export function ReactQueryProvider({
 }) {
   return (
     // Provide the client to your App
-    <QueryClientProvider client={queryClient}>
-      {children}
-    </QueryClientProvider>
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   )
 }

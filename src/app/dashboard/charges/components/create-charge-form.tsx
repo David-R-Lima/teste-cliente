@@ -213,7 +213,7 @@ export function CreateChargeForm() {
           <div className="flex flex-col space-y-2 max-h-full">
             <strong>Dados do cliente</strong>
             <p
-              className="text-sm underline"
+              className="text-sm underline hover:cursor-pointer"
               onClick={() => {
                 setIsInternal(!isInternal)
                 setValue('payer', undefined)

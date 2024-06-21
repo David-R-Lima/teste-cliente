@@ -31,10 +31,10 @@ export default function CustomersComponent() {
   return (
     <div className="space-y-4">
       <div className="flex space-x-4">
-        <Button className="space-x-2">
+        {/* <Button className="space-x-2">
           <Filter />
           <p>Filtros</p>
-        </Button>
+        </Button> */}
       </div>
       <TableComponent
         name="Assinantes"

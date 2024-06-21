@@ -194,7 +194,7 @@ export function CreateCustomerForm() {
     mutationFn: createCustomer,
     mutationKey: ['createCustomerMutation'],
     onSuccess: () => {
-      toast.message('Plano cadastrado com sucesso!')
+      toast.message('Cliente cadastrado com sucesso!')
     },
     onError: (error) => {
       console.log('error: ', error)

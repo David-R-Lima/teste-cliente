@@ -58,7 +58,7 @@ const handler = NextAuth({
     }),
   ],
   session: {
-    maxAge: 24 * 60 * 60 * 3, // 3 days
+    maxAge: 60 * 60 * 2, // 2 hours
   },
   pages: {
     signIn: '/login',

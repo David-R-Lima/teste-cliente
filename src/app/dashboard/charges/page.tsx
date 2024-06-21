@@ -32,10 +32,10 @@ export default function ChargesComponent() {
   return (
     <div className="space-y-4">
       <div className="flex space-x-4">
-        <Button className="space-x-2">
+        {/* <Button className="space-x-2">
           <Filter />
           <p>Filtros</p>
-        </Button>
+        </Button> */}
         <CreateChargeForm></CreateChargeForm>
       </div>
       <TableComponent

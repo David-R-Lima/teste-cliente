@@ -104,7 +104,7 @@ export function CreateChargeForm() {
     mutationFn: createCharge,
     mutationKey: ['createCustomerMutation'],
     onSuccess: () => {
-      toast.message('Cliente cadastrado com sucesso!')
+      toast.message('Cobrança realizado com sucesso com sucesso!')
     },
     onError: (error) => {
       toast.error(error.message)
@@ -154,8 +154,6 @@ export function CreateChargeForm() {
     })
   }
 
-  console.log(errors)
-
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -180,7 +178,7 @@ export function CreateChargeForm() {
         >
           <div className="space-y-2">
             <h2>Valor</h2>
-            <Input {...register('value')}></Input>
+            <Input type="number" min={1} {...register('value')}></Input>
             {errors.value && (
               <span className="text-xs text-red-500">
                 {errors.value.message}
@@ -218,6 +216,7 @@ export function CreateChargeForm() {
               className="text-sm underline"
               onClick={() => {
                 setIsInternal(!isInternal)
+                setValue('payer', undefined)
               }}
             >
               {isInternal ? 'O cliente é externo?' : 'O cliente é interno?'}
@@ -305,6 +304,11 @@ export function CreateChargeForm() {
                           },
                         )}
                       ></Input>
+                      {errors.payer?.document?.text && (
+                        <span className="text-xs text-red-500">
+                          {errors.payer.document.text.message}
+                        </span>
+                      )}
                     </div>
                   ) : (
                     <div>
@@ -318,6 +322,11 @@ export function CreateChargeForm() {
                           },
                         )}
                       ></Input>
+                      {errors.payer?.document?.text && (
+                        <span className="text-xs text-red-500">
+                          {errors.payer.document.text.message}
+                        </span>
+                      )}
                     </div>
                   )}
                 </div>
@@ -402,7 +411,6 @@ export function CreateChargeForm() {
               <strong>Dados de pagamento</strong>
             </h1>
             <Select
-              defaultValue={PaymentType.PIX}
               onValueChange={(e) => {
                 switch (e as PaymentType) {
                   case PaymentType.CREDIT_CARD: {
@@ -614,7 +622,7 @@ export function CreateChargeForm() {
                     {watch('card_payment_method.items')?.map((items, index) => {
                       return (
                         <div
-                          className="flex space-x-2 items-center p-2 border-2 rounded-lg"
+                          className="flex space-x-2 items-center p-2 border-2 rounded-lg bg-accent"
                           key={index}
                         >
                           <div>
@@ -656,6 +664,11 @@ export function CreateChargeForm() {
                   placeholder="Tempo de expiração. Em milisegundos"
                   {...register('pix_payment_method.expiration_time')}
                 ></Input>
+                {errors.pix_payment_method?.expiration_time && (
+                  <span className="text-xs text-red-500">
+                    {errors.pix_payment_method.expiration_time.message}
+                  </span>
+                )}
                 <div className="space-y-2 border-2 p-2 rounded-lg">
                   <div className="flex space-x-2">
                     <h1>Itens</h1>
@@ -726,7 +739,7 @@ export function CreateChargeForm() {
                     {watch('pix_payment_method.items')?.map((items, index) => {
                       return (
                         <div
-                          className="flex space-x-2 items-center p-2 border-2 rounded-lg"
+                          className="flex space-x-2 items-center p-2 border-2 rounded-lg bg-accent"
                           key={index}
                         >
                           <div>
@@ -764,10 +777,20 @@ export function CreateChargeForm() {
                     '99/99/9999',
                   )}
                 ></Input>
+                {errors.boleto_payment_method?.expiration_date && (
+                  <span className="text-xs text-red-500">
+                    {errors.boleto_payment_method.expiration_date.message}
+                  </span>
+                )}
                 <Input
                   placeholder="Instruções?"
                   {...register('boleto_payment_method.instructions')}
                 ></Input>
+                {errors.boleto_payment_method?.instructions && (
+                  <span className="text-xs text-red-500">
+                    {errors.boleto_payment_method.instructions.message}
+                  </span>
+                )}
                 <Input
                   type="number"
                   min={0}
@@ -776,12 +799,25 @@ export function CreateChargeForm() {
                     'boleto_payment_method.expiration_days_for_fees',
                   )}
                 ></Input>
+                {errors.boleto_payment_method?.expiration_days_for_fees && (
+                  <span className="text-xs text-red-500">
+                    {
+                      errors.boleto_payment_method.expiration_days_for_fees
+                        .message
+                    }
+                  </span>
+                )}
                 <Input
                   type="number"
                   min={0}
                   placeholder="Valor do fee por dia?"
                   {...register('boleto_payment_method.fee_value_per_day')}
                 ></Input>
+                {errors.boleto_payment_method?.fee_value_per_day && (
+                  <span className="text-xs text-red-500">
+                    {errors.boleto_payment_method.fee_value_per_day.message}
+                  </span>
+                )}
                 <Input
                   type="number"
                   min={0}
@@ -790,6 +826,14 @@ export function CreateChargeForm() {
                     'boleto_payment_method.fee_percentage_per_month',
                   )}
                 ></Input>
+                {errors.boleto_payment_method?.fee_percentage_per_month && (
+                  <span className="text-xs text-red-500">
+                    {
+                      errors.boleto_payment_method.fee_percentage_per_month
+                        .message
+                    }
+                  </span>
+                )}
                 <Input
                   type="number"
                   min={0}
@@ -798,18 +842,36 @@ export function CreateChargeForm() {
                     'boleto_payment_method.expiration_days_for_fine',
                   )}
                 ></Input>
+                {errors.boleto_payment_method?.expiration_days_for_fine && (
+                  <span className="text-xs text-red-500">
+                    {
+                      errors.boleto_payment_method.expiration_days_for_fine
+                        .message
+                    }
+                  </span>
+                )}
                 <Input
                   type="number"
                   min={0}
                   placeholder="Valor da multa"
                   {...register('boleto_payment_method.fine_value')}
                 ></Input>
+                {errors.boleto_payment_method?.fine_value && (
+                  <span className="text-xs text-red-500">
+                    {errors.boleto_payment_method.fine_value.message}
+                  </span>
+                )}
                 <Input
                   type="number"
                   min={0}
                   placeholder="Porcentagem da multa"
                   {...register('boleto_payment_method.fine_percentage')}
                 ></Input>
+                {errors.boleto_payment_method?.fine_percentage && (
+                  <span className="text-xs text-red-500">
+                    {errors.boleto_payment_method.fine_percentage.message}
+                  </span>
+                )}
                 <div className="space-y-2 border-2 p-2 rounded-lg">
                   <div className="flex space-x-2">
                     <h1>Itens</h1>
@@ -881,7 +943,7 @@ export function CreateChargeForm() {
                       (items, index) => {
                         return (
                           <div
-                            className="flex space-x-2 items-center p-2 border-2 rounded-lg"
+                            className="flex space-x-2 items-center p-2 border-2 rounded-lg bg-accent"
                             key={index}
                           >
                             <div>

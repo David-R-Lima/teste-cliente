@@ -32,10 +32,10 @@ export default function ProductsComponent() {
       <div className="flex flex-col space-y-6">
         {/* <CardProducts></CardProducts> */}
         <div className="flex space-x-4">
-          <Button className="space-x-2">
+          {/* <Button className="space-x-2">
             <Filter />
             <p>Filtros</p>
-          </Button>
+          </Button> */}
           <CreatePlanForm></CreatePlanForm>
         </div>
         <TableComponent

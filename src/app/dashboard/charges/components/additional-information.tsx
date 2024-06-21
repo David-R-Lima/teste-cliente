@@ -14,6 +14,9 @@ interface Props {
 }
 
 export function AdditionalInformation({ charge }: Props) {
+  if (charge.pix_id) {
+    console.log(charge)
+  }
   return (
     <Dialog>
       <DialogTrigger>Info</DialogTrigger>

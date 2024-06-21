@@ -1,39 +1,39 @@
 export async function Get() {
   return (
-    <div className="bg-blue-400 p-2 rounded-lg text-sm min-w-[6rem] text-bold">
+    <span className="bg-blue-400 p-2 rounded-lg text-sm min-w-[6rem] text-bold">
       GET
-    </div>
+    </span>
   )
 }
 
 export async function Post() {
   return (
-    <div className="bg-green-400 p-2 rounded-lg text-sm min-w-[6rem] text-bold">
+    <span className="bg-green-400 p-2 rounded-lg text-sm min-w-[6rem] text-bold">
       POST
-    </div>
+    </span>
   )
 }
 
 export async function Put() {
   return (
-    <div className="bg-yellow-400 p-2 rounded-lg text-sm min-w-[6rem] text-bold">
+    <span className="bg-yellow-400 p-2 rounded-lg text-sm min-w-[6rem] text-bold">
       PUT
-    </div>
+    </span>
   )
 }
 
 export async function Patch() {
   return (
-    <div className="bg-orange-400 p-2 rounded-lg text-sm min-w-[6rem] text-bold">
+    <span className="bg-orange-400 p-2 rounded-lg text-sm min-w-[6rem] text-bold">
       Patch
-    </div>
+    </span>
   )
 }
 
 export async function Delete() {
   return (
-    <div className="bg-red-400 p-2 rounded-lg text-sm min-w-[6rem] text-bold">
+    <span className="bg-red-400 p-2 rounded-lg text-sm min-w-[6rem] text-bold">
       DELETE
-    </div>
+    </span>
   )
 }

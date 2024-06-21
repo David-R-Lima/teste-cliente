@@ -3,7 +3,6 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useRouter } from 'next/navigation'
-import Link from 'next/link'
 import { useMutation } from '@tanstack/react-query'
 import { signIn } from 'next-auth/react'
 import { useForm } from 'react-hook-form'
@@ -101,12 +100,6 @@ export default function Dashboard() {
             )}
           </Button>
         </form>
-        {/* <div className="mt-4 text-center text-sm">
-            Don&apos;t have an account?{" "}
-            <Link href="#" className="underline">
-              Sign up
-            </Link>
-          </div> */}
       </div>
     </div>
   )

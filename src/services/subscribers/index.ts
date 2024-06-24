@@ -8,7 +8,5 @@ export const getSubscriptions = async (ctx: QueryFunctionContext) => {
     '/subscriptions' + `?page=${page}`,
   )
 
-  console.log(data.recurrences)
-
   return data.recurrences
 }

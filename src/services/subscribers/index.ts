@@ -1,10 +1,14 @@
+import { QueryFunctionContext } from '@tanstack/react-query'
 import { apiGateway } from '../apiGateway'
 import { Subscriber } from './types'
 
-export const getSubscriptions = async () => {
-  const { data } = await apiGateway.get<{ subscribers: Subscriber[] }>(
-    '/subscriptions',
+export const getSubscriptions = async (ctx: QueryFunctionContext) => {
+  const [, page] = ctx.queryKey
+  const { data } = await apiGateway.get<{ recurrences: Subscriber[] }>(
+    '/subscriptions' + `?page=${page}`,
   )
 
-  return data.subscribers
+  console.log(data.recurrences)
+
+  return data.recurrences
 }

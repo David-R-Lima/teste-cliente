@@ -70,7 +70,7 @@ export function CreatePlanForm() {
     mutationFn: createPlan,
     mutationKey: ['createCustomerMutation'],
     onSuccess: () => {
-      toast.message('Cliente cadastrado com sucesso!')
+      toast.message('Plano cadastrado com sucesso!')
     },
     onError: (error) => {
       toast.error(error.message)

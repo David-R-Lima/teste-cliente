@@ -1,12 +1,10 @@
 'use client'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Label } from './ui/label'
-import { useState } from 'react'
-import { Clipboard, Eye, EyeOff } from 'lucide-react'
+import { Clipboard } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import { CreateAccessToken } from './create-access-token'
 export function ApiKeys() {
-  const [displaySecret, setDisplaySecret] = useState(false)
   const session = useSession()
   return (
     <Card>

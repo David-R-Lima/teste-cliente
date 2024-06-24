@@ -3,7 +3,6 @@ import { User } from '@/services/user/types'
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,

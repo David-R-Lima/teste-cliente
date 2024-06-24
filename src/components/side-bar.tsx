@@ -1,5 +1,4 @@
 'use client'
-import { open } from 'fs'
 import { Home, Package, Users, Webhook, DollarSign, List } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'

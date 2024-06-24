@@ -2,12 +2,7 @@
 
 import { Button } from '@/components/ui/button'
 import { ColumnDef } from '@tanstack/react-table'
-import { ArrowUpDown, MoreVertical } from 'lucide-react'
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover'
+import { ArrowUpDown } from 'lucide-react'
 import { Plans } from '@/services/products/plans/types'
 
 export const PlansColumns = (): ColumnDef<Plans>[] => {

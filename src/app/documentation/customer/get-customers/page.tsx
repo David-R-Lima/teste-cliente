@@ -1,4 +1,3 @@
-import { Body } from '../../components/body'
 import { Header } from '../../components/header'
 import { Get } from '../../components/http-methods'
 import { QueryParams } from '../../components/query-params'

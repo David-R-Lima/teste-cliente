@@ -9,8 +9,6 @@ import { CustomersColumns } from './customer-columns'
 import { useQuery } from '@tanstack/react-query'
 import { getCustomers } from '@/services/customers'
 import { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Filter } from 'lucide-react'
 import { CreateCustomerForm } from './components/create-customer-form'
 
 export default function CustomersComponent() {

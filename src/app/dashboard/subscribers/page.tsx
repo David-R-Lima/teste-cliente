@@ -1,6 +1,5 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
 import { SubscribersColumns } from './subscribers-columns'
 import {
   TableComponent,
@@ -10,7 +9,6 @@ import {
 import { getSubscriptions } from '@/services/subscribers'
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
-import { Filter } from 'lucide-react'
 
 export default function CustomersComponent() {
   const columns = SubscribersColumns()

@@ -32,11 +32,9 @@ import {
   PaginationEllipsis,
   PaginationItem,
   PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
 } from '@/components/ui/pagination'
 
-import { Dispatch, useState } from 'react'
+import { useState } from 'react'
 import { Button } from './ui/button'
 import { ChevronLeft, ChevronRight, CircleX, Loader2 } from 'lucide-react'
 

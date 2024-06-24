@@ -7,7 +7,6 @@ import {
   ChevronLeft,
   ChevronRight,
   ChevronUp,
-  CircleUser,
   Package2,
 } from 'lucide-react'
 
@@ -26,13 +25,6 @@ import { MobileSideBar } from '@/components/mobile-side-bar'
 import { Label } from '@/components/ui/label'
 import { useState } from 'react'
 import { ThemePickerHeader } from '@/components/theme-picker-header'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
 import { signOut, useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { UserConfigDialog } from '@/components/user-config-dialog'

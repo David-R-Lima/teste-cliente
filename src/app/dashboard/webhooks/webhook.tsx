@@ -13,18 +13,15 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
 import { useEffect, useState } from 'react'
-import { ChevronDown, Eye, EyeOff, Loader2 } from 'lucide-react'
-import { WebHookEvents } from './events'
+import { Loader2 } from 'lucide-react'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { CreateWebhook, GetWebhook, UpdateWebhook } from '@/services/webhook'
 import { toast } from 'sonner'
-import { TableComponentError, TableComponentSkeleton } from '@/components/table'
+import { TableComponentSkeleton } from '@/components/table'
 import { AxiosError } from 'axios'
 
 export function Webhook() {
-  const [displaySecret, setDisplaySecret] = useState(false)
   const [urlState, setUrlState] = useState('')
-  const [eventsOpen, setEventsOpen] = useState(false)
 
   const { data, refetch, isLoading } = useQuery({
     queryKey: ['webhook'],

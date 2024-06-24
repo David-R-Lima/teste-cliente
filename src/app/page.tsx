@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import { FaWhatsapp, FaRegClock } from 'react-icons/fa'
 import { CiMail } from 'react-icons/ci'

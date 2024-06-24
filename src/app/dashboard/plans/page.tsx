@@ -5,13 +5,10 @@ import {
   TableComponentSkeleton,
   TableComponentError,
 } from '@/components/table'
-import { CardProducts } from './card'
 import { PlansColumns } from './plans-columns'
 import { useQuery } from '@tanstack/react-query'
 import { getPlans } from '@/services/products/plans'
 import { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Filter, Plus } from 'lucide-react'
 import { CreatePlanForm } from './components/create-plan-form'
 
 export default function ProductsComponent() {

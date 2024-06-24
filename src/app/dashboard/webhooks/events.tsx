@@ -42,7 +42,7 @@ export function WebHookEvents() {
     <div
       ref={div}
       className="relative flex items-center justify-between w-full h-10 border rounded-lg hover:cursor-pointer"
-      onClick={(e) => {
+      onClick={() => {
         setEventsOpen(!eventsOpen)
       }}
     >

@@ -2,7 +2,6 @@ import { Customers } from '@/services/customers/types'
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,

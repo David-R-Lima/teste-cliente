@@ -1,5 +1,5 @@
 import { Header } from '../../components/header'
-import { Get, Post } from '../../components/http-methods'
+import { Get } from '../../components/http-methods'
 import { PathParams } from '../../components/parameters'
 import { Response } from '../../components/response'
 import { BodyProps, ResponseProps } from '../../type'

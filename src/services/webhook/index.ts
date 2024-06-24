@@ -1,4 +1,3 @@
-import { QueryFunctionContext } from '@tanstack/react-query'
 import { api } from '../api'
 import { MerchantSetting } from './types'
 

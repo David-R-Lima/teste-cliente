@@ -16,7 +16,7 @@ export default function Home() {
             <Link href={'#'}>Suporte</Link>
           </p>
           <p className="hover:underline hover:text-primary">
-            <Link href={'#'}>Documentação</Link>
+            <Link href={'/documentation'}>Documentação</Link>
           </p>
           <p className="hover:underline hover:text-primary">
             <Link href={'/login'}>Acessar dashboard</Link>
@@ -116,7 +116,7 @@ export default function Home() {
               </div>
               <div>
                 <Link
-                  href={'/'}
+                  href={'/documentation'}
                   className="hover:text-primary hover:cursor-pointer hover:underline"
                 >
                   Documentação

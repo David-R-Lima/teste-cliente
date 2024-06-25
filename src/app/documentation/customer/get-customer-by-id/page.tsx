@@ -150,7 +150,7 @@ export default function GetCustomerById() {
         <h1>
           <Get></Get>
         </h1>
-        <p className="text-bold">
+        <p className="truncate text-bold max-w-[80vw]">
           {process.env.NEXT_PUBLIC_PAYMENT_API_URL}/customers/:id
         </p>
       </div>

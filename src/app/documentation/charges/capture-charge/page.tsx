@@ -135,14 +135,14 @@ const responseProps: ResponseProps[] = [
 
 export default function CapturaCharge() {
   return (
-    <div className="space-y-4 min-w-[50vw]">
+    <div className="space-y-4 w-[60vw]">
       <h1 className="text-2xl">Capturar cobrança</h1>
 
       <div className="flex space-x-2 items-center">
         <h1>
           <Post></Post>
         </h1>
-        <p className="text-bold">
+        <p className="truncate text-bold max-w-[80vw]">
           {process.env.NEXT_PUBLIC_PAYMENT_API_URL}
           /charges/:charge_id/capture
         </p>

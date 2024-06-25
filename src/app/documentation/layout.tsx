@@ -30,7 +30,7 @@ export default function Layout({
       </header>
       <div className="relative flex justify-center">
         <div
-          className={`hidden lg:block lg:absolute top-2 left-2 mr-[10rem] w-[20rem] p-4 space-y-2 border-r-2`}
+          className={`hidden lg:block lg:absolute top-2 left-2 mr-[10rem] w-[20vw] p-4 space-y-2 border-r-2`}
         >
           <div className="flex items-center justify-center space-x-2">
             <Input></Input>
@@ -199,7 +199,9 @@ export default function Layout({
         <div className="absolute top-2 left-2 flex lg:hidden">
           <MobileDocumentationSidebar></MobileDocumentationSidebar>
         </div>
-        <div className="lg:ml-[10rem] p-10">{children}</div>
+        <div className="lg:ml-[20rem] xl:ml-[24rem] p-10 w-[80vw]">
+          {children}
+        </div>
       </div>
     </div>
   )

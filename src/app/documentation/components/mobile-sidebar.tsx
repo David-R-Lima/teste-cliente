@@ -13,7 +13,7 @@ export function MobileDocumentationSidebar() {
       <SheetContent side={'left'}>
         <div className={`p-4 space-y-2 overflow-auto max-h-[100%]`}>
           <div className="flex items-center justify-center space-x-2 max-w-[18rem] overflow-auto">
-            <Input className="max-w-[20rem]"></Input>
+            <Input className="max-w-[20rem]" autoFocus={false}></Input>
             {/* <ChevronLeft className="hover:cursor-pointer"></ChevronLeft> */}
           </div>
           <div className="space-y-1">

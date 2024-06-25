@@ -19,7 +19,7 @@ export async function CreateWebhook(request: CreateWebhookRequest) {
 
 export async function GetWebhook() {
   const { data } = await apiGateway.get<{ merchant_setting: MerchantSetting }>(
-    '/merchant-settings?parameter_name=TX_MER_NOT_PAG',
+    '/merchant-settings?parameter_name=TX_URL_NOT_VND',
   )
 
   console.log(data)

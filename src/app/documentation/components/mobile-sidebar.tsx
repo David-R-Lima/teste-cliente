@@ -1,39 +1,19 @@
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
+import { Menu } from 'lucide-react'
 import Link from 'next/link'
 import { Input } from '@/components/ui/input'
-import { Post, Get, Patch, Delete } from './components/http-methods'
-import { ThemePicker } from '@/components/theme-picker'
-import { MobileDocumentationSidebar } from './components/mobile-sidebar'
+import { Post, Get, Patch, Delete } from '../components/http-methods'
 
-export default function Layout({
-  children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
+export function MobileDocumentationSidebar() {
   return (
-    <div>
-      <header className="relative flex h-[8vh] p-8 border-b-2 items-center justify-between w-full">
-        <p className="hidden lg:block text-primary text-2xl">PagBttis</p>
-        <div className="flex space-x-4 text-center justify-center">
-          <p className="hover:underline hover:text-primary">
-            <Link href={'#'}>Suporte</Link>
-          </p>
-          <p className="hover:underline hover:text-primary">
-            <Link href={'/documentation'}>Documentação</Link>
-          </p>
-          <p className="hover:underline hover:text-primary">
-            <Link href={'/login'}>Acessar dashboard</Link>
-          </p>
-        </div>
-        <div className="absolute right-4 -bottom-14">
-          <ThemePicker />
-        </div>
-      </header>
-      <div className="relative flex justify-center">
-        <div
-          className={`hidden lg:block lg:absolute top-2 left-2 mr-[10rem] w-[20rem] p-4 space-y-2 border-r-2`}
-        >
-          <div className="flex items-center justify-center space-x-2">
-            <Input></Input>
+    <Sheet>
+      <SheetTrigger>
+        <Menu />
+      </SheetTrigger>
+      <SheetContent side={'left'}>
+        <div className={`p-4 space-y-2 overflow-auto max-h-[100%]`}>
+          <div className="flex items-center justify-center space-x-2 max-w-[18rem] overflow-auto">
+            <Input className="max-w-[20rem]"></Input>
             {/* <ChevronLeft className="hover:cursor-pointer"></ChevronLeft> */}
           </div>
           <div className="space-y-1">
@@ -196,11 +176,7 @@ export default function Layout({
             </Link>
           </div>
         </div>
-        <div className="absolute top-2 left-2 flex lg:hidden">
-          <MobileDocumentationSidebar></MobileDocumentationSidebar>
-        </div>
-        <div className="lg:ml-[10rem] p-10">{children}</div>
-      </div>
-    </div>
+      </SheetContent>
+    </Sheet>
   )
 }

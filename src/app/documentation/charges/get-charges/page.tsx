@@ -285,7 +285,7 @@ export default function GetCharges() {
           <Get></Get>
         </h1>
         <p className="text-bold">
-          {process.env.NEXT_PUBLIC_PAYMENT_API_URL}/api/charges
+          {process.env.NEXT_PUBLIC_PAYMENT_API_URL}/charges
         </p>
       </div>
 

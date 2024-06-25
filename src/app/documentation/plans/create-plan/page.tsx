@@ -174,7 +174,7 @@ export default function CreatePlan() {
           <Post></Post>
         </h1>
         <p className="text-bold">
-          {process.env.NEXT_PUBLIC_PAYMENT_API_URL}/api/plans
+          {process.env.NEXT_PUBLIC_PAYMENT_API_URL}/plans
         </p>
       </div>
 

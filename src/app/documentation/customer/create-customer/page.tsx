@@ -251,7 +251,7 @@ export default function CreateCustomer() {
           <Post></Post>
         </h1>
         <p className="text-bold">
-          {process.env.NEXT_PUBLIC_PAYMENT_API_URL}/api/customers
+          {process.env.NEXT_PUBLIC_PAYMENT_API_URL}/customers
         </p>
       </div>
 

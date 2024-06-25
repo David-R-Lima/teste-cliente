@@ -157,7 +157,7 @@ export default function GetCustomer() {
           <Get></Get>
         </h1>
         <p className="text-bold">
-          {process.env.NEXT_PUBLIC_PAYMENT_API_URL}/api/customers?page={1}
+          {process.env.NEXT_PUBLIC_PAYMENT_API_URL}/customers?page={1}
           &itemsPerPage={10}
         </p>
       </div>

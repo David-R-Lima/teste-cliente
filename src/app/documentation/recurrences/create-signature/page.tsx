@@ -225,7 +225,7 @@ export default function CreateSignature() {
           <Post></Post>
         </h1>
         <p className="text-bold">
-          {process.env.NEXT_PUBLIC_PAYMENT_API_URL}/api/subscriptions
+          {process.env.NEXT_PUBLIC_PAYMENT_API_URL}/subscriptions
         </p>
       </div>
 

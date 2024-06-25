@@ -235,7 +235,7 @@ export default function CreateCustomer() {
           <Patch></Patch>
         </h1>
         <p className="text-bold">
-          {process.env.NEXT_PUBLIC_PAYMENT_API_URL}/api/customers/:id
+          {process.env.NEXT_PUBLIC_PAYMENT_API_URL}/customers/:id
         </p>
       </div>
 

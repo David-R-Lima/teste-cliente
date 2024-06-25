@@ -144,7 +144,7 @@ export default function CapturaCharge() {
         </h1>
         <p className="text-bold">
           {process.env.NEXT_PUBLIC_PAYMENT_API_URL}
-          /api/charges/:charge_id/capture
+          /charges/:charge_id/capture
         </p>
       </div>
 

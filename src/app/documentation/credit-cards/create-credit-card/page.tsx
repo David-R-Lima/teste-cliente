@@ -157,7 +157,7 @@ export default function CreateCreditCard() {
           <Post></Post>
         </h1>
         <p className="text-bold">
-          {process.env.NEXT_PUBLIC_PAYMENT_API_URL}/api/customers/:id/cards
+          {process.env.NEXT_PUBLIC_PAYMENT_API_URL}/customers/:id/cards
         </p>
       </div>
 

@@ -138,7 +138,7 @@ export default function GetPlanById() {
           <Get></Get>
         </h1>
         <p className="text-bold">
-          {process.env.NEXT_PUBLIC_PAYMENT_API_URL}/api/plans/:id
+          {process.env.NEXT_PUBLIC_PAYMENT_API_URL}/plans/:id
         </p>
       </div>
 

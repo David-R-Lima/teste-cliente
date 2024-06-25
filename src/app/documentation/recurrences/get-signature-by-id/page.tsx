@@ -126,7 +126,7 @@ export default function GetSignatureById() {
         </h1>
         <p className="text-bold">
           {process.env.NEXT_PUBLIC_PAYMENT_API_URL}
-          /api/subscriptions/:customer_id
+          /subscriptions/:customer_id
         </p>
       </div>
 

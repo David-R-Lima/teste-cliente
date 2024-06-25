@@ -120,7 +120,7 @@ export default function GetCreditCard() {
           <Get></Get>
         </h1>
         <p className="text-bold">
-          {process.env.NEXT_PUBLIC_PAYMENT_API_URL}/api/cards/:card_id
+          {process.env.NEXT_PUBLIC_PAYMENT_API_URL}/cards/:card_id
         </p>
       </div>
 

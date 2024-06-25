@@ -177,7 +177,7 @@ export default function RefundCharge() {
           <Post></Post>
         </h1>
         <p className="text-bold">
-          {process.env.NEXT_PUBLIC_PAYMENT_API_URL}/api/charges/:charge_id/void
+          {process.env.NEXT_PUBLIC_PAYMENT_API_URL}/charges/:charge_id/void
         </p>
       </div>
 

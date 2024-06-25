@@ -287,7 +287,7 @@ export default function GetChargeById() {
           <Get></Get>
         </h1>
         <p className="text-bold">
-          {process.env.NEXT_PUBLIC_PAYMENT_API_URL}/api/charges/:charge_id
+          {process.env.NEXT_PUBLIC_PAYMENT_API_URL}/charges/:charge_id
         </p>
       </div>
 

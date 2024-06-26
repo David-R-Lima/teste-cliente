@@ -32,7 +32,7 @@ import { useState } from 'react'
 import { useHookFormMask } from 'use-mask-input'
 import { fetchAddress } from '@/lib/viacep'
 import { ChargeFormSchema } from './schema'
-import { BttisCreditCard } from '../../../../../node_modules/.pnpm/bttis-encrypt1-sdk-js@2.0.6/node_modules/bttis-encrypt1-sdk-js/dist/src/index.js'
+import { BttisCreditCard } from 'bttis-encrypt1-sdk-js'
 
 export type formSchema = z.infer<typeof ChargeFormSchema>
 
@@ -130,7 +130,9 @@ export function CreateChargeForm() {
   }
 
   const tokenize = async () => {
-    BttisCreditCard.setPubKey('sdadasdasdadasd').setCreditCard({
+    BttisCreditCard.setPubKey(
+      'LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlJQklqQU5CZ2txaGtpRzl3MEJBUUVGQUFPQ0FROEFNSUlCQ2dLQ0FRRUExWWxnMEVsSDhQV0ZweGQwcWZFaQp4eThkYXFXckNZQVhwVzdyUC9LdnV0Z24xQ0N2NjkxNU1zQ1B4eGxOT0NNL2VjaFNNejUzR3BPSE1RMTZzNU9sCndqcm9YOFh1RWRCLzZoTWp1cUIySkZ0d2VRT0ZGTHBCVFFKdzFIa3dORHZuNFdwNVZJZVc3Z0IyY2lLODFoYXYKeXVjeFp6VWl3R3VvTDBIN0hJdE11a2R2OGgyRjZTYVRGSktQK09qbXAwZlBpaVBvMS9VWU1aSUdSOHJ2cUYrZwpodG0xQ0NjNHRyRGNrZm9GYkV3alRTYnJjVVdmUUNmcXpBMFhTL1VzS2xJY3hyV0ZJRW1vQmk0UTZneW5yM096CmtTcmtCTXdFOXNtME9hYmw1UDBoTGJUSW5xblRoTnF0Y2NMWU9ZNnRJNjIwL2g0RGc3eW41S0d3UlRSOEZxN1cKZ3dJREFRQUIKLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0t',
+    ).setCreditCard({
       number: cardToTokenize.card_number,
       cvc: cardToTokenize.card_cvv,
       expirationMonth: cardToTokenize.card_expiration_month,
@@ -140,6 +142,7 @@ export function CreateChargeForm() {
     })
 
     const card = await BttisCreditCard.hash()
+    console.log('card: ', card)
 
     if (card) {
       setValue('card_payment_method.token', card)
@@ -548,7 +551,17 @@ export function CreateChargeForm() {
                   placeholder="Card id"
                 ></Input>
                 <div className="flex space-x-2 items-center">
-                  <Checkbox></Checkbox>
+                  <Checkbox
+                    defaultChecked={
+                      watch('card_payment_method.store_card') ?? false
+                    }
+                    onClick={() => {
+                      setValue(
+                        'card_payment_method.store_card',
+                        !getValues('card_payment_method.store_card'),
+                      )
+                    }}
+                  ></Checkbox>
                   <p>Salvar cartão?</p>
                 </div>
                 {/** TODO: tokeniar */}

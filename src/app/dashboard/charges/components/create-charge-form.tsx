@@ -33,10 +33,12 @@ import { useHookFormMask } from 'use-mask-input'
 import { fetchAddress } from '@/lib/viacep'
 import { ChargeFormSchema } from './schema'
 import { BttisCreditCard } from 'bttis-encrypt1-sdk-js'
+import { useSession } from 'next-auth/react'
 
 export type formSchema = z.infer<typeof ChargeFormSchema>
 
 export function CreateChargeForm() {
+  const session = useSession()
   const [isInternal, setIsInternal] = useState<boolean>(true)
   const [inputAddressOpen, setInputAddressOpen] = useState<boolean>(false)
 
@@ -130,31 +132,33 @@ export function CreateChargeForm() {
   }
 
   const tokenize = async () => {
-    BttisCreditCard.setPubKey(
-      'LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlJQklqQU5CZ2txaGtpRzl3MEJBUUVGQUFPQ0FROEFNSUlCQ2dLQ0FRRUExWWxnMEVsSDhQV0ZweGQwcWZFaQp4eThkYXFXckNZQVhwVzdyUC9LdnV0Z24xQ0N2NjkxNU1zQ1B4eGxOT0NNL2VjaFNNejUzR3BPSE1RMTZzNU9sCndqcm9YOFh1RWRCLzZoTWp1cUIySkZ0d2VRT0ZGTHBCVFFKdzFIa3dORHZuNFdwNVZJZVc3Z0IyY2lLODFoYXYKeXVjeFp6VWl3R3VvTDBIN0hJdE11a2R2OGgyRjZTYVRGSktQK09qbXAwZlBpaVBvMS9VWU1aSUdSOHJ2cUYrZwpodG0xQ0NjNHRyRGNrZm9GYkV3alRTYnJjVVdmUUNmcXpBMFhTL1VzS2xJY3hyV0ZJRW1vQmk0UTZneW5yM096CmtTcmtCTXdFOXNtME9hYmw1UDBoTGJUSW5xblRoTnF0Y2NMWU9ZNnRJNjIwL2g0RGc3eW41S0d3UlRSOEZxN1cKZ3dJREFRQUIKLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0t',
-    ).setCreditCard({
-      number: cardToTokenize.card_number,
-      cvc: cardToTokenize.card_cvv,
-      expirationMonth: cardToTokenize.card_expiration_month,
-      expirationYear: cardToTokenize.card_expiration_year,
-      cardHolder: cardToTokenize.card_holder,
-      cpf: '02116136652',
-    })
+    if (session.data?.user.pub_key) {
+      BttisCreditCard.setPubKey(session.data.user.pub_key).setCreditCard({
+        number: cardToTokenize.card_number,
+        cvc: cardToTokenize.card_cvv,
+        expirationMonth: cardToTokenize.card_expiration_month,
+        expirationYear: cardToTokenize.card_expiration_year,
+        cardHolder: cardToTokenize.card_holder,
+        cpf: '02116136652',
+      })
 
-    const card = await BttisCreditCard.hash()
-    console.log('card: ', card)
+      const card = await BttisCreditCard.hash()
+      console.log('card: ', card)
 
-    if (card) {
-      setValue('card_payment_method.token', card)
+      if (card) {
+        setValue('card_payment_method.token', card)
+      }
+
+      setCardToTokenize({
+        card_holder: '',
+        card_number: '',
+        card_cvv: '',
+        card_expiration_month: '',
+        card_expiration_year: '',
+      })
+    } else {
+      toast.error('Error ao tokenizar cartão')
     }
-
-    setCardToTokenize({
-      card_holder: '',
-      card_number: '',
-      card_cvv: '',
-      card_expiration_month: '',
-      card_expiration_year: '',
-    })
   }
 
   return (
@@ -564,7 +568,6 @@ export function CreateChargeForm() {
                   ></Checkbox>
                   <p>Salvar cartão?</p>
                 </div>
-                {/** TODO: tokeniar */}
                 <div className="space-y-2 border-2 p-2 rounded-lg">
                   <div className="flex space-x-2">
                     <h1>Itens</h1>

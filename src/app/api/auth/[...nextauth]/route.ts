@@ -43,6 +43,12 @@ const handler = NextAuth({
 
         const user = session.data
 
+        const pubKey = await apiGateway.get('/credit-card-key', {
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        })
+
         if (user) {
           return {
             id: user.id,
@@ -54,6 +60,7 @@ const handler = NextAuth({
             created_at: user.created_at,
             updated_at: user.updated_at,
             access_token: token,
+            pub_key: pubKey?.data?.key,
           }
         } else {
           return null

@@ -60,4 +60,32 @@
     body {
       @apply bg-background text-foreground;
     }
+    .sidebar {
+      transition: width 0.3s ease;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    
+    .sidebar-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.5rem;
+      transition: padding 0.3s ease;
+    }
+    
+    .sidebar-icon {
+      transition: margin 0.3s ease, opacity 0.3s ease;
+    }
+    
+    .sidebar-text {
+      transition: opacity 0.3s ease;
+      opacity: 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    
+    .sidebar-open .sidebar-text {
+      opacity: 1;
+    }
   }

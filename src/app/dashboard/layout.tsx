@@ -1,5 +1,4 @@
 'use client'
-
 import Link from 'next/link'
 import {
   Bell,
@@ -9,7 +8,6 @@ import {
   ChevronUp,
   Package2,
 } from 'lucide-react'
-
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -33,6 +31,7 @@ import { User } from '@/services/user/types'
 interface Props {
   children: JSX.Element
 }
+
 export default function DashboardLayout({ children }: Props) {
   const [isOpen, setIsOpen] = useState(false)
   const [sideBarOpen, setSideBarOpen] = useState(true)
@@ -48,146 +47,87 @@ export default function DashboardLayout({ children }: Props) {
   }
 
   return (
-    <>
+    <div className="flex min-h-screen">
       <div
-        className={`grid min-h-screen w-full ${sideBarOpen ? 'md:grid-cols-[220px_1fr]' : 'md:grid-cols-[max-content_1fr]'} ${sideBarOpen ? 'lg:grid-cols-[280px_1fr]' : 'lg:grid-cols-[max-content_1fr]'}`}
+        className={`hidden xl:block transition-all duration-500 ${sideBarOpen ? 'w-64' : 'w-16'} bg-muted/40 border-r flex flex-col sidebar`}
       >
-        {sideBarOpen ? (
-          <div className="hidden border-r bg-muted/40 md:block">
-            <div className="flex h-full max-h-screen flex-col gap-2 ">
-              <div className="flex h-14 items-center justify-around border-b px-4 lg:h-[60px]">
-                <Link
-                  href="/"
-                  className="flex items-center gap-2 font-semibold hover:text-primary"
-                >
-                  <Package2 className="h-6 w-6" />
-                  <span className="">PagBttis</span>
-                </Link>
-                <div className="space-x-4">
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    className="ml-auto h-8 w-8 hover:border-2 hover:border-primary hover:text-primary"
-                  >
-                    <Bell className="h-4 w-4" />
-                    <span className="sr-only">Toggle notifications</span>
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    className="ml-auto h-8 w-8 hover:border-2 hover:border-primary hover:text-primary"
-                    onClick={() => {
-                      handleSideBarOpen()
-                    }}
-                  >
-                    <ChevronLeft className="h-4 w-4" />
-                  </Button>
-                </div>
-              </div>
-              <div className="">
-                <SideBar open={sideBarOpen}></SideBar>
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div className="hidden border-r bg-muted/40 md:block w-[4rem]">
-            <div className="flex h-full max-h-screen flex-col gap-2 ">
-              <div className="flex h-14 items-center justify-around border-b px-4 lg:h-[60px]">
-                <div className="space-x-4">
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    className="ml-auto h-8 w-8 hover:border-2 hover:border-primary hover:text-primary"
-                    onClick={() => {
-                      handleSideBarOpen()
-                    }}
-                  >
-                    <ChevronRight className="h-4 w-4" />
-                  </Button>
-                </div>
-              </div>
-              <div className="">
-                <SideBar open={sideBarOpen}></SideBar>
-              </div>
-            </div>
-          </div>
-        )}
-        <div className="flex flex-col">
-          <header className="flex h-14 items-center md:justify-end gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
-            <MobileSideBar></MobileSideBar>
-            {/* //TODO: future content */}
-            {/* <div className="flex items-center justify-center space-x-4 border px-4 py-1 m-2 rounded-lg bg-secondary">
-              <Label>Integração</Label>
-              <Select defaultValue="prazeroculto">
-                <SelectTrigger className="h-8 w-[180px] font-bold">
-                  <SelectValue placeholder="Integração"/>
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="chatbttis">Chat Bttis</SelectItem>
-                  <SelectItem value="prazeroculto">Prazer Oculto</SelectItem>
-                </SelectContent>
-              </Select>
-            </div> */}
-            <DropdownMenu onOpenChange={handleToggle}>
-              <DropdownMenuTrigger asChild className="hover:cursor-pointer">
-                <div className="flex items-center space-x-4 px-4 rounded-lg hover:bg-secondary">
-                  {/* <Button variant="secondary" size="icon" className="rounded-full">
-                    <CircleUser className="h-6 w-6" />
-                  </Button> */}
-                  <Label className="p-4">Olá {session.data?.user?.name}</Label>
-                  {isOpen ? (
-                    <ChevronUp className="h-6 w-6" />
-                  ) : (
-                    <ChevronDown className="h-6 w-6" />
-                  )}
-                </div>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuLabel>Minha conta</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <ThemePickerHeader></ThemePickerHeader>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>Suporte</DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={(e) => {
-                    e.preventDefault()
-                  }}
-                >
-                  <UserConfigDialog
-                    user={session.data?.user as User}
-                  ></UserConfigDialog>
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={() => {
-                    router.push('/documentation')
-                  }}
-                >
-                  Documentação
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem
-                  onClick={async () => {
-                    await signOut({ redirect: false })
-                    router.push('/')
-                  }}
-                >
-                  Sair
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </header>
-
-          <div className="gap-4 p-4 lg:gap-6 lg:p-6">
-            <ApiKeys></ApiKeys>
-          </div>
-
-          <hr />
-
-          <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
-            {children}
-          </main>
+        <div className="flex items-center justify-between h-14 px-4 lg:h-16">
+          <Link
+            href="/"
+            className={`flex items-center gap-2 font-semibold hover:text-primary ${!sideBarOpen && 'hidden'}`}
+          >
+            <Package2 className="h-6 w-6" />
+            <span>PagBttis</span>
+          </Link>
+          <Button
+            variant="outline"
+            size="icon"
+            className="ml-auto h-8 w-8 hover:border-2 hover:border-primary hover:text-primary"
+            onClick={handleSideBarOpen}
+          >
+            {sideBarOpen ? (
+              <ChevronLeft className="h-4 w-4" />
+            ) : (
+              <ChevronRight className="h-4 w-4" />
+            )}
+          </Button>
         </div>
+        <SideBar open={sideBarOpen} />
       </div>
-    </>
+      <div className="flex flex-col flex-1">
+        <header className="relative flex h-14 items-center justify-end gap-4 border-b bg-muted/40 px-4 lg:h-16 lg:px-6">
+          <MobileSideBar />
+          <DropdownMenu onOpenChange={handleToggle}>
+            <DropdownMenuTrigger asChild className="hover:cursor-pointer">
+              <div className="flex items-center space-x-4 px-4 rounded-lg hover:bg-secondary">
+                <Label className="p-4">Olá {session.data?.user?.name}</Label>
+                {isOpen ? (
+                  <ChevronUp className="h-6 w-6" />
+                ) : (
+                  <ChevronDown className="h-6 w-6" />
+                )}
+              </div>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Minha conta</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <ThemePickerHeader />
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>Suporte</DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={(e) => {
+                  e.preventDefault()
+                }}
+              >
+                <UserConfigDialog user={session.data?.user as User} />
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => {
+                  router.push('/documentation')
+                }}
+              >
+                Documentação
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                onClick={async () => {
+                  await signOut({ redirect: false })
+                  router.push('/')
+                }}
+              >
+                Sair
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </header>
+        <div className="gap-4 p-4 lg:gap-6 lg:p-6">
+          <ApiKeys />
+        </div>
+        <hr />
+        <main className="flex-1 flex flex-col gap-4 p-4 lg:gap-6 lg:p-6">
+          {children}
+        </main>
+      </div>
+    </div>
   )
 }

@@ -10,117 +10,55 @@ interface Props {
 export function SideBar({ open }: Props) {
   const path = usePathname().split('/')
 
-  if (open) {
-    return (
-      <div>
-        <div>
-          <Link
-            href={'/dashboard'}
-            className={`flex items-center gap-3 rounded-lg px-3 py-2 ${path[2] === undefined ? 'text-primary text-lg' : 'text-muted-foreground transition-all hover:text-primary'}`}
-          >
-            <Home className="h-6 w-6" />
-            Home
-          </Link>
-        </div>
-        <div>
-          <Link
-            href={'/dashboard/customers'}
-            className={`flex items-center gap-3 rounded-lg px-3 py-2 ${path[2] === 'customers' ? 'text-primary text-lg' : 'text-muted-foreground transition-all hover:text-primary'}`}
-          >
-            <Users className="h-6 w-6" />
-            Clientes
-          </Link>
-        </div>
-        <div>
-          <Link
-            href={'/dashboard/charges'}
-            className={`flex items-center gap-3 rounded-lg px-3 py-2 ${path[2] === 'charges' ? 'text-primary text-lg' : 'text-muted-foreground transition-all hover:text-primary'}`}
-          >
-            <DollarSign className="h-6 w-6" />
-            Cobranças
-          </Link>
-        </div>
-        <div>
-          <Link
-            href={'/dashboard/subscribers'}
-            className={`flex items-center gap-3 rounded-lg px-3 py-2 ${path[2] === 'subscribers' ? 'text-primary text-lg' : 'text-muted-foreground transition-all hover:text-primary'}`}
-          >
-            <List className="h-6 w-6" />
-            Assinantes
-          </Link>
-        </div>
-        <div>
-          <Link
-            href={'/dashboard/plans'}
-            className={`flex items-center gap-3 rounded-lg px-3 py-2 ${path[2] === 'plans' ? 'text-primary text-lg' : 'text-muted-foreground transition-all hover:text-primary'}`}
-          >
-            <Package className="h-6 w-6" />
-            Planos
-          </Link>
-        </div>
-        <div>
-          <Link
-            href={'/dashboard/webhooks'}
-            className={`flex items-center gap-3 rounded-lg px-3 py-2 ${path[2] === 'webhooks' ? 'text-primary text-lg' : 'text-muted-foreground transition-all hover:text-primary'}`}
-          >
-            <Webhook className="h-6 w-6" />
-            Web hooks
-          </Link>
-        </div>
-      </div>
-    )
-  }
+  const menuItems = [
+    {
+      href: '/dashboard',
+      label: 'Home',
+      icon: <Home className="h-6 w-6 sidebar-icon shrink-0" />,
+    },
+    {
+      href: '/dashboard/customers',
+      label: 'Clientes',
+      icon: <Users className="h-6 w-6 sidebar-icon shrink-0" />,
+    },
+    {
+      href: '/dashboard/charges',
+      label: 'Cobranças',
+      icon: <DollarSign className="h-6 w-6 sidebar-icon shrink-0" />,
+    },
+    {
+      href: '/dashboard/subscribers',
+      label: 'Assinantes',
+      icon: <List className="h-6 w-6 sidebar-icon shrink-0" />,
+    },
+    {
+      href: '/dashboard/plans',
+      label: 'Planos',
+      icon: <Package className="h-6 w-6 sidebar-icon shrink-0" />,
+    },
+    {
+      href: '/dashboard/webhooks',
+      label: 'Web hooks',
+      icon: <Webhook className="h-6 w-6 sidebar-icon shrink-0" />,
+    },
+  ]
 
   return (
-    <div className="flex flex-col items-center">
-      <div>
+    <div
+      className={`flex flex-col ml-1 sidebar ${open ? 'sidebar-open' : ''}  `}
+    >
+      {menuItems.map((item) => (
         <Link
-          href={'/dashboard'}
-          className={`flex items-center gap-3 rounded-lg px-3 py-2 ${path[2] === undefined ? 'text-primary text-lg' : 'text-muted-foreground transition-all hover:text-primary'}`}
+          key={item.href}
+          href={item.href}
+          className={`flex items-center gap-3 rounded-lg px-3 py-2 ${path[2] === item.href.split('/').pop() ? 'text-primary text-lg' : 'text-muted-foreground transition-all hover:text-primary'}`}
         >
-          <Home className="h-6 w-6" />
+          {item.icon}
+          <span className={`sidebar-text ${open ? 'block' : 'hidden'}`}>
+            {item.label}
+          </span>
         </Link>
-      </div>
-      <div>
-        <Link
-          href={'/dashboard/customers'}
-          className={`flex items-center gap-3 rounded-lg px-3 py-2 ${path[2] === 'customers' ? 'text-primary text-lg' : 'text-muted-foreground transition-all hover:text-primary'}`}
-        >
-          <Users className="h-6 w-6" />
-        </Link>
-      </div>
-      <div>
-        <Link
-          href={'/dashboard/charges'}
-          className={`flex items-center gap-3 rounded-lg px-3 py-2 ${path[2] === 'charges' ? 'text-primary text-lg' : 'text-muted-foreground transition-all hover:text-primary'}`}
-        >
-          <DollarSign className="h-6 w-6" />
-        </Link>
-      </div>
-      <div>
-        <Link
-          href={'/dashboard/subscribers'}
-          className={`flex items-center gap-3 rounded-lg px-3 py-2 ${path[2] === 'subscribers' ? 'text-primary text-lg' : 'text-muted-foreground transition-all hover:text-primary'}`}
-        >
-          <List className="h-6 w-6" />
-        </Link>
-      </div>
-      <div>
-        <Link
-          href={'/dashboard/plans'}
-          className={`flex items-center gap-3 rounded-lg px-3 py-2 ${path[2] === 'plans' ? 'text-primary text-lg' : 'text-muted-foreground transition-all hover:text-primary'}`}
-        >
-          <Package className="h-6 w-6" />
-        </Link>
-      </div>
-      <div>
-        <Link
-          href={'/dashboard/webhooks'}
-          className={`flex items-center gap-3 rounded-lg px-3 py-2 ${path[2] === 'webhooks' ? 'text-primary text-lg' : 'text-muted-foreground transition-all hover:text-primary'}`}
-        >
-          <Webhook className="h-6 w-6" />
-        </Link>
-      </div>
+      ))}
     </div>
   )
 }

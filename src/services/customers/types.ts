@@ -15,8 +15,8 @@ export interface Customers {
   phone: string
   is_active: boolean
   document?: {
-    text: DocumentType
-    document_type: string
+    text: string
+    type: DocumentType
     country: string
   }
   created_at: string

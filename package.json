@@ -28,6 +28,7 @@
     "clsx": "^2.1.0",
     "cmdk": "^1.0.0",
     "cookies-next": "^4.2.1",
+    "cpf-cnpj-validator": "^1.0.3",
     "dayjs": "^1.11.11",
     "input-otp": "^1.2.4",
     "lucide-react": "^0.366.0",

@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/popover'
 import { Customers } from '@/services/customers/types'
 import { AdditionalInformation } from './components/additional-information'
+import { cnpj, cpf } from 'cpf-cnpj-validator'
 
 export const CustomersColumns = (): ColumnDef<Customers>[] => {
   const columns: ColumnDef<Customers>[] = [
@@ -53,6 +54,32 @@ export const CustomersColumns = (): ColumnDef<Customers>[] => {
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         )
+      },
+    },
+    {
+      accessorKey: 'document.text',
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="link"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          >
+            Documento
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        )
+      },
+      accessorFn: (original: Customers) => {
+        if (original.document?.type === 'CPF' && original.document.text) {
+          return cpf.format(original.document.text)
+        } else if (
+          original.document?.type === 'CNPJ' &&
+          original.document.text
+        ) {
+          return cnpj.format(original.document.text)
+        } else {
+          return original?.document?.text ?? ''
+        }
       },
     },
     {

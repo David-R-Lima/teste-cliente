@@ -14,20 +14,31 @@ import { AdditionalInformation } from './components/additional-information'
 export const ChargesColumns = (): ColumnDef<Charges>[] => {
   const columns: ColumnDef<Charges>[] = [
     {
-      accessorKey: 'customer_id',
+      accessorKey: 'id',
       header: ({ column }) => {
         return (
           <Button
             variant="link"
             onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           >
-            Customer id
+            Id da cobrança
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         )
       },
-      accessorFn: (original: Charges) => {
-        return original.customer_id ? original.customer_id : 'External'
+    },
+    {
+      accessorKey: 'currency',
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="link"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          >
+            Moeda
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        )
       },
     },
     {
@@ -93,7 +104,6 @@ export const ChargesColumns = (): ColumnDef<Charges>[] => {
       id: 'actions',
       cell: ({ row }) => {
         const charge = row.original
-        console.log('charge: ', charge)
         return (
           <Popover>
             <PopoverTrigger>

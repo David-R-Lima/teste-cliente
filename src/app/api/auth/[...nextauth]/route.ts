@@ -18,12 +18,16 @@ const handler = NextAuth({
       },
 
       async authorize(credentials) {
-        const res = await apiGateway.post('/sessions', {
-          email: credentials?.email,
-          password: credentials?.password,
-        })
+        let res
 
-        console.log(res)
+        try {
+          res = await apiGateway.post('/sessions', {
+            email: credentials?.email,
+            password: credentials?.password,
+          })
+        } catch (error) {
+          throw new Error('Error loging in')
+        }
 
         const token = res.data.access_token
 

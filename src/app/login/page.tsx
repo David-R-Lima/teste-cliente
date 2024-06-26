@@ -39,17 +39,19 @@ export default function Dashboard() {
 
   const signInMutation = useMutation({
     mutationFn: async (form: formSchemaData) => {
-      await signIn('credentials', {
+      return await signIn('credentials', {
         email: form.email,
         password: form.password,
         redirect: false,
+        callbackUrl: '/login',
       })
     },
-    onSuccess: () => {
-      router.push('/dashboard')
-    },
-    onError: () => {
-      toast.error('Erro ao realizar login')
+    onSuccess: (res) => {
+      if (res?.status === 200) {
+        router.replace('/dashboard')
+      } else if (res?.status === 401) {
+        toast.error('Usuário ou senha inválidos')
+      }
     },
   })
 

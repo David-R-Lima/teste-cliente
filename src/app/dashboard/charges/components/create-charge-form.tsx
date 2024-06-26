@@ -518,6 +518,7 @@ export function CreateChargeForm() {
                         <div>
                           <Label>Expiration month</Label>
                           <Input
+                            placeholder="12"
                             className="max-w-[50px]"
                             onChange={(e) => {
                               setCardToTokenize({
@@ -530,7 +531,9 @@ export function CreateChargeForm() {
                         <div>
                           <Label>Expiration year</Label>
                           <Input
+                            placeholder="30"
                             className="max-w-[150px]"
+                            maxLength={2}
                             onChange={(e) => {
                               setCardToTokenize({
                                 ...cardToTokenize,

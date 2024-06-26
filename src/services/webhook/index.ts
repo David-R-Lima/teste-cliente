@@ -9,7 +9,7 @@ export async function CreateWebhook(request: CreateWebhookRequest) {
   const { data } = await apiGateway.post<{ merchantSetting: MerchantSetting }>(
     '/merchant-settings',
     {
-      parameter_name: 'TX_MER_NOT_PAG',
+      parameter_name: 'TX_URL_NOT_VND',
       str: request.str,
     },
   )
@@ -31,7 +31,7 @@ export async function UpdateWebhook(request: CreateWebhookRequest) {
   const { data } = await apiGateway.put<{ merchantSetting: MerchantSetting }>(
     '/merchant-setting',
     {
-      parameter_name: 'TX_MER_NOT_PAG',
+      parameter_name: 'TX_URL_NOT_VND',
       str: request.str,
     },
   )

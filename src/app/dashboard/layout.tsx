@@ -27,7 +27,7 @@ import { signOut, useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { UserConfigDialog } from '@/components/user-config-dialog'
 import { User } from '@/services/user/types'
-
+import { deleteCookie } from 'cookies-next'
 interface Props {
   children: JSX.Element
 }
@@ -111,6 +111,7 @@ export default function DashboardLayout({ children }: Props) {
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 onClick={async () => {
+                  deleteCookie('access_token.hub')
                   await signOut({ redirect: false })
                   router.push('/')
                 }}

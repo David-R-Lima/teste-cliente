@@ -5,10 +5,6 @@ export const apiGateway = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
 })
 
-apiGateway.defaults.headers.common.Authorization = `Bearer ${getCookie(
-  'access_token.hub',
-)}`
-
 apiGateway.interceptors.response.use(
   function (response) {
     return response
@@ -24,6 +20,20 @@ apiGateway.interceptors.response.use(
       }
     }
 
+    return Promise.reject(error)
+  },
+)
+
+apiGateway.interceptors.request.use(
+  async (config) => {
+    const cookie = getCookie('access_token.hub')
+
+    if (cookie) {
+      config.headers.Authorization = 'Bearer ' + cookie
+    }
+    return config
+  },
+  (error) => {
     return Promise.reject(error)
   },
 )

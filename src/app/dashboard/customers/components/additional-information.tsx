@@ -7,6 +7,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import dayjs from 'dayjs'
+import { Info } from 'lucide-react'
 
 interface Props {
   customer: Customers
@@ -15,7 +16,10 @@ interface Props {
 export function AdditionalInformation({ customer }: Props) {
   return (
     <Dialog>
-      <DialogTrigger>Info</DialogTrigger>
+      <DialogTrigger className="flex items-center space-x-2">
+        <Info />
+        <p>Info</p>
+      </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Informação adicional</DialogTitle>

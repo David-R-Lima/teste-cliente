@@ -1,0 +1,39 @@
+import { formSchema } from '@/app/dashboard/customers/components/create-card'
+import { apiGateway } from '../apiGateway'
+import { Card } from './types'
+import { getSession } from 'next-auth/react'
+
+interface GetCardRequest {
+  customerId: string
+}
+
+export async function getCards({ customerId }: GetCardRequest) {
+  const { data } = await apiGateway.get<{ creditCards: Card[] }>(
+    `/customers/${customerId}/cards`,
+  )
+  return data
+}
+
+interface DeleteCardRequest {
+  cardId: string
+}
+
+export async function deleteCard({ cardId }: DeleteCardRequest) {
+  try {
+    await apiGateway.delete(`/cards/${cardId}`)
+  } catch (error) {
+    throw new Error('Error deletar cartão')
+  }
+}
+
+export async function createCard(formData: formSchema) {
+  console.log('formData: ', formData)
+  const { data } = await apiGateway.post<{ creditCard: Card }>(
+    `/customers/${formData.customer_id}/cards`,
+    {
+      card_token: formData.token,
+    },
+  )
+  console.log(data)
+  return data.creditCard
+}

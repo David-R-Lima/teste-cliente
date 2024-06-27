@@ -11,6 +11,7 @@ import {
 import { Customers } from '@/services/customers/types'
 import { AdditionalInformation } from './components/additional-information'
 import { cnpj, cpf } from 'cpf-cnpj-validator'
+import { CardDialog } from './components/card-dialog'
 
 export const CustomersColumns = (): ColumnDef<Customers>[] => {
   const columns: ColumnDef<Customers>[] = [
@@ -106,10 +107,15 @@ export const CustomersColumns = (): ColumnDef<Customers>[] => {
             <PopoverTrigger>
               <MoreVertical />
             </PopoverTrigger>
-            <PopoverContent className="w-full">
-              <AdditionalInformation
-                customer={customer}
-              ></AdditionalInformation>
+            <PopoverContent className="w-full space-y-4">
+              <div>
+                <AdditionalInformation
+                  customer={customer}
+                ></AdditionalInformation>
+              </div>
+              <div>
+                <CardDialog customer={customer}></CardDialog>
+              </div>
             </PopoverContent>
           </Popover>
         )

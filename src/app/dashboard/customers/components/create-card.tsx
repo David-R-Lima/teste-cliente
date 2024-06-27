@@ -6,7 +6,7 @@ import { CardFormSchema } from './create-schema'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { BttisCreditCard } from 'bttis-encrypt1-sdk-js'
 import { useSession } from 'next-auth/react'
 import { toast } from 'sonner'
@@ -30,12 +30,14 @@ export function CreateCard({ customerId }: Props) {
     card_cvv: string
     card_expiration_month: string
     card_expiration_year: string
+    cpf: string
   }>({
     card_holder: '',
     card_number: '',
     card_cvv: '',
     card_expiration_month: '',
     card_expiration_year: '',
+    cpf: '',
   })
 
   const { setValue, getValues } = useForm<formSchema>({
@@ -50,7 +52,7 @@ export function CreateCard({ customerId }: Props) {
         expirationMonth: cardToTokenize.card_expiration_month,
         expirationYear: cardToTokenize.card_expiration_year,
         cardHolder: cardToTokenize.card_holder,
-        cpf: '02116136652',
+        cpf: cardToTokenize.cpf,
       })
 
       const card = await BttisCreditCard.hash()
@@ -104,6 +106,15 @@ export function CreateCard({ customerId }: Props) {
               setCardToTokenize({
                 ...cardToTokenize,
                 card_holder: e.currentTarget.value,
+              })
+            }}
+          ></Input>
+          <Input
+            placeholder="CPF"
+            onChange={(e) => {
+              setCardToTokenize({
+                ...cardToTokenize,
+                cpf: e.currentTarget.value,
               })
             }}
           ></Input>

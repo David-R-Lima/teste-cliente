@@ -52,7 +52,6 @@ export function CardDialog({ customer }: Props) {
         <div className="space-y-2">
           {cards.data &&
             cards.data.map((creditCard) => {
-              console.log('creditCard: ', creditCard)
               return (
                 <div
                   key={creditCard.id}

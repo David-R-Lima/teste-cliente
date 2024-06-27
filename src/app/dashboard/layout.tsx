@@ -112,6 +112,8 @@ export default function DashboardLayout({ children }: Props) {
               <DropdownMenuItem
                 onClick={async () => {
                   deleteCookie('access_token.hub')
+                  deleteCookie('next-auth.callback-url')
+                  deleteCookie('next-auth.csrf-token')
                   await signOut({ redirect: false })
                   router.push('/')
                 }}

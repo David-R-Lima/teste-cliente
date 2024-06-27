@@ -48,12 +48,14 @@ export function CreateChargeForm() {
     card_cvv: string
     card_expiration_month: string
     card_expiration_year: string
+    cpf: string
   }>({
     card_holder: '',
     card_number: '',
     card_cvv: '',
     card_expiration_month: '',
     card_expiration_year: '',
+    cpf: '',
   })
 
   const [itemToAdd, setItemToAdd] = useState<{
@@ -139,23 +141,14 @@ export function CreateChargeForm() {
         expirationMonth: cardToTokenize.card_expiration_month,
         expirationYear: cardToTokenize.card_expiration_year,
         cardHolder: cardToTokenize.card_holder,
-        cpf: '02116136652',
+        cpf: cardToTokenize.cpf,
       })
 
       const card = await BttisCreditCard.hash()
-      console.log('card: ', card)
 
       if (card) {
         setValue('card_payment_method.token', card)
       }
-
-      setCardToTokenize({
-        card_holder: '',
-        card_number: '',
-        card_cvv: '',
-        card_expiration_month: '',
-        card_expiration_year: '',
-      })
     } else {
       toast.error('Error ao tokenizar cartão')
     }
@@ -486,9 +479,9 @@ export function CreateChargeForm() {
                     <p className="text-sm italic">Não tem um token?</p>
                   </DialogTrigger>
                   <DialogContent>
-                    <div className="space-y-2">
-                      <Label>Card Holder</Label>
+                    <div className="space-y-4 p-2">
                       <Input
+                        placeholder="Card Holder"
                         onChange={(e) => {
                           setCardToTokenize({
                             ...cardToTokenize,
@@ -496,8 +489,17 @@ export function CreateChargeForm() {
                           })
                         }}
                       ></Input>
-                      <Label>Number</Label>
                       <Input
+                        placeholder="CPF"
+                        onChange={(e) => {
+                          setCardToTokenize({
+                            ...cardToTokenize,
+                            cpf: e.currentTarget.value,
+                          })
+                        }}
+                      ></Input>
+                      <Input
+                        placeholder="Number"
                         onChange={(e) => {
                           setCardToTokenize({
                             ...cardToTokenize,
@@ -505,8 +507,8 @@ export function CreateChargeForm() {
                           })
                         }}
                       ></Input>
-                      <Label>Cvv</Label>
                       <Input
+                        placeholder="CVV"
                         onChange={(e) => {
                           setCardToTokenize({
                             ...cardToTokenize,
@@ -514,7 +516,7 @@ export function CreateChargeForm() {
                           })
                         }}
                       ></Input>
-                      <div className="flex items-center space-x-2">
+                      <div className="flex items-center justify-between w-full">
                         <div>
                           <Label>Expiration month</Label>
                           <Input
@@ -544,6 +546,7 @@ export function CreateChargeForm() {
                         </div>
                       </div>
                       <Button
+                        className="w-full"
                         onClick={() => {
                           tokenize()
                         }}

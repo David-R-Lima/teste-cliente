@@ -6,12 +6,12 @@ import { CardFormSchema } from './create-schema'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { BttisCreditCard } from 'bttis-encrypt1-sdk-js'
 import { useSession } from 'next-auth/react'
 import { toast } from 'sonner'
 import { Loader2, Plus } from 'lucide-react'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { createCard } from '@/services/cards'
 
 export type formSchema = z.infer<typeof CardFormSchema>
@@ -23,6 +23,9 @@ export function CreateCard({ customerId }: Props) {
   const session = useSession()
 
   const [loading, setLoading] = useState<boolean>(false)
+  const queryClient = useQueryClient()
+  const [open, setOpen] = useState<boolean>()
+  const dialogRef = useRef<HTMLDivElement>(null)
 
   const [cardToTokenize, setCardToTokenize] = useState<{
     card_holder: string
@@ -78,6 +81,10 @@ export function CreateCard({ customerId }: Props) {
     mutationKey: ['createCustomerMutation'],
     onSuccess: () => {
       toast.message('Cartão cadastrado com sucesso com sucesso!')
+      queryClient.invalidateQueries({
+        queryKey: ['creditCards'],
+      })
+      setOpen(false)
     },
     onError: (error) => {
       toast.error(error.message)
@@ -91,14 +98,36 @@ export function CreateCard({ customerId }: Props) {
     await submit.mutateAsync({ ...data })
   }
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Element
+
+      if (dialogRef.current && target) {
+        if (!dialogRef.current.contains(target)) {
+          setOpen(false)
+        }
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
+
   return (
-    <Dialog>
+    <Dialog open={open}>
       <DialogTrigger className="flex items-center space-x-2" asChild>
-        <Button>
+        <Button
+          onClick={() => {
+            setOpen(!open)
+          }}
+        >
           <Plus></Plus> <p>Cartão</p>
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent ref={dialogRef}>
         <div className="space-y-4 p-2">
           <Input
             placeholder="Card Holder"

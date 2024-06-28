@@ -1,7 +1,6 @@
 import { formSchema } from '@/app/dashboard/customers/components/create-card'
 import { apiGateway } from '../apiGateway'
 import { Card } from './types'
-import { getSession } from 'next-auth/react'
 
 interface GetCardRequest {
   customerId: string

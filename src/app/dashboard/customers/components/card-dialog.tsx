@@ -1,5 +1,4 @@
 import { CardIcon } from '@/components/icon'
-import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -10,9 +9,19 @@ import {
 import { deleteCard, getCards } from '@/services/cards'
 import { Customers } from '@/services/customers/types'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { CreditCard, Plus, Trash } from 'lucide-react'
+import { CreditCard, Trash } from 'lucide-react'
 import { toast } from 'sonner'
 import { CreateCard } from './create-card'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog'
 
 interface Props {
   customer: Customers
@@ -65,12 +74,28 @@ export function CardDialog({ customer }: Props) {
                       <p>{creditCard.last_four_digits}</p>
                     </div>
                     <div>
-                      <Trash
-                        className="hover:text-red-500 hover:cursor-pointer"
-                        onClick={() => {
-                          deleteCardMutation.mutate(creditCard.id)
-                        }}
-                      ></Trash>
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <Trash className="hover:text-red-500 hover:cursor-pointer"></Trash>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>
+                              Você tem certeza que deseja excluir este cartão?
+                            </AlertDialogTitle>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                            <AlertDialogAction
+                              onClick={() => {
+                                deleteCardMutation.mutate(creditCard.id)
+                              }}
+                            >
+                              Continuar
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
                     </div>
                   </div>
                   <p>ID: {creditCard.id}</p>

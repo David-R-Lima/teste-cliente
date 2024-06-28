@@ -22,14 +22,12 @@ export async function GetWebhook() {
     '/merchant-settings?parameter_name=TX_URL_NOT_VND',
   )
 
-  console.log(data)
-
   return data.merchant_setting
 }
 
 export async function UpdateWebhook(request: CreateWebhookRequest) {
   const { data } = await apiGateway.put<{ merchantSetting: MerchantSetting }>(
-    '/merchant-setting',
+    '/merchant-settings',
     {
       parameter_name: 'TX_URL_NOT_VND',
       str: request.str,

@@ -12,7 +12,7 @@ import { Plus } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { createPlan } from '@/services/products/plans'
 import { PeriodType } from '@/services/products/plans/types'
@@ -56,6 +56,7 @@ const FormSchema = z.object({
 export type formSchema = z.infer<typeof FormSchema>
 
 export function CreatePlanForm() {
+  const queryClient = useQueryClient()
   const {
     register,
     handleSubmit,
@@ -71,6 +72,9 @@ export function CreatePlanForm() {
     mutationKey: ['createCustomerMutation'],
     onSuccess: () => {
       toast.message('Plano cadastrado com sucesso!')
+      queryClient.invalidateQueries({
+        queryKey: ['plans'],
+      })
     },
     onError: (error) => {
       toast.error(error.message)
@@ -150,7 +154,7 @@ export function CreatePlanForm() {
               </span>
             )}
 
-            <div className="flex space-x-2">
+            <div className="flex flex-col space-y-2">
               <div className="flex items-center space-x-2">
                 <Checkbox
                   checked={watch('is_test_period')}
@@ -161,12 +165,15 @@ export function CreatePlanForm() {
                 <p>Tem periodo de teste?</p>
               </div>
               {watch('is_test_period') && (
-                <Input
-                  type="number"
-                  min={1}
-                  {...register('test_days')}
-                  className="w-[100px]"
-                ></Input>
+                <div className="flex items-center space-x-2">
+                  <Input
+                    type="number"
+                    min={1}
+                    {...register('test_days')}
+                    className="w-[100px]"
+                  ></Input>
+                  <p>dias</p>
+                </div>
               )}
             </div>
           </div>

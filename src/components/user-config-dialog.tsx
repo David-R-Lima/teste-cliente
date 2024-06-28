@@ -16,7 +16,9 @@ interface Props {
 export function UserConfigDialog({ user }: Props) {
   return (
     <Dialog>
-      <DialogTrigger>Configurações</DialogTrigger>
+      <DialogTrigger className="hover:cursor-pointer hover:text-primary">
+        Configurações
+      </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Configurações</DialogTitle>

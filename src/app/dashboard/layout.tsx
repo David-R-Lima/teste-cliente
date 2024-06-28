@@ -1,7 +1,6 @@
 'use client'
 import Link from 'next/link'
 import {
-  Bell,
   ChevronDown,
   ChevronLeft,
   ChevronRight,
@@ -95,7 +94,9 @@ export default function DashboardLayout({ children }: Props) {
               <DropdownMenuSeparator />
               <ThemePickerHeader />
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Suporte</DropdownMenuItem>
+              <DropdownMenuItem className="hover:cursor-pointer hover:text-primary">
+                Suporte
+              </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={(e) => {
                   e.preventDefault()
@@ -104,6 +105,7 @@ export default function DashboardLayout({ children }: Props) {
                 <UserConfigDialog user={session.data?.user as User} />
               </DropdownMenuItem>
               <DropdownMenuItem
+                className="hover:cursor-pointer hover:text-primary"
                 onClick={() => {
                   router.push('/documentation')
                 }}
@@ -112,6 +114,7 @@ export default function DashboardLayout({ children }: Props) {
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
+                className="hover:cursor-pointer hover:text-primary"
                 onClick={async () => {
                   deleteCookie('access_token.hub')
                   deleteCookie('next-auth.callback-url')

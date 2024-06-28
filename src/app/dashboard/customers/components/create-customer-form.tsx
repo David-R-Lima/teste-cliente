@@ -15,8 +15,8 @@ import { Label } from '@/components/ui/label'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Country, DocumentType } from '@/services/customers/types'
-import { useState } from 'react'
-import { useMutation } from '@tanstack/react-query'
+import { useEffect, useRef, useState } from 'react'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useHookFormMask } from 'use-mask-input'
 import { fetchAddress } from '@/lib/viacep'
 import { createCustomer } from '@/services/customers'
@@ -149,12 +149,16 @@ export type formSchema = z.infer<typeof FormSchema>
 
 export function CreateCustomerForm() {
   const [inputAddressOpen, setInputAddressOpen] = useState<boolean>(false)
+  const [dialogOpen, setDialogOpen] = useState<boolean>(false)
+  const dialogRef = useRef<HTMLDivElement>(null)
+  const queryClient = useQueryClient()
 
   const {
     register,
     handleSubmit,
     setValue,
     watch,
+    reset,
     formState: { errors },
   } = useForm<formSchema>({
     resolver: zodResolver(FormSchema),
@@ -195,9 +199,13 @@ export function CreateCustomerForm() {
     mutationKey: ['createCustomerMutation'],
     onSuccess: () => {
       toast.message('Cliente cadastrado com sucesso!')
+      setDialogOpen(false)
+      queryClient.invalidateQueries({
+        queryKey: ['customers'],
+      })
+      reset()
     },
     onError: (error) => {
-      console.log('error: ', error)
       toast.error(error.message)
     },
   })
@@ -206,15 +214,41 @@ export function CreateCustomerForm() {
     await submit.mutateAsync({ ...data })
   }
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Element
+
+      if (dialogRef.current && target) {
+        if (!dialogRef.current.contains(target)) {
+          setDialogOpen(false)
+        }
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
+
   return (
-    <Dialog>
+    <Dialog open={dialogOpen}>
       <DialogTrigger asChild>
-        <Button className="space-x-2">
+        <Button
+          className="space-x-2"
+          onClick={() => {
+            setDialogOpen(!dialogOpen)
+          }}
+        >
           <Plus />
           <p>Cliente</p>
         </Button>
       </DialogTrigger>
-      <DialogContent className="flex flex-col min-w-[80vw] h-[90vh] ">
+      <DialogContent
+        className="flex flex-col min-w-[80vw] h-[90vh]"
+        ref={dialogRef}
+      >
         <DialogHeader>
           <DialogTitle>Cadastrar cliente</DialogTitle>
           <DialogDescription>

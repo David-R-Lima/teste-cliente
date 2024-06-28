@@ -13,7 +13,7 @@ import { Loader2, Plus } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Label } from '@/components/ui/label'
@@ -41,6 +41,7 @@ export function CreateChargeForm() {
   const session = useSession()
   const [isInternal, setIsInternal] = useState<boolean>(true)
   const [inputAddressOpen, setInputAddressOpen] = useState<boolean>(false)
+  const queryClient = useQueryClient()
 
   const [cardToTokenize, setCardToTokenize] = useState<{
     card_holder: string
@@ -109,6 +110,9 @@ export function CreateChargeForm() {
     mutationKey: ['createCustomerMutation'],
     onSuccess: () => {
       toast.message('Cobrança realizado com sucesso com sucesso!')
+      queryClient.invalidateQueries({
+        queryKey: ['charges'],
+      })
     },
     onError: (error) => {
       toast.error(error.message)

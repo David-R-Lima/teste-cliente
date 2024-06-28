@@ -95,7 +95,9 @@ export default function DashboardLayout({ children }: Props) {
               <ThemePickerHeader />
               <DropdownMenuSeparator />
               <DropdownMenuItem className="hover:cursor-pointer hover:text-primary">
-                Suporte
+                <p className="hover:cursor-pointer hover:text-primary">
+                  Suporte
+                </p>
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={(e) => {
@@ -110,7 +112,9 @@ export default function DashboardLayout({ children }: Props) {
                   router.push('/documentation')
                 }}
               >
-                Documentação
+                <p className="hover:cursor-pointer hover:text-primary w-full">
+                  Documentação
+                </p>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
@@ -124,7 +128,7 @@ export default function DashboardLayout({ children }: Props) {
                   router.push('/')
                 }}
               >
-                Sair
+                <p className="hover:cursor-pointer hover:text-primary">Sair</p>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

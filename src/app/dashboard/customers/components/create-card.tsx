@@ -60,11 +60,13 @@ export function CreateCard({ customerId }: Props) {
 
       const card = await BttisCreditCard.hash()
 
-      if (card) {
-        setValue('token', card)
-      } else {
-        toast.error('Error ao criar cartão')
+      if (card && card.error) {
+        toast.error(card.value)
+        setLoading(false)
+        return
       }
+
+      setValue('token', card.value)
 
       handleSumbitMutation({
         customer_id: customerId,

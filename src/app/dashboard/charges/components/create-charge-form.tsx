@@ -150,8 +150,13 @@ export function CreateChargeForm() {
 
       const card = await BttisCreditCard.hash()
 
+      if (card && card.error) {
+        toast.error(card.value)
+        return
+      }
+
       if (card) {
-        setValue('card_payment_method.token', card)
+        setValue('card_payment_method.token', card.value)
       }
     } else {
       toast.error('Error ao tokenizar cartão')

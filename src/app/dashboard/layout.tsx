@@ -28,6 +28,7 @@ import { useRouter } from 'next/navigation'
 import { UserConfigDialog } from '@/components/user-config-dialog'
 import { User } from '@/services/user/types'
 import { deleteCookie } from 'cookies-next'
+import { useQueryClient } from '@tanstack/react-query'
 interface Props {
   children: JSX.Element
 }
@@ -37,6 +38,7 @@ export default function DashboardLayout({ children }: Props) {
   const [sideBarOpen, setSideBarOpen] = useState(true)
   const session = useSession()
   const router = useRouter()
+  const queryClient = useQueryClient()
 
   const handleToggle = () => {
     setIsOpen(!isOpen)
@@ -114,6 +116,7 @@ export default function DashboardLayout({ children }: Props) {
                   deleteCookie('access_token.hub')
                   deleteCookie('next-auth.callback-url')
                   deleteCookie('next-auth.csrf-token')
+                  queryClient.removeQueries()
                   await signOut({ redirect: false })
                   router.push('/')
                 }}

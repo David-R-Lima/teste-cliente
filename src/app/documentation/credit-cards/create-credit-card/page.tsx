@@ -16,37 +16,10 @@ const path: BodyProps[] = [
 
 const data: BodyProps[] = [
   {
-    name: 'card',
-    type: 'object',
-    description: 'Nome do cartão',
+    name: 'card_token',
+    type: 'string',
+    description: 'Token do cartão',
     required: true,
-    additionalProperties: [
-      {
-        name: 'token',
-        type: 'string',
-        description: 'Número do cartão',
-        required: true,
-      },
-      {
-        name: 'brand',
-        type: 'string',
-        description:
-          'Bandeira do cartão. Ex: MASTERCARD | AMERICAN_EXPRESS | VISA | ELO',
-        required: true,
-      },
-      {
-        name: 'first_six_digits',
-        type: 'string',
-        description: 'Primeiros 6 dígitos do cartão',
-        required: true,
-      },
-      {
-        name: 'last_four_digits',
-        type: 'string',
-        description: 'Últimos 4 dígitos do cartão',
-        required: true,
-      },
-    ],
   },
 ]
 

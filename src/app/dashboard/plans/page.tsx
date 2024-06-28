@@ -10,14 +10,17 @@ import { useQuery } from '@tanstack/react-query'
 import { getPlans } from '@/services/products/plans'
 import { useState } from 'react'
 import { CreatePlanForm } from './components/create-plan-form'
+import { useSession } from 'next-auth/react'
 
 export default function ProductsComponent() {
   const columns = PlansColumns()
   const [page, setPage] = useState<number>(1)
+  const { status } = useSession()
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['plans', page],
     queryFn: getPlans,
+    enabled: status === 'authenticated',
   })
 
   if (isLoading) return <TableComponentSkeleton />
@@ -45,4 +48,6 @@ export default function ProductsComponent() {
       </div>
     )
   }
+
+  return <TableComponentSkeleton />
 }

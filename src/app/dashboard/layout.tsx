@@ -20,14 +20,23 @@ import { ApiKeys } from '@/components/api-keys'
 import { SideBar } from '@/components/side-bar'
 import { MobileSideBar } from '@/components/mobile-side-bar'
 import { Label } from '@/components/ui/label'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ThemePickerHeader } from '@/components/theme-picker-header'
-import { signOut, useSession } from 'next-auth/react'
+import { signIn, signOut, useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { UserConfigDialog } from '@/components/user-config-dialog'
 import { User } from '@/services/user/types'
 import { deleteCookie } from 'cookies-next'
 import { useQueryClient } from '@tanstack/react-query'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog'
 interface Props {
   children: JSX.Element
 }
@@ -35,6 +44,7 @@ interface Props {
 export default function DashboardLayout({ children }: Props) {
   const [isOpen, setIsOpen] = useState(false)
   const [sideBarOpen, setSideBarOpen] = useState(true)
+  const [isExpired, setIsExpired] = useState(false)
   const session = useSession()
   const router = useRouter()
   const queryClient = useQueryClient()
@@ -47,8 +57,44 @@ export default function DashboardLayout({ children }: Props) {
     setSideBarOpen(!sideBarOpen)
   }
 
+  useEffect(() => {
+    if (session.status === 'authenticated') {
+      const expiryTime = new Date(session.data.expires).getTime()
+      const now = new Date().getTime()
+      const timeRemaining = expiryTime - now
+
+      if (timeRemaining <= 0) {
+        setIsExpired(true)
+      } else {
+        const timeoutId = setTimeout(() => {
+          setIsExpired(true)
+        }, timeRemaining)
+
+        return () => clearTimeout(timeoutId)
+      }
+    }
+  }, [session, session.status])
+
   return (
     <div className="flex min-h-screen">
+      {isExpired && (
+        <AlertDialog open>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>A sua sessão expirou!</AlertDialogTitle>
+              <AlertDialogDescription>
+                Para continuar usando o dashboard, porfavor realize o login
+                novamente.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogAction onClick={() => signIn()}>
+                Continuar
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      )}
       <div
         className={`hidden xl:block transition-all duration-500 ${sideBarOpen ? 'w-64' : 'w-16'} bg-muted/40 border-r flex flex-col sidebar`}
       >

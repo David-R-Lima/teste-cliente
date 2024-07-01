@@ -263,21 +263,21 @@ export function CreateCustomerForm() {
           className="space-y-4 p-4 bg-muted rounded-lg max-h-[80vh] overflow-auto"
         >
           <div className="space-y-2">
-            <h2>Nome</h2>
+            <h2>Nome*</h2>
             <Input {...register('name')}></Input>
             {errors.name && (
               <span className="text-xs text-red-500">
                 {errors.name.message}
               </span>
             )}
-            <h2>E-mail</h2>
+            <h2>E-mail*</h2>
             <Input {...register('email')}></Input>
             {errors.email && (
               <span className="text-xs text-red-500">
                 {errors.email.message}
               </span>
             )}
-            <h2>Telefone</h2>
+            <h2>Telefone*</h2>
             <Input
               {...registerWithMask('phone', '+99 99 9 9999-9999', {
                 autoUnmask: true,
@@ -324,7 +324,7 @@ export function CreateCustomerForm() {
 
             {watch('document.type') === DocumentType.CPF ? (
               <div>
-                <h2>Cpf</h2>
+                <h2>Cpf*</h2>
                 <Input
                   {...registerWithMask('document.text', '999.999.999-99', {
                     autoUnmask: true,
@@ -333,7 +333,7 @@ export function CreateCustomerForm() {
               </div>
             ) : (
               <div>
-                <h2>Cnpj</h2>
+                <h2>Cnpj*</h2>
                 <Input
                   {...registerWithMask('document.text', '99.999.999/9999-99', {
                     autoUnmask: true,
@@ -344,7 +344,7 @@ export function CreateCustomerForm() {
           </div>
 
           <h1>
-            <strong>Endereço</strong>
+            <strong>Endereço*</strong>
           </h1>
           <div className="flex flex-col space-y-4 xl:min-w-[30rem]">
             <Input

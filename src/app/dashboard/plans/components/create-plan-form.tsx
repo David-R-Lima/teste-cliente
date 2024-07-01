@@ -135,14 +135,14 @@ export function CreatePlanForm() {
           className="space-y-4 p-4 bg-muted rounded-lg max-h-[80vh] overflow-auto"
         >
           <div className="space-y-2">
-            <h2>Nome</h2>
+            <h2>Nome*</h2>
             <Input {...register('name')}></Input>
             {errors.name && (
               <span className="text-xs text-red-500">
                 {errors.name.message}
               </span>
             )}
-            <h2>Valor</h2>
+            <h2>Valor*</h2>
             <Input
               type="number"
               step={'0.001'}
@@ -154,7 +154,7 @@ export function CreatePlanForm() {
                 {errors.value.message}
               </span>
             )}
-            <h2>Descrição</h2>
+            <h2>Descrição*</h2>
             <Input {...register('description')}></Input>
             {errors.description && (
               <span className="text-xs text-red-500">
@@ -170,7 +170,7 @@ export function CreatePlanForm() {
               }}
             >
               <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Tipo do plano" />
+                <SelectValue placeholder="Tipo do plano*" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value={PeriodType.MONTHLY}>Mensal</SelectItem>

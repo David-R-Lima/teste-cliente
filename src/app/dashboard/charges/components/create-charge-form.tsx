@@ -186,7 +186,7 @@ export function CreateChargeForm() {
           className="space-y-4 p-4 bg-muted rounded-lg w-full h-[80vh] overflow-y-auto"
         >
           <div className="space-y-2">
-            <h2>Valor</h2>
+            <h2>Valor*</h2>
             <Input
               type="number"
               min={1}
@@ -198,14 +198,14 @@ export function CreateChargeForm() {
                 {errors.value.message}
               </span>
             )}
-            <h2>Descrição</h2>
+            <h2>Descrição*</h2>
             <Input {...register('description')}></Input>
             {errors.description && (
               <span className="text-xs text-red-500">
                 {errors.description.message}
               </span>
             )}
-            <h2>Descrição da fatura</h2>
+            <h2>Descrição da fatura*</h2>
             <Input {...register('invoice_description')}></Input>
             {errors.invoice_description && (
               <span className="text-xs text-red-500">
@@ -243,21 +243,21 @@ export function CreateChargeForm() {
             ) : (
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <h2>Nome</h2>
+                  <h2>Nome*</h2>
                   <Input {...register('payer.name')}></Input>
                   {errors.payer?.name && (
                     <span className="text-xs text-red-500">
                       {errors.payer?.name.message}
                     </span>
                   )}
-                  <h2>E-mail</h2>
+                  <h2>E-mail*</h2>
                   <Input {...register('payer.email')}></Input>
                   {errors.payer?.email && (
                     <span className="text-xs text-red-500">
                       {errors.payer.email.message}
                     </span>
                   )}
-                  <h2>Telefone</h2>
+                  <h2>Telefone*</h2>
                   <Input
                     {...registerWithMask('payer.phone', '+99 99 9 9999-9999', {
                       autoUnmask: true,
@@ -308,7 +308,7 @@ export function CreateChargeForm() {
 
                   {watch('payer.document.type') === DocumentType.CPF ? (
                     <div>
-                      <h2>Cpf</h2>
+                      <h2>Cpf*</h2>
                       <Input
                         {...registerWithMask(
                           'payer.document.text',
@@ -326,7 +326,7 @@ export function CreateChargeForm() {
                     </div>
                   ) : (
                     <div>
-                      <h2>Cnpj</h2>
+                      <h2>Cnpj*</h2>
                       <Input
                         {...registerWithMask(
                           'payer.document.text',
@@ -594,7 +594,7 @@ export function CreateChargeForm() {
                 </div>
                 <div className="space-y-2 border-2 p-2 rounded-lg">
                   <div className="flex space-x-2">
-                    <h1>Itens</h1>
+                    <h1>Itens*</h1>
                     <Dialog>
                       <DialogTrigger>
                         <Plus></Plus>
@@ -692,7 +692,7 @@ export function CreateChargeForm() {
                   </div>
                 </div>
                 <Input
-                  placeholder="Parcelas"
+                  placeholder="Parcelas*"
                   type="number"
                   min={1}
                   {...register('card_payment_method.installments')}
@@ -714,7 +714,7 @@ export function CreateChargeForm() {
                 )}
                 <div className="space-y-2 border-2 p-2 rounded-lg">
                   <div className="flex space-x-2">
-                    <h1>Itens</h1>
+                    <h1>Itens*</h1>
                     <Dialog>
                       <DialogTrigger>
                         <Plus></Plus>
@@ -920,7 +920,7 @@ export function CreateChargeForm() {
                 )}
                 <div className="space-y-2 border-2 p-2 rounded-lg">
                   <div className="flex space-x-2">
-                    <h1>Itens</h1>
+                    <h1>Itens*</h1>
                     <Dialog>
                       <DialogTrigger>
                         <Plus></Plus>

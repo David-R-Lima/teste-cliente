@@ -61,7 +61,9 @@ export function AdditionalInformation({ charge }: Props) {
           <div>
             <p>
               <strong>Data de criação:</strong>{' '}
-              {dayjs(charge.created_at).format('DD/MM/YYYY')}
+              {charge.created_at
+                ? dayjs(charge.created_at).format('DD/MM/YYYY HH:mm:ss')
+                : ''}
             </p>
           </div>
         </div>

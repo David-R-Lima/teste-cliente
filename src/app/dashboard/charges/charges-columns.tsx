@@ -54,6 +54,13 @@ export const ChargesColumns = (): ColumnDef<Charges>[] => {
           </Button>
         )
       },
+      accessorFn: (charge: Charges) => {
+        const value = charge.value / 100
+        return value.toLocaleString('pt-BR', {
+          style: 'currency',
+          currency: 'BRL',
+        })
+      },
     },
     {
       accessorKey: 'description',

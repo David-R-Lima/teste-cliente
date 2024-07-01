@@ -16,6 +16,7 @@ export const getPlans = async (ctx: QueryFunctionContext) => {
 export const createPlan = async (formData: formSchema) => {
   const { data } = await apiGateway.post<{ plan: Plans }>('/plans', {
     ...formData,
+    value: formData.value * 100,
   })
 
   return data.plan

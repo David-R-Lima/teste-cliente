@@ -15,6 +15,7 @@ export const getCharges = async (ctx: QueryFunctionContext) => {
 export const createCharge = async (formData: formSchema) => {
   const { data } = await apiGateway.post<{ charge: Charges }>('/charges', {
     ...formData,
+    value: formData.value * 100,
   })
 
   return data.charge

@@ -35,7 +35,7 @@ export enum ChargeStatus {
 export interface Charges {
   id: string
   merchant_id: string
-  value: string
+  value: number
   currency: Currency
   invoice_description: string
   capture: boolean

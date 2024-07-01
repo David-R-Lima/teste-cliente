@@ -36,6 +36,27 @@ export const PlansColumns = (): ColumnDef<Plans>[] => {
       },
     },
     {
+      accessorKey: 'value',
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="link"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          >
+            Valor
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        )
+      },
+      accessorFn: (plan: Plans) => {
+        const value = plan.value / 100
+        return value.toLocaleString('pt-BR', {
+          style: 'currency',
+          currency: 'BRL',
+        })
+      },
+    },
+    {
       accessorKey: 'description',
       header: ({ column }) => {
         return (

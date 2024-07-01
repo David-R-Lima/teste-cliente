@@ -187,7 +187,12 @@ export function CreateChargeForm() {
         >
           <div className="space-y-2">
             <h2>Valor</h2>
-            <Input type="number" min={1} {...register('value')}></Input>
+            <Input
+              type="number"
+              min={1}
+              step={'0.001'}
+              {...register('value')}
+            ></Input>
             {errors.value && (
               <span className="text-xs text-red-500">
                 {errors.value.message}

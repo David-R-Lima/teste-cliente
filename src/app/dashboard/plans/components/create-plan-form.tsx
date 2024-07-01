@@ -24,6 +24,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Checkbox } from '@/components/ui/checkbox'
+import { floatRegExp } from '@/utils/float-regex'
 
 const FormSchema = z.object({
   name: z
@@ -32,16 +33,26 @@ const FormSchema = z.object({
     })
     .max(50, {
       message: 'Name must be less than 50 caracters',
+    })
+    .min(1, {
+      message: 'Name must have at least one character',
     }),
-  value: z.coerce.number({
-    required_error: 'Value is required',
-  }),
+  value: z.coerce
+    .number({
+      required_error: 'Value is required',
+    })
+    .min(1, {
+      message: 'Value must have at least 1 character',
+    }),
   description: z
     .string({
       required_error: 'Description is required',
     })
     .max(50, {
       message: 'Description must be less than 50 caracters',
+    })
+    .min(1, {
+      message: 'Description must have at least one character',
     }),
   external_id: z.string().optional(),
   is_test_period: z.boolean({
@@ -65,7 +76,20 @@ export function CreatePlanForm() {
     formState: { errors },
   } = useForm<formSchema>({
     resolver: zodResolver(FormSchema),
+    defaultValues: {
+      is_test_period: false,
+      test_days: undefined,
+      period_type: PeriodType.MONTHLY,
+    },
   })
+
+  // @ts-expect-error sdaasdasdasd
+  const handleValidationOnChange = (e, v, onChange) => {
+    const { value } = v
+    if (value === '' || floatRegExp.test(value)) {
+      onChange(e, v)
+    }
+  }
 
   const submit = useMutation({
     mutationFn: createPlan,
@@ -119,7 +143,12 @@ export function CreatePlanForm() {
               </span>
             )}
             <h2>Valor</h2>
-            <Input {...register('value')}></Input>
+            <Input
+              type="number"
+              step={'0.001'}
+              min={1}
+              {...register('value')}
+            ></Input>
             {errors.value && (
               <span className="text-xs text-red-500">
                 {errors.value.message}

@@ -9,10 +9,13 @@ import { z } from 'zod'
 export const ChargeFormSchema = z.object({
   customer_id: z.string().optional(),
 
-  value: z.coerce.number().min(1, {
-    message: 'Value must have atleast 1 character',
-  }),
-
+  value: z.coerce
+    .number({
+      required_error: 'Value is required',
+    })
+    .min(1, {
+      message: 'Value must have at least 1 character',
+    }),
   currency: z
     .nativeEnum(Currency, {
       required_error: 'Currency is required',

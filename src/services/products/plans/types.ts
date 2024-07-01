@@ -6,6 +6,7 @@ export enum PeriodType {
 export interface Plans {
   id: string
   name: string
+  value: number
   description: string
   period_type: PeriodType
   is_test_period: boolean

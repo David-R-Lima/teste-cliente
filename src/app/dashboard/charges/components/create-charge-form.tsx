@@ -430,6 +430,10 @@ export function CreateChargeForm() {
                   case PaymentType.CREDIT_CARD: {
                     setValue('pix_payment_method', undefined)
                     setValue('boleto_payment_method', undefined)
+                    setValue(
+                      'card_payment_method.payment_type_card',
+                      PaymentCardType.CREDIT_CARD,
+                    )
                     break
                   }
                   case PaymentType.BOLETO: {
@@ -467,7 +471,7 @@ export function CreateChargeForm() {
           <div>
             {watch('payment_type') === PaymentType.CREDIT_CARD && (
               <div className="space-y-2">
-                <Select
+                {/* <Select
                   onValueChange={(e) => {
                     setValue(
                       'card_payment_method.payment_type_card',
@@ -483,7 +487,7 @@ export function CreateChargeForm() {
                       Cartão de crédito
                     </SelectItem>
                   </SelectContent>
-                </Select>
+                </Select> */}
                 <Input
                   {...register('card_payment_method.token')}
                   placeholder="Token"
@@ -609,10 +613,11 @@ export function CreateChargeForm() {
                         <Input
                           type="number"
                           min={1}
+                          step={'0.001'}
                           onChange={(e) => {
                             setItemToAdd({
                               ...itemToAdd,
-                              unity_value: Number(e.currentTarget.value),
+                              unity_value: Number(e.currentTarget.value) * 100,
                             })
                           }}
                         ></Input>
@@ -671,7 +676,9 @@ export function CreateChargeForm() {
                             <h2>
                               <strong>Valor</strong>
                             </h2>
-                            <p>{items.unity_value}</p>
+                            <p>
+                              {items.unity_value ? items.unity_value / 100 : ''}
+                            </p>
                           </div>
                           <div>
                             <h2>
@@ -726,10 +733,11 @@ export function CreateChargeForm() {
                         <Input
                           type="number"
                           min={1}
+                          step={'0.001'}
                           onChange={(e) => {
                             setItemToAdd({
                               ...itemToAdd,
-                              unity_value: Number(e.currentTarget.value),
+                              unity_value: Number(e.currentTarget.value) * 100,
                             })
                           }}
                         ></Input>
@@ -788,7 +796,9 @@ export function CreateChargeForm() {
                             <h2>
                               <strong>Valor</strong>
                             </h2>
-                            <p>{items.unity_value}</p>
+                            <p>
+                              {items.unity_value ? items.unity_value / 100 : ''}
+                            </p>
                           </div>
                           <div>
                             <h2>
@@ -929,10 +939,11 @@ export function CreateChargeForm() {
                         <Input
                           type="number"
                           min={1}
+                          step={'0.001'}
                           onChange={(e) => {
                             setItemToAdd({
                               ...itemToAdd,
-                              unity_value: Number(e.currentTarget.value),
+                              unity_value: Number(e.currentTarget.value) * 100,
                             })
                           }}
                         ></Input>
@@ -992,7 +1003,11 @@ export function CreateChargeForm() {
                               <h2>
                                 <strong>Valor</strong>
                               </h2>
-                              <p>{items.unity_value}</p>
+                              <p>
+                                {items.unity_value
+                                  ? items.unity_value / 100
+                                  : ''}
+                              </p>
                             </div>
                             <div>
                               <h2>

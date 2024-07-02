@@ -7,18 +7,19 @@ import {
 } from '@/components/ui/dialog'
 import dayjs from 'dayjs'
 import { Charges } from '@/services/charges/types'
+import { Info } from 'lucide-react'
 
 interface Props {
   charge: Charges
 }
 
 export function AdditionalInformation({ charge }: Props) {
-  if (charge.pix_id) {
-    console.log(charge)
-  }
   return (
     <Dialog>
-      <DialogTrigger>Info</DialogTrigger>
+      <DialogTrigger className="flex items-center space-x-2">
+        <Info />
+        <p>Info</p>
+      </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Informação adicional</DialogTitle>

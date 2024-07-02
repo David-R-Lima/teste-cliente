@@ -20,3 +20,13 @@ export const createCharge = async (formData: formSchema) => {
 
   return data.charge
 }
+
+interface RefundRequest {
+  chargeId: string
+}
+
+export const refundCharge = async ({ chargeId }: RefundRequest) => {
+  const { data } = await apiGateway.post(`/charges/${chargeId}/void`)
+
+  return data.refund
+}

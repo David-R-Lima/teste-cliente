@@ -8,8 +8,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
-import { Charges } from '@/services/charges/types'
+import { ChargeStatus, Charges } from '@/services/charges/types'
 import { AdditionalInformation } from './components/additional-information'
+import { RefundChargeAlert } from './components/refund-charge'
 
 export const ChargesColumns = (): ColumnDef<Charges>[] => {
   const columns: ColumnDef<Charges>[] = [
@@ -111,13 +112,22 @@ export const ChargesColumns = (): ColumnDef<Charges>[] => {
       id: 'actions',
       cell: ({ row }) => {
         const charge = row.original
+        console.log('charge: ', charge)
         return (
           <Popover>
             <PopoverTrigger>
               <MoreVertical />
             </PopoverTrigger>
-            <PopoverContent className="w-full">
-              <AdditionalInformation charge={charge}></AdditionalInformation>
+            <PopoverContent className="w-full space-y-4">
+              <div>
+                <AdditionalInformation charge={charge}></AdditionalInformation>
+              </div>
+              {/** TODO: ver os status certin */}
+              {charge.situation === ChargeStatus.PAID && (
+                <div>
+                  <RefundChargeAlert chargeId={charge.id}></RefundChargeAlert>
+                </div>
+              )}
             </PopoverContent>
           </Popover>
         )

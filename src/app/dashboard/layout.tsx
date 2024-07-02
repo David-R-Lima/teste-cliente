@@ -26,7 +26,7 @@ import { signIn, signOut, useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { UserConfigDialog } from '@/components/user-config-dialog'
 import { User } from '@/services/user/types'
-import { deleteCookie } from 'cookies-next'
+import { deleteCookie, getCookie } from 'cookies-next'
 import { useQueryClient } from '@tanstack/react-query'
 import {
   AlertDialog,
@@ -37,6 +37,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
+import { getToken } from 'next-auth/jwt'
+import { parse } from 'path'
 interface Props {
   children: JSX.Element
 }
@@ -59,18 +61,25 @@ export default function DashboardLayout({ children }: Props) {
 
   useEffect(() => {
     if (session.status === 'authenticated') {
-      const expiryTime = new Date(session.data.expires).getTime()
-      const now = new Date().getTime()
-      const timeRemaining = expiryTime - now
+      const token = getCookie('access_token.hub')
+      if (token) {
+        let payload = atob(token.split('.')[1])
+        payload = JSON.parse(payload)
 
-      if (timeRemaining <= 0) {
-        setIsExpired(true)
-      } else {
-        const timeoutId = setTimeout(() => {
+        // @ts-expect-error dasdasd
+        const expiryTime = payload.exp * 1000 // Ensure the timestamp is in milliseconds
+        const now = Date.now()
+        const timeRemaining = expiryTime - now
+
+        if (timeRemaining <= 0) {
           setIsExpired(true)
-        }, timeRemaining)
+        } else {
+          const timeoutId = setTimeout(() => {
+            setIsExpired(true)
+          }, timeRemaining)
 
-        return () => clearTimeout(timeoutId)
+          return () => clearTimeout(timeoutId)
+        }
       }
     }
   }, [session, session.status])
@@ -88,7 +97,7 @@ export default function DashboardLayout({ children }: Props) {
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogAction onClick={() => signIn()}>
+              <AlertDialogAction onClick={() => signOut()}>
                 Continuar
               </AlertDialogAction>
             </AlertDialogFooter>

@@ -1,4 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { BarChart, LineChart } from '@mui/x-charts'
+import { useEffect, useState } from 'react'
 
 export function GraphClient() {
   return (
@@ -10,5 +12,33 @@ export function GraphClient() {
         <p>1</p>
       </CardContent>
     </Card>
+  )
+}
+
+export function ClientGrowthChart() {
+  const [data, setData] = useState<number[]>([])
+
+  useEffect(() => {
+    setTimeout(() => {
+      setData([10, 72, 50])
+    }, 100)
+  }, [])
+  return (
+    <LineChart
+      xAxis={[
+        {
+          id: 'ClientGrowthChart',
+          data: ['Janeiro', 'Fevereiro', 'Março'],
+          scaleType: 'band',
+        },
+      ]}
+      series={[
+        {
+          data,
+          color: '#000000',
+        },
+      ]}
+      height={300}
+    />
   )
 }

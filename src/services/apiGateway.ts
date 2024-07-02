@@ -9,7 +9,7 @@ apiGateway.interceptors.response.use(
   function (response) {
     return response
   },
-  function (error: AxiosError) {
+  async function (error: AxiosError) {
     console.log('error: ', error)
     if (error instanceof AxiosError) {
       if (error.request.status === 500) {

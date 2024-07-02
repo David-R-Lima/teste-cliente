@@ -37,8 +37,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
-import { getToken } from 'next-auth/jwt'
-import { parse } from 'path'
 interface Props {
   children: JSX.Element
 }
@@ -63,10 +61,15 @@ export default function DashboardLayout({ children }: Props) {
     if (session.status === 'authenticated') {
       const token = getCookie('access_token.hub')
       if (token) {
-        let payload = atob(token.split('.')[1])
-        payload = JSON.parse(payload)
+        let payload
+        const parts = token.split('.')
+        try {
+          payload = JSON.parse(Buffer.from(parts[1], 'base64').toString('utf8'))
+        } catch (e) {
+          setIsExpired(true)
+          return
+        }
 
-        // @ts-expect-error dasdasd
         const expiryTime = payload.exp * 1000 // Ensure the timestamp is in milliseconds
         const now = Date.now()
         const timeRemaining = expiryTime - now

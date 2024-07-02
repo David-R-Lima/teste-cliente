@@ -221,7 +221,7 @@ export function CreateChargeForm() {
                   setValue('capture', !capture)
                 }}
               ></Checkbox>
-              <p>Caputre?</p>
+              <p>Capture?</p>
             </div>
           </div>
           <hr />

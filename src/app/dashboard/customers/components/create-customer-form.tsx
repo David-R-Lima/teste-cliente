@@ -260,37 +260,32 @@ export function CreateCustomerForm() {
         </DialogHeader>
         <form
           onSubmit={handleSubmit(handleSumbitMutation)}
-          className="space-y-4 p-4 bg-muted rounded-lg max-h-[80vh] overflow-auto"
+          className="space-y-8 p-4 bg-muted rounded-lg max-h-[80vh] overflow-auto"
         >
-          <div className="space-y-2">
-            <h2>Nome*</h2>
-            <Input {...register('name')}></Input>
+          <div className="space-y-4 p-4 bg-accent rounded-lg">
+            <Input {...register('name')} placeholder="Nome *"></Input>
             {errors.name && (
               <span className="text-xs text-red-500">
                 {errors.name.message}
               </span>
             )}
-            <h2>E-mail*</h2>
-            <Input {...register('email')}></Input>
+            <Input {...register('email')} placeholder="E-mail *"></Input>
             {errors.email && (
               <span className="text-xs text-red-500">
                 {errors.email.message}
               </span>
             )}
-            <h2>Telefone*</h2>
             <Input
               {...registerWithMask('phone', '+99 99 9 9999-9999', {
                 autoUnmask: true,
               })}
+              placeholder="Telefone *"
             ></Input>
             {errors.phone && (
               <span className="text-xs text-red-500">
                 {errors.phone.message}
               </span>
             )}
-          </div>
-
-          <div className="space-y-2">
             <RadioGroup defaultValue={watch('document.type')} className="flex">
               <div className="flex items-center space-x-2">
                 <RadioGroupItem
@@ -324,94 +319,96 @@ export function CreateCustomerForm() {
 
             {watch('document.type') === DocumentType.CPF ? (
               <div>
-                <h2>Cpf*</h2>
                 <Input
                   {...registerWithMask('document.text', '999.999.999-99', {
                     autoUnmask: true,
                   })}
+                  placeholder="Cpf *"
                 ></Input>
               </div>
             ) : (
               <div>
-                <h2>Cnpj*</h2>
                 <Input
                   {...registerWithMask('document.text', '99.999.999/9999-99', {
                     autoUnmask: true,
                   })}
+                  placeholder="Cnpj *"
                 ></Input>
               </div>
             )}
           </div>
 
-          <h1>
-            <strong>Endereço*</strong>
-          </h1>
-          <div className="flex flex-col space-y-4 xl:min-w-[30rem]">
-            <Input
-              placeholder="CEP"
-              {...registerWithMask('address.zip_code', '99999-999', {
-                autoUnmask: true,
-              })}
-              onChange={async (e) => {
-                if (e.target.value.length !== 8) return
-                handleAddressMutation(e.currentTarget.value)
-              }}
-            ></Input>
-            {errors.address?.zip_code && (
-              <span className="text-xs text-red-500">
-                {errors.address.zip_code.message}
-              </span>
-            )}
-            <div
-              className="flex justify-end"
-              onClick={() => {
-                setInputAddressOpen(!inputAddressOpen)
-              }}
-            >
-              <p className="text-sm text-gray-500 underline hover:cursor-pointer">
-                Não sei o cep
-              </p>
-            </div>
-            {inputAddressOpen ? (
-              <div className="space-y-2">
-                <div className="flex justify-around space-x-8 xl:justify-start">
+          <div className="flex flex-col space-y-4 p-4 bg-accent rounded-lg">
+            <h1>
+              <strong>Endereço*</strong>
+            </h1>
+            <div className="flex flex-col space-y-4 xl:min-w-[30rem]">
+              <Input
+                placeholder="CEP"
+                {...registerWithMask('address.zip_code', '99999-999', {
+                  autoUnmask: true,
+                })}
+                onChange={async (e) => {
+                  if (e.target.value.length !== 8) return
+                  handleAddressMutation(e.currentTarget.value)
+                }}
+              ></Input>
+              {errors.address?.zip_code && (
+                <span className="text-xs text-red-500">
+                  {errors.address.zip_code.message}
+                </span>
+              )}
+              <div
+                className="flex justify-end"
+                onClick={() => {
+                  setInputAddressOpen(!inputAddressOpen)
+                }}
+              >
+                <p className="text-secondary-foreground text-sm text-gray-500 underline hover:cursor-pointer">
+                  Não sei o cep
+                </p>
+              </div>
+              {inputAddressOpen ? (
+                <div className="space-y-2">
+                  <div className="flex justify-around space-x-8 xl:justify-start">
+                    <Input
+                      placeholder="Estado"
+                      {...register('address.state')}
+                      className="max-w-[15%]"
+                    ></Input>
+                    <Input
+                      placeholder="Cidade"
+                      {...register('address.city')}
+                    ></Input>
+                  </div>
                   <Input
-                    placeholder="Estado"
-                    {...register('address.state')}
-                    className="max-w-[15%]"
+                    placeholder="Bairro"
+                    {...register('address.neighborhood')}
                   ></Input>
                   <Input
-                    placeholder="Cidade"
-                    {...register('address.city')}
+                    placeholder="Rua"
+                    {...register('address.street')}
                   ></Input>
                 </div>
-                <Input
-                  placeholder="Bairro"
-                  {...register('address.neighborhood')}
-                ></Input>
-                <Input
-                  placeholder="Rua"
-                  {...register('address.street')}
-                ></Input>
-              </div>
-            ) : watch('address.street') ? (
-              <p className="text-sm px-2 xl:max-w-[28rem]">{`${watch('address.street')}, ${watch('address.neighborhood')} - ${watch('address.city')}, ${watch('address.state')}`}</p>
-            ) : (
-              <p className="lg:truncate text-sm px-2 xl:max-w-[28rem] text-gray-500">
-                Ex: Rua Edson Nogueira, Porto das Cachoeiras - Central de Minas,
-                Minas Gerais
-              </p>
-            )}
-            <Input
-              placeholder="Número"
-              {...register('address.number')}
-              className="placeholder:text-zinc-500"
-            ></Input>
-            <Input
-              placeholder="Complemento"
-              {...register('address.complement')}
-              className="placeholder:text-zinc-500"
-            ></Input>
+              ) : watch('address.street') ? (
+                <p className="text-secondary-foreground text-sm px-2 xl:max-w-[28rem]">{`${watch('address.street')}, ${watch('address.neighborhood')} - ${watch('address.city')}, ${watch('address.state')}`}</p>
+              ) : (
+                <p className="text-secondary-foreground lg:truncate text-sm px-2 xl:max-w-[28rem] text-gray-500">
+                  Ex: Rua Edson Nogueira, Porto das Cachoeiras - Central de
+                  Minas, Minas Gerais
+                </p>
+              )}
+              <Input
+                placeholder="Número"
+                {...register('address.number')}
+                className="placeholder:text-zinc-500"
+              ></Input>
+              <Input
+                placeholder="Complemento"
+                {...register('address.complement')}
+                className="placeholder:text-zinc-500"
+              ></Input>
+            </div>
           </div>
           <Button>Cadastrar</Button>
         </form>

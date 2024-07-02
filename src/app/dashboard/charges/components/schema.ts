@@ -116,20 +116,22 @@ export const ChargeFormSchema = z.object({
       token: z.string().optional(),
       card_id: z.string().optional(),
       store_card: z.boolean().optional(),
-      items: z.array(
-        z.object({
-          description: z.string(),
-          unity_value: z.coerce.number().refine((value) => {
-            const regex = /^[0-9]+(\.[0-9]+)?$/
-            return regex.test(value.toString())
-          }),
+      items: z
+        .array(
+          z.object({
+            description: z.string(),
+            unity_value: z.coerce.number().refine((value) => {
+              const regex = /^[0-9]+(\.[0-9]+)?$/
+              return regex.test(value.toString())
+            }),
 
-          quantity: z.coerce.number().refine((value) => {
-            const regex = /^[0-9]+$/
-            return regex.test(value.toString())
+            quantity: z.coerce.number().refine((value) => {
+              const regex = /^[0-9]+$/
+              return regex.test(value.toString())
+            }),
           }),
-        }),
-      ),
+        )
+        .min(1),
     })
     .optional(),
   boleto_payment_method: z

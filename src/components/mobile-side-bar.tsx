@@ -12,12 +12,38 @@ import {
   DollarSign,
   Webhook,
   List,
+  ChevronDown,
+  ChevronUp,
 } from 'lucide-react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
+import { Label } from '@radix-ui/react-label'
+import { deleteCookie } from 'cookies-next'
+import { signOut, useSession } from 'next-auth/react'
+import { ThemePickerHeader } from './theme-picker-header'
+import { UserConfigDialog } from './user-config-dialog'
+import { useState } from 'react'
+import { User } from '@/services/user/types'
+import { useQueryClient } from '@tanstack/react-query'
 
 export function MobileSideBar() {
+  const session = useSession()
   const path = usePathname().split('/')
+  const [isOpen, setIsOpen] = useState(false)
+  const queryClient = useQueryClient()
+  const router = useRouter()
+
+  const handleToggle = () => {
+    setIsOpen(!isOpen)
+  }
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -30,7 +56,7 @@ export function MobileSideBar() {
           <span className="sr-only">Toggle navigation menu</span>
         </Button>
       </SheetTrigger>
-      <SheetContent side="left" className="flex flex-col w-[80vw]">
+      <SheetContent side="left" className="flex flex-col w-[80vw] h-[100vh]">
         <nav className="grid gap-2 text-lg font-medium">
           <Link
             href="#"
@@ -82,6 +108,68 @@ export function MobileSideBar() {
             Web hooks
           </Link>
         </nav>
+
+        <div className="absolute bottom-0 left-0 w-full bg-muted h-10">
+          <DropdownMenu onOpenChange={handleToggle}>
+            <DropdownMenuTrigger
+              asChild
+              className="hover:cursor-pointer w-full"
+            >
+              <div className="flex items-center justify-between space-x-4 px-4 rounded-lg hover:bg-secondary">
+                <Label className="p-4 bg-muted rounded-lg">
+                  Olá {session.data?.user?.name}
+                </Label>
+                {isOpen ? (
+                  <ChevronUp className="h-6 w-6" />
+                ) : (
+                  <ChevronDown className="h-6 w-6" />
+                )}
+              </div>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Minha conta</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <ThemePickerHeader />
+              <DropdownMenuSeparator />
+              <DropdownMenuItem className="hover:cursor-pointer hover:text-primary">
+                <p className="hover:cursor-pointer hover:text-primary">
+                  Suporte
+                </p>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={(e) => {
+                  e.preventDefault()
+                }}
+              >
+                <UserConfigDialog user={session.data?.user as User} />
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="hover:cursor-pointer hover:text-primary"
+                onClick={() => {
+                  router.push('/documentation')
+                }}
+              >
+                <p className="hover:cursor-pointer hover:text-primary w-full">
+                  Documentação
+                </p>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                className="hover:cursor-pointer hover:text-primary"
+                onClick={async () => {
+                  deleteCookie('access_token.hub')
+                  deleteCookie('next-auth.callback-url')
+                  deleteCookie('next-auth.csrf-token')
+                  queryClient.removeQueries()
+                  await signOut({ redirect: false })
+                  router.push('/')
+                }}
+              >
+                <p className="hover:cursor-pointer hover:text-primary">Sair</p>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       </SheetContent>
     </Sheet>
   )

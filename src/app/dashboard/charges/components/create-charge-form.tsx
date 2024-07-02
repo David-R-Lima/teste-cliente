@@ -185,12 +185,12 @@ export function CreateChargeForm() {
           onSubmit={handleSubmit(handleSumbitMutation)}
           className="space-y-4 p-4 bg-muted rounded-lg w-full h-[80vh] overflow-y-auto"
         >
-          <div className="space-y-2">
-            <h2>Valor*</h2>
+          <div className="space-y-2 p-4 bg-accent rounded-lg">
             <Input
               type="number"
               min={1}
               step={'0.001'}
+              placeholder="Valor *"
               {...register('value')}
             ></Input>
             {errors.value && (
@@ -198,15 +198,16 @@ export function CreateChargeForm() {
                 {errors.value.message}
               </span>
             )}
-            <h2>Descrição*</h2>
-            <Input {...register('description')}></Input>
+            <Input {...register('description')} placeholder="Descrição"></Input>
             {errors.description && (
               <span className="text-xs text-red-500">
                 {errors.description.message}
               </span>
             )}
-            <h2>Descrição da fatura*</h2>
-            <Input {...register('invoice_description')}></Input>
+            <Input
+              {...register('invoice_description')}
+              placeholder="Descrição da fatura"
+            ></Input>
             {errors.invoice_description && (
               <span className="text-xs text-red-500">
                 {errors.invoice_description.message}
@@ -224,44 +225,53 @@ export function CreateChargeForm() {
             </div>
           </div>
           <hr />
-          <div className="flex flex-col space-y-2 max-h-full">
+          <div className="flex flex-col space-y-2 max-h-full p-4 bg-accent rounded-lg">
             <strong>Dados do cliente</strong>
             <p
               className="text-sm underline hover:cursor-pointer"
               onClick={() => {
                 setIsInternal(!isInternal)
                 setValue('payer', undefined)
+                if (isInternal) {
+                  setValue('payer.document.type', DocumentType.CPF)
+                }
               }}
             >
               {isInternal ? 'O cliente é externo?' : 'O cliente é interno?'}
             </p>
             {isInternal ? (
               <div>
-                <h2>Customer id</h2>
-                <Input {...register('customer_id')}></Input>
+                <Input
+                  {...register('customer_id')}
+                  placeholder="Customer ID"
+                ></Input>
               </div>
             ) : (
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <h2>Nome*</h2>
-                  <Input {...register('payer.name')}></Input>
+                  <Input
+                    {...register('payer.name')}
+                    placeholder="Nome *"
+                  ></Input>
                   {errors.payer?.name && (
                     <span className="text-xs text-red-500">
                       {errors.payer?.name.message}
                     </span>
                   )}
-                  <h2>E-mail*</h2>
-                  <Input {...register('payer.email')}></Input>
+                  <Input
+                    {...register('payer.email')}
+                    placeholder="E-mail *"
+                  ></Input>
                   {errors.payer?.email && (
                     <span className="text-xs text-red-500">
                       {errors.payer.email.message}
                     </span>
                   )}
-                  <h2>Telefone*</h2>
                   <Input
                     {...registerWithMask('payer.phone', '+99 99 9 9999-9999', {
                       autoUnmask: true,
                     })}
+                    placeholder="Telefone *"
                   ></Input>
                   {errors.payer?.phone && (
                     <span className="text-xs text-red-500">
@@ -308,7 +318,6 @@ export function CreateChargeForm() {
 
                   {watch('payer.document.type') === DocumentType.CPF ? (
                     <div>
-                      <h2>Cpf*</h2>
                       <Input
                         {...registerWithMask(
                           'payer.document.text',
@@ -317,6 +326,7 @@ export function CreateChargeForm() {
                             autoUnmask: true,
                           },
                         )}
+                        placeholder="Cpf *"
                       ></Input>
                       {errors.payer?.document?.text && (
                         <span className="text-xs text-red-500">
@@ -326,7 +336,6 @@ export function CreateChargeForm() {
                     </div>
                   ) : (
                     <div>
-                      <h2>Cnpj*</h2>
                       <Input
                         {...registerWithMask(
                           'payer.document.text',
@@ -335,6 +344,7 @@ export function CreateChargeForm() {
                             autoUnmask: true,
                           },
                         )}
+                        placeholder="Cnpj *"
                       ></Input>
                       {errors.payer?.document?.text && (
                         <span className="text-xs text-red-500">
@@ -345,9 +355,10 @@ export function CreateChargeForm() {
                   )}
                 </div>
                 <hr />
+                <h3>Endereço *</h3>
                 <div className="flex flex-col space-y-4 xl:min-w-[30rem]">
                   <Input
-                    placeholder="CEP"
+                    placeholder="CEP *"
                     {...registerWithMask(
                       'payer.address.zip_code',
                       '99999-999',
@@ -371,7 +382,7 @@ export function CreateChargeForm() {
                       setInputAddressOpen(!inputAddressOpen)
                     }}
                   >
-                    <p className="text-sm text-gray-500 underline hover:cursor-pointer">
+                    <p className="text-secondary-foreground text-sm text-gray-500 underline hover:cursor-pointer">
                       Não sei o cep
                     </p>
                   </div>
@@ -398,9 +409,9 @@ export function CreateChargeForm() {
                       ></Input>
                     </div>
                   ) : watch('payer.address.street') ? (
-                    <p className="text-sm px-2 xl:max-w-[28rem]">{`${watch('payer.address.street')}, ${watch('payer.address.neighborhood')} - ${watch('payer.address.city')}, ${watch('payer.address.state')}`}</p>
+                    <p className="text-primary text-sm px-2 xl:max-w-[28rem]">{`${watch('payer.address.street')}, ${watch('payer.address.neighborhood')} - ${watch('payer.address.city')}, ${watch('payer.address.state')}`}</p>
                   ) : (
-                    <p className="lg:truncate text-sm px-2 xl:max-w-[28rem] text-gray-500">
+                    <p className="text-secondary-foreground lg:truncate text-sm px-2 xl:max-w-[28rem] text-gray-500">
                       Ex: Rua Edson Nogueira, Porto das Cachoeiras - Central de
                       Minas, Minas Gerais
                     </p>
@@ -420,7 +431,7 @@ export function CreateChargeForm() {
             )}
           </div>
           <hr />
-          <div className="space-y-4">
+          <div className="space-y-4 p-4 bg-accent rounded-lg">
             <h1>
               <strong>Dados de pagamento</strong>
             </h1>
@@ -466,12 +477,10 @@ export function CreateChargeForm() {
                 {errors.payment_type.message}
               </span>
             )}
-          </div>
-          <hr />
-          <div>
-            {watch('payment_type') === PaymentType.CREDIT_CARD && (
-              <div className="space-y-2">
-                {/* <Select
+            <div>
+              {watch('payment_type') === PaymentType.CREDIT_CARD && (
+                <div className="space-y-2">
+                  {/* <Select
                   onValueChange={(e) => {
                     setValue(
                       'card_payment_method.payment_type_card',
@@ -488,542 +497,555 @@ export function CreateChargeForm() {
                     </SelectItem>
                   </SelectContent>
                 </Select> */}
-                <Input
-                  {...register('card_payment_method.token')}
-                  placeholder="Token"
-                ></Input>
-                <Dialog>
-                  <DialogTrigger>
-                    <p className="text-sm italic">Não tem um token?</p>
-                  </DialogTrigger>
-                  <DialogContent>
-                    <div className="space-y-4 p-2">
-                      <Input
-                        placeholder="Card Holder"
-                        onChange={(e) => {
-                          setCardToTokenize({
-                            ...cardToTokenize,
-                            card_holder: e.currentTarget.value,
-                          })
-                        }}
-                      ></Input>
-                      <Input
-                        placeholder="CPF"
-                        onChange={(e) => {
-                          setCardToTokenize({
-                            ...cardToTokenize,
-                            cpf: e.currentTarget.value,
-                          })
-                        }}
-                      ></Input>
-                      <Input
-                        placeholder="Number"
-                        onChange={(e) => {
-                          setCardToTokenize({
-                            ...cardToTokenize,
-                            card_number: e.currentTarget.value,
-                          })
-                        }}
-                      ></Input>
-                      <Input
-                        placeholder="CVV"
-                        onChange={(e) => {
-                          setCardToTokenize({
-                            ...cardToTokenize,
-                            card_cvv: e.currentTarget.value,
-                          })
-                        }}
-                      ></Input>
-                      <div className="flex items-center justify-between w-full">
-                        <div>
-                          <Label>Expiration month</Label>
-                          <Input
-                            placeholder="12"
-                            className="max-w-[50px]"
-                            onChange={(e) => {
-                              setCardToTokenize({
-                                ...cardToTokenize,
-                                card_expiration_month: e.currentTarget.value,
-                              })
-                            }}
-                          ></Input>
+                  <Input
+                    {...register('card_payment_method.token')}
+                    placeholder="Token"
+                  ></Input>
+                  <Dialog>
+                    <DialogTrigger>
+                      <p className="text-sm italic">Não tem um token?</p>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <div className="space-y-4 p-2">
+                        <Input
+                          placeholder="Card Holder"
+                          onChange={(e) => {
+                            setCardToTokenize({
+                              ...cardToTokenize,
+                              card_holder: e.currentTarget.value,
+                            })
+                          }}
+                        ></Input>
+                        <Input
+                          placeholder="CPF"
+                          onChange={(e) => {
+                            setCardToTokenize({
+                              ...cardToTokenize,
+                              cpf: e.currentTarget.value,
+                            })
+                          }}
+                        ></Input>
+                        <Input
+                          placeholder="Number"
+                          onChange={(e) => {
+                            setCardToTokenize({
+                              ...cardToTokenize,
+                              card_number: e.currentTarget.value,
+                            })
+                          }}
+                        ></Input>
+                        <Input
+                          placeholder="CVV"
+                          onChange={(e) => {
+                            setCardToTokenize({
+                              ...cardToTokenize,
+                              card_cvv: e.currentTarget.value,
+                            })
+                          }}
+                        ></Input>
+                        <div className="flex items-center justify-between w-full">
+                          <div>
+                            <Label>Expiration month</Label>
+                            <Input
+                              placeholder="12"
+                              className="max-w-[50px]"
+                              onChange={(e) => {
+                                setCardToTokenize({
+                                  ...cardToTokenize,
+                                  card_expiration_month: e.currentTarget.value,
+                                })
+                              }}
+                            ></Input>
+                          </div>
+                          <div>
+                            <Label>Expiration year</Label>
+                            <Input
+                              placeholder="30"
+                              className="max-w-[150px]"
+                              maxLength={2}
+                              onChange={(e) => {
+                                setCardToTokenize({
+                                  ...cardToTokenize,
+                                  card_expiration_year: e.currentTarget.value,
+                                })
+                              }}
+                            ></Input>
+                          </div>
                         </div>
-                        <div>
-                          <Label>Expiration year</Label>
-                          <Input
-                            placeholder="30"
-                            className="max-w-[150px]"
-                            maxLength={2}
-                            onChange={(e) => {
-                              setCardToTokenize({
-                                ...cardToTokenize,
-                                card_expiration_year: e.currentTarget.value,
-                              })
-                            }}
-                          ></Input>
-                        </div>
+                        <Button
+                          className="w-full"
+                          onClick={() => {
+                            tokenize()
+                          }}
+                        >
+                          Tokenizar
+                        </Button>
                       </div>
-                      <Button
-                        className="w-full"
-                        onClick={() => {
-                          tokenize()
-                        }}
-                      >
-                        Tokenizar
-                      </Button>
-                    </div>
-                  </DialogContent>
-                </Dialog>
-                <Input
-                  {...register('card_payment_method.card_id')}
-                  placeholder="Card id"
-                ></Input>
-                <div className="flex space-x-2 items-center">
-                  <Checkbox
-                    defaultChecked={
-                      watch('card_payment_method.store_card') ?? false
-                    }
-                    onClick={() => {
-                      setValue(
-                        'card_payment_method.store_card',
-                        !getValues('card_payment_method.store_card'),
-                      )
-                    }}
-                  ></Checkbox>
-                  <p>Salvar cartão?</p>
-                </div>
-                <div className="space-y-2 border-2 p-2 rounded-lg">
-                  <div className="flex space-x-2">
-                    <h1>Itens*</h1>
-                    <Dialog>
-                      <DialogTrigger>
-                        <Plus></Plus>
-                      </DialogTrigger>
-                      <DialogContent>
-                        <Label>Descrição</Label>
-                        <Input
-                          onChange={(e) => {
-                            setItemToAdd({
-                              ...itemToAdd,
-                              description: e.currentTarget.value,
-                            })
-                          }}
-                        ></Input>
-                        <Label>Valor</Label>
-                        <Input
-                          type="number"
-                          min={1}
-                          step={'0.001'}
-                          onChange={(e) => {
-                            setItemToAdd({
-                              ...itemToAdd,
-                              unity_value: Number(e.currentTarget.value) * 100,
-                            })
-                          }}
-                        ></Input>
-                        <Label>Quantidade</Label>
-                        <Input
-                          type="number"
-                          min={1}
-                          onChange={(e) => {
-                            setItemToAdd({
-                              ...itemToAdd,
-                              quantity: Number(e.currentTarget.value),
-                            })
-                          }}
-                        ></Input>
-                        <DialogClose>
-                          <Button
-                            onClick={() => {
-                              const previousValues = getValues(
-                                'card_payment_method.items',
-                              )
-
-                              if (previousValues === undefined) {
-                                setValue('card_payment_method.items', [
-                                  itemToAdd,
-                                ])
-                              } else {
-                                previousValues.push(itemToAdd)
-
-                                setValue(
-                                  'card_payment_method.items',
-                                  previousValues,
-                                )
-                              }
-                            }}
-                          >
-                            Adicionar item
-                          </Button>
-                        </DialogClose>
-                      </DialogContent>
-                    </Dialog>
-                  </div>
-                  <div className="w-full min-h-[50px] max-h-300px space-y-2">
-                    {watch('card_payment_method.items')?.map((items, index) => {
-                      return (
-                        <div
-                          className="flex space-x-2 items-center p-2 border-2 rounded-lg bg-accent"
-                          key={index}
-                        >
-                          <div>
-                            <h2>
-                              <strong>Descrição</strong>
-                            </h2>
-                            <p>{items.description}</p>
-                          </div>
-                          <div>
-                            <h2>
-                              <strong>Valor</strong>
-                            </h2>
-                            <p>
-                              {items.unity_value ? items.unity_value / 100 : ''}
-                            </p>
-                          </div>
-                          <div>
-                            <h2>
-                              <strong>Quantidade</strong>
-                            </h2>
-                            <p>{items.quantity}</p>
-                          </div>
-                        </div>
-                      )
-                    })}
-                  </div>
-                </div>
-                <Input
-                  placeholder="Parcelas*"
-                  type="number"
-                  min={1}
-                  {...register('card_payment_method.installments')}
-                ></Input>
-              </div>
-            )}
-            {watch('payment_type') === PaymentType.PIX && (
-              <div className="space-y-2">
-                <Input
-                  type="number"
-                  min={10000}
-                  placeholder="Tempo de expiração. Em milisegundos"
-                  {...register('pix_payment_method.expiration_time')}
-                ></Input>
-                {errors.pix_payment_method?.expiration_time && (
-                  <span className="text-xs text-red-500">
-                    {errors.pix_payment_method.expiration_time.message}
-                  </span>
-                )}
-                <div className="space-y-2 border-2 p-2 rounded-lg">
-                  <div className="flex space-x-2">
-                    <h1>Itens*</h1>
-                    <Dialog>
-                      <DialogTrigger>
-                        <Plus></Plus>
-                      </DialogTrigger>
-                      <DialogContent>
-                        <Label>Descrição</Label>
-                        <Input
-                          onChange={(e) => {
-                            setItemToAdd({
-                              ...itemToAdd,
-                              description: e.currentTarget.value,
-                            })
-                          }}
-                        ></Input>
-                        <Label>Valor</Label>
-                        <Input
-                          type="number"
-                          min={1}
-                          step={'0.001'}
-                          onChange={(e) => {
-                            setItemToAdd({
-                              ...itemToAdd,
-                              unity_value: Number(e.currentTarget.value) * 100,
-                            })
-                          }}
-                        ></Input>
-                        <Label>Quantidade</Label>
-                        <Input
-                          type="number"
-                          min={1}
-                          onChange={(e) => {
-                            setItemToAdd({
-                              ...itemToAdd,
-                              quantity: Number(e.currentTarget.value),
-                            })
-                          }}
-                        ></Input>
-                        <DialogClose>
-                          <Button
-                            onClick={() => {
-                              const previousValues = getValues(
-                                'pix_payment_method.items',
-                              )
-
-                              if (previousValues === undefined) {
-                                setValue('pix_payment_method.items', [
-                                  itemToAdd,
-                                ])
-                              } else {
-                                previousValues.push(itemToAdd)
-
-                                setValue(
-                                  'pix_payment_method.items',
-                                  previousValues,
-                                )
-                              }
-                            }}
-                          >
-                            Adicionar item
-                          </Button>
-                        </DialogClose>
-                      </DialogContent>
-                    </Dialog>
-                  </div>
-                  <div className="w-full min-h-[50px] max-h-300px space-y-2">
-                    {watch('pix_payment_method.items')?.map((items, index) => {
-                      return (
-                        <div
-                          className="flex space-x-2 items-center p-2 border-2 rounded-lg bg-accent"
-                          key={index}
-                        >
-                          <div>
-                            <h2>
-                              <strong>Descrição</strong>
-                            </h2>
-                            <p>{items.description}</p>
-                          </div>
-                          <div>
-                            <h2>
-                              <strong>Valor</strong>
-                            </h2>
-                            <p>
-                              {items.unity_value ? items.unity_value / 100 : ''}
-                            </p>
-                          </div>
-                          <div>
-                            <h2>
-                              <strong>Quantidade</strong>
-                            </h2>
-                            <p>{items.quantity}</p>
-                          </div>
-                        </div>
-                      )
-                    })}
-                  </div>
-                </div>
-              </div>
-            )}
-            {watch('payment_type') === PaymentType.BOLETO && (
-              <div className="space-y-2">
-                <Input
-                  type="datetime-local"
-                  placeholder="Data de expiração"
-                  {...registerWithMask(
-                    'boleto_payment_method.expiration_date',
-                    '99/99/9999',
-                  )}
-                ></Input>
-                {errors.boleto_payment_method?.expiration_date && (
-                  <span className="text-xs text-red-500">
-                    {errors.boleto_payment_method.expiration_date.message}
-                  </span>
-                )}
-                <Input
-                  placeholder="Instruções?"
-                  {...register('boleto_payment_method.instructions')}
-                ></Input>
-                {errors.boleto_payment_method?.instructions && (
-                  <span className="text-xs text-red-500">
-                    {errors.boleto_payment_method.instructions.message}
-                  </span>
-                )}
-                <Input
-                  type="number"
-                  min={0}
-                  placeholder="Dias de expiração para fee?"
-                  {...register(
-                    'boleto_payment_method.expiration_days_for_fees',
-                  )}
-                ></Input>
-                {errors.boleto_payment_method?.expiration_days_for_fees && (
-                  <span className="text-xs text-red-500">
-                    {
-                      errors.boleto_payment_method.expiration_days_for_fees
-                        .message
-                    }
-                  </span>
-                )}
-                <Input
-                  type="number"
-                  min={0}
-                  placeholder="Valor do fee por dia?"
-                  {...register('boleto_payment_method.fee_value_per_day')}
-                ></Input>
-                {errors.boleto_payment_method?.fee_value_per_day && (
-                  <span className="text-xs text-red-500">
-                    {errors.boleto_payment_method.fee_value_per_day.message}
-                  </span>
-                )}
-                <Input
-                  type="number"
-                  min={0}
-                  placeholder="Porcentagem do fee por mês?"
-                  {...register(
-                    'boleto_payment_method.fee_percentage_per_month',
-                  )}
-                ></Input>
-                {errors.boleto_payment_method?.fee_percentage_per_month && (
-                  <span className="text-xs text-red-500">
-                    {
-                      errors.boleto_payment_method.fee_percentage_per_month
-                        .message
-                    }
-                  </span>
-                )}
-                <Input
-                  type="number"
-                  min={0}
-                  placeholder="Dias para multar"
-                  {...register(
-                    'boleto_payment_method.expiration_days_for_fine',
-                  )}
-                ></Input>
-                {errors.boleto_payment_method?.expiration_days_for_fine && (
-                  <span className="text-xs text-red-500">
-                    {
-                      errors.boleto_payment_method.expiration_days_for_fine
-                        .message
-                    }
-                  </span>
-                )}
-                <Input
-                  type="number"
-                  min={0}
-                  placeholder="Valor da multa"
-                  {...register('boleto_payment_method.fine_value')}
-                ></Input>
-                {errors.boleto_payment_method?.fine_value && (
-                  <span className="text-xs text-red-500">
-                    {errors.boleto_payment_method.fine_value.message}
-                  </span>
-                )}
-                <Input
-                  type="number"
-                  min={0}
-                  placeholder="Porcentagem da multa"
-                  {...register('boleto_payment_method.fine_percentage')}
-                ></Input>
-                {errors.boleto_payment_method?.fine_percentage && (
-                  <span className="text-xs text-red-500">
-                    {errors.boleto_payment_method.fine_percentage.message}
-                  </span>
-                )}
-                <div className="space-y-2 border-2 p-2 rounded-lg">
-                  <div className="flex space-x-2">
-                    <h1>Itens*</h1>
-                    <Dialog>
-                      <DialogTrigger>
-                        <Plus></Plus>
-                      </DialogTrigger>
-                      <DialogContent>
-                        <Label>Descrição</Label>
-                        <Input
-                          onChange={(e) => {
-                            setItemToAdd({
-                              ...itemToAdd,
-                              description: e.currentTarget.value,
-                            })
-                          }}
-                        ></Input>
-                        <Label>Valor</Label>
-                        <Input
-                          type="number"
-                          min={1}
-                          step={'0.001'}
-                          onChange={(e) => {
-                            setItemToAdd({
-                              ...itemToAdd,
-                              unity_value: Number(e.currentTarget.value) * 100,
-                            })
-                          }}
-                        ></Input>
-                        <Label>Quantidade</Label>
-                        <Input
-                          type="number"
-                          min={1}
-                          onChange={(e) => {
-                            setItemToAdd({
-                              ...itemToAdd,
-                              quantity: Number(e.currentTarget.value),
-                            })
-                          }}
-                        ></Input>
-                        <DialogClose>
-                          <Button
-                            onClick={() => {
-                              const previousValues = getValues(
-                                'boleto_payment_method.items',
-                              )
-
-                              if (previousValues === undefined) {
-                                setValue('boleto_payment_method.items', [
-                                  itemToAdd,
-                                ])
-                              } else {
-                                previousValues.push(itemToAdd)
-
-                                setValue(
-                                  'boleto_payment_method.items',
-                                  previousValues,
-                                )
-                              }
-                            }}
-                          >
-                            Adicionar item
-                          </Button>
-                        </DialogClose>
-                      </DialogContent>
-                    </Dialog>
-                  </div>
-                  <div className="w-full min-h-[50px] max-h-300px space-y-2">
-                    {watch('boleto_payment_method.items')?.map(
-                      (items, index) => {
-                        return (
-                          <div
-                            className="flex space-x-2 items-center p-2 border-2 rounded-lg bg-accent"
-                            key={index}
-                          >
-                            <div>
-                              <h2>
-                                <strong>Descrição</strong>
-                              </h2>
-                              <p>{items.description}</p>
-                            </div>
-                            <div>
-                              <h2>
-                                <strong>Valor</strong>
-                              </h2>
-                              <p>
-                                {items.unity_value
-                                  ? items.unity_value / 100
-                                  : ''}
-                              </p>
-                            </div>
-                            <div>
-                              <h2>
-                                <strong>Quantidade</strong>
-                              </h2>
-                              <p>{items.quantity}</p>
-                            </div>
-                          </div>
+                    </DialogContent>
+                  </Dialog>
+                  <Input
+                    {...register('card_payment_method.card_id')}
+                    placeholder="Card id"
+                  ></Input>
+                  <div className="flex space-x-2 items-center">
+                    <Checkbox
+                      defaultChecked={
+                        watch('card_payment_method.store_card') ?? false
+                      }
+                      onClick={() => {
+                        setValue(
+                          'card_payment_method.store_card',
+                          !getValues('card_payment_method.store_card'),
                         )
-                      },
-                    )}
+                      }}
+                    ></Checkbox>
+                    <p>Salvar cartão?</p>
+                  </div>
+                  <div className="space-y-2 border-2 p-2 rounded-lg">
+                    <div className="flex space-x-2">
+                      <h1>Itens*</h1>
+                      <Dialog>
+                        <DialogTrigger>
+                          <Plus></Plus>
+                        </DialogTrigger>
+                        <DialogContent>
+                          <Label>Descrição</Label>
+                          <Input
+                            onChange={(e) => {
+                              setItemToAdd({
+                                ...itemToAdd,
+                                description: e.currentTarget.value,
+                              })
+                            }}
+                          ></Input>
+                          <Label>Valor</Label>
+                          <Input
+                            type="number"
+                            min={1}
+                            step={'0.001'}
+                            onChange={(e) => {
+                              setItemToAdd({
+                                ...itemToAdd,
+                                unity_value:
+                                  Number(e.currentTarget.value) * 100,
+                              })
+                            }}
+                          ></Input>
+                          <Label>Quantidade</Label>
+                          <Input
+                            type="number"
+                            min={1}
+                            onChange={(e) => {
+                              setItemToAdd({
+                                ...itemToAdd,
+                                quantity: Number(e.currentTarget.value),
+                              })
+                            }}
+                          ></Input>
+                          <DialogClose>
+                            <Button
+                              onClick={() => {
+                                const previousValues = getValues(
+                                  'card_payment_method.items',
+                                )
+
+                                if (previousValues === undefined) {
+                                  setValue('card_payment_method.items', [
+                                    itemToAdd,
+                                  ])
+                                } else {
+                                  previousValues.push(itemToAdd)
+
+                                  setValue(
+                                    'card_payment_method.items',
+                                    previousValues,
+                                  )
+                                }
+                              }}
+                            >
+                              Adicionar item
+                            </Button>
+                          </DialogClose>
+                        </DialogContent>
+                      </Dialog>
+                    </div>
+                    <div className="w-full min-h-[50px] max-h-300px space-y-2">
+                      {watch('card_payment_method.items')?.map(
+                        (items, index) => {
+                          return (
+                            <div
+                              className="flex space-x-2 items-center p-2 border-2 rounded-lg bg-accent"
+                              key={index}
+                            >
+                              <div>
+                                <h2>
+                                  <strong>Descrição</strong>
+                                </h2>
+                                <p>{items.description}</p>
+                              </div>
+                              <div>
+                                <h2>
+                                  <strong>Valor</strong>
+                                </h2>
+                                <p>
+                                  {items.unity_value
+                                    ? items.unity_value / 100
+                                    : ''}
+                                </p>
+                              </div>
+                              <div>
+                                <h2>
+                                  <strong>Quantidade</strong>
+                                </h2>
+                                <p>{items.quantity}</p>
+                              </div>
+                            </div>
+                          )
+                        },
+                      )}
+                    </div>
+                  </div>
+                  <Input
+                    placeholder="Parcelas*"
+                    type="number"
+                    min={1}
+                    {...register('card_payment_method.installments')}
+                  ></Input>
+                </div>
+              )}
+              {watch('payment_type') === PaymentType.PIX && (
+                <div className="space-y-2">
+                  <Input
+                    type="number"
+                    min={10000}
+                    placeholder="Tempo de expiração. Em milisegundos"
+                    {...register('pix_payment_method.expiration_time')}
+                  ></Input>
+                  {errors.pix_payment_method?.expiration_time && (
+                    <span className="text-xs text-red-500">
+                      {errors.pix_payment_method.expiration_time.message}
+                    </span>
+                  )}
+                  <div className="space-y-2 border-2 p-2 rounded-lg">
+                    <div className="flex space-x-2">
+                      <h1>Itens*</h1>
+                      <Dialog>
+                        <DialogTrigger>
+                          <Plus></Plus>
+                        </DialogTrigger>
+                        <DialogContent>
+                          <Label>Descrição</Label>
+                          <Input
+                            onChange={(e) => {
+                              setItemToAdd({
+                                ...itemToAdd,
+                                description: e.currentTarget.value,
+                              })
+                            }}
+                          ></Input>
+                          <Label>Valor</Label>
+                          <Input
+                            type="number"
+                            min={1}
+                            step={'0.001'}
+                            onChange={(e) => {
+                              setItemToAdd({
+                                ...itemToAdd,
+                                unity_value:
+                                  Number(e.currentTarget.value) * 100,
+                              })
+                            }}
+                          ></Input>
+                          <Label>Quantidade</Label>
+                          <Input
+                            type="number"
+                            min={1}
+                            onChange={(e) => {
+                              setItemToAdd({
+                                ...itemToAdd,
+                                quantity: Number(e.currentTarget.value),
+                              })
+                            }}
+                          ></Input>
+                          <DialogClose>
+                            <Button
+                              onClick={() => {
+                                const previousValues = getValues(
+                                  'pix_payment_method.items',
+                                )
+
+                                if (previousValues === undefined) {
+                                  setValue('pix_payment_method.items', [
+                                    itemToAdd,
+                                  ])
+                                } else {
+                                  previousValues.push(itemToAdd)
+
+                                  setValue(
+                                    'pix_payment_method.items',
+                                    previousValues,
+                                  )
+                                }
+                              }}
+                            >
+                              Adicionar item
+                            </Button>
+                          </DialogClose>
+                        </DialogContent>
+                      </Dialog>
+                    </div>
+                    <div className="w-full min-h-[50px] max-h-300px space-y-2">
+                      {watch('pix_payment_method.items')?.map(
+                        (items, index) => {
+                          return (
+                            <div
+                              className="flex space-x-2 items-center p-2 border-2 rounded-lg bg-accent"
+                              key={index}
+                            >
+                              <div>
+                                <h2>
+                                  <strong>Descrição</strong>
+                                </h2>
+                                <p>{items.description}</p>
+                              </div>
+                              <div>
+                                <h2>
+                                  <strong>Valor</strong>
+                                </h2>
+                                <p>
+                                  {items.unity_value
+                                    ? items.unity_value / 100
+                                    : ''}
+                                </p>
+                              </div>
+                              <div>
+                                <h2>
+                                  <strong>Quantidade</strong>
+                                </h2>
+                                <p>{items.quantity}</p>
+                              </div>
+                            </div>
+                          )
+                        },
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            )}
+              )}
+              {watch('payment_type') === PaymentType.BOLETO && (
+                <div className="space-y-2">
+                  <Input
+                    type="datetime-local"
+                    placeholder="Data de expiração"
+                    {...registerWithMask(
+                      'boleto_payment_method.expiration_date',
+                      '99/99/9999',
+                    )}
+                  ></Input>
+                  {errors.boleto_payment_method?.expiration_date && (
+                    <span className="text-xs text-red-500">
+                      {errors.boleto_payment_method.expiration_date.message}
+                    </span>
+                  )}
+                  <Input
+                    placeholder="Instruções?"
+                    {...register('boleto_payment_method.instructions')}
+                  ></Input>
+                  {errors.boleto_payment_method?.instructions && (
+                    <span className="text-xs text-red-500">
+                      {errors.boleto_payment_method.instructions.message}
+                    </span>
+                  )}
+                  <Input
+                    type="number"
+                    min={0}
+                    placeholder="Dias de expiração para fee?"
+                    {...register(
+                      'boleto_payment_method.expiration_days_for_fees',
+                    )}
+                  ></Input>
+                  {errors.boleto_payment_method?.expiration_days_for_fees && (
+                    <span className="text-xs text-red-500">
+                      {
+                        errors.boleto_payment_method.expiration_days_for_fees
+                          .message
+                      }
+                    </span>
+                  )}
+                  <Input
+                    type="number"
+                    min={0}
+                    placeholder="Valor do fee por dia?"
+                    {...register('boleto_payment_method.fee_value_per_day')}
+                  ></Input>
+                  {errors.boleto_payment_method?.fee_value_per_day && (
+                    <span className="text-xs text-red-500">
+                      {errors.boleto_payment_method.fee_value_per_day.message}
+                    </span>
+                  )}
+                  <Input
+                    type="number"
+                    min={0}
+                    placeholder="Porcentagem do fee por mês?"
+                    {...register(
+                      'boleto_payment_method.fee_percentage_per_month',
+                    )}
+                  ></Input>
+                  {errors.boleto_payment_method?.fee_percentage_per_month && (
+                    <span className="text-xs text-red-500">
+                      {
+                        errors.boleto_payment_method.fee_percentage_per_month
+                          .message
+                      }
+                    </span>
+                  )}
+                  <Input
+                    type="number"
+                    min={0}
+                    placeholder="Dias para multar"
+                    {...register(
+                      'boleto_payment_method.expiration_days_for_fine',
+                    )}
+                  ></Input>
+                  {errors.boleto_payment_method?.expiration_days_for_fine && (
+                    <span className="text-xs text-red-500">
+                      {
+                        errors.boleto_payment_method.expiration_days_for_fine
+                          .message
+                      }
+                    </span>
+                  )}
+                  <Input
+                    type="number"
+                    min={0}
+                    placeholder="Valor da multa"
+                    {...register('boleto_payment_method.fine_value')}
+                  ></Input>
+                  {errors.boleto_payment_method?.fine_value && (
+                    <span className="text-xs text-red-500">
+                      {errors.boleto_payment_method.fine_value.message}
+                    </span>
+                  )}
+                  <Input
+                    type="number"
+                    min={0}
+                    placeholder="Porcentagem da multa"
+                    {...register('boleto_payment_method.fine_percentage')}
+                  ></Input>
+                  {errors.boleto_payment_method?.fine_percentage && (
+                    <span className="text-xs text-red-500">
+                      {errors.boleto_payment_method.fine_percentage.message}
+                    </span>
+                  )}
+                  <div className="space-y-2 border-2 p-2 rounded-lg">
+                    <div className="flex space-x-2">
+                      <h1>Itens*</h1>
+                      <Dialog>
+                        <DialogTrigger>
+                          <Plus></Plus>
+                        </DialogTrigger>
+                        <DialogContent>
+                          <Label>Descrição</Label>
+                          <Input
+                            onChange={(e) => {
+                              setItemToAdd({
+                                ...itemToAdd,
+                                description: e.currentTarget.value,
+                              })
+                            }}
+                          ></Input>
+                          <Label>Valor</Label>
+                          <Input
+                            type="number"
+                            min={1}
+                            step={'0.001'}
+                            onChange={(e) => {
+                              setItemToAdd({
+                                ...itemToAdd,
+                                unity_value:
+                                  Number(e.currentTarget.value) * 100,
+                              })
+                            }}
+                          ></Input>
+                          <Label>Quantidade</Label>
+                          <Input
+                            type="number"
+                            min={1}
+                            onChange={(e) => {
+                              setItemToAdd({
+                                ...itemToAdd,
+                                quantity: Number(e.currentTarget.value),
+                              })
+                            }}
+                          ></Input>
+                          <DialogClose>
+                            <Button
+                              onClick={() => {
+                                const previousValues = getValues(
+                                  'boleto_payment_method.items',
+                                )
+
+                                if (previousValues === undefined) {
+                                  setValue('boleto_payment_method.items', [
+                                    itemToAdd,
+                                  ])
+                                } else {
+                                  previousValues.push(itemToAdd)
+
+                                  setValue(
+                                    'boleto_payment_method.items',
+                                    previousValues,
+                                  )
+                                }
+                              }}
+                            >
+                              Adicionar item
+                            </Button>
+                          </DialogClose>
+                        </DialogContent>
+                      </Dialog>
+                    </div>
+                    <div className="w-full min-h-[50px] max-h-300px space-y-2">
+                      {watch('boleto_payment_method.items')?.map(
+                        (items, index) => {
+                          return (
+                            <div
+                              className="flex space-x-2 items-center p-2 border-2 rounded-lg bg-accent"
+                              key={index}
+                            >
+                              <div>
+                                <h2>
+                                  <strong>Descrição</strong>
+                                </h2>
+                                <p>{items.description}</p>
+                              </div>
+                              <div>
+                                <h2>
+                                  <strong>Valor</strong>
+                                </h2>
+                                <p>
+                                  {items.unity_value
+                                    ? items.unity_value / 100
+                                    : ''}
+                                </p>
+                              </div>
+                              <div>
+                                <h2>
+                                  <strong>Quantidade</strong>
+                                </h2>
+                                <p>{items.quantity}</p>
+                              </div>
+                            </div>
+                          )
+                        },
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
+          <hr />
           <Button>
             {submit.isPending ? (
               <Loader2 className="animate-spin"></Loader2>

@@ -8,7 +8,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
-import { Plus } from 'lucide-react'
+import { Loader2, Plus } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -24,7 +24,6 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Checkbox } from '@/components/ui/checkbox'
-import { floatRegExp } from '@/utils/float-regex'
 
 const FormSchema = z.object({
   name: z
@@ -83,14 +82,6 @@ export function CreatePlanForm() {
     },
   })
 
-  // @ts-expect-error sdaasdasdasd
-  const handleValidationOnChange = (e, v, onChange) => {
-    const { value } = v
-    if (value === '' || floatRegExp.test(value)) {
-      onChange(e, v)
-    }
-  }
-
   const submit = useMutation({
     mutationFn: createPlan,
     mutationKey: ['createCustomerMutation'],
@@ -134,19 +125,18 @@ export function CreatePlanForm() {
           onSubmit={handleSubmit(handleSumbitMutation)}
           className="space-y-4 p-4 bg-muted rounded-lg max-h-[80vh] overflow-auto"
         >
-          <div className="space-y-2">
-            <h2>Nome*</h2>
-            <Input {...register('name')}></Input>
+          <div className="space-y-4 p-4 bg-accent rounded-lg">
+            <Input {...register('name')} placeholder="Nome *"></Input>
             {errors.name && (
               <span className="text-xs text-red-500">
                 {errors.name.message}
               </span>
             )}
-            <h2>Valor*</h2>
             <Input
               type="number"
               step={'0.001'}
               min={1}
+              placeholder="Valor *"
               {...register('value')}
             ></Input>
             {errors.value && (
@@ -154,64 +144,73 @@ export function CreatePlanForm() {
                 {errors.value.message}
               </span>
             )}
-            <h2>Descrição*</h2>
-            <Input {...register('description')}></Input>
+            <Input
+              {...register('description')}
+              placeholder="Descrição *"
+            ></Input>
             {errors.description && (
               <span className="text-xs text-red-500">
                 {errors.description.message}
               </span>
             )}
-          </div>
-          <hr />
-          <div className="space-y-4">
-            <Select
-              onValueChange={(e) => {
-                setValue('period_type', e as PeriodType)
-              }}
-            >
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Tipo do plano*" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value={PeriodType.MONTHLY}>Mensal</SelectItem>
-                <SelectItem value={PeriodType.ANNUALLY}>Anual</SelectItem>
-              </SelectContent>
-            </Select>
-            {errors.period_type && (
+            <div className="space-y-4">
+              <Select
+                onValueChange={(e) => {
+                  setValue('period_type', e as PeriodType)
+                }}
+              >
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Tipo do plano*" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value={PeriodType.MONTHLY}>Mensal</SelectItem>
+                  <SelectItem value={PeriodType.ANNUALLY}>Anual</SelectItem>
+                </SelectContent>
+              </Select>
+              {errors.period_type && (
+                <span className="text-xs text-red-500">
+                  {errors.period_type.message}
+                </span>
+              )}
+
+              <div className="flex flex-col space-y-2">
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    checked={watch('is_test_period')}
+                    onClick={() => {
+                      setValue('is_test_period', !watch('is_test_period'))
+                    }}
+                  />
+                  <p>Tem periodo de teste?</p>
+                </div>
+                {watch('is_test_period') && (
+                  <div className="flex items-center space-x-2">
+                    <Input
+                      type="number"
+                      min={1}
+                      {...register('test_days')}
+                      className="w-[100px]"
+                    ></Input>
+                    <p>dias</p>
+                  </div>
+                )}
+              </div>
+            </div>
+            {errors.is_test_period && (
               <span className="text-xs text-red-500">
-                {errors.period_type.message}
+                {errors.is_test_period.message}
               </span>
             )}
-
-            <div className="flex flex-col space-y-2">
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  checked={watch('is_test_period')}
-                  onClick={() => {
-                    setValue('is_test_period', !watch('is_test_period'))
-                  }}
-                />
-                <p>Tem periodo de teste?</p>
-              </div>
-              {watch('is_test_period') && (
-                <div className="flex items-center space-x-2">
-                  <Input
-                    type="number"
-                    min={1}
-                    {...register('test_days')}
-                    className="w-[100px]"
-                  ></Input>
-                  <p>dias</p>
-                </div>
-              )}
-            </div>
           </div>
-          {errors.is_test_period && (
-            <span className="text-xs text-red-500">
-              {errors.is_test_period.message}
-            </span>
-          )}
-          <Button>Cadastrar</Button>
+          <hr />
+
+          <Button>
+            {submit.isPending ? (
+              <Loader2 className="animate-spin"></Loader2>
+            ) : (
+              'Cadastrar'
+            )}
+          </Button>
         </form>
       </DialogContent>
     </Dialog>

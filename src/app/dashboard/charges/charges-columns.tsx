@@ -112,7 +112,7 @@ export const ChargesColumns = (): ColumnDef<Charges>[] => {
       id: 'actions',
       cell: ({ row }) => {
         const charge = row.original
-        console.log('charge: ', charge)
+
         return (
           <Popover>
             <PopoverTrigger>

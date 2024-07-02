@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { BarChart, LineChart } from '@mui/x-charts'
+import { LineChart } from '@mui/x-charts'
 import { useEffect, useState } from 'react'
 
 export function GraphClient() {

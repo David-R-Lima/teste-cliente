@@ -45,7 +45,7 @@ export function ApiKeys() {
                             </div> */}
           <div className="grid grid-cols-[8rem,2fr]">
             <div className="flex items-center">
-              <Label>Merchant id:</Label>
+              <Label>Id do vendedor:</Label>
             </div>
             <div className="flex items-center space-x-2">
               <p className="p-2 border rounded-lg font-bold w-[30%] truncate">

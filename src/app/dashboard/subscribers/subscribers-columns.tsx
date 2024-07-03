@@ -11,32 +11,19 @@ import {
 import { Subscriber } from '@/services/subscribers/types'
 import dayjs from 'dayjs'
 import { AdditionalInformation } from './components/additional-information'
+import { InactivateSignatureDialog } from './components/inactivate-signature-alert-dialog'
 
 export const SubscribersColumns = (): ColumnDef<Subscriber>[] => {
   const columns: ColumnDef<Subscriber>[] = [
     {
-      accessorKey: 'customer_id',
+      accessorKey: 'id',
       header: ({ column }) => {
         return (
           <Button
             variant="link"
             onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           >
-            Customer id
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
-        )
-      },
-    },
-    {
-      accessorKey: 'plan_id',
-      header: ({ column }) => {
-        return (
-          <Button
-            variant="link"
-            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          >
-            Plan id
+            Id da assinatura
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         )
@@ -120,10 +107,18 @@ export const SubscribersColumns = (): ColumnDef<Subscriber>[] => {
             <PopoverTrigger>
               <MoreVertical />
             </PopoverTrigger>
-            <PopoverContent className="w-full">
-              <AdditionalInformation
-                subscriber={subscriber}
-              ></AdditionalInformation>
+            <PopoverContent className="w-full space-y-4">
+              <div>
+                <AdditionalInformation
+                  subscriber={subscriber}
+                ></AdditionalInformation>
+              </div>
+              <div>
+                <InactivateSignatureDialog
+                  customerId={subscriber.customer_id}
+                  subscriptionId={subscriber.id}
+                ></InactivateSignatureDialog>
+              </div>
             </PopoverContent>
           </Popover>
         )

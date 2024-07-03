@@ -56,7 +56,7 @@ export function ApiKeys() {
           </div>
           <div className="grid grid-cols-[8rem,2fr]">
             <div className="flex items-center">
-              <Label>Access token:</Label>
+              <Label>Token de acesso:</Label>
             </div>
             <CreateAccessToken></CreateAccessToken>
           </div>

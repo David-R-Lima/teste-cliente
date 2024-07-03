@@ -35,21 +35,27 @@ export function AdditionalInformation({ subscriber }: Props) {
             <p>
               <strong>Ativo:</strong> {subscriber.is_active ? 'Sim' : 'Não'}
             </p>
-            <p>
-              <strong>Próxima cobrança:</strong>{' '}
-              {dayjs(subscriber.next_charge).format('DD/MM/YYYY')}
-            </p>
-            <p>
-              <strong>Ultima cobrança:</strong>{' '}
-              {dayjs(subscriber.last_charge).format('DD/MM/YYYY')}
-            </p>
+            {subscriber.next_charge && (
+              <p>
+                <strong>Próxima cobrança:</strong>{' '}
+                {dayjs(subscriber.next_charge).format('DD/MM/YYYY')}
+              </p>
+            )}
+            {subscriber.last_charge && (
+              <p>
+                <strong>Ultima cobrança:</strong>{' '}
+                {dayjs(subscriber.last_charge).format('DD/MM/YYYY')}
+              </p>
+            )}
           </div>
           <hr />
           <div>
-            <p>
-              <strong>Data de criação:</strong>{' '}
-              {dayjs(subscriber.first_charge).format('DD/MM/YYYY')}
-            </p>
+            {subscriber.first_charge && (
+              <p>
+                <strong>Data de criação:</strong>{' '}
+                {dayjs(subscriber.first_charge).format('DD/MM/YYYY')}
+              </p>
+            )}
           </div>
         </div>
       </DialogContent>

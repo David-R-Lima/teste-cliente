@@ -23,7 +23,7 @@ export const CustomersColumns = (): ColumnDef<Customers>[] => {
             variant="link"
             onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           >
-            Customer id
+            Id do cliente
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         )

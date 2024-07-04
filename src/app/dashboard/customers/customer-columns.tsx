@@ -13,115 +13,108 @@ import { AdditionalInformation } from './components/additional-information'
 import { cnpj, cpf } from 'cpf-cnpj-validator'
 import { CardDialog } from './components/card-dialog'
 
-export const CustomersColumns = (): ColumnDef<Customers>[] => {
-  const columns: ColumnDef<Customers>[] = [
-    {
-      accessorKey: 'id',
-      header: ({ column }) => {
-        return (
-          <Button
-            variant="link"
-            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          >
-            Id do cliente
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
-        )
-      },
+export const CustomersColumns: ColumnDef<Customers>[] = [
+  {
+    accessorKey: 'id',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="link"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Id do cliente
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
     },
-    {
-      accessorKey: 'name',
-      header: ({ column }) => {
-        return (
-          <Button
-            variant="link"
-            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          >
-            Nome
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
-        )
-      },
+  },
+  {
+    accessorKey: 'name',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="link"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Nome
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
     },
-    {
-      accessorKey: 'email',
-      header: ({ column }) => {
-        return (
-          <Button
-            variant="link"
-            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          >
-            Email
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
-        )
-      },
+  },
+  {
+    accessorKey: 'email',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="link"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Email
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
     },
-    {
-      accessorKey: 'document.text',
-      header: ({ column }) => {
-        return (
-          <Button
-            variant="link"
-            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          >
-            Documento
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
-        )
-      },
-      accessorFn: (original: Customers) => {
-        if (original.document?.type === 'CPF' && original.document.text) {
-          return cpf.format(original.document.text)
-        } else if (
-          original.document?.type === 'CNPJ' &&
-          original.document.text
-        ) {
-          return cnpj.format(original.document.text)
-        } else {
-          return original?.document?.text ?? ''
-        }
-      },
+  },
+  {
+    accessorKey: 'document.text',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="link"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Documento
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
     },
-    {
-      accessorKey: 'phone',
-      header: ({ column }) => {
-        return (
-          <Button
-            variant="link"
-            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-            className="text-primary"
-          >
-            Celular
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
-        )
-      },
+    accessorFn: (original: Customers) => {
+      if (original.document?.type === 'CPF' && original.document.text) {
+        return cpf.format(original.document.text)
+      } else if (original.document?.type === 'CNPJ' && original.document.text) {
+        return cnpj.format(original.document.text)
+      } else {
+        return original?.document?.text ?? ''
+      }
     },
-    {
-      id: 'actions',
-      cell: ({ row }) => {
-        const customer = row.original
-        return (
-          <Popover>
-            <PopoverTrigger>
-              <MoreVertical />
-            </PopoverTrigger>
-            <PopoverContent className="w-full space-y-4">
-              <div>
-                <AdditionalInformation
-                  customer={customer}
-                ></AdditionalInformation>
-              </div>
-              <div>
-                <CardDialog customer={customer}></CardDialog>
-              </div>
-            </PopoverContent>
-          </Popover>
-        )
-      },
+  },
+  {
+    accessorKey: 'phone',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="link"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          className="text-primary"
+        >
+          Celular
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
     },
-  ]
-
-  return columns
-}
+  },
+  {
+    id: 'actions',
+    cell: ({ row }) => {
+      const customer = row.original
+      return (
+        <Popover>
+          <PopoverTrigger>
+            <MoreVertical />
+          </PopoverTrigger>
+          <PopoverContent className="w-full space-y-4">
+            <div>
+              <AdditionalInformation
+                customer={customer}
+              ></AdditionalInformation>
+            </div>
+            <div>
+              <CardDialog customer={customer}></CardDialog>
+            </div>
+          </PopoverContent>
+        </Popover>
+      )
+    },
+  },
+]

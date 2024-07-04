@@ -9,6 +9,7 @@ import {
   GraphSignature,
   SignatureGrowthChart,
 } from '@/components/graph-signatures'
+import { CreateBank } from '@/components/create-bank'
 
 export default function Dashboard() {
   const [item, setItem] = useState<string>('customer')
@@ -19,11 +20,16 @@ export default function Dashboard() {
         <p className="text-gray-500">Seja bem-vindo ao seu dashboard!</p>
       </div>
       <hr />
-      <div className="lg:flex items-end p-4 bg-accent rounded-lg">
-        <Receber />
-        <Button variant={'link'}>
-          Clique aqui para saber mais sobre o valor que irá receber.
-        </Button>
+      <div className="lg:flex items-start p-4 bg-muted rounded-lg lg:space-x-4">
+        <div className="my-4 border-b-2 lg:px-4 lg:border-r-2 lg:py-0 lg:border-b-0">
+          <Receber />
+          <Button variant={'link'}>
+            Clique aqui para saber mais sobre o valor que irá receber.
+          </Button>
+        </div>
+        <div className="p-4">
+          <CreateBank></CreateBank>
+        </div>
       </div>
       <hr />
       <div className="border-2 p-2 rounded-lg">
@@ -42,7 +48,7 @@ export default function Dashboard() {
         <div key="customer" className="space-y-4">
           <GraphClient />
           <h1 className="italic font-bold">Clientes cadastrados por mês</h1>
-          <div className="w-full p-2 bg-accent rounded-lg">
+          <div className="w-full p-2 bg-muted rounded-lg">
             <ClientGrowthChart />
           </div>
         </div>
@@ -53,7 +59,7 @@ export default function Dashboard() {
           <GraphCharge />
           <h1 className="italic font-bold">Cobranças por mês</h1>{' '}
           {/* Corrigi o texto aqui */}
-          <div className="w-full p-2 bg-accent rounded-lg">
+          <div className="w-full p-2 bg-muted rounded-lg">
             <ChargeGrowthChart />
           </div>
         </div>
@@ -64,7 +70,7 @@ export default function Dashboard() {
           <GraphSignature />
           <h1 className="italic font-bold">Assinaturas por mês</h1>{' '}
           {/* Corrigi o texto aqui */}
-          <div className="w-full p-2 bg-accent rounded-lg">
+          <div className="w-full p-2 bg-muted rounded-lg">
             <SignatureGrowthChart />
           </div>
         </div>

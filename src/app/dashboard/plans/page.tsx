@@ -13,7 +13,6 @@ import { CreatePlanForm } from './components/create-plan-form'
 import { useSession } from 'next-auth/react'
 
 export default function ProductsComponent() {
-  const columns = PlansColumns()
   const [page, setPage] = useState<number>(1)
   const { status } = useSession()
 
@@ -40,7 +39,7 @@ export default function ProductsComponent() {
         </div>
         <TableComponent
           name="Planos"
-          columns={columns}
+          columns={PlansColumns}
           data={data.plans}
           page={page}
           setPage={setPage}

@@ -139,7 +139,9 @@ export default function DashboardLayout({ children }: Props) {
           <DropdownMenu onOpenChange={handleToggle}>
             <DropdownMenuTrigger asChild className="hover:cursor-pointer">
               <div className="flex items-center space-x-4 px-4 rounded-lg hover:bg-secondary">
-                <Label className="p-4">Olá {session.data?.user?.name}</Label>
+                <Label className="p-4 hover:cursor-pointer">
+                  Olá {session.data?.user?.name}
+                </Label>
                 {isOpen ? (
                   <ChevronUp className="h-6 w-6" />
                 ) : (

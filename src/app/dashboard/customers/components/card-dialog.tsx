@@ -59,7 +59,8 @@ export function CardDialog({ customer }: Props) {
           <DialogTitle>Cartões</DialogTitle>
         </DialogHeader>
         <div className="space-y-2">
-          {cards.data &&
+          {cards &&
+            cards.data &&
             cards.data.map((creditCard) => {
               return (
                 <div

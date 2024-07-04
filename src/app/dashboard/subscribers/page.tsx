@@ -12,7 +12,6 @@ import { useSession } from 'next-auth/react'
 import { useState } from 'react'
 
 export default function CustomersComponent() {
-  const columns = SubscribersColumns()
   const [page, setPage] = useState<number>(1)
   const { status } = useSession()
 
@@ -40,7 +39,7 @@ export default function CustomersComponent() {
         </div>
         <TableComponent
           name="Assinantes"
-          columns={columns}
+          columns={SubscribersColumns}
           data={subscribers}
           page={page}
           setPage={setPage}

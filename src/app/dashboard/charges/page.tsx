@@ -13,7 +13,6 @@ import { CreateChargeForm } from './components/create-charge-form'
 import { useSession } from 'next-auth/react'
 
 export default function ChargesComponent() {
-  const columns = ChargesColumns()
   const [page, setPage] = useState<number>(1)
   const { status } = useSession()
 
@@ -42,7 +41,7 @@ export default function ChargesComponent() {
         </div>
         <TableComponent
           name={'Cobranças'}
-          columns={columns}
+          columns={ChargesColumns}
           data={charges}
           page={page}
           setPage={setPage}
@@ -62,7 +61,7 @@ export default function ChargesComponent() {
       </div>
       <TableComponent
         name={'Cobranças'}
-        columns={columns}
+        columns={ChargesColumns}
         data={charges}
         page={page}
         setPage={setPage}

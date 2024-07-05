@@ -14,12 +14,12 @@ import { Loader2 } from 'lucide-react'
 const formSchema = z.object({
   email: z
     .string({
-      required_error: 'Please enter a valid email address',
+      required_error: 'Insira um email válido!',
     })
     .email(),
   password: z
     .string({
-      required_error: 'Password must be at least 8 characters',
+      required_error: 'A senha deve ter pelo menos 8 caracteres!',
     })
     .min(8),
 })

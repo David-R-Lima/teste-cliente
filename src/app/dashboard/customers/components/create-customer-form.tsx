@@ -25,28 +25,31 @@ import { toast } from 'sonner'
 const FormSchema = z.object({
   name: z
     .string({
-      required_error: 'Name is required',
+      required_error: 'Nome é obrigatório!',
+    })
+    .min(2, {
+      message: 'Nome é obrigatório!',
     })
     .max(100, {
-      message: 'Name must have at most 100 characters',
+      message: 'Nome não pode ter mais que 100 caracteres',
     }),
   email: z
     .string({
-      required_error: 'Email is required',
+      required_error: 'Email é obrigatório!',
     })
     .email({
-      message: 'Email is invalid',
+      message: 'Email é inválido!',
     })
     .max(100, {
-      message: 'Email must have at most 100 characters',
+      message: 'Email não pode ter mais que 100 caracteres!',
     }),
   phone: z
     .string()
     .min(13, {
-      message: 'Phone is invalid',
+      message: 'Telefone é inválido!',
     })
     .max(15, {
-      message: 'Phone is invalid',
+      message: 'Máximo de 15 caracteres!',
     })
     .refine(
       (value) => {
@@ -55,18 +58,18 @@ const FormSchema = z.object({
       },
       {
         message:
-          'Phone is invalid. It must have only numbers and at least 12 characters and at most 15 characters',
+          'Telefone é inválido! Deve ter pelo menos 12 caracteres e no máximo 15.',
       },
     )
     .optional(),
   is_active: z.boolean().optional().default(true),
   document: z.object({
     type: z.nativeEnum(DocumentType, {
-      required_error: 'Document type is required',
+      required_error: 'Tipo do documento é obrigatório! ',
     }),
     text: z
       .string({
-        required_error: 'Document text is required',
+        required_error: 'Documento é obrigatório!',
       })
       .refine(
         (value) => {
@@ -75,71 +78,74 @@ const FormSchema = z.object({
           return regex.test(value)
         },
         {
-          message: 'Document is invalid. It must have only numbers',
+          message: 'Número de documento inválido. Deve conter apenas números',
         },
       ),
     country: z.nativeEnum(Country, {
-      required_error: 'Country is required',
+      required_error: 'País é obrigatório',
     }),
   }),
   address: z
     .object({
       street: z
         .string({
-          required_error: 'Street is required',
+          required_error: 'Rua é obrigatória!',
         })
         .max(200, {
-          message: 'Street must have at most 100 characters',
+          message: 'Rua pode ter no máximo 100 caracteres',
         }),
       number: z
         .string({
-          required_error: 'Number is required',
+          required_error: 'Número é obrigatório!',
+        })
+        .min(1, {
+          message: 'Número é obrigatório!',
         })
         .max(10, {
-          message: 'Number must have at most 10 characters',
+          message: 'Número pode ter no máximo 10 caracteres!',
         }),
       complement: z
         .string()
         .max(50, {
-          message: 'Complement must have at most 50 characters',
+          message: 'Complemento pode ter no máximo 50 caracteres!',
         })
         .optional(),
       neighborhood: z
         .string({
-          required_error: 'Neighborhood is required',
+          required_error: 'Bairro é obrigatório!',
         })
         .max(50, {
-          message: 'Neighborhood must have at most 50 characters',
+          message: 'Bairro pode ter no máximo 50 caracteres!',
         }),
       zip_code: z
         .string({
-          required_error: 'Zip code is required',
+          required_error: 'Cep é obrigatório!',
         })
         .max(8, {
-          message: 'Zip code must have at most 8 characters',
+          message: 'Cep deve ter no máximo 8 caracteres!',
         })
         .refine(
           (value) => {
-            const regex = /^\d{8}$/
+            const regex = /^[\d-]+$/
 
             return regex.test(value)
           },
           {
-            message: 'Zip code is invalid. Must have only numbers',
+            message: 'Cep é inválido! Deve conter apenas números!',
           },
         ),
       state: z
         .string({
-          required_error: 'State is required',
+          required_error: 'Estado é obrigatório!',
         })
         .max(2, {
-          message: 'State must have at most 2 characters',
+          message: 'Estado pode ter no máximo 2 caracteres!',
         }),
       city: z.string().max(50, {
-        message: 'City must have at most 50 characters',
+        message: 'Cidade pode ter no máximo 50 caracteres!',
       }),
       country: z.enum(['BR'], {
-        required_error: 'Country is required',
+        required_error: 'País é obrigatório!',
       }),
     })
     .optional(),

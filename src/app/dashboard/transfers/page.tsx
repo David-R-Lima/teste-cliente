@@ -56,7 +56,6 @@ export default function Transfers() {
             </CardHeader>
             <CardContent>
               {data.bank_accounts.map((item) => {
-                console.log('item: ', item)
                 const bank = bankQuery?.data?.banks.find(
                   (bank: Bank) => bank.code === item.bank_code,
                 )

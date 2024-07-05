@@ -11,7 +11,6 @@ export const createBankAccount = async (schema: formSchemaCreateBank) => {
 
 export const getBankAccounts = async (ctx: QueryFunctionContext) => {
   const [, page] = ctx.queryKey
-  console.log('page: ', page)
 
   const { data } = await apiGateway.get<{ bank_accounts: BankAccount[] }>(
     '/bank-accounts' + `?page=${page ?? 1}`,

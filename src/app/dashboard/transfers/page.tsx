@@ -78,17 +78,20 @@ export default function Transfers() {
                 return (
                   <div key={item.id}>
                     <p>
-                      <strong>Agência:</strong> {item.bank_branch}
+                      <strong>Agência:</strong> {item?.bank_branch}
                     </p>
                     <p>
-                      <strong>Conta:</strong> {item.account_number}
+                      <strong>Conta:</strong> {item?.account_number}
+                    </p>
+                    <p>
+                      <strong>Dígito da conta:</strong> {item?.account_digit}
                     </p>
                     <p>
                       <strong>Banco:</strong> {bank?.corporate_name}
                     </p>
                     <p>
                       <strong>Tipo da conta:</strong>{' '}
-                      {getAccountType(item.account_bank_type)}
+                      {getAccountType(item?.account_bank_type)}
                     </p>
                   </div>
                 )

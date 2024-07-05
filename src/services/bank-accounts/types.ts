@@ -57,6 +57,7 @@ export interface BankAccount {
   bank_branch: string
   account_number: string
   bank_code: number
+  account_digit: number
   account_bank_type: AccountBankType
   merchant_id: string
   created_at: Date

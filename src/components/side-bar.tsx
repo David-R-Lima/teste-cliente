@@ -1,5 +1,13 @@
 'use client'
-import { Home, Package, Users, Webhook, DollarSign, List } from 'lucide-react'
+import {
+  Home,
+  Package,
+  Users,
+  Webhook,
+  DollarSign,
+  List,
+  HandCoins,
+} from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
@@ -35,6 +43,11 @@ export function SideBar({ open }: Props) {
       href: '/dashboard/plans',
       label: 'Planos',
       icon: <Package className="h-6 w-6 sidebar-icon shrink-0" />,
+    },
+    {
+      href: '/dashboard/transfers',
+      label: 'Transferências',
+      icon: <HandCoins className="h-6 w-6 sidebar-icon shrink-0" />,
     },
     {
       href: '/dashboard/webhooks',

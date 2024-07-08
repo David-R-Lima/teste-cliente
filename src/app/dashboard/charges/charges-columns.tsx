@@ -11,31 +11,37 @@ import {
 import { ChargeStatus, Charges } from '@/services/charges/types'
 import { AdditionalInformation } from './components/additional-information'
 import { RefundChargeAlert } from './components/refund-charge'
+import dayjs from 'dayjs'
 
 export const ChargesColumns: ColumnDef<Charges>[] = [
   {
-    accessorKey: 'id',
+    accessorKey: 'created_at',
     header: ({ column }) => {
       return (
         <Button
           variant="link"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          Id da cobrança
+          Data da cobrança
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       )
     },
+    accessorFn: (row: Charges) => {
+      if (row.created_at) {
+        return dayjs(row.created_at).format('DD-MM-YY HH:mm')
+      }
+    },
   },
   {
-    accessorKey: 'currency',
+    accessorKey: 'customer',
     header: ({ column }) => {
       return (
         <Button
           variant="link"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          Moeda
+          Nome cliente
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       )

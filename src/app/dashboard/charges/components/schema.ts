@@ -11,35 +11,35 @@ export const ChargeFormSchema = z.object({
 
   value: z.coerce
     .number({
-      required_error: 'Value is required',
+      required_error: 'Valor é obrigatório!',
     })
     .min(1, {
-      message: 'Value must have at least 1 character',
+      message: 'Deve conter pelo meno 1 número',
     }),
   currency: z
     .nativeEnum(Currency, {
-      required_error: 'Currency is required',
+      required_error: 'Moeda é obrigatória!',
     })
     .default(Currency.BRL),
 
   invoice_description: z
     .string({
-      required_error: "Invoice description 'invoice_description'  is required",
+      required_error: 'Informe a descrição da cobrança!',
     })
     .max(20, {
-      message: 'Invoice description must have at most 20 characters',
+      message: 'Descrição deve ter no máximo 20 caracteres!',
     }),
 
   capture: z.boolean({
-    required_error: 'Capture is required',
+    required_error: 'Campo obrigatório!',
   }),
 
   description: z.string().max(50, {
-    message: 'Description must have at most 50 characters',
+    message: 'Descrição deve ter no máximo 50 caracteres!',
   }),
 
   payment_type: z.nativeEnum(PaymentType, {
-    required_error: 'Payment type is required',
+    required_error: 'Informe o método de pagamento',
   }),
 
   pix_payment_method: z
@@ -57,12 +57,12 @@ export const ChargeFormSchema = z.object({
         .array(
           z.object({
             description: z.string({
-              required_error: 'Item description is required',
+              required_error: 'Informe a descrição do item!',
             }),
 
             unity_value: z.coerce
               .number({
-                required_error: 'Unity value is required',
+                required_error: 'Informe o valor unitário!',
               })
               .refine(
                 (value) => {
@@ -70,13 +70,13 @@ export const ChargeFormSchema = z.object({
                   return regex.test(value.toString())
                 },
                 {
-                  message: 'Only number is accepted',
+                  message: 'Somente números!',
                 },
               ),
 
             quantity: z.coerce
               .number({
-                required_error: 'Quantity is required',
+                required_error: 'Informe a quantidade!',
               })
               .refine(
                 (value) => {
@@ -84,7 +84,7 @@ export const ChargeFormSchema = z.object({
                   return regex.test(value.toString())
                 },
                 {
-                  message: 'Only number is accepted',
+                  message: 'Apenas números são aceitos!',
                 },
               ),
           }),
@@ -101,7 +101,7 @@ export const ChargeFormSchema = z.object({
 
       installments: z.coerce
         .number({
-          required_error: 'Installments is required',
+          required_error: 'Informe as parcelas!',
         })
         .refine(
           (value) => {
@@ -109,7 +109,7 @@ export const ChargeFormSchema = z.object({
             return regex.test(value.toString())
           },
           {
-            message: 'Only number is accepted',
+            message: 'Apenas números são aceitos!',
           },
         ),
 
@@ -164,20 +164,20 @@ export const ChargeFormSchema = z.object({
     .object({
       name: z
         .string({
-          required_error: 'Payer name is required',
+          required_error: 'Informe o nome do pagador!',
         })
         .max(50, {
-          message: 'Payer name must have at most 50 characters',
+          message: 'Pode conter no máximo 50 caracteres!',
         }),
 
       document: z.object({
         type: z.nativeEnum(DocumentType, {
-          required_error: 'Document type is required',
+          required_error: 'Tipo de documento é obrigatório',
         }),
 
         text: z
           .string({
-            required_error: 'Document text is required',
+            required_error: 'Informe o número do documento',
           })
           .refine(
             (value) => {
@@ -186,13 +186,13 @@ export const ChargeFormSchema = z.object({
               return regex.test(value)
             },
             {
-              message: 'Document is invalid. It must have only numbers',
+              message: 'Documento inválido. Deve conter apenas números!',
             },
           ),
 
         country: z
           .nativeEnum(Country, {
-            required_error: 'Country is required',
+            required_error: 'Informe o país',
           })
           .default(Country.BR)
           .optional(),
@@ -200,14 +200,14 @@ export const ChargeFormSchema = z.object({
 
       email: z
         .string({
-          required_error: 'Payer email is required',
+          required_error: 'Informe o email do pagador!',
         })
         .email({
-          message: 'Payer email is invalid',
+          message: 'Email inválido!',
         }),
 
       phone: z.string().max(15, {
-        message: 'Payer phone is invalid',
+        message: 'Número de telefone inválido!',
       }),
 
       address: z
@@ -215,37 +215,37 @@ export const ChargeFormSchema = z.object({
           street: z
             .string()
             .max(200, {
-              message: 'Description must have at most 200 characters',
+              message: 'Descrição pode ter no máximo 200 caracteres!',
             })
             .optional(),
 
           number: z
             .string()
             .max(10, {
-              message: 'Number must have at most 10 characters',
+              message: 'Máximo de 10 caracteres!',
             })
             .optional(),
 
           complement: z
             .string()
             .max(50, {
-              message: 'Complement must have at most 50 characters',
+              message: 'Máximo de 50 caracteres!',
             })
             .optional(),
 
           neighborhood: z
             .string()
             .max(50, {
-              message: 'Neighborhood must have at most 50 characters',
+              message: 'Máximo de 50 caracteres!',
             })
             .optional(),
 
           zip_code: z
             .string({
-              required_error: 'Zip code is required',
+              required_error: 'Cep obrigatório',
             })
             .max(8, {
-              message: 'Zip code must have at most 8 characters',
+              message: 'Máximo de 8 caracteres!',
             })
             .refine(
               (value) => {
@@ -254,14 +254,14 @@ export const ChargeFormSchema = z.object({
                 return regex.test(value)
               },
               {
-                message: 'Zip code is invalid. Must have only numbers',
+                message: 'cep inválido. Deve conter apenas números',
               },
             ),
 
           state: z
             .string()
             .max(2, {
-              message: 'State must have at most 8 characters',
+              message: 'Máximo de 2 caracteres.',
             })
             .refine(
               (value) => {
@@ -270,8 +270,7 @@ export const ChargeFormSchema = z.object({
                 return regex.test(value)
               },
               {
-                message:
-                  'State must be in uppercase and have only 2 characters. E.g: SP',
+                message: 'Informe o estado com 2 caracteres maiúsculos.',
               },
             )
             .optional(),
@@ -279,13 +278,13 @@ export const ChargeFormSchema = z.object({
           city: z
             .string()
             .max(50, {
-              message: 'Number must have at most 50 characters',
+              message: 'Máximo de 50 caracteres!',
             })
             .optional(),
 
           country: z
             .nativeEnum(Country, {
-              invalid_type_error: 'Invalid country',
+              invalid_type_error: 'País inválido.',
             })
             .default(Country.BR)
             .optional(),
@@ -299,7 +298,7 @@ export const ChargeFormSchema = z.object({
               },
               {
                 message:
-                  'City code is invalid. Must have only numbers and 7 characters. E.g: 2706703',
+                  'Código de cidade inválido. Máximo de 7 caracteres. E.g: 2706703',
               },
             )
             .optional(),

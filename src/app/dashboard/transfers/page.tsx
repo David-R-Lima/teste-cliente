@@ -96,6 +96,9 @@ export default function Transfers() {
                   </div>
                 )
               })}
+              {data.bank_accounts.length === 0 && (
+                <div>Nenhum banco cadastrado!</div>
+              )}
             </CardContent>
           </Card>
         </div>

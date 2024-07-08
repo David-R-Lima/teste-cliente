@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { ClientGrowthChart, GraphClient } from '@/components/graficos'
+import { ClientGrowthChart, GraphClient } from '@/components/graph-customer'
 import { Button } from '@/components/ui/button'
 import { Receber } from './receber'
 import { ChargeGrowthChart, GraphCharge } from '@/components/grapf-charge'
@@ -48,8 +48,10 @@ export default function Dashboard() {
         <div key="customer" className="space-y-4">
           <GraphClient />
           <h1 className="italic font-bold">Clientes cadastrados por mês</h1>
-          <div className="w-full p-2 bg-muted rounded-lg">
-            <ClientGrowthChart />
+          <div className="px-[8rem] py-10">
+            <div className="w-full p-4 bg-muted rounded-lg">
+              <ClientGrowthChart />
+            </div>
           </div>
         </div>
       )}

@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { LineChart } from '@mui/x-charts'
+// import { LineChart } from '@mui/x-charts'
 import { useEffect, useState } from 'react'
 
 export function GraphCharge() {
@@ -24,21 +24,22 @@ export function ChargeGrowthChart() {
     }, 100)
   }, [])
   return (
-    <LineChart
-      xAxis={[
-        {
-          id: 'ChargeGrowthChart',
-          data: ['Janeiro', 'Fevereiro', 'Março'],
-          scaleType: 'band',
-        },
-      ]}
-      series={[
-        {
-          data,
-          color: '#000000',
-        },
-      ]}
-      height={300}
-    />
+    // <LineChart
+    //   xAxis={[
+    //     {
+    //       id: 'ChargeGrowthChart',
+    //       data: ['Janeiro', 'Fevereiro', 'Março'],
+    //       scaleType: 'band',
+    //     },
+    //   ]}
+    //   series={[
+    //     {
+    //       data,
+    //       color: '#000000',
+    //     },
+    //   ]}
+    //   height={300}
+    // />
+    <div></div>
   )
 }

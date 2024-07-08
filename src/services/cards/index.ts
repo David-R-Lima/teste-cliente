@@ -26,13 +26,11 @@ export async function deleteCard({ cardId }: DeleteCardRequest) {
 }
 
 export async function createCard(formData: formSchema) {
-  console.log('formData: ', formData)
   const { data } = await apiGateway.post<{ creditCard: Card }>(
     `/customers/${formData.customer_id}/cards`,
     {
       card_token: formData.token,
     },
   )
-  console.log(data)
   return data.creditCard
 }

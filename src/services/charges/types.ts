@@ -73,6 +73,7 @@ export interface Charges {
   boleto_id?: string
   payment_type: string
   nsu: string
+  customer?: string
   customer_id?: string
   recurrence_id?: string
   payer: {

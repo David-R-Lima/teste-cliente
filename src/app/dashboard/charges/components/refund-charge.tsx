@@ -72,7 +72,7 @@ export function RefundChargeAlert({ chargeId }: Props) {
   }
   return (
     <AlertDialog>
-      <AlertDialogTrigger className="flex items-center space-x-4">
+      <AlertDialogTrigger className="flex items-center space-x-2">
         <Trash className="hover:text-red-500 hover:cursor-pointer" />
         <p>Estornar</p>
       </AlertDialogTrigger>

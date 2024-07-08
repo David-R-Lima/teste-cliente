@@ -28,19 +28,19 @@ export function CreateCard({ customerId }: Props) {
   const dialogRef = useRef<HTMLDivElement>(null)
 
   const [cardToTokenize, setCardToTokenize] = useState<{
-    card_holder: string
-    card_number: string
-    card_cvv: string
-    card_expiration_month: string
-    card_expiration_year: string
-    cpf: string
+    card_holder: string | null
+    card_number: string | null
+    card_cvv: string | null
+    card_expiration_month: string | null
+    card_expiration_year: string | null
+    cpf: string | null
   }>({
-    card_holder: '',
-    card_number: '',
-    card_cvv: '',
-    card_expiration_month: '',
-    card_expiration_year: '',
-    cpf: '',
+    card_holder: null,
+    card_number: null,
+    card_cvv: null,
+    card_expiration_month: null,
+    card_expiration_year: null,
+    cpf: null,
   })
 
   const { setValue, getValues } = useForm<formSchema>({
@@ -49,29 +49,40 @@ export function CreateCard({ customerId }: Props) {
 
   const tokenize = async () => {
     if (session.data?.user.pub_key) {
-      BttisCreditCard.setPubKey(session.data.user.pub_key).setCreditCard({
-        number: cardToTokenize.card_number,
-        cvc: cardToTokenize.card_cvv,
-        expirationMonth: cardToTokenize.card_expiration_month,
-        expirationYear: cardToTokenize.card_expiration_year,
-        cardHolder: cardToTokenize.card_holder,
-        cpf: cardToTokenize.cpf,
-      })
+      if (
+        cardToTokenize.card_holder &&
+        cardToTokenize.cpf &&
+        cardToTokenize.card_number &&
+        cardToTokenize.card_cvv &&
+        cardToTokenize.card_expiration_month &&
+        cardToTokenize.card_expiration_year
+      ) {
+        BttisCreditCard.setPubKey(session.data.user.pub_key).setCreditCard({
+          number: cardToTokenize.card_number,
+          cvc: cardToTokenize.card_cvv,
+          expirationMonth: cardToTokenize.card_expiration_month,
+          expirationYear: cardToTokenize.card_expiration_year,
+          cardHolder: cardToTokenize.card_holder,
+          cpf: cardToTokenize.cpf,
+        })
 
-      const card = await BttisCreditCard.hash()
+        const card = await BttisCreditCard.hash()
 
-      if (card && card.error) {
-        toast.error(card.value)
+        if (card && card.error) {
+          toast.error(card.value)
+          setLoading(false)
+          return
+        }
+
+        setValue('token', card.value)
+
+        handleSumbitMutation({
+          customer_id: customerId,
+          token: getValues().token,
+        })
+      } else {
         setLoading(false)
-        return
       }
-
-      setValue('token', card.value)
-
-      handleSumbitMutation({
-        customer_id: customerId,
-        token: getValues().token,
-      })
     } else {
       toast.error('Error ao criar cartão')
       setLoading(false)
@@ -130,82 +141,90 @@ export function CreateCard({ customerId }: Props) {
         </Button>
       </DialogTrigger>
       <DialogContent ref={dialogRef}>
-        <div className="space-y-4 p-2">
-          <Input
-            placeholder="Card Holder"
-            onChange={(e) => {
-              setCardToTokenize({
-                ...cardToTokenize,
-                card_holder: e.currentTarget.value,
-              })
-            }}
-          ></Input>
-          <Input
-            placeholder="CPF"
-            onChange={(e) => {
-              setCardToTokenize({
-                ...cardToTokenize,
-                cpf: e.currentTarget.value,
-              })
-            }}
-          ></Input>
-          <Input
-            placeholder="Number"
-            onChange={(e) => {
-              setCardToTokenize({
-                ...cardToTokenize,
-                card_number: e.currentTarget.value,
-              })
-            }}
-          ></Input>
-          <Input
-            placeholder="CVV"
-            onChange={(e) => {
-              setCardToTokenize({
-                ...cardToTokenize,
-                card_cvv: e.currentTarget.value,
-              })
-            }}
-          ></Input>
-          <div className="flex items-center justify-between w-full">
-            <div>
-              <Label>Expiration month</Label>
-              <Input
-                placeholder="12"
-                className="max-w-[50px]"
-                onChange={(e) => {
-                  setCardToTokenize({
-                    ...cardToTokenize,
-                    card_expiration_month: e.currentTarget.value,
-                  })
-                }}
-              ></Input>
+        <form>
+          <div className="space-y-4 p-2">
+            <Input
+              placeholder="Nome no cartão"
+              onChange={(e) => {
+                setCardToTokenize({
+                  ...cardToTokenize,
+                  card_holder: e.currentTarget.value,
+                })
+              }}
+              required={true}
+            ></Input>
+            <Input
+              placeholder="CPF"
+              onChange={(e) => {
+                setCardToTokenize({
+                  ...cardToTokenize,
+                  cpf: e.currentTarget.value,
+                })
+              }}
+              required={true}
+            ></Input>
+            <Input
+              placeholder="Número"
+              onChange={(e) => {
+                setCardToTokenize({
+                  ...cardToTokenize,
+                  card_number: e.currentTarget.value,
+                })
+              }}
+              required={true}
+            ></Input>
+            <Input
+              placeholder="CVV"
+              onChange={(e) => {
+                setCardToTokenize({
+                  ...cardToTokenize,
+                  card_cvv: e.currentTarget.value,
+                })
+              }}
+              required={true}
+            ></Input>
+            <div className="flex items-center justify-between w-full">
+              <div>
+                <Label>Mês de expiração</Label>
+                <Input
+                  placeholder="12"
+                  className="max-w-[50px]"
+                  onChange={(e) => {
+                    setCardToTokenize({
+                      ...cardToTokenize,
+                      card_expiration_month: e.currentTarget.value,
+                    })
+                  }}
+                  required
+                ></Input>
+              </div>
+              <div>
+                <Label>Ano de expiração</Label>
+                <Input
+                  placeholder="30"
+                  className="max-w-[150px]"
+                  maxLength={2}
+                  onChange={(e) => {
+                    setCardToTokenize({
+                      ...cardToTokenize,
+                      card_expiration_year: e.currentTarget.value,
+                    })
+                  }}
+                  required={true}
+                ></Input>
+              </div>
             </div>
-            <div>
-              <Label>Expiration year</Label>
-              <Input
-                placeholder="30"
-                className="max-w-[150px]"
-                maxLength={2}
-                onChange={(e) => {
-                  setCardToTokenize({
-                    ...cardToTokenize,
-                    card_expiration_year: e.currentTarget.value,
-                  })
-                }}
-              ></Input>
-            </div>
+            <Button
+              className="w-full"
+              onClick={() => {
+                setLoading(true)
+                tokenize()
+              }}
+            >
+              {loading ? <Loader2 className="animate-spin"></Loader2> : 'Criar'}
+            </Button>
           </div>
-          <Button
-            className="w-full"
-            onClick={() => {
-              setLoading(true)
-              tokenize()
-            }}
-          >
-            {loading ? <Loader2 className="animate-spin"></Loader2> : 'Criar'}
-          </Button>
-        </div>
+        </form>
       </DialogContent>
     </Dialog>
   )

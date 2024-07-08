@@ -32,6 +32,5 @@ export async function createCard(formData: formSchema) {
       card_token: formData.token,
     },
   )
-
   return data.creditCard
 }

@@ -8,19 +8,13 @@ import {
 import { getBankAccounts } from '@/services/bank-accounts'
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
-import { BankAccountColumns } from './bank-accounts/bank-account.columns'
 import { CreateBank } from '@/components/create-bank'
 import { useBanks } from '@/hooks/useBanks'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Bank } from '@/services/banks/types'
 import { AccountBankType } from '@/services/bank-accounts/types'
+import { GetAllTransfers } from '@/services/transfer'
+import { TransferColumns } from './transfers/transfer-columns'
 
 export default function Transfers() {
   const [page, setPage] = useState(1)
@@ -31,13 +25,20 @@ export default function Transfers() {
     enabled: true,
   })
 
+  const transfers = useQuery({
+    queryKey: ['transfers', page],
+    queryFn: GetAllTransfers,
+    enabled: true,
+  })
+
   const bankQuery = useBanks()
 
-  if (isLoading || bankQuery.isLoading) return <TableComponentSkeleton />
+  if (isLoading || bankQuery.isLoading || transfers.isLoading)
+    return <TableComponentSkeleton />
 
-  if (isError) return <TableComponentError />
+  if (isError || transfers.isError) return <TableComponentError />
 
-  if (data?.bank_accounts) {
+  if (data?.bank_accounts && transfers.data) {
     return (
       <div className="flex flex-col space-y-6">
         <div className="flex space-x-4">
@@ -56,7 +57,6 @@ export default function Transfers() {
             </CardHeader>
             <CardContent>
               {data.bank_accounts.map((item) => {
-                console.log('item: ', item)
                 const bank = bankQuery?.data?.banks.find(
                   (bank: Bank) => bank.code === item.bank_code,
                 )
@@ -101,8 +101,8 @@ export default function Transfers() {
         </div>
         <TableComponent
           name="Transferências realizadas"
-          columns={BankAccountColumns}
-          data={[]}
+          columns={TransferColumns}
+          data={transfers.data.transfers}
           page={page}
           setPage={setPage}
         ></TableComponent>

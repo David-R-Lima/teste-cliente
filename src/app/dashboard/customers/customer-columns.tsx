@@ -15,20 +15,6 @@ import { CardDialog } from './components/card-dialog'
 
 export const CustomersColumns: ColumnDef<Customers>[] = [
   {
-    accessorKey: 'id',
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="link"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          Id do cliente
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      )
-    },
-  },
-  {
     accessorKey: 'name',
     header: ({ column }) => {
       return (

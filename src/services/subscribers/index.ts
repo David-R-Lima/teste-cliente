@@ -1,7 +1,6 @@
 import { QueryFunctionContext } from '@tanstack/react-query'
 import { apiGateway } from '../apiGateway'
 import { Subscriber } from './types'
-import { formSchema } from '@/app/dashboard/customers/components/create-card'
 
 export const getSubscriptions = async (ctx: QueryFunctionContext) => {
   const [, page] = ctx.queryKey

@@ -26,7 +26,11 @@ export function CreateAccessToken() {
   })
 
   return (
-    <Dialog>
+    <Dialog
+      onOpenChange={() => {
+        setToken(null)
+      }}
+    >
       <DialogTrigger asChild>
         <Button className="w-[200px]">Criar token</Button>
       </DialogTrigger>

@@ -55,6 +55,7 @@ export enum ChargeStatus {
   CHARGED_BACK = 'COBRAR_VOLTA',
   IN_DISPUTE = 'EM_DISPUTA',
   IN_ANALYSIS = 'EM_ANALISE',
+  CONFIRMED = 'CONFIRMADO',
 }
 
 export interface Charges {

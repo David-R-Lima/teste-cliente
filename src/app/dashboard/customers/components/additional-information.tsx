@@ -26,6 +26,7 @@ export function AdditionalInformation({ customer }: Props) {
         </DialogHeader>
         <div className="space-y-2">
           <div className="space-y-2">
+            <p>id: {customer.id}</p>
             <p>Nome: {customer.name}</p>
             <p>Email: {customer.email}</p>
             <p>Cpf: {customer.document?.text}</p>

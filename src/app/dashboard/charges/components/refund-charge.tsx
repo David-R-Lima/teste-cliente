@@ -15,9 +15,7 @@ import { Trash } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
-import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import error from 'next/error'
 
 interface Props {
   chargeId: string
@@ -62,6 +60,7 @@ export function RefundChargeAlert({ chargeId }: Props) {
       queryClient.invalidateQueries({
         queryKey: ['charges'],
       })
+      toast.success('Estorno realizado com sucesso.')
     },
     onError: () => {
       toast.error('Error ao realizar o estorno.')

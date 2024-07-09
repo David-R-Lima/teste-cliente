@@ -13,7 +13,20 @@ interface Props {
   charge: Charges
 }
 
+function formatChargeValue(charge: Charges) {
+  if (charge.value) {
+    const value = charge.value / 100
+    return value.toLocaleString('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+    })
+  } else {
+    return ''
+  }
+}
+
 export function AdditionalInformation({ charge }: Props) {
+  const formattedValue = formatChargeValue(charge)
   return (
     <Dialog>
       <DialogTrigger className="flex items-center space-x-2">
@@ -40,7 +53,7 @@ export function AdditionalInformation({ charge }: Props) {
               <strong>Moeda:</strong> {charge.currency}
             </p>
             <p>
-              <strong>Valor:</strong> {charge.value}
+              <strong>Valor:</strong> {formattedValue}
             </p>
             <p>
               <strong>Tipo da cobrança:</strong> {charge.charge_type}

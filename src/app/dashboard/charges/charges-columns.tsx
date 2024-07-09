@@ -128,11 +128,12 @@ export const ChargesColumns: ColumnDef<Charges>[] = [
               <AdditionalInformation charge={charge}></AdditionalInformation>
             </div>
             {/** TODO: ver os status certin */}
-            {charge.situation === ChargeStatus.PAID && (
-              <div>
-                <RefundChargeAlert chargeId={charge.id}></RefundChargeAlert>
-              </div>
-            )}
+            {charge.situation === ChargeStatus.PAID &&
+              charge.payment_type === 'CARTAO_CREDITO' && (
+                <div>
+                  <RefundChargeAlert chargeId={charge.id}></RefundChargeAlert>
+                </div>
+              )}
           </PopoverContent>
         </Popover>
       )

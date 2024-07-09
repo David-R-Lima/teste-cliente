@@ -84,7 +84,11 @@ export function RefundChargeAlert({ chargeId }: Props) {
             <AlertDialogTitle>
               Você tem certeza que deseja estornar esta cobrança?
             </AlertDialogTitle>
-            <Textarea {...register('reason')} maxLength={255} />
+            <Textarea
+              placeholder="Motivo do estorno..."
+              {...register('reason')}
+              maxLength={255}
+            />
             {errors.reason && (
               <p className="text-red-500">{errors.reason.message}</p>
             )}

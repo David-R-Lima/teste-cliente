@@ -199,7 +199,7 @@ export default function Layout({
         <div className="absolute top-2 left-2 flex lg:hidden">
           <MobileDocumentationSidebar></MobileDocumentationSidebar>
         </div>
-        <div className="lg:ml-[20rem] xl:ml-[24rem] p-10 w-[80vw]">
+        <div className="mt-20 lg:mt-0 lg:ml-[20rem] xl:ml-[24rem] lg:p-10 lg:w-[80vw]">
           {children}
         </div>
       </div>

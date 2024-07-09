@@ -2,13 +2,14 @@ import { Body } from '../../components/body'
 import { Header } from '../../components/header'
 import { Post } from '../../components/http-methods'
 import { Response } from '../../components/response'
+import { PageFormat } from '../../pageformat'
 import { BodyProps, ResponseProps } from '../../type'
 
 const data: BodyProps[] = [
   {
     name: 'name',
     type: 'string',
-    description: 'Nome do cliente',
+    description: 'Nome do cliente.',
     required: true,
   },
   {
@@ -243,28 +244,14 @@ const responseProps: ResponseProps[] = [
 
 export default function CreateCustomer() {
   return (
-    <div className="space-y-4 min-w-[50vw]">
-      <h1 className="text-2xl">Criar cliente</h1>
-
-      <div className="flex space-x-2 items-center">
-        <h1>
-          <Post></Post>
-        </h1>
-        <p className="truncate text-bold max-w-[80vw]">
-          {process.env.NEXT_PUBLIC_PAYMENT_API_URL}/customers
-        </p>
-      </div>
-
-      <div>
-        <h1>
-          Utilize este endpoint para criar um cliente, você vai precisar de um
-          cliente cadastrado para criar cartões e assinaturas
-        </h1>
-      </div>
-      <hr />
-      <Header></Header>
-      <Body properties={data}></Body>
-      <Response data={responseProps}></Response>
-    </div>
+    <PageFormat
+      title="Criar cliente"
+      description="Utilize este endpoint para criar um cliente, você vai precisar de um cliente cadastrado para criar cartões e assinaturas"
+      url={`${process.env.NEXT_PUBLIC_PAYMENT_API_URL}/customers`}
+      httpMethod={<Post></Post>}
+      header={<Header></Header>}
+      bodyParams={<Body properties={data}></Body>}
+      response={<Response data={responseProps}></Response>}
+    ></PageFormat>
   )
 }

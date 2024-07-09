@@ -4,6 +4,7 @@ import { Label } from './ui/label'
 import { Clipboard } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import { CreateAccessToken } from './create-access-token'
+import { toast } from 'sonner'
 export function ApiKeys() {
   const session = useSession()
   return (
@@ -51,7 +52,13 @@ export function ApiKeys() {
               <p className="p-2 border rounded-lg font-bold w-[30%] truncate">
                 {session.data?.user.id}
               </p>
-              <Clipboard className="hover:cursor-pointer" />
+              <Clipboard
+                className="hover:cursor-pointer"
+                onClick={() => {
+                  navigator.clipboard.writeText(session.data?.user.id ?? '')
+                  toast.success('Id copiado com sucesso')
+                }}
+              />
             </div>
           </div>
           <div className="grid grid-cols-[8rem,2fr]">

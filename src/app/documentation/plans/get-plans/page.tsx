@@ -2,6 +2,7 @@ import { Header } from '../../components/header'
 import { Get } from '../../components/http-methods'
 import { QueryParams } from '../../components/query-params'
 import { Response } from '../../components/response'
+import { PageFormat } from '../../pageformat'
 import { BodyProps, ResponseProps } from '../../type'
 
 const data: BodyProps[] = [
@@ -13,6 +14,7 @@ const data: BodyProps[] = [
   },
 ]
 
+// TODO: não ta aceitando paginação
 const responseProps: ResponseProps[] = [
   {
     code: 200,
@@ -130,25 +132,14 @@ const responseProps: ResponseProps[] = [
 
 export default function GetPlans() {
   return (
-    <div className="space-y-4 min-w-[50vw]">
-      <h1 className="text-2xl">Buscar planos</h1>
-
-      <div className="flex space-x-2 items-center">
-        <h1>
-          <Get></Get>
-        </h1>
-        <p className="truncate text-bold max-w-[80vw]">
-          {process.env.NEXT_PUBLIC_PAYMENT_API_URL}/plans
-        </p>
-      </div>
-
-      <div>
-        <h1>Utilize este endpoint para buscar seus planos</h1>
-      </div>
-      <hr />
-      <Header></Header>
-      <QueryParams properties={data}></QueryParams>
-      <Response data={responseProps}></Response>
-    </div>
+    <PageFormat
+      title="Buscar planos"
+      description="Utilize este endpoint para buscar seus planos"
+      url={`${process.env.NEXT_PUBLIC_PAYMENT_API_URL}/plans`}
+      httpMethod={<Get></Get>}
+      header={<Header></Header>}
+      queryParams={<QueryParams properties={data}></QueryParams>}
+      response={<Response data={responseProps}></Response>}
+    ></PageFormat>
   )
 }

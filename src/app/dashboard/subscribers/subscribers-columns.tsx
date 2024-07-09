@@ -21,6 +21,7 @@ export const SubscribersColumns: ColumnDef<Subscriber>[] = [
         <Button
           variant="link"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          className="italic font-bold"
         >
           Id da assinatura
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -35,6 +36,7 @@ export const SubscribersColumns: ColumnDef<Subscriber>[] = [
         <Button
           variant="link"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          className="italic font-bold"
         >
           Primeira cobrança
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -54,6 +56,7 @@ export const SubscribersColumns: ColumnDef<Subscriber>[] = [
         <Button
           variant="link"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          className="italic font-bold"
         >
           Próxima cobrança
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -73,7 +76,7 @@ export const SubscribersColumns: ColumnDef<Subscriber>[] = [
         <Button
           variant="link"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          className="text-primary"
+          className="italic font-bold"
         >
           Ativo
           <ArrowUpDown className="ml-2 h-4 w-4" />

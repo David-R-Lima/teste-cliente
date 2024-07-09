@@ -13,6 +13,7 @@ export const PlansColumns: ColumnDef<Plans>[] = [
         <Button
           variant="link"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          className="italic font-bold"
         >
           Id do plano
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -27,6 +28,7 @@ export const PlansColumns: ColumnDef<Plans>[] = [
         <Button
           variant="link"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          className="italic font-bold"
         >
           Nome
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -41,6 +43,7 @@ export const PlansColumns: ColumnDef<Plans>[] = [
         <Button
           variant="link"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          className="italic font-bold"
         >
           Valor
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -62,6 +65,7 @@ export const PlansColumns: ColumnDef<Plans>[] = [
         <Button
           variant="link"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          className="italic font-bold"
         >
           Descrição
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -76,7 +80,7 @@ export const PlansColumns: ColumnDef<Plans>[] = [
         <Button
           variant="link"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          className="text-primary"
+          className="italic font-bold"
         >
           Tipo do período
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -91,7 +95,7 @@ export const PlansColumns: ColumnDef<Plans>[] = [
         <Button
           variant="link"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          className="text-primary"
+          className="italic font-bold"
         >
           Dias de teste
           <ArrowUpDown className="ml-2 h-4 w-4" />

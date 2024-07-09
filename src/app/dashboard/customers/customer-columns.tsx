@@ -21,6 +21,7 @@ export const CustomersColumns: ColumnDef<Customers>[] = [
         <Button
           variant="link"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          className="italic font-bold"
         >
           Nome
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -35,6 +36,7 @@ export const CustomersColumns: ColumnDef<Customers>[] = [
         <Button
           variant="link"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          className="italic font-bold"
         >
           Email
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -49,6 +51,7 @@ export const CustomersColumns: ColumnDef<Customers>[] = [
         <Button
           variant="link"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          className="italic font-bold"
         >
           Documento
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -72,7 +75,7 @@ export const CustomersColumns: ColumnDef<Customers>[] = [
         <Button
           variant="link"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          className="text-primary"
+          className="italic font-bold"
         >
           Celular
           <ArrowUpDown className="ml-2 h-4 w-4" />

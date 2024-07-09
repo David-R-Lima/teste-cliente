@@ -835,7 +835,7 @@ export function CreateChargeForm() {
               {watch('payment_type') === PaymentType.BOLETO && (
                 <div className="space-y-2">
                   <Input
-                    type="datetime-local"
+                    type="date"
                     placeholder="Data de expiração"
                     {...registerWithMask(
                       'boleto_payment_method.expiration_date',
@@ -848,7 +848,7 @@ export function CreateChargeForm() {
                     </span>
                   )}
                   <Input
-                    placeholder="Instruções?"
+                    placeholder="Instruções *"
                     {...register('boleto_payment_method.instructions')}
                   ></Input>
                   {errors.boleto_payment_method?.instructions && (
@@ -859,34 +859,8 @@ export function CreateChargeForm() {
                   <Input
                     type="number"
                     min={0}
-                    placeholder="Dias de expiração para fee?"
-                    {...register(
-                      'boleto_payment_method.expiration_days_for_fees',
-                    )}
-                  ></Input>
-                  {errors.boleto_payment_method?.expiration_days_for_fees && (
-                    <span className="text-xs text-red-500">
-                      {
-                        errors.boleto_payment_method.expiration_days_for_fees
-                          .message
-                      }
-                    </span>
-                  )}
-                  <Input
-                    type="number"
-                    min={0}
-                    placeholder="Valor do fee por dia?"
-                    {...register('boleto_payment_method.fee_value_per_day')}
-                  ></Input>
-                  {errors.boleto_payment_method?.fee_value_per_day && (
-                    <span className="text-xs text-red-500">
-                      {errors.boleto_payment_method.fee_value_per_day.message}
-                    </span>
-                  )}
-                  <Input
-                    type="number"
-                    min={0}
-                    placeholder="Porcentagem do fee por mês?"
+                    max={10}
+                    placeholder="Porcentagem do juros por mês *"
                     {...register(
                       'boleto_payment_method.fee_percentage_per_month',
                     )}
@@ -902,34 +876,8 @@ export function CreateChargeForm() {
                   <Input
                     type="number"
                     min={0}
-                    placeholder="Dias para multar"
-                    {...register(
-                      'boleto_payment_method.expiration_days_for_fine',
-                    )}
-                  ></Input>
-                  {errors.boleto_payment_method?.expiration_days_for_fine && (
-                    <span className="text-xs text-red-500">
-                      {
-                        errors.boleto_payment_method.expiration_days_for_fine
-                          .message
-                      }
-                    </span>
-                  )}
-                  <Input
-                    type="number"
-                    min={0}
-                    placeholder="Valor da multa"
-                    {...register('boleto_payment_method.fine_value')}
-                  ></Input>
-                  {errors.boleto_payment_method?.fine_value && (
-                    <span className="text-xs text-red-500">
-                      {errors.boleto_payment_method.fine_value.message}
-                    </span>
-                  )}
-                  <Input
-                    type="number"
-                    min={0}
-                    placeholder="Porcentagem da multa"
+                    max={watch('value') - 1 ?? 100}
+                    placeholder="Porcentagem da multa *"
                     {...register('boleto_payment_method.fine_percentage')}
                   ></Input>
                   {errors.boleto_payment_method?.fine_percentage && (

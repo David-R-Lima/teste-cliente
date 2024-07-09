@@ -136,14 +136,33 @@ export const ChargeFormSchema = z.object({
     .optional(),
   boleto_payment_method: z
     .object({
-      expiration_date: z.coerce.date(),
-      instructions: z.string(),
-      expiration_days_for_fees: z.coerce.number(),
-      fee_value_per_day: z.coerce.number(),
-      fee_percentage_per_month: z.coerce.number(),
-      expiration_days_for_fine: z.coerce.number(),
-      fine_value: z.coerce.number(),
-      fine_percentage: z.coerce.number(),
+      expiration_date: z.coerce.date({
+        required_error: 'Date de expiração é obrigatório',
+      }),
+      instructions: z
+        .string({
+          required_error: 'Instruções é obrigatório',
+        })
+        .min(1, {
+          message: 'Instruções é obrigatório',
+        }),
+      fee_percentage_per_month: z.coerce
+        .number({
+          required_error: 'Valor do jutos por mês é obrigatório',
+        })
+        .min(1, {
+          message: 'Valor do jutos por mês é obrigatório',
+        })
+        .max(10, {
+          message: 'Valor do jutos por mês precisa ser menor que 10%',
+        }),
+      fine_percentage: z.coerce
+        .number({
+          required_error: 'Valor da porcentagem da multa é obrigatório',
+        })
+        .min(1, {
+          message: 'Valor da porcentagem da multa é obrigatório',
+        }),
       items: z.array(
         z.object({
           description: z.string(),

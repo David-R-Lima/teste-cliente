@@ -62,6 +62,7 @@ export function RefundChargeAlert({ chargeId }: Props) {
       queryClient.invalidateQueries({
         queryKey: ['charges'],
       })
+      toast.success('Estorno realizado com sucesso.')
     },
     onError: () => {
       toast.error('Error ao realizar o estorno.')

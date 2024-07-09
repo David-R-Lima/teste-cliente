@@ -65,7 +65,7 @@ export function CreateBank() {
     onSuccess: () => {
       toast.success('Banco cadastrado com sucesso')
       queryClient.invalidateQueries({
-        queryKey: ['bankAccounts'],
+        queryKey: ['bank-accounts'],
       })
     },
     onError: (error) => {
@@ -186,12 +186,12 @@ export function CreateBank() {
                 <SelectItem value={AccountBankType.SAVINGS_ACCOUNT}>
                   Poupança
                 </SelectItem>
-                <SelectItem value={AccountBankType.SALARY_ACCOUNT}>
+                {/* <SelectItem value={AccountBankType.SALARY_ACCOUNT}>
                   Salário
                 </SelectItem>
                 <SelectItem value={AccountBankType.PAYMENT_ACCOUNT}>
                   Pagamento
-                </SelectItem>
+                </SelectItem> */}
               </SelectContent>
             </Select>
             {errors.account_bank_type && (

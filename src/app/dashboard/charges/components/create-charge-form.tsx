@@ -229,7 +229,13 @@ export function CreateChargeForm() {
               <p>
                 <HoverCard>
                   <HoverCardTrigger asChild>
-                    <Button variant="link" className="text-black">
+                    <Button
+                      variant="link"
+                      className="text-black"
+                      onClick={(e) => {
+                        e.preventDefault()
+                      }}
+                    >
                       Capture?
                     </Button>
                   </HoverCardTrigger>

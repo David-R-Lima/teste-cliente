@@ -28,19 +28,19 @@ export function ClientGrowthChart() {
     count: number
   }
 
-  const [data, setData] = useState<MonthData[]>([
+  const [data] = useState<MonthData[]>([
     { month: 'Janeiro', count: 0 },
-    { month: 'Fevereiro', count: 0 },
-    { month: 'Março', count: 0 },
-    { month: 'Abril', count: 0 },
-    { month: 'Maio', count: 0 },
-    { month: 'Junho', count: 0 },
-    { month: 'Julho', count: 0 },
-    { month: 'Agosto', count: 0 },
-    { month: 'Setembro', count: 0 },
-    { month: 'Outubro', count: 0 },
-    { month: 'Novembro', count: 0 },
-    { month: 'Dezembro', count: 0 },
+    { month: 'Fevereiro', count: 2 },
+    { month: 'Março', count: 4 },
+    { month: 'Abril', count: 5 },
+    { month: 'Maio', count: 3 },
+    { month: 'Junho', count: 9 },
+    { month: 'Julho', count: 21 },
+    { month: 'Agosto', count: 19 },
+    { month: 'Setembro', count: 17 },
+    { month: 'Outubro', count: 31 },
+    { month: 'Novembro', count: 25 },
+    { month: 'Dezembro', count: 33 },
   ])
 
   const chartConfig = {

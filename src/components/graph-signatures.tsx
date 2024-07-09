@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 // import { LineChart } from '@mui/x-charts'
-import { useEffect, useState } from 'react'
+// import { useEffect, useState } from 'react'
 
 export function GraphSignature() {
   return (
@@ -16,13 +16,13 @@ export function GraphSignature() {
 }
 
 export function SignatureGrowthChart() {
-  const [data, setData] = useState<number[]>([])
+  // const [data, setData] = useState<number[]>([])
 
-  useEffect(() => {
-    setTimeout(() => {
-      setData([2, 4, 3])
-    }, 100)
-  }, [])
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setData([2, 4, 3])
+  //   }, 100)
+  // }, [])
   return (
     // <LineChart
     //   xAxis={[

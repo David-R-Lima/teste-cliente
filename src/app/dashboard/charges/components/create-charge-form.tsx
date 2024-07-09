@@ -34,6 +34,11 @@ import { fetchAddress } from '@/lib/viacep'
 import { ChargeFormSchema } from './schema'
 import { BttisCreditCard } from 'bttis-encrypt1-sdk-js'
 import { useSession } from 'next-auth/react'
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from '@/components/ui/hover-card'
 
 export type formSchema = z.infer<typeof ChargeFormSchema>
 
@@ -221,7 +226,23 @@ export function CreateChargeForm() {
                   setValue('capture', !capture)
                 }}
               ></Checkbox>
-              <p>Capture?</p>
+              <p>
+                <HoverCard>
+                  <HoverCardTrigger asChild>
+                    <Button variant="link" className="text-black">
+                      Capture?
+                    </Button>
+                  </HoverCardTrigger>
+
+                  <HoverCardContent className="w-80">
+                    <div className="flex justify-between space-x-4">
+                      Realizar a cobrança no momento do pagamento. Se desmarcada
+                      cobrança poderá ser finalizada posteriormente (Só
+                      desmarque se tiver certeza)
+                    </div>
+                  </HoverCardContent>
+                </HoverCard>
+              </p>
             </div>
           </div>
           <hr />

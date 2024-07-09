@@ -581,7 +581,7 @@ export default function CreateCharge() {
     <PageFormat
       title="Criar cobrança"
       description="Utilize este endpoint para criar uma cobrança"
-      url={`${process.env.NEXT_PUBLIC_PAYMENT_API_URL}/charges`}
+      url={`${process.env.NEXT_PUBLIC_API_URL}/charges`}
       httpMethod={<Post></Post>}
       header={<Header></Header>}
       bodyParams={<Body properties={data}></Body>}

@@ -216,7 +216,8 @@ export function CreateCard({ customerId }: Props) {
             </div>
             <Button
               className="w-full"
-              onClick={() => {
+              onClick={(e) => {
+                e.preventDefault()
                 setLoading(true)
                 tokenize()
               }}

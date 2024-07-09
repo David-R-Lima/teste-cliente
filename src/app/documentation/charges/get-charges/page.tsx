@@ -281,7 +281,7 @@ export default function GetCharges() {
     <PageFormat
       title="Buscar cobranças"
       description="Utilize este endpoint para buscar suas cobranças"
-      url={`${process.env.NEXT_PUBLIC_PAYMENT_API_URL}/charges`}
+      url={`${process.env.NEXT_PUBLIC_API_URL}/charges`}
       httpMethod={<Get></Get>}
       header={<Header></Header>}
       queryParams={<QueryParams properties={data}></QueryParams>}

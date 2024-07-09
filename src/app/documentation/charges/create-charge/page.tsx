@@ -2,6 +2,7 @@ import { Body } from '../../components/body'
 import { Header } from '../../components/header'
 import { Post } from '../../components/http-methods'
 import { Response } from '../../components/response'
+import { PageFormat } from '../../pageformat'
 import { BodyProps, ResponseProps } from '../../type'
 
 const data: BodyProps[] = [
@@ -158,40 +159,16 @@ const data: BodyProps[] = [
         required: true,
       },
       {
-        name: 'expiration_days_for_fees',
-        type: 'number',
-        description: 'Quantos dias apés o vencimento para começar a cobrar',
-        required: false,
-      },
-      {
-        name: 'fee_value_per_day',
-        type: 'number',
-        description: 'Valor da cobrança por dia',
-        required: false,
-      },
-      {
         name: 'fee_percentage_per_month',
         type: 'number',
-        description: 'Porcentagem do valor por mês',
-        required: false,
-      },
-      {
-        name: 'expiration_days_for_fine',
-        type: 'number',
-        description: 'Quantos dias apés o vencimento para começar a multar',
-        required: false,
-      },
-      {
-        name: 'fine_value',
-        type: 'number',
-        description: 'Valor da multa',
-        required: false,
+        description: 'Porcentagem do valor do juros por mês',
+        required: true,
       },
       {
         name: 'fine_percentage',
         type: 'number',
         description: 'Valor da porcentagem da multa',
-        required: false,
+        required: true,
       },
       {
         name: 'items',
@@ -601,25 +578,14 @@ const responseProps: ResponseProps[] = [
 
 export default function CreateCharge() {
   return (
-    <div className="space-y-4 min-w-[50vw]">
-      <h1 className="text-2xl">Criar cobrança</h1>
-
-      <div className="flex space-x-2 items-center">
-        <h1>
-          <Post></Post>
-        </h1>
-        <p className="truncate text-bold max-w-[80vw]">
-          {process.env.NEXT_PUBLIC_PAYMENT_API_URL}/charges
-        </p>
-      </div>
-
-      <div>
-        <h1>Utilize este endpoint para criar uma cobrança</h1>
-      </div>
-      <hr />
-      <Header></Header>
-      <Body properties={data}></Body>
-      <Response data={responseProps}></Response>
-    </div>
+    <PageFormat
+      title="Criar cobrança"
+      description="Utilize este endpoint para criar uma cobrança"
+      url={`${process.env.NEXT_PUBLIC_PAYMENT_API_URL}/charges`}
+      httpMethod={<Post></Post>}
+      header={<Header></Header>}
+      bodyParams={<Body properties={data}></Body>}
+      response={<Response data={responseProps}></Response>}
+    ></PageFormat>
   )
 }

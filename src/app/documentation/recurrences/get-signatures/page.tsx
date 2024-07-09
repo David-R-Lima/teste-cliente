@@ -1,7 +1,24 @@
 import { Header } from '../../components/header'
 import { Get } from '../../components/http-methods'
+import { QueryParams } from '../../components/query-params'
 import { Response } from '../../components/response'
-import { ResponseProps } from '../../type'
+import { PageFormat } from '../../pageformat'
+import { BodyProps, ResponseProps } from '../../type'
+
+const data: BodyProps[] = [
+  {
+    name: 'page',
+    type: 'string',
+    description: 'Número da página',
+    required: false,
+  },
+  {
+    name: 'itemsPerPage',
+    type: 'string',
+    description: 'Número de items por página',
+    required: false,
+  },
+]
 
 const responseProps: ResponseProps[] = [
   {
@@ -106,24 +123,14 @@ const responseProps: ResponseProps[] = [
 ]
 export default function GetSignatures() {
   return (
-    <div className="space-y-4 min-w-[50vw]">
-      <h1 className="text-2xl">Buscar assinatura pelo id</h1>
-
-      <div className="flex space-x-2 items-center">
-        <h1>
-          <Get></Get>
-        </h1>
-        <p className="truncate text-bold max-w-[80vw]">
-          {process.env.NEXT_PUBLIC_PAYMENT_API_URL}/subscriptions
-        </p>
-      </div>
-
-      <div>
-        <h1>Utilize este endpoint para buscar todos seus assinantes</h1>
-      </div>
-      <hr />
-      <Header></Header>
-      <Response data={responseProps}></Response>
-    </div>
+    <PageFormat
+      title="Buscar assinaturas"
+      description="Utilize este endpoint para buscar todos seus assinantes"
+      url={`${process.env.NEXT_PUBLIC_PAYMENT_API_URL}/subscriptions`}
+      httpMethod={<Get></Get>}
+      header={<Header></Header>}
+      queryParams={<QueryParams properties={data}></QueryParams>}
+      response={<Response data={responseProps}></Response>}
+    ></PageFormat>
   )
 }

@@ -2,6 +2,7 @@ import { Body } from '../../components/body'
 import { Header } from '../../components/header'
 import { Post } from '../../components/http-methods'
 import { Response } from '../../components/response'
+import { PageFormat } from '../../pageformat'
 import { BodyProps, ResponseProps } from '../../type'
 
 const data: BodyProps[] = [
@@ -166,28 +167,15 @@ const responseProps: ResponseProps[] = [
 
 export default function CreatePlan() {
   return (
-    <div className="space-y-4 min-w-[50vw]">
-      <h1 className="text-2xl">Criar plano de assinatura</h1>
-
-      <div className="flex space-x-2 items-center">
-        <h1>
-          <Post></Post>
-        </h1>
-        <p className="truncate text-bold max-w-[80vw]">
-          {process.env.NEXT_PUBLIC_PAYMENT_API_URL}/plans
-        </p>
-      </div>
-
-      <div>
-        <h1>
-          Utilize este endpoint para criar um plano de assinatura, você vai
-          precisar de um plano criado para criar assinaturas para seus clientes
-        </h1>
-      </div>
-      <hr />
-      <Header></Header>
-      <Body properties={data}></Body>
-      <Response data={responseProps}></Response>
-    </div>
+    <PageFormat
+      title="Criar plano de assinatura"
+      description="Utilize este endpoint para criar um plano de assinatura, você vai
+      precisar de um plano criado para criar assinaturas para seus clientes"
+      url={`${process.env.NEXT_PUBLIC_PAYMENT_API_URL}/plans`}
+      httpMethod={<Post></Post>}
+      header={<Header></Header>}
+      bodyParams={<Body properties={data}></Body>}
+      response={<Response data={responseProps}></Response>}
+    ></PageFormat>
   )
 }

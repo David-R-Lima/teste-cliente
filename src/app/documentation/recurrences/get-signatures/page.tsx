@@ -126,7 +126,7 @@ export default function GetSignatures() {
     <PageFormat
       title="Buscar assinaturas"
       description="Utilize este endpoint para buscar todos seus assinantes"
-      url={`${process.env.NEXT_PUBLIC_PAYMENT_API_URL}/subscriptions`}
+      url={`${process.env.NEXT_PUBLIC_API_URL}/subscriptions`}
       httpMethod={<Get></Get>}
       header={<Header></Header>}
       queryParams={<QueryParams properties={data}></QueryParams>}

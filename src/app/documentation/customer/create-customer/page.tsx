@@ -247,7 +247,7 @@ export default function CreateCustomer() {
     <PageFormat
       title="Criar cliente"
       description="Utilize este endpoint para criar um cliente, você vai precisar de um cliente cadastrado para criar cartões e assinaturas"
-      url={`${process.env.NEXT_PUBLIC_PAYMENT_API_URL}/customers`}
+      url={`${process.env.NEXT_PUBLIC_API_URL}/customers`}
       httpMethod={<Post></Post>}
       header={<Header></Header>}
       bodyParams={<Body properties={data}></Body>}

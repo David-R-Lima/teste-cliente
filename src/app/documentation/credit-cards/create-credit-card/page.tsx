@@ -126,7 +126,7 @@ export default function CreateCreditCard() {
     <PageFormat
       title="Cadastrar cartão"
       description="Utilize este endpoint para cadastrar um cartão de um cliente"
-      url={`${process.env.NEXT_PUBLIC_PAYMENT_API_URL}/customers/:id/cards`}
+      url={`${process.env.NEXT_PUBLIC_API_URL}/customers/:id/cards`}
       httpMethod={<Post></Post>}
       header={<Header></Header>}
       pathParams={<PathParams properties={path}></PathParams>}

@@ -1,28 +1,17 @@
-import process from 'process'
 import { Header } from '../../components/header'
-import { Delete } from '../../components/http-methods'
-import { PathParams } from '../../components/parameters'
+import { Get } from '../../components/http-methods'
 import { Response } from '../../components/response'
 import { PageFormat } from '../../pageformat'
-import { BodyProps, ResponseProps } from '../../type'
-
-const data: BodyProps[] = [
-  {
-    name: 'id',
-    type: 'string',
-    description: 'Id do cliente',
-    required: true,
-  },
-]
+import { ResponseProps } from '../../type'
 
 const responseProps: ResponseProps[] = [
   {
-    code: 204,
+    code: 200,
     properties: [
       {
-        name: '',
-        type: 'void',
-        description: '',
+        name: 'key',
+        description: 'O token de criptografia',
+        type: 'string',
         required: false,
       },
     ],
@@ -50,7 +39,7 @@ const responseProps: ResponseProps[] = [
     code: 404,
     properties: [
       {
-        name: 'Not found execption',
+        name: 'Not found exection',
         type: 'object',
         description: '',
         required: false,
@@ -67,14 +56,13 @@ const responseProps: ResponseProps[] = [
   },
 ]
 
-export default function InactivateCustomer() {
+export default function GetEncryptionKey() {
   return (
     <PageFormat
-      title="Inativar cliente"
-      description="Utilize este endpoint para inativar um cliente"
-      url={`${process.env.NEXT_PUBLIC_API_URL}/customers?page={1}`}
-      httpMethod={<Delete></Delete>}
-      pathParams={<PathParams properties={data}></PathParams>}
+      title="Buscar token de cryptografia de cartão"
+      description="Utilize este endpoint para buscar seu token para criptografar os cartões de seus cliente"
+      url={`${process.env.NEXT_PUBLIC_API_URL}/credit-card-key`}
+      httpMethod={<Get></Get>}
       header={<Header></Header>}
       response={<Response data={responseProps}></Response>}
     ></PageFormat>

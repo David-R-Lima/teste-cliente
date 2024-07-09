@@ -77,7 +77,7 @@ export default function DeleteSignature() {
     <PageFormat
       title="Cancelar assinatura"
       description="Utilize este endpoint para cancelar uma assinatura para um cliente."
-      url={`${process.env.NEXT_PUBLIC_PAYMENT_API_URL}/subscriptions`}
+      url={`${process.env.NEXT_PUBLIC_API_URL}/subscriptions`}
       httpMethod={<Delete></Delete>}
       header={<Header></Header>}
       bodyParams={<Body properties={body}></Body>}

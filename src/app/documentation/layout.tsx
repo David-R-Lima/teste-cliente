@@ -98,6 +98,13 @@ export default function Layout({
               <Delete />
               <p className="text-sm">Deletar cartão</p>
             </Link>
+            <Link
+              href="/documentation/credit-cards/get-encryption-key"
+              className="flex space-x-2 items-center p-2 hover:cursor-pointer"
+            >
+              <Get />
+              <p className="text-sm">Buscar token de criptografia</p>
+            </Link>
           </div>
           <hr />
           <div className="space-y-1">

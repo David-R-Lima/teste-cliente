@@ -153,7 +153,7 @@ export default function GetCustomer() {
     <PageFormat
       title="Buscar clientes"
       description="Utilize este endpoint para buscar seus clientes"
-      url={`${process.env.NEXT_PUBLIC_PAYMENT_API_URL}/customers?page={1}`}
+      url={`${process.env.NEXT_PUBLIC_API_URL}/customers?page={1}`}
       httpMethod={<Get></Get>}
       header={<Header></Header>}
       queryParams={<QueryParams properties={data}></QueryParams>}

@@ -147,7 +147,7 @@ export default function GetCustomerById() {
     <PageFormat
       title="Buscar clientes pelo id"
       description="Utilize este endpoint para buscar um cliente pelo id"
-      url={`${process.env.NEXT_PUBLIC_PAYMENT_API_URL}/customers/:id`}
+      url={`${process.env.NEXT_PUBLIC_API_URL}/customers/:id`}
       httpMethod={<Get></Get>}
       header={<Header></Header>}
       pathParams={<PathParams properties={data}></PathParams>}

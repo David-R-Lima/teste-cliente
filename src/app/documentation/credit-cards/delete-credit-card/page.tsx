@@ -71,7 +71,7 @@ export default function DeleteCreditCard() {
     <PageFormat
       title="Deletar cartão"
       description="Utilize este endpoint para deletar um cartão de um cliente"
-      url={`${process.env.NEXT_PUBLIC_PAYMENT_API_URL}/cards/:card_id`}
+      url={`${process.env.NEXT_PUBLIC_API_URL}/cards/:card_id`}
       httpMethod={<Delete></Delete>}
       header={<Header></Header>}
       pathParams={<PathParams properties={path}></PathParams>}

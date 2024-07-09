@@ -134,7 +134,7 @@ export default function GetPlanById() {
     <PageFormat
       title="Buscar plano pelo id"
       description="Utilize este endpoint para buscar um plano pelo id"
-      url={`${process.env.NEXT_PUBLIC_PAYMENT_API_URL}/plans/:id`}
+      url={`${process.env.NEXT_PUBLIC_API_URL}/plans/:id`}
       httpMethod={<Get></Get>}
       header={<Header></Header>}
       pathParams={<PathParams properties={data}></PathParams>}

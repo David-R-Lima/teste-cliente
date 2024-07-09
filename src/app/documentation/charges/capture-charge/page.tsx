@@ -139,7 +139,7 @@ export default function CapturaCharge() {
     <PageFormat
       title="Capturar cobrança"
       description="Utilize este endpoint para capturar uma cobrança"
-      url={`${process.env.NEXT_PUBLIC_PAYMENT_API_URL}/charges/:charge_id/capture`}
+      url={`${process.env.NEXT_PUBLIC_API_URL}/charges/:charge_id/capture`}
       httpMethod={<Post></Post>}
       header={<Header></Header>}
       pathParams={<PathParams properties={data}></PathParams>}

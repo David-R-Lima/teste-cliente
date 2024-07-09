@@ -231,7 +231,7 @@ export default function UpdateCustomer() {
     <PageFormat
       title="Atualizar um cliente"
       description="Utilize este endpoint para atualizar os dados de um cliente"
-      url={`${process.env.NEXT_PUBLIC_PAYMENT_API_URL}/customers/:id`}
+      url={`${process.env.NEXT_PUBLIC_API_URL}/customers/:id`}
       httpMethod={<Patch></Patch>}
       pathParams={<PathParams properties={path}></PathParams>}
       bodyParams={<Body properties={data}></Body>}

@@ -283,7 +283,7 @@ export default function GetChargeById() {
     <PageFormat
       title="Buscar cobrança por id"
       description="Utilize este endpoint para buscar uma cobrança"
-      url={`${process.env.NEXT_PUBLIC_PAYMENT_API_URL}/charges/:charge_id`}
+      url={`${process.env.NEXT_PUBLIC_API_URL}/charges/:charge_id`}
       httpMethod={<Get></Get>}
       header={<Header></Header>}
       pathParams={<PathParams properties={data}></PathParams>}

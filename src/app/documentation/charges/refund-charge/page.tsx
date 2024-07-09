@@ -183,7 +183,7 @@ export default function RefundCharge() {
     <PageFormat
       title="Estonar uma cobranças"
       description="Utilize este endpoint para estornar uma cobrança"
-      url={`${process.env.NEXT_PUBLIC_PAYMENT_API_URL}/charges/:charge_id/void`}
+      url={`${process.env.NEXT_PUBLIC_API_URL}/charges/:charge_id/void`}
       httpMethod={<Post></Post>}
       header={<Header></Header>}
       pathParams={<PathParams properties={data}></PathParams>}

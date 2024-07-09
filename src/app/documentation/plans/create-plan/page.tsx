@@ -171,7 +171,7 @@ export default function CreatePlan() {
       title="Criar plano de assinatura"
       description="Utilize este endpoint para criar um plano de assinatura, você vai
       precisar de um plano criado para criar assinaturas para seus clientes"
-      url={`${process.env.NEXT_PUBLIC_PAYMENT_API_URL}/plans`}
+      url={`${process.env.NEXT_PUBLIC_API_URL}/plans`}
       httpMethod={<Post></Post>}
       header={<Header></Header>}
       bodyParams={<Body properties={data}></Body>}

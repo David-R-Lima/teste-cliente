@@ -116,7 +116,7 @@ export default function GetCreditCard() {
     <PageFormat
       title="Buscar cartão pelo id"
       description="Utilize este endpoint para buscar um cartão de um cliente"
-      url={`${process.env.NEXT_PUBLIC_PAYMENT_API_URL}/cards/:card_id`}
+      url={`${process.env.NEXT_PUBLIC_API_URL}/cards/:card_id`}
       httpMethod={<Get></Get>}
       header={<Header></Header>}
       pathParams={<PathParams properties={path}></PathParams>}

@@ -215,7 +215,7 @@ export default function CreateSignature() {
     <PageFormat
       title="Criar assinatura"
       description="Utilize este endpoint para criar uma assinatura para um cliente."
-      url={`${process.env.NEXT_PUBLIC_PAYMENT_API_URL}/subscriptions`}
+      url={`${process.env.NEXT_PUBLIC_API_URL}/subscriptions`}
       httpMethod={<Post></Post>}
       header={<Header></Header>}
       bodyParams={<Body properties={body}></Body>}

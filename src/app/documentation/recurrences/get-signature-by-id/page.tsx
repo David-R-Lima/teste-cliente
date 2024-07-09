@@ -121,7 +121,7 @@ export default function GetSignatureById() {
     <PageFormat
       title="Buscar assinatura pelo id"
       description="Utilize este endpoint para buscar uma assinatura para um cliente."
-      url={`${process.env.NEXT_PUBLIC_PAYMENT_API_URL}/subscriptions/:id`}
+      url={`${process.env.NEXT_PUBLIC_API_URL}/subscriptions/:id`}
       httpMethod={<Get></Get>}
       header={<Header></Header>}
       pathParams={<PathParams properties={body}></PathParams>}

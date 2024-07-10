@@ -72,7 +72,7 @@ export interface Charges {
   card_id: string
   pix_id: string
   boleto_id?: string
-  payment_type: string
+  payment_type: PaymentType
   nsu: string
   customer?: string
   customer_id?: string
@@ -89,4 +89,15 @@ export interface Charges {
   }
   created_at: string
   updated_at?: string
+  qr_codes?: {
+    id: string
+    base64: string
+    text: string
+  }
+  boleto?: {
+    boleto_id: string
+    barCode: string
+    nossoNumero: string
+    identificationField: string
+  }
 }

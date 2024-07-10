@@ -33,3 +33,13 @@ export const refundCharge = async ({ chargeId, reason }: RefundRequest) => {
 
   return data.refund
 }
+
+export const getChargeById = async (ctx: QueryFunctionContext) => {
+  const [, chargeId] = ctx.queryKey
+
+  const { data } = await apiGateway.get<{ charge: Charges }>(
+    `/charges/${chargeId}`,
+  )
+
+  return data.charge
+}

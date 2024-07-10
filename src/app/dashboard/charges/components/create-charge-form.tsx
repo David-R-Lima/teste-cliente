@@ -254,7 +254,7 @@ export function CreateChargeForm() {
             </div>
           </div>
           <hr />
-          <div className="flex flex-col space-y-2 max-h-full p-4 bg-accent rounded-lg">
+          <div className="flex flex-col space-y-2 p-4 bg-accent rounded-lg ">
             <strong>Dados do cliente</strong>
             <p
               className="text-sm underline hover:cursor-pointer"

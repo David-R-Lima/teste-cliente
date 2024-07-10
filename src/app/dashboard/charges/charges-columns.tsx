@@ -2,16 +2,16 @@
 
 import { Button } from '@/components/ui/button'
 import { ColumnDef } from '@tanstack/react-table'
-import { ArrowUpDown, MoreVertical } from 'lucide-react'
+import { ArrowUpDown, Info, MoreVertical } from 'lucide-react'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { ChargeStatus, Charges } from '@/services/charges/types'
-import { AdditionalInformation } from './components/additional-information'
 import { RefundChargeAlert } from './components/refund-charge'
 import dayjs from 'dayjs'
+import Link from 'next/link'
 
 export const ChargesColumns: ColumnDef<Charges>[] = [
   {
@@ -127,8 +127,13 @@ export const ChargesColumns: ColumnDef<Charges>[] = [
             <MoreVertical />
           </PopoverTrigger>
           <PopoverContent className="w-full space-y-4">
-            <div>
-              <AdditionalInformation charge={charge}></AdditionalInformation>
+            <div className="flex items-center space-x-2">
+              <Link
+                href={`/dashboard/charges/${charge.id}`}
+                className="flex items-center space-x-2 hover:text-primary"
+              >
+                <Info /> <p>Info</p>
+              </Link>
             </div>
             {/** TODO: ver os status certin */}
             {charge.situation === ChargeStatus.PAID &&

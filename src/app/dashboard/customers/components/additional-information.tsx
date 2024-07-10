@@ -14,6 +14,7 @@ interface Props {
 }
 
 export function AdditionalInformation({ customer }: Props) {
+  console.log('customer: ', customer)
   return (
     <Dialog>
       <DialogTrigger className="flex items-center space-x-2">
@@ -33,6 +34,7 @@ export function AdditionalInformation({ customer }: Props) {
           </div>
           <hr />
           <div>
+            <p>Ativo: {customer.is_active ? 'Sim' : 'Não'}</p>
             <p>
               Data de criação: {dayjs(customer.created_at).format('DD/MM/YYYY')}
             </p>

@@ -15,7 +15,7 @@ import { Label } from '@/components/ui/label'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Country, DocumentType } from '@/services/customers/types'
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useHookFormMask } from 'use-mask-input'
 import { fetchAddress } from '@/lib/viacep'
@@ -155,9 +155,8 @@ export type formSchema = z.infer<typeof FormSchema>
 
 export function CreateCustomerForm() {
   const [inputAddressOpen, setInputAddressOpen] = useState<boolean>(false)
-  const [dialogOpen, setDialogOpen] = useState<boolean>(false)
-  const dialogRef = useRef<HTMLDivElement>(null)
   const queryClient = useQueryClient()
+  const [open, setOpen] = useState(false)
 
   const {
     register,
@@ -205,10 +204,11 @@ export function CreateCustomerForm() {
     mutationKey: ['createCustomerMutation'],
     onSuccess: () => {
       toast.message('Cliente cadastrado com sucesso!')
-      setDialogOpen(false)
+
       queryClient.invalidateQueries({
         queryKey: ['customers'],
       })
+      setOpen(false)
       reset()
     },
     onError: (error) => {
@@ -220,41 +220,15 @@ export function CreateCustomerForm() {
     await submit.mutateAsync({ ...data })
   }
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as Element
-
-      if (dialogRef.current && target) {
-        if (!dialogRef.current.contains(target)) {
-          setDialogOpen(false)
-        }
-      }
-    }
-
-    document.addEventListener('mousedown', handleClickOutside)
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
-  }, [])
-
   return (
-    <Dialog open={dialogOpen}>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button
-          className="space-x-2"
-          onClick={() => {
-            setDialogOpen(!dialogOpen)
-          }}
-        >
+        <Button className="space-x-2">
           <Plus />
           <p>Cliente</p>
         </Button>
       </DialogTrigger>
-      <DialogContent
-        className="flex flex-col min-w-[80vw] h-[90vh]"
-        ref={dialogRef}
-      >
+      <DialogContent className="flex flex-col min-w-[80vw] h-[90vh]">
         <DialogHeader>
           <DialogTitle>Cadastrar cliente</DialogTitle>
           <DialogDescription>

@@ -24,6 +24,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Checkbox } from '@/components/ui/checkbox'
+import { useState } from 'react'
 
 const FormSchema = z.object({
   name: z
@@ -66,6 +67,7 @@ const FormSchema = z.object({
 export type formSchema = z.infer<typeof FormSchema>
 
 export function CreatePlanForm() {
+  const [open, setOpen] = useState(false)
   const queryClient = useQueryClient()
   const {
     register,
@@ -90,6 +92,7 @@ export function CreatePlanForm() {
       queryClient.invalidateQueries({
         queryKey: ['plans'],
       })
+      setOpen(false)
     },
     onError: (error) => {
       toast.error(error.message)
@@ -104,7 +107,7 @@ export function CreatePlanForm() {
   }
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button className="space-x-2">
           <Plus />

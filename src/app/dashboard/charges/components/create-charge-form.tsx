@@ -9,7 +9,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
-import { Loader2, Plus } from 'lucide-react'
+import { Loader2, Plus, Trash } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -701,31 +701,51 @@ export function CreateChargeForm() {
                         (items, index) => {
                           return (
                             <div
-                              className="flex space-x-2 items-center p-2 border-2 rounded-lg bg-accent"
                               key={index}
+                              className=" flex justify-between items-center"
                             >
-                              <div>
-                                <h2>
-                                  <strong>Descrição</strong>
-                                </h2>
-                                <p>{items.description}</p>
+                              <div className="flex space-x-2 items-center p-2 border-2 rounded-lg bg-accent">
+                                <div>
+                                  <h2>
+                                    <strong>Descrição</strong>
+                                  </h2>
+                                  <p>{items.description}</p>
+                                </div>
+                                <div>
+                                  <h2>
+                                    <strong>Valor</strong>
+                                  </h2>
+                                  <p>
+                                    {items.unity_value
+                                      ? items.unity_value / 100
+                                      : ''}
+                                  </p>
+                                </div>
+                                <div>
+                                  <h2>
+                                    <strong>Quantidade</strong>
+                                  </h2>
+                                  <p>{items.quantity}</p>
+                                </div>
                               </div>
-                              <div>
-                                <h2>
-                                  <strong>Valor</strong>
-                                </h2>
-                                <p>
-                                  {items.unity_value
-                                    ? items.unity_value / 100
-                                    : ''}
-                                </p>
-                              </div>
-                              <div>
-                                <h2>
-                                  <strong>Quantidade</strong>
-                                </h2>
-                                <p>{items.quantity}</p>
-                              </div>
+                              <Button
+                                type="button"
+                                onClick={() => {
+                                  const previousValues = getValues(
+                                    'card_payment_method.items',
+                                  )
+                                  if (previousValues) {
+                                    previousValues.splice(index, 1)
+
+                                    setValue(
+                                      'card_payment_method.items',
+                                      previousValues,
+                                    )
+                                  }
+                                }}
+                              >
+                                Remover
+                              </Button>
                             </div>
                           )
                         },
@@ -826,31 +846,51 @@ export function CreateChargeForm() {
                         (items, index) => {
                           return (
                             <div
-                              className="flex space-x-2 items-center p-2 border-2 rounded-lg bg-accent"
                               key={index}
+                              className=" flex justify-between items-center"
                             >
-                              <div>
-                                <h2>
-                                  <strong>Descrição</strong>
-                                </h2>
-                                <p>{items.description}</p>
+                              <div className="flex space-x-2 items-center p-2 border-2 rounded-lg bg-accent">
+                                <div>
+                                  <h2>
+                                    <strong>Descrição</strong>
+                                  </h2>
+                                  <p>{items.description}</p>
+                                </div>
+                                <div>
+                                  <h2>
+                                    <strong>Valor</strong>
+                                  </h2>
+                                  <p>
+                                    {items.unity_value
+                                      ? items.unity_value / 100
+                                      : ''}
+                                  </p>
+                                </div>
+                                <div>
+                                  <h2>
+                                    <strong>Quantidade</strong>
+                                  </h2>
+                                  <p>{items.quantity}</p>
+                                </div>
                               </div>
-                              <div>
-                                <h2>
-                                  <strong>Valor</strong>
-                                </h2>
-                                <p>
-                                  {items.unity_value
-                                    ? items.unity_value / 100
-                                    : ''}
-                                </p>
-                              </div>
-                              <div>
-                                <h2>
-                                  <strong>Quantidade</strong>
-                                </h2>
-                                <p>{items.quantity}</p>
-                              </div>
+                              <Button
+                                type="button"
+                                onClick={() => {
+                                  const previousValues = getValues(
+                                    'pix_payment_method.items',
+                                  )
+                                  if (previousValues) {
+                                    previousValues.splice(index, 1)
+
+                                    setValue(
+                                      'pix_payment_method.items',
+                                      previousValues,
+                                    )
+                                  }
+                                }}
+                              >
+                                Remover
+                              </Button>
                             </div>
                           )
                         },
@@ -985,31 +1025,49 @@ export function CreateChargeForm() {
                         (items, index) => {
                           return (
                             <div
-                              className="flex space-x-2 items-center p-2 border-2 rounded-lg bg-accent"
                               key={index}
+                              className=" flex justify-between items-center"
                             >
-                              <div>
-                                <h2>
-                                  <strong>Descrição</strong>
-                                </h2>
-                                <p>{items.description}</p>
+                              <div className="flex space-x-2 items-center p-2 border-2 rounded-lg bg-accent">
+                                <div>
+                                  <h2>
+                                    <strong>Descrição</strong>
+                                  </h2>
+                                  <p>{items.description}</p>
+                                </div>
+                                <div>
+                                  <h2>
+                                    <strong>Valor</strong>
+                                  </h2>
+                                  <p>
+                                    {items.unity_value
+                                      ? items.unity_value / 100
+                                      : ''}
+                                  </p>
+                                </div>
+                                <div>
+                                  <h2>
+                                    <strong>Quantidade</strong>
+                                  </h2>
+                                  <p>{items.quantity}</p>
+                                </div>
                               </div>
-                              <div>
-                                <h2>
-                                  <strong>Valor</strong>
-                                </h2>
-                                <p>
-                                  {items.unity_value
-                                    ? items.unity_value / 100
-                                    : ''}
-                                </p>
-                              </div>
-                              <div>
-                                <h2>
-                                  <strong>Quantidade</strong>
-                                </h2>
-                                <p>{items.quantity}</p>
-                              </div>
+                              <Button
+                                type="button"
+                                onClick={() => {
+                                  const previousValues = getValues(
+                                    'boleto_payment_method.items',
+                                  )
+                                  previousValues.splice(index, 1)
+
+                                  setValue(
+                                    'boleto_payment_method.items',
+                                    previousValues,
+                                  )
+                                }}
+                              >
+                                Remover
+                              </Button>
                             </div>
                           )
                         },

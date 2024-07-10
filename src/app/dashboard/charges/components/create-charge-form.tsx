@@ -47,6 +47,7 @@ export function CreateChargeForm() {
   const [isInternal, setIsInternal] = useState<boolean>(true)
   const [inputAddressOpen, setInputAddressOpen] = useState<boolean>(false)
   const queryClient = useQueryClient()
+  const [open, setOpen] = useState(false)
 
   const [cardToTokenize, setCardToTokenize] = useState<{
     card_holder: string
@@ -118,6 +119,7 @@ export function CreateChargeForm() {
       queryClient.invalidateQueries({
         queryKey: ['charges'],
       })
+      setOpen(false)
     },
     onError: (error) => {
       toast.error(error.message)
@@ -169,7 +171,7 @@ export function CreateChargeForm() {
   }
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button className="space-x-2">
           <Plus />

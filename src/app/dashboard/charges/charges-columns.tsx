@@ -9,7 +9,6 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { ChargeStatus, Charges } from '@/services/charges/types'
-import { AdditionalInformation } from './components/additional-information'
 import { RefundChargeAlert } from './components/refund-charge'
 import dayjs from 'dayjs'
 import Link from 'next/link'

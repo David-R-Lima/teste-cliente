@@ -1,4 +1,4 @@
-export async function Get() {
+export function Get() {
   return (
     <span className="bg-blue-400 p-2 rounded-lg text-sm min-w-[6rem] text-bold">
       GET
@@ -6,7 +6,7 @@ export async function Get() {
   )
 }
 
-export async function Post() {
+export function Post() {
   return (
     <span className="bg-green-400 p-2 rounded-lg text-sm min-w-[6rem] text-bold">
       POST
@@ -14,7 +14,7 @@ export async function Post() {
   )
 }
 
-export async function Put() {
+export function Put() {
   return (
     <span className="bg-yellow-400 p-2 rounded-lg text-sm min-w-[6rem] text-bold">
       PUT
@@ -22,7 +22,7 @@ export async function Put() {
   )
 }
 
-export async function Patch() {
+export function Patch() {
   return (
     <span className="bg-orange-400 p-2 rounded-lg text-sm min-w-[6rem] text-bold">
       Patch
@@ -30,7 +30,7 @@ export async function Patch() {
   )
 }
 
-export async function Delete() {
+export function Delete() {
   return (
     <span className="bg-red-400 p-2 rounded-lg text-sm min-w-[6rem] text-bold">
       DELETE

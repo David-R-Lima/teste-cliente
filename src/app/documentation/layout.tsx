@@ -24,7 +24,7 @@ export default function Layout({
             <Link href={'/login'}>Acessar dashboard</Link>
           </p>
         </div>
-        <div className="absolute right-4 -bottom-14">
+        <div className="absolute right-4 -bottom-14 z-50">
           <ThemePicker />
         </div>
       </header>

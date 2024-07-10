@@ -22,7 +22,7 @@ export function PageFormat({
   response,
 }: Props) {
   return (
-    <div className="space-y-4 w-[90vw]">
+    <div className="space-y-4 w-[80vw] lg:w-[70vw]">
       <h1 className="text-2xl">{title}</h1>
 
       <div className="flex space-x-2 items-center">

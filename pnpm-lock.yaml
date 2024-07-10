@@ -98,6 +98,9 @@ dependencies:
   react:
     specifier: ^18.3.1
     version: 18.3.1
+  react-barcode:
+    specifier: ^1.5.3
+    version: 1.5.3(react@18.3.1)
   react-dom:
     specifier: ^18.3.1
     version: 18.3.1(react@18.3.1)
@@ -5764,6 +5767,10 @@ packages:
       argparse: 2.0.1
     dev: true
 
+  /jsbarcode@3.11.6:
+    resolution: {integrity: sha512-G5TKGyKY1zJo0ZQKFM1IIMfy0nF2rs92BLlCz+cU4/TazIc4ZH+X1GYeDRt7TKjrYqmPfTjwTBkU/QnQlsYiuA==}
+    dev: false
+
   /jsesc@0.5.0:
     resolution: {integrity: sha512-uZz5UnB7u4T9LvwmFqXii7pZSouaRPorGs5who1Ip7VO0wxanFvBL7GkM6dTHlgX+jhBApRetaWpnDabOeTcnA==}
     hasBin: true
@@ -6484,6 +6491,16 @@ packages:
     dependencies:
       randombytes: 2.1.0
       safe-buffer: 5.2.1
+    dev: false
+
+  /react-barcode@1.5.3(react@18.3.1):
+    resolution: {integrity: sha512-EJPUwuERKpApcQ9qXzdVZzddFYRT7+3R/jJ3OrTfW6m2iq+WT+CBaVB7DsQazhPRXDfMcx9+dmMmzjsmveOViQ==}
+    peerDependencies:
+      react: ^16.0.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      jsbarcode: 3.11.6
+      prop-types: 15.8.1
+      react: 18.3.1
     dev: false
 
   /react-dom@18.3.1(react@18.3.1):

@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button'
 import { ColumnDef } from '@tanstack/react-table'
-import { ArrowUpDown, MoreVertical } from 'lucide-react'
+import { ArrowUpDown, CircleCheck, CircleX, MoreVertical } from 'lucide-react'
 import {
   Popover,
   PopoverContent,
@@ -81,6 +81,37 @@ export const CustomersColumns: ColumnDef<Customers>[] = [
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       )
+    },
+  },
+  {
+    accessorKey: 'is_active',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="link"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          className="italic font-bold"
+        >
+          Ativo
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
+    cell: ({ row }) => {
+      const subscriber = row.original
+      if (subscriber.is_active) {
+        return (
+          <div className="flex w-full items-center justify-center">
+            <CircleCheck className="text-green-500" />
+          </div>
+        )
+      } else {
+        return (
+          <div className="flex w-full items-center justify-center">
+            <CircleX className="text-red-500" />
+          </div>
+        )
+      }
     },
   },
   {

@@ -760,6 +760,11 @@ export function CreateChargeForm() {
                     min={1}
                     {...register('card_payment_method.installments')}
                   ></Input>
+                  {errors.card_payment_method?.installments && (
+                    <span className="text-xs text-red-500">
+                      {errors.card_payment_method.installments.message}
+                    </span>
+                  )}
                 </div>
               )}
               {watch('payment_type') === PaymentType.PIX && (

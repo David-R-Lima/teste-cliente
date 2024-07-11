@@ -103,6 +103,9 @@ export const ChargeFormSchema = z.object({
         .number({
           required_error: 'Informe as parcelas!',
         })
+        .min(1, {
+          message: 'Deve conter pelo menos 1 parcela!',
+        })
         .refine(
           (value) => {
             const regex = /^[0-9]+$/

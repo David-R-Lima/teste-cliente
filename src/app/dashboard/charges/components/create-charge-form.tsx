@@ -563,6 +563,7 @@ export function CreateChargeForm() {
                         ></Input>
                         <Input
                           placeholder="CVV"
+                          maxLength={6}
                           onChange={(e) => {
                             setCardToTokenize({
                               ...cardToTokenize,
@@ -576,6 +577,7 @@ export function CreateChargeForm() {
                             <Input
                               placeholder="12"
                               className="max-w-[50px]"
+                              maxLength={2}
                               onChange={(e) => {
                                 setCardToTokenize({
                                   ...cardToTokenize,

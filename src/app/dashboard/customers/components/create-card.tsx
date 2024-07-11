@@ -175,6 +175,7 @@ export function CreateCard({ customerId }: Props) {
             ></Input>
             <Input
               placeholder="CVV"
+              maxLength={6}
               onChange={(e) => {
                 setCardToTokenize({
                   ...cardToTokenize,
@@ -189,6 +190,7 @@ export function CreateCard({ customerId }: Props) {
                 <Input
                   placeholder="12"
                   className="max-w-[50px]"
+                  maxLength={2}
                   onChange={(e) => {
                     setCardToTokenize({
                       ...cardToTokenize,

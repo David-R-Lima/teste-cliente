@@ -1,8 +1,8 @@
 import Link from 'next/link'
-import { Input } from '@/components/ui/input'
 import { Post, Get, Patch, Delete } from './components/http-methods'
 import { ThemePicker } from '@/components/theme-picker'
 import { MobileDocumentationSidebar } from './components/mobile-sidebar'
+import { Filters } from './components/filter'
 
 export default function Layout({
   children,
@@ -24,7 +24,7 @@ export default function Layout({
             <Link href={'/login'}>Acessar dashboard</Link>
           </p>
         </div>
-        <div className="absolute right-4 -bottom-14">
+        <div className="absolute right-4 -bottom-14 z-50">
           <ThemePicker />
         </div>
       </header>
@@ -33,7 +33,7 @@ export default function Layout({
           className={`hidden lg:block lg:absolute top-2 left-2 mr-[10rem] w-[20vw] p-4 space-y-2 border-r-2`}
         >
           <div className="flex items-center justify-center space-x-2">
-            <Input></Input>
+            <Filters></Filters>
             {/* <ChevronLeft className="hover:cursor-pointer"></ChevronLeft> */}
           </div>
           <div className="space-y-1">
@@ -206,7 +206,7 @@ export default function Layout({
         <div className="absolute top-2 left-2 flex lg:hidden">
           <MobileDocumentationSidebar></MobileDocumentationSidebar>
         </div>
-        <div className="mt-20 lg:mt-0 lg:ml-[20rem] xl:ml-[24rem] lg:p-10 lg:w-[80vw]">
+        <div className="mt-20 lg:mt-0 lg:ml-[16rem] xl:ml-[24rem] lg:p-10 lg:w-[80vw]">
           {children}
         </div>
       </div>

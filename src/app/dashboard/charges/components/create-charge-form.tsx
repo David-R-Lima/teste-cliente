@@ -47,6 +47,7 @@ export function CreateChargeForm() {
   const [isInternal, setIsInternal] = useState<boolean>(true)
   const [inputAddressOpen, setInputAddressOpen] = useState<boolean>(false)
   const queryClient = useQueryClient()
+  const [open, setOpen] = useState(false)
 
   const [cardToTokenize, setCardToTokenize] = useState<{
     card_holder: string
@@ -118,6 +119,7 @@ export function CreateChargeForm() {
       queryClient.invalidateQueries({
         queryKey: ['charges'],
       })
+      setOpen(false)
     },
     onError: (error) => {
       toast.error(error.message)
@@ -169,7 +171,7 @@ export function CreateChargeForm() {
   }
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button className="space-x-2">
           <Plus />
@@ -252,7 +254,7 @@ export function CreateChargeForm() {
             </div>
           </div>
           <hr />
-          <div className="flex flex-col space-y-2 max-h-full p-4 bg-accent rounded-lg">
+          <div className="flex flex-col space-y-2 p-4 bg-accent rounded-lg ">
             <strong>Dados do cliente</strong>
             <p
               className="text-sm underline hover:cursor-pointer"
@@ -760,6 +762,11 @@ export function CreateChargeForm() {
                     min={1}
                     {...register('card_payment_method.installments')}
                   ></Input>
+                  {errors.card_payment_method?.installments && (
+                    <span className="text-xs text-red-500">
+                      {errors.card_payment_method.installments.message}
+                    </span>
+                  )}
                 </div>
               )}
               {watch('payment_type') === PaymentType.PIX && (

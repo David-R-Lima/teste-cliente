@@ -89,7 +89,7 @@ export const ChargeFormSchema = z.object({
               ),
           }),
         )
-        .optional(),
+        .min(1),
     })
     .optional(),
 
@@ -166,20 +166,22 @@ export const ChargeFormSchema = z.object({
         .min(1, {
           message: 'Valor da porcentagem da multa é obrigatório',
         }),
-      items: z.array(
-        z.object({
-          description: z.string(),
-          unity_value: z.coerce.number().refine((value) => {
-            const regex = /^[0-9]+(\.[0-9]+)?$/
-            return regex.test(value.toString())
-          }),
+      items: z
+        .array(
+          z.object({
+            description: z.string(),
+            unity_value: z.coerce.number().refine((value) => {
+              const regex = /^[0-9]+(\.[0-9]+)?$/
+              return regex.test(value.toString())
+            }),
 
-          quantity: z.coerce.number().refine((value) => {
-            const regex = /^[0-9]+$/
-            return regex.test(value.toString())
+            quantity: z.coerce.number().refine((value) => {
+              const regex = /^[0-9]+$/
+              return regex.test(value.toString())
+            }),
           }),
-        }),
-      ),
+        )
+        .min(1),
     })
     .optional(),
   payer: z

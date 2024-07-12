@@ -127,7 +127,6 @@ export function CreateChargeForm() {
   })
 
   const handleSumbitMutation = async (data: formSchema) => {
-    console.log(data)
     if (data.payer && !isInternal) {
       await submit.mutateAsync({
         ...data,

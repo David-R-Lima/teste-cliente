@@ -3,7 +3,6 @@ import { Charges } from './types'
 import { formSchema } from '@/app/dashboard/charges/components/create-charge-form'
 import { apiGateway } from '../apiGateway'
 import { AxiosError } from 'axios'
-import error from 'next/error'
 
 export const getCharges = async (ctx: QueryFunctionContext) => {
   const [, page] = ctx.queryKey

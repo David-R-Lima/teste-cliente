@@ -31,8 +31,12 @@ interface Props {
 }
 
 const schema = z.object({
-  text: z.string(),
-  subject: z.enum(['Ajuda', 'Erro']),
+  text: z.string().min(10, {
+    message: 'A mensagem precisa ter no mínimo 10 caracteres',
+  }),
+  subject: z.enum(['Ajuda', 'Erro'], {
+    required_error: 'Assunto é obrigatório',
+  }),
 })
 
 export type formSchema = z.infer<typeof schema>
@@ -48,8 +52,6 @@ export function SendMail({ children, merchantId }: Props) {
   } = useForm<formSchema>({
     resolver: zodResolver(schema),
   })
-
-  console.log(errors)
 
   const sendMailMutation = useMutation({
     mutationFn: async (data: formSchema) => {
@@ -99,8 +101,16 @@ export function SendMail({ children, merchantId }: Props) {
               <SelectItem value="Erro">Erro</SelectItem>
             </SelectContent>
           </Select>
+          {errors.subject && (
+            <span className="text-xs text-red-500">
+              {errors.subject.message}
+            </span>
+          )}
 
           <Textarea {...register('text')}></Textarea>
+          {errors.text && (
+            <span className="text-xs text-red-500">{errors.text.message}</span>
+          )}
           <Button type="submit">
             {sendMailMutation.isPending ? (
               <Loader2 className="animate-spin" />

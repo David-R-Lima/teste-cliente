@@ -127,6 +127,7 @@ export function CreateChargeForm() {
   })
 
   const handleSumbitMutation = async (data: formSchema) => {
+    console.log(data)
     if (data.payer && !isInternal) {
       await submit.mutateAsync({
         ...data,
@@ -140,7 +141,9 @@ export function CreateChargeForm() {
         },
       })
     } else {
-      await submit.mutateAsync({ ...data })
+      await submit.mutateAsync({
+        ...data,
+      })
     }
   }
 
@@ -779,9 +782,13 @@ export function CreateChargeForm() {
                 <div className="space-y-2">
                   <Input
                     type="number"
-                    min={10000}
-                    placeholder="Tempo de expiração. Em milisegundos"
-                    {...register('pix_payment_method.expiration_time')}
+                    min={1}
+                    placeholder="Tempo de expiração. Em minutos"
+                    onChange={(e) => {
+                      const value = Number(e.target.value) * 60 * 1000
+
+                      setValue('pix_payment_method.expiration_time', value)
+                    }}
                   ></Input>
                   {errors.pix_payment_method?.expiration_time && (
                     <span className="text-xs text-red-500">

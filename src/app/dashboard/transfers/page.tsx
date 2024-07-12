@@ -6,101 +6,62 @@ import {
   TableComponent,
 } from '@/components/table'
 import { getBankAccounts } from '@/services/bank-accounts'
-import { useQuery } from '@tanstack/react-query'
+import { useQueries } from '@tanstack/react-query'
 import { useState } from 'react'
-import { CreateBank } from '@/components/create-bank'
 import { useBanks } from '@/hooks/useBanks'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Bank } from '@/services/banks/types'
-import { AccountBankType } from '@/services/bank-accounts/types'
-import { GetAllTransfers } from '@/services/transfer'
+import { GetAllTransfers, GetDefaultTransfer } from '@/services/transfer'
 import { TransferColumns } from './transfers/transfer-columns'
+import { TransferSettingDialog } from '@/components/transfer-setting-dialog'
+import { useSession } from 'next-auth/react'
+import { getPixKeys } from '@/services/pix-key'
 
 export default function Transfers() {
+  const session = useSession()
+
   const [page, setPage] = useState(1)
 
-  const { isError, isLoading, data } = useQuery({
-    queryKey: ['bank-accounts', page],
-    queryFn: getBankAccounts,
-    enabled: true,
-  })
-
-  const transfers = useQuery({
-    queryKey: ['transfers', page],
-    queryFn: GetAllTransfers,
-    enabled: true,
-  })
+  const [transferSettingQuery, bankAccountQuery, pixKeyQuery, transfers] =
+    useQueries({
+      queries: [
+        {
+          queryKey: ['transfer-setting', session.data?.user.id],
+          queryFn: GetDefaultTransfer,
+          enabled: !!session.data?.user.id,
+        },
+        {
+          queryKey: ['transfer-bank-account', 1],
+          queryFn: getBankAccounts,
+          enabled: !!session.data?.user.id,
+        },
+        {
+          queryKey: ['transfer-pix-key'],
+          queryFn: getPixKeys,
+          enabled: !!session.data?.user.id,
+        },
+        {
+          queryKey: ['transfers', page],
+          queryFn: GetAllTransfers,
+          enabled: true,
+        },
+      ],
+    })
 
   const bankQuery = useBanks()
 
-  if (isLoading || bankQuery.isLoading || transfers.isLoading)
+  if (bankAccountQuery.isLoading || bankQuery.isLoading || transfers.isLoading)
     return <TableComponentSkeleton />
 
-  if (isError || transfers.isError) return <TableComponentError />
+  if (transfers.isError) return <TableComponentError />
 
-  if (data?.bank_accounts && transfers.data) {
+  if (bankAccountQuery.data?.bank_accounts && transfers.data) {
     return (
       <div className="flex flex-col space-y-6">
-        <div className="flex space-x-4">
-          {/* <Button className="space-x-2">
-            <Filter />
-            <p>Filtros</p>
-          </Button> */}
-          <CreateBank></CreateBank>
-        </div>
-        <div>
-          <Card>
-            <CardHeader>
-              <CardTitle className="italic">
-                Conta sendo usada para transferência
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              {data.bank_accounts.map((item) => {
-                const bank = bankQuery?.data?.banks.find(
-                  (bank: Bank) => bank.code === item.bank_code,
-                )
-                const getAccountType = (type: AccountBankType) => {
-                  switch (type) {
-                    case AccountBankType.SALARY_ACCOUNT:
-                      return 'Salário'
-                    case AccountBankType.CHECKING_ACCOUNT:
-                      return 'Corrente'
-                    case AccountBankType.SAVINGS_ACCOUNT:
-                      return 'Poupança'
-                    case AccountBankType.PAYMENT_ACCOUNT:
-                      return 'Pagamento'
-                    default:
-                      return ''
-                  }
-                }
-
-                return (
-                  <div key={item.id}>
-                    <p>
-                      <strong>Agência:</strong> {item?.bank_branch}
-                    </p>
-                    <p>
-                      <strong>Conta:</strong> {item?.account_number}
-                    </p>
-                    <p>
-                      <strong>Dígito da conta:</strong> {item?.account_digit}
-                    </p>
-                    <p>
-                      <strong>Banco:</strong> {bank?.corporate_name}
-                    </p>
-                    <p>
-                      <strong>Tipo da conta:</strong>{' '}
-                      {getAccountType(item?.account_bank_type)}
-                    </p>
-                  </div>
-                )
-              })}
-              {data.bank_accounts.length === 0 && (
-                <div>Nenhum banco cadastrado!</div>
-              )}
-            </CardContent>
-          </Card>
+        <div className="flex space-x-4 items-center">
+          <TransferSettingDialog
+            bankAccount={bankAccountQuery.data?.bank_accounts[0]}
+            defaultTransfer={transferSettingQuery.data?.type_string ?? ''}
+            pixKey={pixKeyQuery.data}
+          ></TransferSettingDialog>
         </div>
         <TableComponent
           name="Transferências realizadas"

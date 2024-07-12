@@ -13,7 +13,6 @@ import {
 } from '@/components/ui/select'
 import { Checkbox } from '@/components/ui/checkbox'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { createBankAccount } from '@/services/bank-accounts'
 import { toast } from 'sonner'
 import { ReactNode, useState } from 'react'
 
@@ -30,19 +29,16 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
-import {
-  createBankAccountBodySchema,
-  AccountBankType,
-} from '@/services/bank-accounts/types'
 import { useBanks } from '@/hooks/useBanks'
-import { Plus } from 'lucide-react'
+import { PixKeyType, createPixKeyBodySchema } from '@/services/pix-key/types'
+import { createPixKey } from '@/services/pix-key'
 
-export type formSchemaCreateBank = z.infer<typeof createBankAccountBodySchema>
+export type formSchemaCreatePixKey = z.infer<typeof createPixKeyBodySchema>
 
 interface Props {
   children: ReactNode
 }
-export function CreateBank({ children }: Props) {
+export function CreatePixKey({ children }: Props) {
   const [open, setOpen] = useState(false)
   const [bankName, setBankName] = useState('')
   const {
@@ -52,8 +48,8 @@ export function CreateBank({ children }: Props) {
     watch,
     getValues,
     formState: { errors },
-  } = useForm<formSchemaCreateBank>({
-    resolver: zodResolver(createBankAccountBodySchema),
+  } = useForm<formSchemaCreatePixKey>({
+    resolver: zodResolver(createPixKeyBodySchema),
     defaultValues: {
       is_default: true,
     },
@@ -62,11 +58,11 @@ export function CreateBank({ children }: Props) {
   const queryBanks = useBanks()
 
   const submit = useMutation({
-    mutationFn: async (form: formSchemaCreateBank) => {
-      return await createBankAccount(form)
+    mutationFn: async (form: formSchemaCreatePixKey) => {
+      return await createPixKey(form)
     },
     onSuccess: () => {
-      toast.success('Banco cadastrado com sucesso')
+      toast.success('Chave pix cadastrado com sucesso')
       queryClient.invalidateQueries({
         queryKey: ['bank-accounts'],
       })
@@ -76,7 +72,7 @@ export function CreateBank({ children }: Props) {
     },
   })
 
-  const handleSumbitMutation = async (data: formSchemaCreateBank) => {
+  const handleSumbitMutation = async (data: formSchemaCreatePixKey) => {
     await submit.mutateAsync({ ...data })
   }
 
@@ -91,36 +87,32 @@ export function CreateBank({ children }: Props) {
           className="space-y-4 w-full"
         >
           <div>
-            <Input
-              {...register('account_number')}
-              placeholder="Número da conta"
-            ></Input>
-            {errors.account_number && (
+            <Select
+              onValueChange={(e) => {
+                setValue('pix_key_type', e as PixKeyType)
+              }}
+            >
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Tipo da chave pix" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value={PixKeyType.CNPJ}>CNPJ</SelectItem>
+                <SelectItem value={PixKeyType.CPF}>CPF</SelectItem>
+                <SelectItem value={PixKeyType.EMAIL}>E-mail</SelectItem>
+                <SelectItem value={PixKeyType.PHONE}>Telefone</SelectItem>
+                <SelectItem value={PixKeyType.RANDOM}>Aléatorio</SelectItem>
+              </SelectContent>
+            </Select>
+            {errors.pix_key_type && (
               <span className="text-xs text-red-500">
-                {errors.account_number.message}
+                {errors.pix_key_type.message}
               </span>
             )}
+          </div>
+          <div>
+            <Input {...register('key')} placeholder="Chave pix"></Input>
           </div>
 
-          <div>
-            <Input {...register('bank_branch')} placeholder="Agência"></Input>
-            {errors.bank_branch && (
-              <span className="text-xs text-red-500">
-                {errors.bank_branch.message}
-              </span>
-            )}
-          </div>
-          <div>
-            <Input
-              {...register('account_digit')}
-              placeholder="Digitos da conta"
-            ></Input>
-            {errors.account_digit && (
-              <span className="text-xs text-red-500">
-                {errors.account_digit.message}
-              </span>
-            )}
-          </div>
           <div>
             <Popover open={open} onOpenChange={setOpen} modal={true}>
               <PopoverTrigger asChild className="max-w-full">
@@ -170,36 +162,7 @@ export function CreateBank({ children }: Props) {
               </span>
             )}
           </div>
-          <div>
-            <Select
-              onValueChange={(e) => {
-                setValue('account_bank_type', e as AccountBankType)
-              }}
-            >
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Tipo da conta" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value={AccountBankType.CHECKING_ACCOUNT}>
-                  Corrente
-                </SelectItem>
-                <SelectItem value={AccountBankType.SAVINGS_ACCOUNT}>
-                  Poupança
-                </SelectItem>
-                {/* <SelectItem value={AccountBankType.SALARY_ACCOUNT}>
-                  Salário
-                </SelectItem>
-                <SelectItem value={AccountBankType.PAYMENT_ACCOUNT}>
-                  Pagamento
-                </SelectItem> */}
-              </SelectContent>
-            </Select>
-            {errors.account_bank_type && (
-              <span className="text-xs text-red-500">
-                {errors.account_bank_type.message}
-              </span>
-            )}
-          </div>
+
           <div className="flex items-center space-x-2">
             <Checkbox
               checked={watch('is_default')}
@@ -208,11 +171,11 @@ export function CreateBank({ children }: Props) {
                 setValue('is_default', !checked)
               }}
             />
-            <p>Banco padrão para transferência</p>
+            <p>Padrão para transferência</p>
           </div>
           <h1 className="font-bold italic">
-            Atenção! Caso você tenha um banco cadastrado, o banco que você
-            cadastrar agora irá substitui-lo
+            Atenção! Caso você tenha uma chave pix cadastrado, a chave pix que
+            você cadastrar agora irá substitui-lo
           </h1>
           <Button className="w-full">Cadastrar</Button>
         </form>

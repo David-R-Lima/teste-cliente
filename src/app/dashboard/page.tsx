@@ -9,7 +9,6 @@ import {
   GraphSignature,
   SignatureGrowthChart,
 } from '@/components/graph-signatures'
-import { CreateBank } from '@/components/create-bank'
 
 export default function Dashboard() {
   const [item, setItem] = useState<string>('customer')
@@ -26,9 +25,6 @@ export default function Dashboard() {
           <Button variant={'link'}>
             Clique aqui para saber mais sobre o valor que irá receber.
           </Button>
-        </div>
-        <div className="p-4">
-          <CreateBank></CreateBank>
         </div>
       </div>
       <hr />

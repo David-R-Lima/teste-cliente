@@ -2,6 +2,7 @@ import { QueryFunctionContext } from '@tanstack/react-query'
 import { Charges } from './types'
 import { formSchema } from '@/app/dashboard/charges/components/create-charge-form'
 import { apiGateway } from '../apiGateway'
+import { AxiosError } from 'axios'
 
 export const getCharges = async (ctx: QueryFunctionContext) => {
   const [, page] = ctx.queryKey
@@ -20,7 +21,11 @@ export const createCharge = async (formData: formSchema) => {
     })
     return data.charge
   } catch (error) {
-    throw new Error(`${error?.response?.data?.message}`)
+    if (error instanceof AxiosError) {
+      throw new Error(`${error?.response?.data?.message}`)
+    } else {
+      throw new Error('Error ao criar cobrança')
+    }
   }
 }
 

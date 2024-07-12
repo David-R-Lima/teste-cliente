@@ -9,7 +9,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
-import { Loader2, Plus, Trash } from 'lucide-react'
+import { Loader2, Plus } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'

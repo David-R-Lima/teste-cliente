@@ -140,7 +140,9 @@ export function CreateChargeForm() {
         },
       })
     } else {
-      await submit.mutateAsync({ ...data })
+      await submit.mutateAsync({
+        ...data,
+      })
     }
   }
 
@@ -739,7 +741,7 @@ export function CreateChargeForm() {
                                     'card_payment_method.items',
                                   )
                                   if (previousValues) {
-                                    previousValues.splice(index, 1)
+                                    previousValues?.splice(index, 1)
 
                                     setValue(
                                       'card_payment_method.items',
@@ -755,6 +757,12 @@ export function CreateChargeForm() {
                         },
                       )}
                     </div>
+                    {errors?.card_payment_method?.items && (
+                      <span className="text-red-500">
+                        {' '}
+                        Items não pode ser vazio!
+                      </span>
+                    )}
                   </div>
                   <Input
                     placeholder="Parcelas*"
@@ -773,9 +781,13 @@ export function CreateChargeForm() {
                 <div className="space-y-2">
                   <Input
                     type="number"
-                    min={10000}
-                    placeholder="Tempo de expiração. Em milisegundos"
-                    {...register('pix_payment_method.expiration_time')}
+                    min={1}
+                    placeholder="Tempo de expiração. Em minutos"
+                    onChange={(e) => {
+                      const value = Number(e.target.value) * 60 * 1000
+
+                      setValue('pix_payment_method.expiration_time', value)
+                    }}
                   ></Input>
                   {errors.pix_payment_method?.expiration_time && (
                     <span className="text-xs text-red-500">
@@ -889,7 +901,7 @@ export function CreateChargeForm() {
                                     'pix_payment_method.items',
                                   )
                                   if (previousValues) {
-                                    previousValues.splice(index, 1)
+                                    previousValues?.splice(index, 1)
 
                                     setValue(
                                       'pix_payment_method.items',
@@ -905,6 +917,12 @@ export function CreateChargeForm() {
                         },
                       )}
                     </div>
+                    {errors?.pix_payment_method?.items && (
+                      <span className="text-red-500">
+                        {' '}
+                        Items não pode ser vazio!
+                      </span>
+                    )}
                   </div>
                 </div>
               )}
@@ -1067,7 +1085,7 @@ export function CreateChargeForm() {
                                   const previousValues = getValues(
                                     'boleto_payment_method.items',
                                   )
-                                  previousValues.splice(index, 1)
+                                  previousValues?.splice(index, 1)
 
                                   setValue(
                                     'boleto_payment_method.items',
@@ -1082,6 +1100,12 @@ export function CreateChargeForm() {
                         },
                       )}
                     </div>
+                    {errors?.boleto_payment_method?.items && (
+                      <span className="text-red-500">
+                        {' '}
+                        Items não pode ser vazio!
+                      </span>
+                    )}
                   </div>
                 </div>
               )}

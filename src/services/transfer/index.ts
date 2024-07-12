@@ -18,3 +18,27 @@ export async function GetDefaultTransfer() {
 
   return data.merchant_setting
 }
+
+interface Update {
+  typeString: 'PIX' | 'CONTA BANCARIA'
+  id: string
+}
+export async function UpdateDefaultTransfer({ typeString, id }: Update) {
+  await apiGateway.put<{ merchant_setting: MerchantSetting }>(
+    '/merchant-settings',
+    {
+      parameter_name: 'NM_REC_TRA_TIP_PDR',
+      str: typeString,
+    },
+  )
+
+  await apiGateway.put<{ merchant_setting: MerchantSetting }>(
+    '/merchant-settings',
+    {
+      parameter_name: 'CD_REC_TRA_TIP_PDR',
+      str: id,
+    },
+  )
+
+  return true
+}

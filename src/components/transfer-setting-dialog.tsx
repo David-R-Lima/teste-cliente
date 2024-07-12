@@ -15,6 +15,9 @@ import { useBanks } from '@/hooks/useBanks'
 import { Checkbox } from '@/components/ui/checkbox'
 import { CreateBank } from './create-bank'
 import { CreatePixKey } from './create-pix-key-dialog'
+import { UpdateDefaultTransfer } from '@/services/transfer'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { toast } from 'sonner'
 
 interface TransferSettingProps {
   defaultTransfer: string
@@ -26,8 +29,7 @@ export function TransferSettingDialog({
   bankAccount,
   pixKey,
 }: TransferSettingProps) {
-  console.log(defaultTransfer)
-
+  const queryClient = useQueryClient()
   const bankQuery = useBanks()
   const getAccountType = (type: AccountBankType) => {
     switch (type) {
@@ -49,6 +51,20 @@ export function TransferSettingDialog({
 
     return bank?.corporate_name ?? ''
   }
+
+  const updateDefaultMutation = useMutation({
+    mutationKey: ['update-default-transfer'],
+    mutationFn: UpdateDefaultTransfer,
+    onSuccess: () => {
+      toast.message('Método padrão para transferência atualizado!')
+      queryClient.invalidateQueries({
+        queryKey: ['transfer-setting'],
+      })
+    },
+    onError: () => {
+      toast.error('Erro ao atualizar método padrão de transferência')
+    },
+  })
 
   return (
     <Dialog>
@@ -73,6 +89,14 @@ export function TransferSettingDialog({
                     <div className="flex space-x-2 items-center">
                       <Checkbox
                         checked={defaultTransfer === 'CONTA BANCARIA'}
+                        onClick={async () => {
+                          if (defaultTransfer !== 'CONTA BANCARIA') {
+                            await updateDefaultMutation.mutateAsync({
+                              typeString: 'CONTA BANCARIA',
+                              id: bankAccount.id,
+                            })
+                          }
+                        }}
                       ></Checkbox>
                       <p>Padrão</p>
                     </div>
@@ -118,7 +142,15 @@ export function TransferSettingDialog({
                 <div className="space-y-2 mt-4">
                   <div className="flex space-x-2 items-center">
                     <Checkbox
-                      checked={defaultTransfer === 'PIX KEY'}
+                      checked={defaultTransfer === 'PIX'}
+                      onClick={async () => {
+                        if (defaultTransfer !== 'PIX') {
+                          await updateDefaultMutation.mutateAsync({
+                            typeString: 'PIX',
+                            id: pixKey.id,
+                          })
+                        }
+                      }}
                     ></Checkbox>
                     <p>Padrão</p>
                   </div>

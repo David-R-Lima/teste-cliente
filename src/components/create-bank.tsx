@@ -66,9 +66,9 @@ export function CreateBank({ children }: Props) {
       return await createBankAccount(form)
     },
     onSuccess: () => {
-      toast.success('Banco cadastrado com sucesso')
+      toast.success('Conta bancária cadastrado com sucesso')
       queryClient.invalidateQueries({
-        queryKey: ['bank-accounts'],
+        queryKey: ['transfer-bank-account'],
       })
     },
     onError: (error) => {

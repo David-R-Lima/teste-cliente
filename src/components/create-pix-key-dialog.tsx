@@ -64,7 +64,7 @@ export function CreatePixKey({ children }: Props) {
     onSuccess: () => {
       toast.success('Chave pix cadastrado com sucesso')
       queryClient.invalidateQueries({
-        queryKey: ['bank-accounts'],
+        queryKey: ['transfer-pix-key'],
       })
     },
     onError: (error) => {

@@ -37,6 +37,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
+import { SendMail } from '@/components/send-mail-dialog'
 interface Props {
   children: JSX.Element
 }
@@ -154,11 +155,18 @@ export default function DashboardLayout({ children }: Props) {
               <DropdownMenuSeparator />
               <ThemePickerHeader />
               <DropdownMenuSeparator />
-              <DropdownMenuItem className="hover:cursor-pointer hover:text-primary">
-                <p className="hover:cursor-pointer hover:text-primary">
-                  Suporte
-                </p>
-              </DropdownMenuItem>
+              <SendMail merchantId={session.data?.user.id ?? ''}>
+                <DropdownMenuItem
+                  className="hover:cursor-pointer hover:text-primary"
+                  onSelect={(e) => {
+                    e.preventDefault()
+                  }}
+                >
+                  <p className="hover:cursor-pointer hover:text-primary">
+                    Suporte
+                  </p>
+                </DropdownMenuItem>
+              </SendMail>
               <DropdownMenuItem
                 onClick={(e) => {
                   e.preventDefault()

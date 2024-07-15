@@ -5,6 +5,12 @@ import { Clipboard } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import { CreateAccessToken } from './create-access-token'
 import { toast } from 'sonner'
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from '@/components/ui/hover-card'
+
 export function ApiKeys() {
   const session = useSession()
   return (
@@ -49,7 +55,7 @@ export function ApiKeys() {
               <Label>Id do vendedor:</Label>
             </div>
             <div className="flex items-center space-x-2">
-              <p className="p-2 border rounded-lg font-bold w-[30%] truncate">
+              <p className="p-2 border rounded-lg font-bold w-[20vw] truncate">
                 {session.data?.user.id}
               </p>
               <Clipboard
@@ -57,6 +63,40 @@ export function ApiKeys() {
                 onClick={() => {
                   navigator.clipboard.writeText(session.data?.user.id ?? '')
                   toast.success('Id copiado com sucesso')
+                }}
+              />
+            </div>
+          </div>
+          <div className="grid grid-cols-[8rem,2fr]">
+            <div className="flex items-center">
+              <Label>Chave pública:</Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <HoverCard openDelay={0}>
+                <HoverCardTrigger>
+                  <p className="p-2 border rounded-lg font-bold w-[20vw] truncate">
+                    {session.data?.user.pub_key}
+                  </p>
+                </HoverCardTrigger>
+                <HoverCardContent className="max-w-[40vw] space-y-2">
+                  <h1>
+                    <strong>
+                      Chave pública para criptograifa de cartão de crédito:
+                    </strong>{' '}
+                  </h1>
+                  <p className="break-all text-sm">
+                    {session.data?.user.pub_key}
+                  </p>
+                </HoverCardContent>
+              </HoverCard>
+
+              <Clipboard
+                className="hover:cursor-pointer"
+                onClick={() => {
+                  navigator.clipboard.writeText(
+                    session.data?.user.pub_key ?? '',
+                  )
+                  toast.success('Chave pública copiado com sucesso')
                 }}
               />
             </div>

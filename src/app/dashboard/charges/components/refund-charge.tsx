@@ -26,8 +26,8 @@ export const RefundSchema = z.object({
     .string({
       required_error: 'Motivo do estorno é obrigatório',
     })
-    .min(1, {
-      message: 'Motivo do estorno precisa ter pelo menos 1 caractere',
+    .min(10, {
+      message: 'Motivo do estorno precisa ter pelo menos 10 caractere',
     })
     .max(255, {
       message: 'Motivo do estorno precisa ter no máximo 255 caracteres',

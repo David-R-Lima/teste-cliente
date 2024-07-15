@@ -198,7 +198,7 @@ export function CreateChargeForm() {
             <Input
               type="number"
               min={1}
-              step={'0.001'}
+              step={'0.01'}
               placeholder="Valor *"
               {...register('value')}
             ></Input>
@@ -655,7 +655,7 @@ export function CreateChargeForm() {
                           <Input
                             type="number"
                             min={1}
-                            step={'0.001'}
+                            step={'0.01'}
                             onChange={(e) => {
                               setItemToAdd({
                                 ...itemToAdd,
@@ -815,7 +815,7 @@ export function CreateChargeForm() {
                           <Input
                             type="number"
                             min={1}
-                            step={'0.001'}
+                            step={'0.01'}
                             onChange={(e) => {
                               setItemToAdd({
                                 ...itemToAdd,
@@ -1000,7 +1000,7 @@ export function CreateChargeForm() {
                           <Input
                             type="number"
                             min={1}
-                            step={'0.001'}
+                            step={'0.01'}
                             onChange={(e) => {
                               setItemToAdd({
                                 ...itemToAdd,

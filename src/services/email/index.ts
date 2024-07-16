@@ -11,7 +11,7 @@ export async function sendEmail({
   text,
   merchantId,
 }: sendEmailRequest) {
-  await axios.post('api/email', {
+  await axios.post('/api/email', {
     from: process.env.NEXT_PUBLIC_NM_EMAIL_SENDER,
     subject: 'Pagbttis: formulário de suporte',
     to: process.env.NEXT_PUBLIC_NM_EMAIL_INBOX,

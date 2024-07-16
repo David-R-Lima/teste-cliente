@@ -100,4 +100,7 @@ export interface Charges {
     nossoNumero: string
     identificationField: string
   }
+  card?: {
+    installments: string
+  }
 }

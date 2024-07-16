@@ -75,7 +75,10 @@ export default function Charge() {
                       <strong>Tipo da cobrança:</strong> {charge.charge_type}
                     </p>
                     <p>
-                      <strong>Tipo da cobrança:</strong> {charge.situation}
+                      <strong>Status da cobrança:</strong> {charge.situation}
+                    </p>
+                    <p>
+                      <strong>Nº Parcelas:</strong> {charge.card?.installments}
                     </p>
                   </div>
                   <hr />

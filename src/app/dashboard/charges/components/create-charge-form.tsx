@@ -192,7 +192,7 @@ export function CreateChargeForm() {
         </DialogHeader>
         <form
           onSubmit={handleSubmit(handleSumbitMutation)}
-          className="space-y-4 p-4 bg-muted rounded-lg w-full h-[80vh] overflow-y-auto"
+          className="space-y-4 p-4 rounded-lg w-full h-[80vh] overflow-y-auto"
         >
           <div className="space-y-2 p-4 bg-accent rounded-lg">
             <Input

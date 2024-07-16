@@ -19,7 +19,7 @@ export default function Dashboard() {
         <p className="text-gray-500">Seja bem-vindo ao seu dashboard!</p>
       </div>
       <hr />
-      <div className="lg:flex items-start p-4 bg-muted rounded-lg lg:space-x-4">
+      <div className="lg:flex items-start p-4 bg-muted/40 rounded-lg lg:space-x-4">
         <div className="my-4 border-b-2 lg:px-4 lg:border-r-2 lg:py-0 lg:border-b-0">
           <Receber />
           <Button variant={'link'}>
@@ -45,7 +45,7 @@ export default function Dashboard() {
           <GraphClient />
           <h1 className="italic font-bold">Clientes cadastrados por mês</h1>
           <div className="px-[8rem] py-10">
-            <div className="w-full p-4 bg-muted rounded-lg">
+            <div className="w-full p-4 bg-muted/40 rounded-lg">
               <ClientGrowthChart />
             </div>
           </div>

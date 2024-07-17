@@ -57,6 +57,12 @@ export enum ChargeStatus {
   IN_ANALYSIS = 'EM_ANALISE',
   CONFIRMED = 'CONFIRMADO',
 }
+export interface ItemsProps {
+  id: string
+  description: string | null
+  unityValue: number | null
+  quantity: number | null
+}
 
 export interface Charges {
   id: string
@@ -94,13 +100,20 @@ export interface Charges {
     base64: string
     text: string
   }
-  boleto?: {
+  paymentMethodBoleto?: {
     boleto_id: string
     barCode: string
     nossoNumero: string
     identificationField: string
+    boletoItems: ItemsProps[]
   }
-  card?: {
+  paymentMethodCard?: {
     installments: string
+    cardItems: ItemsProps[]
+  }
+  paymentMethodPix?: {
+    expiration_date: number
+    id: string
+    pixItems: ItemsProps[]
   }
 }

@@ -48,6 +48,6 @@ export const getChargeById = async (ctx: QueryFunctionContext) => {
   const { data } = await apiGateway.get<{ charge: Charges }>(
     `/charges/${chargeId}`,
   )
-
+  console.log(data)
   return data.charge
 }

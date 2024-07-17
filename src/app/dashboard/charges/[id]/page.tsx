@@ -12,6 +12,7 @@ import Image from 'next/image'
 import { toast } from 'sonner'
 import Barcode from 'react-barcode'
 import Link from 'next/link'
+import { RenderQRCodeSection } from '../components/pix-payment-page'
 
 function formatChargeValue(charge: Charges) {
   if (charge.value) {
@@ -77,9 +78,88 @@ export default function Charge() {
                     <p>
                       <strong>Status da cobrança:</strong> {charge.situation}
                     </p>
-                    <p>
-                      <strong>Nº Parcelas:</strong> {charge.card?.installments}
+                    {charge.payment_type === 'CARTAO_CREDITO' && (
+                      <p>
+                        <strong>Nº Parcelas:</strong>{' '}
+                        {charge.paymentMethodCard?.installments}
+                      </p>
+                    )}
+                  </div>
+                  <hr />
+                  <div>
+                    <p className="p-2">
+                      {' '}
+                      <strong> items</strong>
                     </p>
+
+                    {charge.payment_type === 'CARTAO_CREDITO' &&
+                      charge.paymentMethodCard?.cardItems?.map((item) => {
+                        return (
+                          <div className=" flex gap-4 pl-6 mt-1" key={item.id}>
+                            <div className="w-96 bg-muted/80 px-2">
+                              {' '}
+                              <strong>Nome:</strong> {item.description}
+                            </div>
+                            <div className="w-64 bg-muted/80 px-2">
+                              {' '}
+                              <strong>Valor unitário:</strong> R$
+                              {item.unityValue
+                                ? (item.unityValue / 100).toFixed(2)
+                                : 0}
+                            </div>
+                            <div className="w-64 bg-muted/80 px-2">
+                              {' '}
+                              <strong>Quantidade:</strong> {item.quantity}
+                            </div>
+                          </div>
+                        )
+                      })}
+
+                    {charge.payment_type === 'PIX' &&
+                      charge.paymentMethodPix?.pixItems?.map((item) => {
+                        return (
+                          <div className=" flex gap-4 pl-6 mt-1" key={item.id}>
+                            <div className="w-96 bg-muted/80 px-2">
+                              {' '}
+                              <strong>Nome:</strong> {item.description}
+                            </div>
+                            <div className="w-64 bg-muted/80 px-2">
+                              {' '}
+                              <strong>Valor unitário:</strong> R$
+                              {item.unityValue
+                                ? (item.unityValue / 100).toFixed(2)
+                                : 0}
+                            </div>
+                            <div className="w-64 bg-muted/80 px-2">
+                              {' '}
+                              <strong>Quantidade:</strong> {item.quantity}
+                            </div>
+                          </div>
+                        )
+                      })}
+
+                    {charge.payment_type === 'BOLETO' &&
+                      charge.paymentMethodBoleto?.boletoItems?.map((item) => {
+                        return (
+                          <div className=" flex gap-4 pl-6 mt-1" key={item.id}>
+                            <div className="w-96 bg-muted/80 px-2">
+                              {' '}
+                              <strong>Nome:</strong> {item.description}
+                            </div>
+                            <div className="w-64 bg-muted/80 px-2">
+                              {' '}
+                              <strong>Valor unitário:</strong> R$
+                              {item.unityValue
+                                ? (item.unityValue / 100).toFixed(2)
+                                : 0}
+                            </div>
+                            <div className="w-64 bg-muted/80 px-2">
+                              {' '}
+                              <strong>Quantidade:</strong> {item.quantity}
+                            </div>
+                          </div>
+                        )
+                      })}
                   </div>
                   <hr />
                   <div className="space-y-2 p-2">
@@ -106,7 +186,7 @@ export default function Charge() {
             </Card>
           </div>
           <div className="flex justify-center items-center w-[50%]">
-            {renderQRCodeSection(charge)}
+            <RenderQRCodeSection {...charge} />
           </div>
           <div className="flex justify-center items-center w-[50%]">
             {renderBoletoSection(charge)}
@@ -117,49 +197,95 @@ export default function Charge() {
   }
 }
 
-const renderQRCodeSection = (charge: Charges) => {
-  if (
-    charge.payment_type === PaymentType.PIX &&
-    charge.situation === ChargeStatus.PENDING
-  ) {
-    const base64 = `data:image/jpeg;base64,${charge.qr_codes?.base64}`
-    return (
-      <Card>
-        <CardHeader>
-          <CardTitle>QrCode</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-col items-center justify-center space-y-4">
-            <div className="mb-4">
-              <Image src={base64} height={100} width={300} alt="" />
-            </div>
-            <p className="p-4 border-2 rounded-lg">{charge.qr_codes?.text}</p>
-            <Button
-              onClick={(e) => {
-                e.preventDefault()
-                navigator.clipboard.writeText(charge.qr_codes?.text ?? '')
-                toast.message('Código copiado com sucesso', {
-                  id: 'codigo-pix',
-                })
-              }}
-            >
-              Copiar pix
-            </Button>
-            <hr />
-          </div>
-        </CardContent>
-      </Card>
-    )
-  } else {
-    return null
-  }
-}
+// const renderQRCodeSection = (charge: Charges) => {
+//   if (
+//     charge.payment_type === PaymentType.PIX &&
+//     charge.situation === ChargeStatus.PENDING
+//   ) {
+//     const isUrl =
+//       charge.qr_codes?.base64?.startsWith('http://') ||
+//       charge.qr_codes?.base64?.startsWith('https://')
+
+//     const qrCodeSrc = `data:image/jpeg;base64,${charge.qr_codes?.base64}`
+
+//     const date = dayjs(charge.created_at)
+//     const dataExp = date.add(charge.pix?.expiration_date ?? 0, 'milliseconds')
+//     const isExpiredDate = dataExp.isBefore(new Date())
+//     let remainingTime = 0
+
+//     while (dataExp.isBefore(new Date())) {
+//       setTimeout(() => {
+//         remainingTime = dayjs(new Date()).diff(dataExp, 'minutes')
+//         console.log(' minutos restantes--', remainingTime)
+
+//         if (!dayjs(new Date()).isBefore(dataExp)) {
+//           clearInterval(1)
+//         }
+//       }, 10000)
+//     }
+
+//     const base64 = `data:image/jpeg;base64,${charge.qr_codes?.base64}`
+//     return (
+//       <Card>
+//         {!isExpiredDate ? (
+//           <span className="bg-red-100 p-2 rounded-sm text-lg">
+//             {' '}
+//             Tempo para pagamento expirado!
+//           </span>
+//         ) : (
+//           <div>
+//             <CardHeader>
+//               <CardTitle>QrCode</CardTitle>
+//             </CardHeader>
+//             <CardContent>
+//               <div className="flex flex-col items-center justify-center space-y-4">
+//                 <div className="mb-4">
+//                   {isUrl && (
+//                     <img
+//                       alt="Qr code"
+//                       src={charge.qr_codes?.base64}
+//                       height={100}
+//                       width={300}
+//                     />
+//                   )}
+//                   {!isUrl && (
+//                     <Image src={qrCodeSrc} height={100} width={300} alt="" />
+//                   )}
+//                 </div>
+//                 <p className="p-4 border-2 rounded-lg">
+//                   {charge.qr_codes?.text}
+//                 </p>
+//                 <Button
+//                   onClick={(e) => {
+//                     e.preventDefault()
+//                     navigator.clipboard.writeText(charge.qr_codes?.text ?? '')
+//                     toast.message('Código copiado com sucesso', {
+//                       id: 'codigo-pix',
+//                     })
+//                   }}
+//                 >
+//                   Copiar pix
+//                 </Button>
+
+//                 <div className="my-3">Expira em: </div>
+
+//                 <hr />
+//               </div>
+//             </CardContent>
+//           </div>
+//         )}
+//       </Card>
+//     )
+//   } else {
+//     return null
+//   }
+// }
 
 const renderBoletoSection = (charge: Charges) => {
   if (
     charge.payment_type === PaymentType.BOLETO &&
     charge.situation === ChargeStatus.PENDING &&
-    charge.boleto?.identificationField
+    charge.paymentMethodBoleto?.identificationField
   ) {
     return (
       <Card>
@@ -170,7 +296,7 @@ const renderBoletoSection = (charge: Charges) => {
           <div className="flex flex-col items-center justify-center space-y-4">
             <div className="mb-4">
               <Barcode
-                value={charge.boleto.identificationField}
+                value={charge.paymentMethodBoleto.identificationField}
                 displayValue={true}
               />
             </div>
@@ -178,7 +304,7 @@ const renderBoletoSection = (charge: Charges) => {
               onClick={(e) => {
                 e.preventDefault()
                 navigator.clipboard.writeText(
-                  charge?.boleto?.identificationField ?? '',
+                  charge?.paymentMethodBoleto?.identificationField ?? '',
                 )
                 toast.message('Código copiado com sucesso', {
                   id: 'codigo-barra',

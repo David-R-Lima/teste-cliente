@@ -8,7 +8,6 @@ import dayjs from 'dayjs'
 import { ChargeStatus, Charges, PaymentType } from '@/services/charges/types'
 import { useParams } from 'next/navigation'
 import { Button } from '@/components/ui/button'
-import Image from 'next/image'
 import { toast } from 'sonner'
 import Barcode from 'react-barcode'
 import Link from 'next/link'
@@ -196,90 +195,6 @@ export default function Charge() {
     )
   }
 }
-
-// const renderQRCodeSection = (charge: Charges) => {
-//   if (
-//     charge.payment_type === PaymentType.PIX &&
-//     charge.situation === ChargeStatus.PENDING
-//   ) {
-//     const isUrl =
-//       charge.qr_codes?.base64?.startsWith('http://') ||
-//       charge.qr_codes?.base64?.startsWith('https://')
-
-//     const qrCodeSrc = `data:image/jpeg;base64,${charge.qr_codes?.base64}`
-
-//     const date = dayjs(charge.created_at)
-//     const dataExp = date.add(charge.pix?.expiration_date ?? 0, 'milliseconds')
-//     const isExpiredDate = dataExp.isBefore(new Date())
-//     let remainingTime = 0
-
-//     while (dataExp.isBefore(new Date())) {
-//       setTimeout(() => {
-//         remainingTime = dayjs(new Date()).diff(dataExp, 'minutes')
-//         console.log(' minutos restantes--', remainingTime)
-
-//         if (!dayjs(new Date()).isBefore(dataExp)) {
-//           clearInterval(1)
-//         }
-//       }, 10000)
-//     }
-
-//     const base64 = `data:image/jpeg;base64,${charge.qr_codes?.base64}`
-//     return (
-//       <Card>
-//         {!isExpiredDate ? (
-//           <span className="bg-red-100 p-2 rounded-sm text-lg">
-//             {' '}
-//             Tempo para pagamento expirado!
-//           </span>
-//         ) : (
-//           <div>
-//             <CardHeader>
-//               <CardTitle>QrCode</CardTitle>
-//             </CardHeader>
-//             <CardContent>
-//               <div className="flex flex-col items-center justify-center space-y-4">
-//                 <div className="mb-4">
-//                   {isUrl && (
-//                     <img
-//                       alt="Qr code"
-//                       src={charge.qr_codes?.base64}
-//                       height={100}
-//                       width={300}
-//                     />
-//                   )}
-//                   {!isUrl && (
-//                     <Image src={qrCodeSrc} height={100} width={300} alt="" />
-//                   )}
-//                 </div>
-//                 <p className="p-4 border-2 rounded-lg">
-//                   {charge.qr_codes?.text}
-//                 </p>
-//                 <Button
-//                   onClick={(e) => {
-//                     e.preventDefault()
-//                     navigator.clipboard.writeText(charge.qr_codes?.text ?? '')
-//                     toast.message('Código copiado com sucesso', {
-//                       id: 'codigo-pix',
-//                     })
-//                   }}
-//                 >
-//                   Copiar pix
-//                 </Button>
-
-//                 <div className="my-3">Expira em: </div>
-
-//                 <hr />
-//               </div>
-//             </CardContent>
-//           </div>
-//         )}
-//       </Card>
-//     )
-//   } else {
-//     return null
-//   }
-// }
 
 const renderBoletoSection = (charge: Charges) => {
   if (

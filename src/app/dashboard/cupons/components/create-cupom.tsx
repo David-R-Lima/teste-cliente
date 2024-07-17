@@ -57,13 +57,6 @@ export function CreateCupomForm() {
     formState: { errors },
   } = useForm<formSchemaCupom>({
     resolver: zodResolver(FormSchema),
-    defaultValues: {
-      code: '',
-      cupom_value_type: CupomValueType.PERCENTAGE,
-      cupom_payment_type: ChargeType.SINGLE,
-      expiration_date: new Date(),
-      max_number_of_uses: undefined,
-    },
   })
 
   const submit = useMutation({
@@ -121,6 +114,11 @@ export function CreateCupomForm() {
               min={1}
               placeholder="Valor *"
               {...register('value')}
+            ></Input>
+            <Input
+              type="number"
+              min={1}
+              {...register('max_number_of_uses')}
             ></Input>
             {errors.value && (
               <span className="text-xs text-red-500">

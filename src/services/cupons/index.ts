@@ -1,11 +1,14 @@
 import { QueryFunctionContext } from '@tanstack/react-query'
 import { apiGateway } from '../apiGateway'
 import { Cupom } from './types'
+import { formSchemaCupom } from '@/app/dashboard/cupons/components/create-cupom'
 
-export async function CreateCupom() {
-  const { data } = await apiGateway.post<{ cupom: Cupom }>('/cupons')
+export async function CreateCupom(data: formSchemaCupom) {
+  const res = await apiGateway.post<{ cupom: Cupom }>('/cupons', {
+    ...data,
+  })
 
-  return data.cupom
+  return res.data.cupom
 }
 
 export async function GetAllCupons(ctx: QueryFunctionContext) {

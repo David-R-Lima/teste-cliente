@@ -13,7 +13,7 @@ interface Props {
 
 export function Body({ properties, level = 0 }: Props) {
   const renderProperties = (properties: BodyProps[], level: number) => {
-    const bgClass = level % 2 !== 0 ? 'bg-muted' : 'bg-accent'
+    const bgClass = level % 2 !== 0 ? 'bg-muted/40' : 'bg-accent/40'
     const borderClass = level > 0 ? 'border-2' : ''
 
     return properties.map((property, index) => (

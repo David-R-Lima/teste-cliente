@@ -136,7 +136,8 @@ export const ChargesColumns: ColumnDef<Charges>[] = [
               </Link>
             </div>
             {/** TODO: ver os status certin */}
-            {charge.situation === ChargeStatus.PAID &&
+            {(charge.situation === ChargeStatus.PAID ||
+              charge.situation === ChargeStatus.AUTHORIZED) &&
               charge.payment_type === 'CARTAO_CREDITO' && (
                 <div>
                   <RefundChargeAlert chargeId={charge.id}></RefundChargeAlert>

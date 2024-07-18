@@ -42,6 +42,7 @@ export const ChargeFormSchema = z.object({
     required_error: 'Informe o método de pagamento',
   }),
 
+  cupom: z.string().optional(),
   pix_payment_method: z
     .object({
       expiration_time: z.coerce

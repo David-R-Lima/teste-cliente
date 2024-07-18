@@ -8,7 +8,7 @@ import Image from 'next/image'
 import { AlarmClock, AlarmClockOff } from 'lucide-react'
 
 export function RenderQRCodeSection(charge: Charges) {
-  const [expired, setExpires] = useState(false)
+  const [expired, setExpires] = useState(true)
   const [expiresIn, setExpiresIn] = useState(0)
 
   const date = dayjs(charge.created_at)

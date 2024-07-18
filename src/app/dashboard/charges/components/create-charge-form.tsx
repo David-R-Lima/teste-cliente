@@ -254,6 +254,7 @@ export function CreateChargeForm() {
                 </HoverCard>
               </p>
             </div>
+            <Input {...register('cupom')} placeholder="cupom"></Input>
           </div>
           <hr />
           <div className="flex flex-col space-y-2 p-4 bg-accent rounded-lg ">

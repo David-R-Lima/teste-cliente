@@ -126,7 +126,7 @@ export function CreatePlanForm() {
         </DialogHeader>
         <form
           onSubmit={handleSubmit(handleSumbitMutation)}
-          className="space-y-4 p-4 bg-muted rounded-lg max-h-[80vh] overflow-auto"
+          className="space-y-4 p-4 rounded-lg max-h-[80vh] overflow-auto"
         >
           <div className="space-y-4 p-4 bg-accent rounded-lg">
             <Input {...register('name')} placeholder="Nome *"></Input>

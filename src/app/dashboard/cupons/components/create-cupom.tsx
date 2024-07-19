@@ -43,6 +43,7 @@ const FormSchema = z.object({
     required_error: 'Expiration is required',
   }),
   max_number_of_uses: z.coerce.number().optional(),
+  duration_when_recurrence: z.coerce.number().optional(),
 })
 
 export type formSchemaCupom = z.infer<typeof FormSchema>
@@ -53,6 +54,7 @@ export function CreateCupomForm() {
   const {
     register,
     handleSubmit,
+    watch,
     setValue,
     formState: { errors },
   } = useForm<formSchemaCupom>({
@@ -118,6 +120,7 @@ export function CreateCupomForm() {
             <Input
               type="number"
               min={1}
+              placeholder="Número máximo de usos"
               {...register('max_number_of_uses')}
             ></Input>
             {errors.value && (
@@ -169,7 +172,19 @@ export function CreateCupomForm() {
                 </span>
               )}
             </div>
-            <Input type="date" {...register('expiration_date')}></Input>
+            {watch('cupom_payment_type') === ChargeType.RECURRENCE && (
+              <Input
+                {...register('duration_when_recurrence')}
+                type="number"
+                placeholder="Quantidade de cobranças de uma assinatura o cupom será aplicado"
+                min={1}
+              ></Input>
+            )}
+            <Input
+              type="date"
+              {...register('expiration_date')}
+              placeholder="Data de expiração"
+            ></Input>
             <hr />
 
             <Button>

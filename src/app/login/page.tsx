@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useRouter } from 'next/navigation'
 import { useMutation } from '@tanstack/react-query'
-import { signIn } from 'next-auth/react'
+import { signIn, useSession } from 'next-auth/react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -28,6 +28,7 @@ export type formSchemaData = z.infer<typeof formSchema>
 
 export default function Dashboard() {
   const router = useRouter()
+  const session = useSession()
 
   const {
     register,
@@ -59,50 +60,56 @@ export default function Dashboard() {
     await signInMutation.mutateAsync(data)
   }
 
-  return (
-    <div className="flex items-center h-[100vh]">
-      <div className="mx-auto grid w-[350px] gap-6">
-        <div className="grid gap-2 text-center">
-          <h1 className="text-3xl font-bold">Login</h1>
-          <p className="text-balance text-muted-foreground">
-            Faça o login para acessar o painel
-          </p>
+  if (session.status === 'authenticated') {
+    router.replace('/dashboard')
+  }
+
+  if (session.status === 'unauthenticated') {
+    return (
+      <div className="flex items-center h-[100vh]">
+        <div className="mx-auto grid w-[350px] gap-6">
+          <div className="grid gap-2 text-center">
+            <h1 className="text-3xl font-bold">Login</h1>
+            <p className="text-balance text-muted-foreground">
+              Faça o login para acessar o painel
+            </p>
+          </div>
+          <form
+            className="grid gap-6"
+            onSubmit={handleSubmit(handleSumbitMutation)}
+          >
+            <div className="grid gap-2">
+              <Input
+                id="email"
+                type="email"
+                placeholder="email@example.com"
+                {...register('email')}
+              />
+              {errors.email && (
+                <p className="text-red-500">{errors.email.message}</p>
+              )}
+            </div>
+            <div className="grid gap-2">
+              <Input
+                id="email"
+                type="password"
+                placeholder="********"
+                {...register('password')}
+              />
+              {errors.password && (
+                <p className="text-red-500">{errors.password.message}</p>
+              )}
+            </div>
+            <Button type="submit" className="w-full">
+              {signInMutation.isPending ? (
+                <Loader2 className="animate-spin" />
+              ) : (
+                'Login'
+              )}
+            </Button>
+          </form>
         </div>
-        <form
-          className="grid gap-6"
-          onSubmit={handleSubmit(handleSumbitMutation)}
-        >
-          <div className="grid gap-2">
-            <Input
-              id="email"
-              type="email"
-              placeholder="email@example.com"
-              {...register('email')}
-            />
-            {errors.email && (
-              <p className="text-red-500">{errors.email.message}</p>
-            )}
-          </div>
-          <div className="grid gap-2">
-            <Input
-              id="email"
-              type="password"
-              placeholder="********"
-              {...register('password')}
-            />
-            {errors.password && (
-              <p className="text-red-500">{errors.password.message}</p>
-            )}
-          </div>
-          <Button type="submit" className="w-full">
-            {signInMutation.isPending ? (
-              <Loader2 className="animate-spin" />
-            ) : (
-              'Login'
-            )}
-          </Button>
-        </form>
       </div>
-    </div>
-  )
+    )
+  }
 }

@@ -213,15 +213,6 @@ export function CreateChargeForm() {
                 {errors.description.message}
               </span>
             )}
-            <Input
-              {...register('invoice_description')}
-              placeholder="Descrição da fatura"
-            ></Input>
-            {errors.invoice_description && (
-              <span className="text-xs text-red-500">
-                {errors.invoice_description.message}
-              </span>
-            )}
             <div className="flex space-x-2 items-center">
               <Checkbox
                 checked={watch('capture')}
@@ -254,7 +245,7 @@ export function CreateChargeForm() {
                 </HoverCard>
               </p>
             </div>
-            <Input {...register('cupom')} placeholder="cupom"></Input>
+            <Input {...register('cupom')} placeholder="Cupom"></Input>
           </div>
           <hr />
           <div className="flex flex-col space-y-2 p-4 bg-accent rounded-lg ">

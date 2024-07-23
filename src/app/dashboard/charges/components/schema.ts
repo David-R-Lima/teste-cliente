@@ -21,15 +21,6 @@ export const ChargeFormSchema = z.object({
       required_error: 'Moeda é obrigatória!',
     })
     .default(Currency.BRL),
-
-  invoice_description: z
-    .string({
-      required_error: 'Informe a descrição da cobrança!',
-    })
-    .max(20, {
-      message: 'Descrição deve ter no máximo 20 caracteres!',
-    }),
-
   capture: z.boolean({
     required_error: 'Campo obrigatório!',
   }),

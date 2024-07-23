@@ -100,18 +100,18 @@ export interface Charges {
     base64: string
     text: string
   }
-  paymentMethodBoleto?: {
+  payment_method_boleto?: {
     boleto_id: string
     barCode: string
     nossoNumero: string
     identificationField: string
     boletoItems: ItemsProps[]
   }
-  paymentMethodCard?: {
+  payment_method_card?: {
     installments: string
     cardItems: ItemsProps[]
   }
-  paymentMethodPix?: {
+  payment_method_pix?: {
     expiration_date: number
     id: string
     pixItems: ItemsProps[]

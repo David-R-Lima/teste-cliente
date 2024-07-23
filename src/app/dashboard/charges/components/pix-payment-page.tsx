@@ -13,7 +13,7 @@ export function RenderQRCodeSection(charge: Charges) {
 
   const date = dayjs(charge.created_at)
   const dataExp = date.add(
-    charge.paymentMethodPix?.expiration_date ?? 0,
+    charge.payment_method_pix?.expiration_date ?? 0,
     'milliseconds',
   ) // dayjs(new Date(2024, 6, 17, 11))
 

@@ -80,7 +80,7 @@ export default function Charge() {
                     {charge.payment_type === 'CARTAO_CREDITO' && (
                       <p>
                         <strong>Nº Parcelas:</strong>{' '}
-                        {charge.paymentMethodCard?.installments}
+                        {charge.payment_method_card?.installments}
                       </p>
                     )}
                   </div>
@@ -92,7 +92,7 @@ export default function Charge() {
                     </p>
 
                     {charge.payment_type === 'CARTAO_CREDITO' &&
-                      charge.paymentMethodCard?.cardItems?.map((item) => {
+                      charge.payment_method_card?.cardItems?.map((item) => {
                         return (
                           <div className=" flex gap-4 pl-6 mt-1" key={item.id}>
                             <div className="w-96 bg-muted/80 px-2">
@@ -115,7 +115,7 @@ export default function Charge() {
                       })}
 
                     {charge.payment_type === 'PIX' &&
-                      charge.paymentMethodPix?.pixItems?.map((item) => {
+                      charge.payment_method_pix?.pixItems?.map((item) => {
                         return (
                           <div className=" flex gap-4 pl-6 mt-1" key={item.id}>
                             <div className="w-96 bg-muted/80 px-2">
@@ -138,7 +138,7 @@ export default function Charge() {
                       })}
 
                     {charge.payment_type === 'BOLETO' &&
-                      charge.paymentMethodBoleto?.boletoItems?.map((item) => {
+                      charge.payment_method_boleto?.boletoItems?.map((item) => {
                         return (
                           <div className=" flex gap-4 pl-6 mt-1" key={item.id}>
                             <div className="w-96 bg-muted/80 px-2">
@@ -200,7 +200,7 @@ const renderBoletoSection = (charge: Charges) => {
   if (
     charge.payment_type === PaymentType.BOLETO &&
     charge.situation === ChargeStatus.PENDING &&
-    charge.paymentMethodBoleto?.identificationField
+    charge.payment_method_boleto?.identificationField
   ) {
     return (
       <Card>
@@ -211,7 +211,7 @@ const renderBoletoSection = (charge: Charges) => {
           <div className="flex flex-col items-center justify-center space-y-4">
             <div className="mb-4">
               <Barcode
-                value={charge.paymentMethodBoleto.identificationField}
+                value={charge.payment_method_boleto.identificationField}
                 displayValue={true}
               />
             </div>
@@ -219,7 +219,7 @@ const renderBoletoSection = (charge: Charges) => {
               onClick={(e) => {
                 e.preventDefault()
                 navigator.clipboard.writeText(
-                  charge?.paymentMethodBoleto?.identificationField ?? '',
+                  charge?.payment_method_boleto?.identificationField ?? '',
                 )
                 toast.message('Código copiado com sucesso', {
                   id: 'codigo-barra',

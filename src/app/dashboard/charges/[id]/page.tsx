@@ -95,18 +95,18 @@ export default function Charge() {
                       charge.payment_method_card?.cardItems?.map((item) => {
                         return (
                           <div className=" flex gap-4 pl-6 mt-1" key={item.id}>
-                            <div className="w-96 bg-muted/80 px-2">
+                            <div className="w-96 bg-muted/80 px-2 py-1 rounded-lg">
                               {' '}
                               <strong>Nome:</strong> {item.description}
                             </div>
-                            <div className="w-64 bg-muted/80 px-2">
+                            <div className="w-64 bg-muted/80 px-2 py-1 rounded-lg">
                               {' '}
                               <strong>Valor unitário:</strong> R$
                               {item.unityValue
                                 ? (item.unityValue / 100).toFixed(2)
                                 : 0}
                             </div>
-                            <div className="w-64 bg-muted/80 px-2">
+                            <div className="w-64 bg-muted/80 px-2 py-1 rounded-lg">
                               {' '}
                               <strong>Quantidade:</strong> {item.quantity}
                             </div>
@@ -118,18 +118,18 @@ export default function Charge() {
                       charge.payment_method_pix?.pixItems?.map((item) => {
                         return (
                           <div className=" flex gap-4 pl-6 mt-1" key={item.id}>
-                            <div className="w-96 bg-muted/80 px-2">
+                            <div className="w-96 bg-muted/80 px-2 py-1 rounded-lg">
                               {' '}
                               <strong>Nome:</strong> {item.description}
                             </div>
-                            <div className="w-64 bg-muted/80 px-2">
+                            <div className="w-64 bg-muted/80 px-2 py-1 rounded-lg">
                               {' '}
                               <strong>Valor unitário:</strong> R$
                               {item.unityValue
                                 ? (item.unityValue / 100).toFixed(2)
                                 : 0}
                             </div>
-                            <div className="w-64 bg-muted/80 px-2">
+                            <div className="w-64 bg-muted/80 px-2 py-1 rounded-lg">
                               {' '}
                               <strong>Quantidade:</strong> {item.quantity}
                             </div>
@@ -141,18 +141,18 @@ export default function Charge() {
                       charge.payment_method_boleto?.boletoItems?.map((item) => {
                         return (
                           <div className=" flex gap-4 pl-6 mt-1" key={item.id}>
-                            <div className="w-96 bg-muted/80 px-2">
+                            <div className="w-96 bg-muted/80 px-2 py-1 rounded-lg">
                               {' '}
                               <strong>Nome:</strong> {item.description}
                             </div>
-                            <div className="w-64 bg-muted/80 px-2">
+                            <div className="w-64 bg-muted/80 px-2 py-1 rounded-lg">
                               {' '}
                               <strong>Valor unitário:</strong> R$
                               {item.unityValue
                                 ? (item.unityValue / 100).toFixed(2)
                                 : 0}
                             </div>
-                            <div className="w-64 bg-muted/80 px-2">
+                            <div className="w-64 bg-muted/80 px-2 py-1 rounded-lg">
                               {' '}
                               <strong>Quantidade:</strong> {item.quantity}
                             </div>

@@ -58,9 +58,9 @@ export function RenderQRCodeSection(charge: Charges) {
             <div>
               <CardHeader>
                 <CardTitle>{expired === 'V' && 'QrCode'}</CardTitle>
-                <div className="my-3 bg-slate-50 text-right text-lg">
+                <div className="p-4 bg-muted text-right text-lg rounded-lg">
                   {expired === 'V' && (
-                    <div className="flex gap-4 justify-end my-4">
+                    <div className="flex gap-4 justify-end">
                       <AlarmClock />
                       <span className="font-medium text-blue-600 ">
                         {' '}

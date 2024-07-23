@@ -31,12 +31,6 @@ const body: BodyProps[] = [
     required: true,
   },
   {
-    name: 'invoice_description',
-    type: 'string',
-    description: 'Descrição da fatura',
-    required: true,
-  },
-  {
     name: 'capture',
     type: 'boolean',
     description: 'Captura da cobrança',
@@ -67,42 +61,10 @@ const body: BodyProps[] = [
         required: true,
       },
       {
-        name: 'installments',
-        type: 'number',
-        description: 'Número de parcelas',
-        required: true,
-      },
-      {
         name: 'card_id',
         type: 'string',
         description: 'Id do cartão',
         required: true,
-      },
-      {
-        name: 'items',
-        type: 'array',
-        description: 'Itens da cobrança',
-        required: true,
-        additionalProperties: [
-          {
-            name: 'description',
-            type: 'string',
-            description: 'Descrição do item',
-            required: true,
-          },
-          {
-            name: 'unity_value',
-            type: 'number',
-            description: 'Valor do item',
-            required: true,
-          },
-          {
-            name: 'quantity',
-            type: 'number',
-            description: 'Quantidade do item',
-            required: true,
-          },
-        ],
       },
     ],
   },

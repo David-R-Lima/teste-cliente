@@ -19,12 +19,6 @@ const data: BodyProps[] = [
     required: true,
   },
   {
-    name: 'invoice_description',
-    type: 'string',
-    description: 'Descrição da fatura',
-    required: true,
-  },
-  {
     name: 'capture',
     type: 'boolean',
     description: 'Captura da cobrança',
@@ -35,6 +29,12 @@ const data: BodyProps[] = [
     type: 'string',
     description: 'Descrição da cobrança',
     required: true,
+  },
+  {
+    name: 'cupom',
+    type: 'string',
+    description: 'Cupom de desconto',
+    required: false,
   },
   {
     name: 'payment_type',

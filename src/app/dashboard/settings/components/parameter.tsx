@@ -111,9 +111,9 @@ export function DisplayParameter({ parameter }: Props) {
             type="number"
             placeholder={parameter.merchantSetting?.integer?.toString()}
             onChange={(e) => {
-              if (Number(e.currentTarget.value) >= 20) {
+              if (Number(e.currentTarget.value) > 90) {
                 setValue(null)
-                setError('O número de dias não pode ser superior a 20.')
+                setError('O número de dias não pode ser superior a 90.')
               } else {
                 setValue(e.currentTarget.value)
               }

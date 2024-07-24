@@ -10,10 +10,12 @@ import {
   Package,
   Users,
   DollarSign,
-  Webhook,
   List,
   ChevronDown,
   ChevronUp,
+  Settings,
+  Ticket,
+  HandCoins,
 } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
@@ -101,15 +103,29 @@ export function MobileSideBar() {
             Planos
           </Link>
           <Link
-            href={'/dashboard/webhooks'}
-            className={`flex items-center gap-3 rounded-lg py-2 ${path[2] === 'webhooks' ? 'text-primary text-lg' : 'text-muted-foreground transition-all hover:text-primary'}`}
+            href={'/dashboard/transfers'}
+            className={`flex items-center gap-3 rounded-lg py-2 ${path[2] === 'transfers' ? 'text-primary text-lg' : 'text-muted-foreground transition-all hover:text-primary'}`}
           >
-            <Webhook className="h-4 w-4" />
-            Web hooks
+            <HandCoins className="h-4 w-4" />
+            Transferências
+          </Link>
+          <Link
+            href={'/dashboard/cupons'}
+            className={`flex items-center gap-3 rounded-lg py-2 ${path[2] === 'cupons' ? 'text-primary text-lg' : 'text-muted-foreground transition-all hover:text-primary'}`}
+          >
+            <Ticket className="h-4 w-4" />
+            Cupons
+          </Link>
+          <Link
+            href={'/dashboard/settings'}
+            className={`flex items-center gap-3 rounded-lg py-2 ${path[2] === 'settings' ? 'text-primary text-lg' : 'text-muted-foreground transition-all hover:text-primary'}`}
+          >
+            <Settings className="h-4 w-4" />
+            Configurações
           </Link>
         </nav>
 
-        <div className="absolute bottom-0 left-0 w-full bg-muted h-10">
+        {/* <div className="absolute bottom-0 left-0 w-full bg-muted h-10">
           <DropdownMenu onOpenChange={handleToggle}>
             <DropdownMenuTrigger
               asChild
@@ -169,7 +185,7 @@ export function MobileSideBar() {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-        </div>
+        </div> */}
       </SheetContent>
     </Sheet>
   )

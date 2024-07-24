@@ -8,6 +8,7 @@ import {
   List,
   HandCoins,
   Ticket,
+  Settings,
 } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -56,9 +57,9 @@ export function SideBar({ open }: Props) {
       icon: <Ticket className="h-6 w-6 sidebar-icon shrink-0" />,
     },
     {
-      href: '/dashboard/webhooks',
-      label: 'Web hooks',
-      icon: <Webhook className="h-6 w-6 sidebar-icon shrink-0" />,
+      href: '/dashboard/settings',
+      label: 'Configurações',
+      icon: <Settings className="h-6 w-6 sidebar-icon shrink-0" />,
     },
   ]
 

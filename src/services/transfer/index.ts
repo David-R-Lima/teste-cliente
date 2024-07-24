@@ -1,7 +1,7 @@
 import { QueryFunctionContext } from '@tanstack/react-query'
 import { apiGateway } from '../apiGateway'
 import { Transfer } from './types'
-import { MerchantSetting } from '../webhook/types'
+import { MerchantSetting } from '../merchant-settings/types'
 
 export async function GetAllTransfers(ctx: QueryFunctionContext) {
   const [, page] = ctx.queryKey

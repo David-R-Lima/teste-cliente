@@ -10,7 +10,6 @@ apiGateway.interceptors.response.use(
     return response
   },
   async function (error: AxiosError) {
-    console.log('error: ', error)
     if (error instanceof AxiosError) {
       if (error.request.status === 500) {
         console.log(error)

@@ -1,4 +1,4 @@
-import { apiGateway } from '../apiGateway'
+import { api } from '../api'
 import { MerchantSetting } from './types'
 
 interface Props {
@@ -15,7 +15,7 @@ export interface SettingRequest {
 }
 
 export async function CreateSetting(request: SettingRequest) {
-  const { data } = await apiGateway.post<{ merchantSetting: MerchantSetting }>(
+  const { data } = await api.post<{ merchantSetting: MerchantSetting }>(
     '/merchant-settings',
     {
       parameter_name: request.parameter_name,
@@ -31,7 +31,7 @@ export async function CreateSetting(request: SettingRequest) {
 }
 
 export async function GetIndividualSetting({ name }: Props) {
-  const { data } = await apiGateway.get<{ merchant_setting: MerchantSetting }>(
+  const { data } = await api.get<{ merchant_setting: MerchantSetting }>(
     '/merchant-settings?parameter_name=' + name,
   )
 
@@ -39,7 +39,7 @@ export async function GetIndividualSetting({ name }: Props) {
 }
 
 export async function UpdateSetting(request: SettingRequest) {
-  const { data } = await apiGateway.put<{ merchantSetting: MerchantSetting }>(
+  const { data } = await api.put<{ merchantSetting: MerchantSetting }>(
     '/merchant-settings',
     {
       parameter_name: request.parameter_name,

@@ -37,7 +37,8 @@ const handler = NextAuth({
 
         const session = await apiGateway.get('/users', {
           headers: {
-            Authorization: 'Bearer ' + token,
+            authorization: 'Bearer ' + token,
+            'client-key': process.env.CLIENT_KEY,
           },
         })
 
@@ -45,7 +46,8 @@ const handler = NextAuth({
 
         const pubKey = await apiGateway.get('/credit-card-key', {
           headers: {
-            Authorization: 'Bearer ' + token,
+            authorization: 'Bearer ' + token,
+            'client-key': process.env.CLIENT_KEY,
           },
         })
 

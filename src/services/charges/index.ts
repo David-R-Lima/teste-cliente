@@ -3,10 +3,11 @@ import { Charges } from './types'
 import { formSchema } from '@/app/dashboard/charges/components/create-charge-form'
 import { apiGateway } from '../apiGateway'
 import { AxiosError } from 'axios'
+import { api } from '../api'
 
 export const getCharges = async (ctx: QueryFunctionContext) => {
   const [, page] = ctx.queryKey
-  const { data } = await apiGateway.get<{ charges: Charges[] }>(
+  const { data } = await api.get<{ charges: Charges[] }>(
     '/charges?page=' + page,
   )
 
@@ -15,12 +16,15 @@ export const getCharges = async (ctx: QueryFunctionContext) => {
 
 export const createCharge = async (formData: formSchema) => {
   try {
-    const { data } = await apiGateway.post<{ charge: Charges }>('/charges', {
+    const { data } = await api.post<{ charge: Charges }>('/charges', {
       ...formData,
       value: formData.value * 100,
     })
+
+    console.log(data)
     return data.charge
   } catch (error) {
+    console.log('error: ', error)
     if (error instanceof AxiosError) {
       throw new Error(`${error?.response?.data?.message}`)
     } else {
@@ -35,7 +39,7 @@ interface RefundRequest {
 }
 
 export const refundCharge = async ({ chargeId, reason }: RefundRequest) => {
-  const { data } = await apiGateway.post(`/charges/${chargeId}/void`, {
+  const { data } = await api.post(`/charges/${chargeId}/void`, {
     reason,
   })
 
@@ -45,9 +49,7 @@ export const refundCharge = async ({ chargeId, reason }: RefundRequest) => {
 export const getChargeById = async (ctx: QueryFunctionContext) => {
   const [, chargeId] = ctx.queryKey
 
-  const { data } = await apiGateway.get<{ charge: Charges }>(
-    `/charges/${chargeId}`,
-  )
+  const { data } = await api.get<{ charge: Charges }>(`/charges/${chargeId}`)
 
   return data.charge
 }

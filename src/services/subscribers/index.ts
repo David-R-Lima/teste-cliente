@@ -1,10 +1,10 @@
 import { QueryFunctionContext } from '@tanstack/react-query'
-import { apiGateway } from '../apiGateway'
 import { Subscriber } from './types'
+import { api } from '../api'
 
 export const getSubscriptions = async (ctx: QueryFunctionContext) => {
   const [, page] = ctx.queryKey
-  const { data } = await apiGateway.get<{ recurrences: Subscriber[] }>(
+  const { data } = await api.get<{ recurrences: Subscriber[] }>(
     '/subscriptions' + `?page=${page}`,
   )
 
@@ -20,7 +20,7 @@ export const deleteSubscription = async ({
   customerId,
   subscriptionId,
 }: DeleteSubscription) => {
-  await apiGateway.delete(`/subscriptions`, {
+  await api.delete(`/subscriptions`, {
     data: {
       customer_id: customerId,
       recurrence_id: subscriptionId,

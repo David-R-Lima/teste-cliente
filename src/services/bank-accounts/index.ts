@@ -1,10 +1,10 @@
 import { formSchemaCreateBank } from '@/components/create-bank'
-import { apiGateway } from '../apiGateway'
 import { QueryFunctionContext } from '@tanstack/react-query'
 import { BankAccount } from './types'
+import { api } from '../api'
 
 export const createBankAccount = async (schema: formSchemaCreateBank) => {
-  const { data } = await apiGateway.post('/bank-accounts', { ...schema })
+  const { data } = await api.post('/bank-accounts', { ...schema })
 
   return data
 }
@@ -12,7 +12,7 @@ export const createBankAccount = async (schema: formSchemaCreateBank) => {
 export const getBankAccounts = async (ctx: QueryFunctionContext) => {
   const [, page] = ctx.queryKey
 
-  const { data } = await apiGateway.get<{ bank_accounts: BankAccount[] }>(
+  const { data } = await api.get<{ bank_accounts: BankAccount[] }>(
     '/bank-accounts' + `?page=${page ?? 1}`,
   )
 

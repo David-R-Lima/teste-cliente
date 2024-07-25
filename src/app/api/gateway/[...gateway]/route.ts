@@ -9,6 +9,8 @@ export async function GET(req: NextRequest) {
     body = req.body ? await req?.json() : {}
   } catch (error) {}
 
+  console.log(req.url)
+
   const newUrl = req.url?.replace(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/gateway`,
     `${process.env.NEXT_PUBLIC_API_URL}`,

@@ -9,8 +9,6 @@ export async function GET(req: NextRequest) {
     body = req.body ? await req?.json() : {}
   } catch (error) {}
 
-  console.log(req.url)
-
   const newUrl = req.url?.replace(
     `https://localhost:3000/api/gateway`,
     `${process.env.NEXT_PUBLIC_API_URL}`,
@@ -59,7 +57,7 @@ export async function POST(req: NextRequest) {
   } catch (error) {}
 
   const newUrl = req.url?.replace(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/gateway`,
+    `https://localhost:3000/api/gateway`,
     `${process.env.NEXT_PUBLIC_API_URL}`,
   )
 
@@ -106,7 +104,7 @@ export async function DELETE(req: NextRequest) {
   } catch (error) {}
 
   const newUrl = req.url?.replace(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/gateway`,
+    `https://localhost:3000/api/gateway`,
     `${process.env.NEXT_PUBLIC_API_URL}`,
   )
 
@@ -153,7 +151,7 @@ export async function PATCH(req: NextRequest) {
   } catch (error) {}
 
   const newUrl = req.url?.replace(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/gateway`,
+    `https://localhost:3000/api/gateway`,
     `${process.env.NEXT_PUBLIC_API_URL}`,
   )
 
@@ -200,7 +198,7 @@ export async function PUT(req: NextRequest) {
   } catch (error) {}
 
   const newUrl = req.url?.replace(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/gateway`,
+    `https://localhost:3000/api/gateway`,
     `${process.env.NEXT_PUBLIC_API_URL}`,
   )
 

@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
   console.log(req.url)
 
   const newUrl = req.url?.replace(
-    `http://localhost:3000/api/gateway`,
+    `https://localhost:3000/api/gateway`,
     `${process.env.NEXT_PUBLIC_API_URL}`,
   )
 

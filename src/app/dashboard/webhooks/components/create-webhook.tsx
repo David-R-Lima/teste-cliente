@@ -21,9 +21,8 @@ import {
   DialogTrigger,
   DialogContent,
   DialogTitle,
-  DialogDescription,
 } from '@radix-ui/react-dialog'
-import { Plus, Loader2, CirclePlus, ChevronDown } from 'lucide-react'
+import { Loader2, CirclePlus } from 'lucide-react'
 import { Switch } from '@/components/ui/switch'
 import { Label } from '@/components/ui/label'
 import {
@@ -52,8 +51,17 @@ const CreateWebhookFormSchema = z.object({
 
 export type FormSchemaWebhook = z.infer<typeof CreateWebhookFormSchema>
 
-export function CreateWebhookForm() {
+interface CreateWebhookFormProps {
+  setModalOpen: (open: boolean) => void
+}
+
+export function CreateWebhookForm({ setModalOpen }: CreateWebhookFormProps) {
   const [open, setOpen] = useState(false)
+  const [chargeEventsChecked, setChargeEventsChecked] = useState<string[]>([])
+  const [recurrenceEventsChecked, setRecurrenceEventsChecked] = useState<
+    string[]
+  >([])
+
   const queryClient = useQueryClient()
   const {
     register,
@@ -65,7 +73,6 @@ export function CreateWebhookForm() {
     resolver: zodResolver(CreateWebhookFormSchema),
   })
 
-  const chargeWebhookEvents: WebhookChargeEvent[] = []
   const chargeWebhookEventsAvailables = Object.values(WebhookChargeEvent)
   const recurrenceWebhookEventsAvailables = Object.values(
     WebhookRecurrenceEvent,
@@ -82,33 +89,35 @@ export function CreateWebhookForm() {
       setOpen(false)
     },
     onError: (error) => {
+      console.log(error)
       toast.error(error.message)
     },
   })
 
   const handleSumbitMutation = async (data: FormSchemaWebhook) => {
+    console.log('Chegou aqui')
     await submit.mutateAsync({
       ...data,
     })
   }
 
+  const setOpenDialog = () => {
+    setModalOpen(!open)
+    setOpen(!open)
+  }
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button className="space-x-2">
-          <CirclePlus className="w-4 h-4" />
-          <span>Adicionar Webhook</span>
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="flex flex-col min-w-[80vw] min-h-[90vh] absolute z-50 border-2 border-white">
-        <DialogHeader>
-          {/* <DialogTitle>Cadastrar Webhook</DialogTitle>
-          <DialogDescription>
-            <p>
-              Utilize este formulário para cadastrar um novo webhook ao invés da
-              api.
-            </p>
-          </DialogDescription> */}
+    <Dialog open={open} onOpenChange={setOpenDialog}>
+      <div className="w-full flex justify-end">
+        <DialogTrigger className="">
+          <Button className="space-x-2">
+            <CirclePlus className="w-4 h-4" />
+            <span>Adicionar Webhook</span>
+          </Button>
+        </DialogTrigger>
+      </div>
+      <DialogContent className="flex flex-col">
+        <DialogHeader className="w-full px-5">
+          <DialogTitle className="text-xl">Cadastrar Webhook</DialogTitle>
         </DialogHeader>
         <form
           onSubmit={handleSubmit(handleSumbitMutation)}
@@ -141,24 +150,37 @@ export function CreateWebhookForm() {
                 {errors.token.message}
               </span>
             )}
-            <Input
-              type="text"
-              {...register('status')}
-              placeholder="Data de expiração"
-            ></Input>
-
             <hr />
-            <div className="flex flex-col gap-2 w-full min-h-[50vh] border-2 border-red-500 py-5">
+            <div className="flex flex-col gap-2 w-full min-h-[50vh] py-5">
               <Collapsible className="w-full border">
-                <CollapsibleTrigger className="h-14 w-full text-left border rounded-base px-5">
-                  Eventos de cobrança
-                </CollapsibleTrigger>
+                <div className="flex w-full justify-between px-5 border-b items-center">
+                  <CollapsibleTrigger className="h-14 flex items-center rounded-base">
+                    <div>
+                      <span>Eventos de cobrança</span>
+                    </div>
+                  </CollapsibleTrigger>
+                </div>
                 <CollapsibleContent className="grid grid-cols-3 grid-rows-3">
                   {chargeWebhookEventsAvailables.length > 0 &&
                     chargeWebhookEventsAvailables.map((event) => (
                       <div key={event} className="flex gap-2 px-5 my-4">
                         <div>
-                          <Checkbox id={event} />
+                          <Checkbox
+                            id={event}
+                            checked={chargeEventsChecked?.includes(event)}
+                            onCheckedChange={(checked) => {
+                              return checked
+                                ? setChargeEventsChecked([
+                                    ...chargeEventsChecked,
+                                    event,
+                                  ])
+                                : setChargeEventsChecked(
+                                    chargeEventsChecked?.filter(
+                                      (item) => item !== event,
+                                    ),
+                                  )
+                            }}
+                          />
                         </div>
                         <div className="flex flex-col gap-2 pt-1">
                           <Label htmlFor={event}>{event}</Label>
@@ -170,16 +192,35 @@ export function CreateWebhookForm() {
                     ))}
                 </CollapsibleContent>
               </Collapsible>
-              <Collapsible className="w-full">
-                <CollapsibleTrigger className="h-14 w-full text-left border rounded-base px-5">
-                  Eventos de recorrência
-                </CollapsibleTrigger>
-                <CollapsibleContent className="grid grid-cols-3 grid-rows-3 px-5 py-4 gap-4">
+              <Collapsible className="w-full border">
+                <div className="flex w-full justify-between px-5 border-b items-center">
+                  <CollapsibleTrigger className="h-14 flex items-center rounded-base">
+                    <div>
+                      <span>Eventos de recorrência</span>
+                    </div>
+                  </CollapsibleTrigger>
+                </div>
+                <CollapsibleContent className="grid grid-cols-3 grid-rows-3">
                   {recurrenceWebhookEventsAvailables.length > 0 &&
                     recurrenceWebhookEventsAvailables.map((event) => (
-                      <div key={event} className="flex gap-2">
+                      <div key={event} className="flex gap-2 px-5 my-4">
                         <div>
-                          <Checkbox id={event} />
+                          <Checkbox
+                            id={event}
+                            checked={recurrenceEventsChecked?.includes(event)}
+                            onCheckedChange={(checked) => {
+                              return checked
+                                ? setRecurrenceEventsChecked([
+                                    ...recurrenceEventsChecked,
+                                    event,
+                                  ])
+                                : setRecurrenceEventsChecked(
+                                    recurrenceEventsChecked?.filter(
+                                      (item) => item !== event,
+                                    ),
+                                  )
+                            }}
+                          />
                         </div>
                         <div className="flex flex-col gap-2 pt-1">
                           <Label htmlFor={event}>{event}</Label>

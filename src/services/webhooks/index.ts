@@ -12,9 +12,13 @@ export const getWebhooks = async (ctx: QueryFunctionContext) => {
 }
 
 export async function CreateWebhook(data: FormSchemaWebhook) {
+  console.log('Data => ', data)
+
   const res = await api.post<{ webhook: Webhooks }>('/webhooks', {
     ...data,
   })
+
+  console.log('res => ', res)
 
   return res.data.webhook
 }

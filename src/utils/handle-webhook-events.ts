@@ -54,5 +54,11 @@ export function convertRecurrenceEventsToPortuguese(
       return 'Recorrência aguardando pagamento'
     case WebhookRecurrenceEvent.RECURRENCE_REFUNDED:
       return 'Recorrência estornada'
+    case WebhookRecurrenceEvent.RECURRENCE_SUSPENDED:
+      return 'Recorrência suspendida'
+    case WebhookRecurrenceEvent.RECURRENCE_EXPIRED:
+      return 'Recorrência expirada'
+    case WebhookRecurrenceEvent.RECURRENCE_MIGRATED:
+      return 'Recorrência migrada'
   }
 }

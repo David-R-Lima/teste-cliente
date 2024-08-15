@@ -23,6 +23,7 @@ import { CreateWebhookForm } from './create-webhook'
 
 export function BoxWebhook() {
   const [page, setPage] = useState<number>(1)
+  const [modalOpen, setModalOpen] = useState(false)
   const { status } = useSession()
 
   const { data } = useQuery({
@@ -30,6 +31,10 @@ export function BoxWebhook() {
     queryFn: getWebhooks,
     enabled: status === 'authenticated',
   })
+
+  const getModalOpen = (open: boolean) => {
+    setModalOpen(open)
+  }
 
   return (
     <div className="w-full h-full border border-neutral-950/35 relative">
@@ -54,17 +59,19 @@ export function BoxWebhook() {
         <TabsContent value="webhook" className="w-full">
           <Card className="w-full">
             <CardContent className="space-y-2">
-              <div className="space-y-1 flex justify-end px-4 py-1 rounded-base m-2">
-                <CreateWebhookForm />
+              <div className="space-y-1 flex flex-col justify-end px-4 py-1 rounded-base m-2 max-w-[80vw]">
+                <CreateWebhookForm setModalOpen={getModalOpen} />
               </div>
-              {data?.webhooks ? (
-                <TableComponent
-                  name="Webhooks"
-                  columns={WebhooksColumns}
-                  data={data.webhooks}
-                  page={page}
-                  setPage={setPage}
-                ></TableComponent>
+              {!modalOpen ? (
+                data?.webhooks ? (
+                  <TableComponent
+                    name="Webhooks"
+                    columns={WebhooksColumns}
+                    data={data.webhooks}
+                    page={page}
+                    setPage={setPage}
+                  ></TableComponent>
+                ) : null
               ) : null}
             </CardContent>
           </Card>

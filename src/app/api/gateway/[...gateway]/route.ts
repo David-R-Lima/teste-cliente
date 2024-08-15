@@ -14,8 +14,6 @@ export async function GET(req: NextRequest) {
     `${process.env.NEXT_PUBLIC_API_URL}`,
   )
 
-  console.log('🚀 ~ GET ~ newUrl:', newUrl)
-
   const config = {
     method: req.method as 'GET' | 'PUT' | 'POST' | 'DELETE' | 'PATCH',
     url: newUrl,
@@ -38,7 +36,6 @@ export async function GET(req: NextRequest) {
     const response = await apiGateway(config)
     return NextResponse.json(response.data)
   } catch (error) {
-    console.log('🚀 ~ GET ~ error:', error)
     if (error instanceof AxiosError) {
       return NextResponse.json(
         { message: error.message },

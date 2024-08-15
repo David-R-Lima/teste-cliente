@@ -13,7 +13,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Bell, CirclePlus, NotepadText } from 'lucide-react'
+import { Bell, NotepadText } from 'lucide-react'
 import { useQuery } from '@tanstack/react-query'
 import { getWebhooks } from '@/services/webhooks'
 import { useState } from 'react'

@@ -1,7 +1,6 @@
 'use client'
 
 import { BoxWebhook } from './components/box-webhook'
-import { CreateWebhookForm } from './components/create-webhook'
 
 export default function WebHooksComponent() {
   return (

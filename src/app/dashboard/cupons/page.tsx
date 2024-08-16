@@ -19,7 +19,6 @@ export default function Cupons() {
   })
 
   const cupons = data ?? []
-  console.log('cupons: ', cupons)
 
   if (isLoading) return <TableComponentSkeleton />
 

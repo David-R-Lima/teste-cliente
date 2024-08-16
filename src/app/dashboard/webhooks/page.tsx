@@ -1,5 +1,3 @@
-'use client'
-
 import { BoxWebhook } from './components/box-webhook'
 
 export default function WebHooksComponent() {

@@ -2,10 +2,8 @@
 
 import { CreateWebhook } from '@/services/webhooks'
 import {
-  WebhookAvailableEvent,
   WebhookChargeEvent,
   WebhookRecurrenceEvent,
-  WebhookTemplateStatus,
 } from '@/services/webhooks/types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
@@ -37,16 +35,14 @@ import {
 } from '@/utils/handle-webhook-events'
 
 const CreateWebhookFormSchema = z.object({
-  name: z.string({ required_error: 'Webhook name is required' }),
+  name: z.string({ required_error: 'Nome do webhook é obrigatório' }),
   destination_url: z.string({
-    required_error: 'Destination URL is required',
+    required_error: 'A url de destino é obrigatório',
   }),
   api_version: z.string().optional().nullable(),
   token: z.string().optional().nullable(),
-  status: z.nativeEnum(WebhookTemplateStatus, {
-    invalid_type_error: 'Invalid status',
-  }),
-  events: z.array(z.nativeEnum(WebhookAvailableEvent)).optional().nullable(),
+  status: z.boolean().default(true),
+  events: z.string().array().optional().nullable(),
 })
 
 export type FormSchemaWebhook = z.infer<typeof CreateWebhookFormSchema>
@@ -61,6 +57,7 @@ export function CreateWebhookForm({ setModalOpen }: CreateWebhookFormProps) {
   const [recurrenceEventsChecked, setRecurrenceEventsChecked] = useState<
     string[]
   >([])
+  const [statusSwitchChecked, setStatusSwitchChecked] = useState<boolean>(true)
 
   const queryClient = useQueryClient()
   const {
@@ -71,6 +68,10 @@ export function CreateWebhookForm({ setModalOpen }: CreateWebhookFormProps) {
     formState: { errors },
   } = useForm<FormSchemaWebhook>({
     resolver: zodResolver(CreateWebhookFormSchema),
+    defaultValues: {
+      status: true,
+      events: [],
+    },
   })
 
   const chargeWebhookEventsAvailables = Object.values(WebhookChargeEvent)
@@ -89,13 +90,16 @@ export function CreateWebhookForm({ setModalOpen }: CreateWebhookFormProps) {
       setOpen(false)
     },
     onError: (error) => {
-      console.log(error)
       toast.error(error.message)
     },
   })
 
   const handleSumbitMutation = async (data: FormSchemaWebhook) => {
-    console.log('Chegou aqui')
+    const events = [...chargeEventsChecked, ...recurrenceEventsChecked]
+
+    data.events = [...events]
+    data.status = statusSwitchChecked
+
     await submit.mutateAsync({
       ...data,
     })
@@ -105,6 +109,7 @@ export function CreateWebhookForm({ setModalOpen }: CreateWebhookFormProps) {
     setModalOpen(!open)
     setOpen(!open)
   }
+
   return (
     <Dialog open={open} onOpenChange={setOpenDialog}>
       <div className="w-full flex justify-end">
@@ -125,7 +130,12 @@ export function CreateWebhookForm({ setModalOpen }: CreateWebhookFormProps) {
         >
           <div className="space-y-4 p-4 bg-accent rounded-lg">
             <div className="flex items-center space-x-2">
-              <Switch id="active-mode" />
+              <Switch
+                id="active-mode"
+                {...register('status')}
+                checked={statusSwitchChecked}
+                onCheckedChange={(checked) => setStatusSwitchChecked(checked)}
+              />
               <Label htmlFor="active-mode">Ativo</Label>
             </div>
 

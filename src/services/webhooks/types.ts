@@ -67,5 +67,4 @@ export enum WebhookRecurrenceEvent {
 export enum WebhookTemplateStatus {
   ACTIVE = 'ACTIVE',
   INACTIVE = 'INACTIVE',
-  PAUSED = 'PAUSED',
 }

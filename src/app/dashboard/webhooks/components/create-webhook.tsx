@@ -151,7 +151,7 @@ export function CreateWebhookForm({ setModalOpen }: CreateWebhookFormProps) {
               {...register('destination_url')}
             ></Input>
             <Input
-              type="password"
+              type="text"
               placeholder="Token"
               {...register('token')}
             ></Input>

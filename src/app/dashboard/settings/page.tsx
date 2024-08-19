@@ -17,6 +17,7 @@ export default function Setting() {
         {parameterQuery?.data &&
           parameterQuery.data.map((parameter) => {
             if (parameter.name === 'CD_REC_TRA_TIP_PDR') return null
+            if (parameter.name === 'TX_URL_NOT_VND') return null
             return <DisplayParameter key={parameter.id} parameter={parameter} />
           })}
       </div>

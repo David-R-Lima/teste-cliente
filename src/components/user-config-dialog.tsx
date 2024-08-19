@@ -1,12 +1,6 @@
 import { User } from '@/services/user/types'
 
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 import dayjs from 'dayjs'
 import { UserConfigSidebar } from './user-config-sidebar'
 

@@ -1,7 +1,6 @@
 import { QueryFunctionContext } from '@tanstack/react-query'
 import { Charges } from './types'
 import { formSchema } from '@/app/dashboard/charges/components/create-charge-form'
-import { apiGateway } from '../apiGateway'
 import { AxiosError } from 'axios'
 import { api } from '../api'
 

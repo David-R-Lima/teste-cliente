@@ -57,6 +57,11 @@ export function SideBar({ open }: Props) {
       icon: <Ticket className="h-6 w-6 sidebar-icon shrink-0" />,
     },
     {
+      href: '/dashboard/webhooks',
+      label: 'Webhooks',
+      icon: <Webhook className="h-6 w-6 sidebar-icon shrink-0" />,
+    },
+    {
       href: '/dashboard/settings',
       label: 'Configurações',
       icon: <Settings className="h-6 w-6 sidebar-icon shrink-0" />,

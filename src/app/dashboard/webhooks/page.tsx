@@ -1,11 +1,9 @@
-import { notFound } from 'next/navigation'
-// import { Webhook } from './webhook'
+import { BoxWebhook } from './components/box-webhook'
 
 export default function WebHooksComponent() {
-  return notFound()
-  // return (
-  //   <div>
-  //     <Webhook></Webhook>
-  //   </div>
-  // )
+  return (
+    <main className="w-full h-screen flex flex-col justify-center px-12">
+      <BoxWebhook />
+    </main>
+  )
 }

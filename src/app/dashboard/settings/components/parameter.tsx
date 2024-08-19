@@ -87,15 +87,6 @@ export function DisplayParameter({ parameter }: Props) {
         <CardTitle>{parameter.description}</CardTitle>
       </CardHeader>
       <CardContent className="flex items-center w-[50%] space-x-2">
-        {parameter.name === 'TX_URL_NOT_VND' && (
-          <Input
-            type="text"
-            placeholder={parameter.merchantSetting?.type_string}
-            onChange={(e) => {
-              setValue(e.currentTarget.value)
-            }}
-          />
-        )}
         {parameter.name === 'TX_DSC_FAT' && (
           <Input
             type="text"

@@ -26,7 +26,6 @@ export function RenderQRCodeSection(charge: Charges) {
       } else {
         setExpires('V')
         const expires = dataExp.diff(dayjs(), 'minutes')
-        console.log('expires ---', expires)
         setExpiresIn(expires)
       }
     }, 2000)
@@ -35,7 +34,7 @@ export function RenderQRCodeSection(charge: Charges) {
     return () => {
       clearInterval(interval)
     }
-  }, [])
+  }, [dataExp])
 
   if (
     charge.payment_type === PaymentType.PIX &&
@@ -88,6 +87,7 @@ export function RenderQRCodeSection(charge: Charges) {
                   <div className="flex flex-col items-center justify-center space-y-4">
                     <div className="mb-4">
                       {isUrl && (
+                        // eslint-disable-next-line @next/next/no-img-element
                         <img
                           alt="Qr code"
                           src={charge.qr_codes?.base64}

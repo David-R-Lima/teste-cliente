@@ -1,5 +1,4 @@
 import { QueryFunctionContext } from '@tanstack/react-query'
-import { apiGateway } from '../apiGateway'
 import { Transfer } from './types'
 import { MerchantSetting } from '../merchant-settings/types'
 import { api } from '../api'

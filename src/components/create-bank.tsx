@@ -35,7 +35,6 @@ import {
   AccountBankType,
 } from '@/services/bank-accounts/types'
 import { useBanks } from '@/hooks/useBanks'
-import { Plus } from 'lucide-react'
 
 export type formSchemaCreateBank = z.infer<typeof createBankAccountBodySchema>
 

@@ -1,5 +1,4 @@
 import { z } from 'zod'
-import { AccountBankType } from '../bank-accounts/types'
 
 export enum PixKeyType {
   CPF = 'CPF',

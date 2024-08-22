@@ -11,41 +11,14 @@ import {
   Users,
   DollarSign,
   List,
-  ChevronDown,
-  ChevronUp,
   Settings,
   Ticket,
   HandCoins,
 } from 'lucide-react'
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { Label } from '@radix-ui/react-label'
-import { deleteCookie } from 'cookies-next'
-import { signOut, useSession } from 'next-auth/react'
-import { ThemePickerHeader } from './theme-picker-header'
-import { UserConfigDialog } from './user-config-dialog'
-import { useState } from 'react'
-import { User } from '@/services/user/types'
-import { useQueryClient } from '@tanstack/react-query'
-
+import { usePathname } from 'next/navigation'
 export function MobileSideBar() {
-  const session = useSession()
   const path = usePathname().split('/')
-  const [isOpen, setIsOpen] = useState(false)
-  const queryClient = useQueryClient()
-  const router = useRouter()
-
-  const handleToggle = () => {
-    setIsOpen(!isOpen)
-  }
   return (
     <Sheet>
       <SheetTrigger asChild>

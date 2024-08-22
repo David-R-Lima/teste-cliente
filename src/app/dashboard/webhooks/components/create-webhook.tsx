@@ -63,8 +63,6 @@ export function CreateWebhookForm({ setModalOpen }: CreateWebhookFormProps) {
   const {
     register,
     handleSubmit,
-    watch,
-    setValue,
     formState: { errors },
   } = useForm<FormSchemaWebhook>({
     resolver: zodResolver(CreateWebhookFormSchema),

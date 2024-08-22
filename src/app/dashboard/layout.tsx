@@ -167,6 +167,13 @@ export default function DashboardLayout({ children }: Props) {
                   </p>
                 </DropdownMenuItem>
               </SendMail>
+              <DropdownMenuItem>
+                <Link href={'/status'}>
+                  <p className="hover:cursor-pointer hover:text-primary w-full">
+                    Serviços
+                  </p>
+                </Link>
+              </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={(e) => {
                   e.preventDefault()

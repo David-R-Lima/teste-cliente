@@ -2,7 +2,13 @@
 
 import { Button } from '@/components/ui/button'
 import { ColumnDef } from '@tanstack/react-table'
-import { ArrowUpDown, CircleCheck, CircleX, MoreVertical } from 'lucide-react'
+import {
+  ArrowUpDown,
+  CircleCheck,
+  CircleX,
+  Clipboard,
+  MoreVertical,
+} from 'lucide-react'
 import {
   Popover,
   PopoverContent,
@@ -14,6 +20,31 @@ import { cnpj, cpf } from 'cpf-cnpj-validator'
 import { CardDialog } from './components/card-dialog'
 
 export const CustomersColumns: ColumnDef<Customers>[] = [
+  {
+    accessorKey: 'id',
+    header: () => {
+      return (
+        <Button variant="link" className="italic font-bold">
+          Id
+        </Button>
+      )
+    },
+    cell: ({ row }) => {
+      const charge = row.original
+      if (charge.id) {
+        return (
+          <div className="flex items-center justify-center">
+            <Clipboard
+              className="hover:text-primary hover:cursor-pointer"
+              onClick={() => {
+                window.navigator.clipboard.writeText(charge.id)
+              }}
+            ></Clipboard>
+          </div>
+        )
+      }
+    },
+  },
   {
     accessorKey: 'name',
     header: ({ column }) => {

@@ -37,8 +37,8 @@ export function BoxWebhook() {
   }
 
   return (
-    <div className="w-full h-full border border-neutral-950/35 relative">
-      <Tabs defaultValue="webhook" className="w-full py-1 px-3">
+    <div className="w-full h-full relative">
+      <Tabs defaultValue="webhook" className="w-full ">
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger className="flex items-center gap-1" value="webhook">
             <Bell className="w-5 h-5" />

@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button'
 import { ColumnDef } from '@tanstack/react-table'
-import { ArrowUpDown, Info, MoreVertical } from 'lucide-react'
+import { ArrowUpDown, Clipboard, Info, MoreVertical } from 'lucide-react'
 import {
   Popover,
   PopoverContent,
@@ -14,6 +14,31 @@ import dayjs from 'dayjs'
 import Link from 'next/link'
 
 export const ChargesColumns: ColumnDef<Charges>[] = [
+  {
+    accessorKey: 'id',
+    header: () => {
+      return (
+        <Button variant="link" className="italic font-bold">
+          Id
+        </Button>
+      )
+    },
+    cell: ({ row }) => {
+      const charge = row.original
+      if (charge.id) {
+        return (
+          <div className="flex items-center justify-center">
+            <Clipboard
+              className="hover:text-primary hover:cursor-pointer"
+              onClick={() => {
+                window.navigator.clipboard.writeText(charge.id)
+              }}
+            ></Clipboard>
+          </div>
+        )
+      }
+    },
+  },
   {
     accessorKey: 'created_at',
     header: ({ column }) => {

@@ -4,6 +4,7 @@ import { CreateWebhook } from '@/services/webhooks'
 import {
   WebhookChargeEvent,
   WebhookRecurrenceEvent,
+  WebhookTransferEvent,
 } from '@/services/webhooks/types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
@@ -32,6 +33,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 import {
   convertChargeEventsToPortuguese,
   convertRecurrenceEventsToPortuguese,
+  convertTransferEventsToPortuguese,
 } from '@/utils/handle-webhook-events'
 
 const CreateWebhookFormSchema = z.object({
@@ -57,6 +59,9 @@ export function CreateWebhookForm({ setModalOpen }: CreateWebhookFormProps) {
   const [recurrenceEventsChecked, setRecurrenceEventsChecked] = useState<
     string[]
   >([])
+  const [transferEventsChecked, setTransferEventsChecked] = useState<string[]>(
+    [],
+  )
   const [statusSwitchChecked, setStatusSwitchChecked] = useState<boolean>(true)
 
   const queryClient = useQueryClient()
@@ -76,6 +81,7 @@ export function CreateWebhookForm({ setModalOpen }: CreateWebhookFormProps) {
   const recurrenceWebhookEventsAvailables = Object.values(
     WebhookRecurrenceEvent,
   )
+  const transferWebhookEventsAvailables = Object.values(WebhookTransferEvent)
 
   const submit = useMutation({
     mutationFn: CreateWebhook,
@@ -93,7 +99,11 @@ export function CreateWebhookForm({ setModalOpen }: CreateWebhookFormProps) {
   })
 
   const handleSumbitMutation = async (data: FormSchemaWebhook) => {
-    const events = [...chargeEventsChecked, ...recurrenceEventsChecked]
+    const events = [
+      ...chargeEventsChecked,
+      ...recurrenceEventsChecked,
+      ...transferEventsChecked,
+    ]
 
     data.events = [...events]
     data.status = statusSwitchChecked
@@ -234,6 +244,46 @@ export function CreateWebhookForm({ setModalOpen }: CreateWebhookFormProps) {
                           <Label htmlFor={event}>{event}</Label>
                           <Label className="text-xs" htmlFor={event}>
                             {convertRecurrenceEventsToPortuguese(event)}
+                          </Label>
+                        </div>
+                      </div>
+                    ))}
+                </CollapsibleContent>
+              </Collapsible>
+              <Collapsible className="w-full border">
+                <div className="flex w-full justify-between px-5 border-b items-center">
+                  <CollapsibleTrigger className="h-14 flex items-center rounded-base">
+                    <div>
+                      <span>Eventos de transferência</span>
+                    </div>
+                  </CollapsibleTrigger>
+                </div>
+                <CollapsibleContent className="grid grid-cols-3 grid-rows-3">
+                  {transferWebhookEventsAvailables.length > 0 &&
+                    transferWebhookEventsAvailables.map((event) => (
+                      <div key={event} className="flex gap-2 px-5 my-4">
+                        <div>
+                          <Checkbox
+                            id={event}
+                            checked={transferEventsChecked?.includes(event)}
+                            onCheckedChange={(checked) => {
+                              return checked
+                                ? setTransferEventsChecked([
+                                    ...transferEventsChecked,
+                                    event,
+                                  ])
+                                : setTransferEventsChecked(
+                                    transferEventsChecked?.filter(
+                                      (item) => item !== event,
+                                    ),
+                                  )
+                            }}
+                          />
+                        </div>
+                        <div className="flex flex-col gap-2 pt-1">
+                          <Label htmlFor={event}>{event}</Label>
+                          <Label className="text-xs" htmlFor={event}>
+                            {convertTransferEventsToPortuguese(event)}
                           </Label>
                         </div>
                       </div>

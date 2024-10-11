@@ -1,6 +1,7 @@
 import {
   WebhookChargeEvent,
   WebhookRecurrenceEvent,
+  WebhookTransferEvent,
 } from '@/services/webhooks/types'
 
 export function convertChargeEventsToPortuguese(
@@ -60,5 +61,24 @@ export function convertRecurrenceEventsToPortuguese(
       return 'Recorrência expirada'
     case WebhookRecurrenceEvent.RECURRENCE_MIGRATED:
       return 'Recorrência migrada'
+  }
+}
+
+export function convertTransferEventsToPortuguese(event: WebhookTransferEvent) {
+  switch (event) {
+    case WebhookTransferEvent.TRANSFER_CREATED:
+      return 'Transferência criada'
+    case WebhookTransferEvent.TRANSFER_DONE:
+      return 'Transferência realizada'
+    case WebhookTransferEvent.TRANSFER_BLOCKED:
+      return 'Transferência bloqueada'
+    case WebhookTransferEvent.TRANSFER_CANCELLED:
+      return 'Transferência cancelada'
+    case WebhookTransferEvent.TRANSFER_FAILED:
+      return 'Transferência falhou'
+    case WebhookTransferEvent.TRANSFER_IN_BANK_PROCESSING:
+      return 'Transferência em processamento'
+    case WebhookTransferEvent.TRANSFER_PENDING:
+      return 'Transferência pendente'
   }
 }

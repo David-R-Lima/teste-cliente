@@ -9,6 +9,7 @@ import {
   HandCoins,
   Ticket,
   Settings,
+  FileText,
 } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -60,6 +61,11 @@ export function SideBar({ open }: Props) {
       href: '/dashboard/webhooks',
       label: 'Webhooks',
       icon: <Webhook className="h-6 w-6 sidebar-icon shrink-0" />,
+    },
+    {
+      href: '/dashboard/relatorios',
+      label: 'Relatórios',
+      icon: <FileText className="h-6 w-6 sidebar-icon shrink-0" />,
     },
     {
       href: '/dashboard/settings',

@@ -14,6 +14,8 @@ import {
   Settings,
   Ticket,
   HandCoins,
+  FileText,
+  Webhook,
 } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -88,6 +90,20 @@ export function MobileSideBar() {
           >
             <Ticket className="h-4 w-4" />
             Cupons
+          </Link>
+          <Link
+            href={'/dashboard/webhooks'}
+            className={`flex items-center gap-3 rounded-lg py-2 ${path[2] === 'webhooks' ? 'text-primary text-lg' : 'text-muted-foreground transition-all hover:text-primary'}`}
+          >
+            <Webhook className="h-4 w-4" />
+            Webhooks
+          </Link>
+          <Link
+            href={'/dashboard/relatorios'}
+            className={`flex items-center gap-3 rounded-lg py-2 ${path[2] === 'relatorios' ? 'text-primary text-lg' : 'text-muted-foreground transition-all hover:text-primary'}`}
+          >
+            <FileText className="h-4 w-4" />
+            Relatórios
           </Link>
           <Link
             href={'/dashboard/settings'}

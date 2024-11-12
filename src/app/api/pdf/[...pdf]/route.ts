@@ -6,12 +6,12 @@ import fs from 'fs'
 import path from 'path'
 
 export async function GET(req: NextRequest) {
-  // const newUrl = req.url?.replace(
-  //   /^.*\/api\/pdf/,
-  //   `${process.env.NEXT_PUBLIC_API_URL}`,
-  // )
+  const newUrl = req.url?.replace(
+    /^.*\/api\/pdf/,
+    `${process.env.NEXT_PUBLIC_API_URL}`,
+  )
 
-  const newUrl = 'https://pdfobject.com/pdf/sample.pdf'
+  // const newUrl = 'https://pdfobject.com/pdf/sample.pdf'
   const config = {
     method: req.method as 'GET',
     url: newUrl,

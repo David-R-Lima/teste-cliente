@@ -18,11 +18,10 @@ export async function GET(req: NextRequest) {
     method: req.method as 'GET',
     url: newUrl,
     data: body,
+    responseType: 'arraybuffer',
     headers: {
       ...req.headers,
-      'response-type': 'application/octet-stream',
       'client-key': process.env.CLIENT_KEY,
-      'content-type': 'application/octet-stream',
     },
   }
 
@@ -36,7 +35,7 @@ export async function GET(req: NextRequest) {
   try {
     // @ts-expect-error sla
     const response = await apiGateway(config)
-    console.log('route --', response.data)
+
     return new NextResponse(response.data)
   } catch (error) {
     if (error instanceof AxiosError) {

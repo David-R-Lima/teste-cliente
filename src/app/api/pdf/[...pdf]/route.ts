@@ -4,7 +4,6 @@ import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(req: NextRequest) {
-  console.log('dentro do get')
   let body
   try {
     body = req.body ? await req?.json() : {}
@@ -21,8 +20,9 @@ export async function GET(req: NextRequest) {
     data: body,
     headers: {
       ...req.headers,
-      'response-type': 'arraybuffer',
+      'response-type': 'application/octet-stream',
       'client-key': process.env.CLIENT_KEY,
+      'content-type': 'application/octet-stream',
     },
   }
 
@@ -36,6 +36,7 @@ export async function GET(req: NextRequest) {
   try {
     // @ts-expect-error sla
     const response = await apiGateway(config)
+    console.log('route --', response.data)
     return new NextResponse(response.data)
   } catch (error) {
     if (error instanceof AxiosError) {

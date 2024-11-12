@@ -16,7 +16,7 @@ export function CardsRelatorio() {
     if (!pdf) return
 
     const bufferPdf = new Blob([pdf], { type: 'application/pdf' })
-    console.log('buffer pdf ---', bufferPdf)
+
     const url = URL.createObjectURL(bufferPdf)
 
     window.open(url, '_blank')

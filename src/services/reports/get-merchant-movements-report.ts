@@ -12,8 +12,6 @@ export const getMerchantMovementsReport = async (
       },
     )
 
-    console.log('no get report -----', response.data)
-
     return response.data
   } catch (error) {
     console.log(error)

@@ -3,20 +3,41 @@ import { apiPdf } from '../api-pdf'
 export const getMerchantMovementsReport = async (
   dateIni: string,
   dateFin: string,
-): Promise<ArrayBuffer | null> => {
+): Promise<Blob | null> => {
   try {
     const response = await apiPdf.get(
       `/movimentacoes?date_ini=${dateIni}&date_fin=${dateFin}`,
       {
-        responseType: 'arraybuffer',
+        responseType: 'blob',
       },
     )
 
-    console.log('no get report -----', response.data)
+    if (response.data) {
+      console.log(response)
+      const pdfBlob = new Blob([response.data], { type: 'application/pdf' })
 
-    return response.data
+      if (pdfBlob.type === 'application/pdf') {
+        const link = document.createElement('a')
+        const url = URL.createObjectURL(pdfBlob)
+
+        link.href = url
+        link.target = '_blank'
+        link.download = 'report.pdf'
+        link.click()
+
+        // Revoke the object URL after a timeout to free resources
+        setTimeout(() => URL.revokeObjectURL(url), 300000)
+
+        return pdfBlob
+      } else {
+        console.error('Invalid Blob type:', pdfBlob.type)
+        return null
+      }
+    }
+
+    return null
   } catch (error) {
-    console.log(error)
+    console.log('Error fetching PDF:', error)
     return null
   }
 }

@@ -11,15 +11,7 @@ export function CardsRelatorio() {
   const [dateFin, setDateFin] = useState<string>('')
 
   const fetchReport = async () => {
-    const pdf = await getMerchantMovementsReport(dateIni, dateFin)
-
-    if (!pdf) return
-
-    const bufferPdf = new Blob([pdf], { type: 'application/pdf' })
-    console.log('buffer pdf ---', bufferPdf)
-    const url = URL.createObjectURL(bufferPdf)
-
-    window.open(url, '_blank')
+    await getMerchantMovementsReport(dateIni, dateFin)
   }
 
   return (

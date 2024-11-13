@@ -10,8 +10,18 @@ export function CardsRelatorio() {
 
   const [dateFin, setDateFin] = useState<string>('')
 
+  const [clientName, setClientName] = useState<string | null>(null)
+
   const fetchReport = async () => {
-    const pdf = await getMerchantMovementsReport(dateIni, dateFin)
+    if (dateIni === '' || dateFin === '') {
+      const inputDate = document.getElementById('date_ini')
+
+      inputDate?.focus()
+
+      return
+    }
+
+    const pdf = await getMerchantMovementsReport(dateIni, dateFin, clientName)
 
     if (!pdf) return
 
@@ -39,6 +49,7 @@ export function CardsRelatorio() {
             <div>
               <Label> Data Inicial</Label>
               <Input
+                id="date_ini"
                 className="w-100"
                 type="date"
                 onChange={(e) => setDateIni(e.target.value)}
@@ -51,6 +62,14 @@ export function CardsRelatorio() {
                 className="w-100"
                 type="date"
                 onChange={(e) => setDateFin(e.target.value)}
+              ></Input>
+            </div>
+            <div>
+              <Label> Nome participante</Label>
+              <Input
+                className="w-100"
+                type="text"
+                onChange={(e) => setClientName(e.target.value)}
               ></Input>
             </div>
           </div>

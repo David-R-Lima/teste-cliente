@@ -1,13 +1,12 @@
-import { apiPdf } from '../api-pdf'
+import { apiPdf } from '../../api-pdf'
 
-export const getMerchantMovementsReport = async (
+export const getPagBttisProfitTransactionsReport = async (
   dateIni: string,
   dateFin: string,
-  clientName?: string | null,
 ): Promise<ArrayBuffer | null> => {
   try {
     const response = await apiPdf.get(
-      `/movimentacoes?date_ini=${dateIni}&date_fin=${dateFin}&client_name=${clientName}`,
+      `/lucro-transacoes?date_ini=${dateIni}&date_fin=${dateFin}`,
       {
         responseType: 'arraybuffer',
       },

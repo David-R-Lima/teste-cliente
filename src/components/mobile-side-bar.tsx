@@ -16,6 +16,7 @@ import {
   HandCoins,
   FileText,
   Webhook,
+  Lock,
 } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -111,6 +112,13 @@ export function MobileSideBar() {
           >
             <Settings className="h-4 w-4" />
             Configurações
+          </Link>
+          <Link
+            href={'/painel/admin'}
+            className={`flex items-center gap-3 rounded-lg py-2 ${path[2] === 'admin' ? 'text-primary text-lg' : 'text-muted-foreground transition-all hover:text-primary'}`}
+          >
+            <Lock className="h-4 w-4" />
+            PagBttis area
           </Link>
         </nav>
 

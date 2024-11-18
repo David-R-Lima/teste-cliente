@@ -22,31 +22,6 @@ export function CardsRelatorio() {
 
   const [isLoading, setLoading] = useState(false)
 
-  const [balance, setBalance] = useState<string | null>(null)
-
-  useEffect(() => {
-    console.log('dentro do useEfect')
-    // Buscar o saldo
-    const fetchBalance = async () => {
-      console.log('dentro do fetch')
-      const response: IbalanceResponseProps | null =
-        await getMerchantBalanceReport()
-
-      console.log(
-        ' resposta api no useEfect --',
-        response?.balance.balanceCurrent,
-      )
-
-      if (response) {
-        setBalance(response.balance.balanceCurrent)
-      }
-    }
-
-    fetchBalance()
-
-    console.log('depois do fetch')
-  }, [])
-
   const fetchReport = async () => {
     if (dateIni === '' || dateFin === '') {
       const inputDate = document.getElementById('date_ini')
@@ -71,21 +46,6 @@ export function CardsRelatorio() {
   return (
     <div className="flex flex-col gap-2">
       <Card>
-        <p className=" flex justify-end pr-6 pt-2 gap-2">
-          <PiggyBank color="green" />{' '}
-          <span className="font-semibold"> Saldo disponível</span>:
-          {balance ? (
-            Number(balance).toLocaleString('pt-BR', {
-              style: 'currency',
-              currency: 'BRL',
-            })
-          ) : (
-            <div className="pt-1">
-              <LoaderCircle size={16} className="animate-spin" />
-            </div>
-          )}
-        </p>
-
         <CardTitle className="p-6 ">Movimentações</CardTitle>
         <CardContent>
           <span className="mb-8"> Filtros</span>

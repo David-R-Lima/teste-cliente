@@ -5,7 +5,9 @@ import {
   ChevronLeft,
   ChevronRight,
   ChevronUp,
+  LoaderCircle,
   Package2,
+  PiggyBank,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
@@ -38,8 +40,14 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
 import { SendMail } from '@/components/send-mail-dialog'
+import { getMerchantBalanceReport } from '@/services/reports/merchant/get-balance-report'
 interface Props {
   children: JSX.Element
+}
+interface IbalanceResponseProps {
+  balance: {
+    balanceCurrent: string
+  }
 }
 
 export default function DashboardLayout({ children }: Props) {
@@ -49,6 +57,7 @@ export default function DashboardLayout({ children }: Props) {
   const session = useSession()
   const router = useRouter()
   const queryClient = useQueryClient()
+  const [balance, setBalance] = useState<string | null>(null)
 
   const handleToggle = () => {
     setIsOpen(!isOpen)
@@ -70,6 +79,22 @@ export default function DashboardLayout({ children }: Props) {
           setIsExpired(true)
           return
         }
+        // Buscar o saldo
+        const fetchBalance = async () => {
+          console.log('dentro do fetch')
+          const response: IbalanceResponseProps | null =
+            await getMerchantBalanceReport()
+
+          console.log(
+            ' resposta api no useEfect --',
+            response?.balance.balanceCurrent,
+          )
+
+          if (response) {
+            setBalance(response.balance.balanceCurrent)
+          }
+        }
+        fetchBalance()
 
         const expiryTime = payload.exp * 1000 // Ensure the timestamp is in milliseconds
         const now = Date.now()
@@ -135,7 +160,19 @@ export default function DashboardLayout({ children }: Props) {
         <SideBar open={sideBarOpen} />
       </div>
       <div className="flex flex-col flex-1">
-        <header className="relative flex h-14 items-center justify-end gap-4 border-b bg-muted/40 px-4 lg:h-16 lg:px-6">
+        <header className="relative flex h-14 items-center justify-between gap-4 border-b bg-muted/40 px-4 lg:h-16 lg:px-6">
+          <p className=" flex justify-end pr-6 pt-2 gap-2">
+            <PiggyBank color="green" />{' '}
+            <span className="font-semibold"> Saldo disponível:</span>
+            {balance ? (
+              Number(balance).toLocaleString('pt-BR', {
+                style: 'currency',
+                currency: 'BRL',
+              })
+            ) : (
+              <LoaderCircle size={16} className="animate-spin mt-1" />
+            )}
+          </p>
           <MobileSideBar />
           <DropdownMenu onOpenChange={handleToggle}>
             <DropdownMenuTrigger asChild className="hover:cursor-pointer">

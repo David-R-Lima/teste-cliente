@@ -49,7 +49,11 @@ export default function Dashboard() {
     },
     onSuccess: (res) => {
       if (res?.status === 200) {
-        router.replace('/dashboard')
+        if (session.data?.user.user_type === 'ADMIN') {
+          router.replace('/painel/admin')
+        } else {
+          router.replace('/dashboard')
+        }
       } else if (res?.status === 401) {
         toast.error('Usuário ou senha inválidos')
       }
@@ -61,7 +65,11 @@ export default function Dashboard() {
   }
 
   if (session.status === 'authenticated') {
-    router.replace('/dashboard')
+    if (session.data?.user.user_type === 'ADMIN') {
+      router.replace('/painel/admin')
+    } else {
+      router.replace('/dashboard')
+    }
   }
 
   if (session.status === 'unauthenticated') {

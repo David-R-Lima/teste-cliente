@@ -17,7 +17,6 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 
-import { SideBar } from '@/components/side-bar'
 import { MobileSideBar } from '@/components/mobile-side-bar'
 import { Label } from '@/components/ui/label'
 import { useEffect, useState } from 'react'
@@ -38,6 +37,7 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
 import { SendMail } from '@/components/send-mail-dialog'
+import { AdminSideBar } from './components/admin-side-bar'
 interface Props {
   children: JSX.Element
 }
@@ -49,6 +49,7 @@ export default function DashboardLayoutAdmin({ children }: Props) {
   const session = useSession()
   const router = useRouter()
   const queryClient = useQueryClient()
+  const [userType, setUserType] = useState<string>('USUARIO')
 
   const handleToggle = () => {
     setIsOpen(!isOpen)
@@ -60,6 +61,8 @@ export default function DashboardLayoutAdmin({ children }: Props) {
 
   useEffect(() => {
     if (session.status === 'authenticated') {
+      console.log('pegando user type', session.data.user.user_type)
+      setUserType(session.data.user?.user_type)
       const token = getCookie('access_token.hub')
       if (token) {
         let payload
@@ -132,7 +135,7 @@ export default function DashboardLayoutAdmin({ children }: Props) {
             )}
           </Button>
         </div>
-        <SideBar open={sideBarOpen} />
+        <AdminSideBar open={sideBarOpen} />
       </div>
       <div className="flex flex-col flex-1">
         <header className="relative flex h-14 items-center justify-end gap-4 border-b bg-muted/40 px-4 lg:h-16 lg:px-6">
@@ -210,9 +213,11 @@ export default function DashboardLayoutAdmin({ children }: Props) {
         </header>
         <div className="gap-4 p-4 lg:gap-6 lg:p-6"></div>
         <hr />
-        <main className="flex-1 flex flex-col gap-4 p-4 lg:gap-6 lg:p-6">
-          {children}
-        </main>
+        {userType === 'ADMIN' && (
+          <main className="flex-1 flex flex-col gap-4 p-4 lg:gap-6 lg:p-6">
+            {children}
+          </main>
+        )}
       </div>
     </div>
   )

@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { getPagBttisCashFlowReport } from '@/services/reports/pagbttis/get-pagbttis-cash-flow'
 import { getPagBttisProfitTransactionsReport } from '@/services/reports/pagbttis/get-pagbttis-lucro-transacoes'
+import { useMutation } from '@tanstack/react-query'
 import { LoaderCircle } from 'lucide-react'
 import { useState } from 'react'
 
@@ -12,47 +13,53 @@ export function PagBttisRelatorio() {
   const [dateFin, setDateFin] = useState<string>('')
   const [isLoading, setLoading] = useState(false)
 
-  const fetchReportCashFlow = async () => {
-    if (dateIni === '' || dateFin === '') {
-      const inputDate = document.getElementById('date_ini_cash_flow')
+  const fetchReportCashFlow = useMutation({
+    mutationFn: async () => {
+      if (dateIni === '' || dateFin === '') {
+        const inputDate = document.getElementById('date_ini_cash_flow')
 
-      inputDate?.focus()
+        inputDate?.focus()
 
-      return
-    }
-    setLoading(true)
+        return
+      }
+      setLoading(true)
 
-    const pdf = await getPagBttisCashFlowReport(dateIni, dateFin)
+      const pdf = await getPagBttisCashFlowReport(dateIni, dateFin)
 
-    if (!pdf) return
+      if (!pdf) return
 
-    const bufferPdf = new Blob([pdf], { type: 'application/pdf' })
+      const bufferPdf = new Blob([pdf], { type: 'application/pdf' })
 
-    const url = URL.createObjectURL(bufferPdf)
-    setLoading(false)
-    window.open(url, '_blank')
-  }
+      const url = URL.createObjectURL(bufferPdf)
+      setLoading(false)
+      window.open(url, '_blank')
+    },
+  })
 
-  const fetchReportProfitTransactions = async () => {
-    if (dateIni === '' || dateFin === '') {
-      const inputDate = document.getElementById('date_ini_profit_transactions')
+  const fetchReportProfitTransactions = useMutation({
+    mutationFn: async () => {
+      if (dateIni === '' || dateFin === '') {
+        const inputDate = document.getElementById(
+          'date_ini_profit_transactions',
+        )
 
-      inputDate?.focus()
+        inputDate?.focus()
 
-      return
-    }
-    setLoading(true)
+        return
+      }
+      setLoading(true)
 
-    const pdf = await getPagBttisProfitTransactionsReport(dateIni, dateFin)
+      const pdf = await getPagBttisProfitTransactionsReport(dateIni, dateFin)
 
-    if (!pdf) return
+      if (!pdf) return
 
-    const bufferPdf = new Blob([pdf], { type: 'application/pdf' })
+      const bufferPdf = new Blob([pdf], { type: 'application/pdf' })
 
-    const url = URL.createObjectURL(bufferPdf)
-    setLoading(false)
-    window.open(url, '_blank')
-  }
+      const url = URL.createObjectURL(bufferPdf)
+      setLoading(false)
+      window.open(url, '_blank')
+    },
+  })
 
   return (
     <div className="flex flex-col gap-2">
@@ -84,10 +91,14 @@ export function PagBttisRelatorio() {
             </div>
             <Button
               className="min-w-[70px]"
-              onClick={() => fetchReportCashFlow()}
+              onClick={() => fetchReportCashFlow.mutate()}
             >
               {' '}
-              {isLoading ? <LoaderCircle className="animate-spin" /> : 'Gerar'}
+              {fetchReportCashFlow.isPending ? (
+                <LoaderCircle className="animate-spin" />
+              ) : (
+                'Gerar'
+              )}
             </Button>
           </CardContent>
         </Card>
@@ -118,10 +129,14 @@ export function PagBttisRelatorio() {
             </div>
             <Button
               className="min-w-[70px]"
-              onClick={() => fetchReportProfitTransactions()}
+              onClick={() => fetchReportProfitTransactions.mutate()}
             >
               {' '}
-              {isLoading ? <LoaderCircle className="animate-spin" /> : 'Gerar'}
+              {fetchReportProfitTransactions.isPending ? (
+                <LoaderCircle className="animate-spin" />
+              ) : (
+                'Gerar'
+              )}
             </Button>
           </CardContent>
         </Card>

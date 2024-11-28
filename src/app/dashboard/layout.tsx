@@ -8,6 +8,8 @@ import {
   LoaderCircle,
   Package2,
   PiggyBank,
+  EyeOff,
+  Eye,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
@@ -58,6 +60,7 @@ export default function DashboardLayout({ children }: Props) {
   const router = useRouter()
   const queryClient = useQueryClient()
   const [balance, setBalance] = useState<string | null>(null)
+  const [eyeOpen, setOpenEye] = useState(true)
 
   const handleToggle = () => {
     setIsOpen(!isOpen)
@@ -164,14 +167,25 @@ export default function DashboardLayout({ children }: Props) {
           <p className=" flex justify-end pr-6 pt-2 gap-2">
             <PiggyBank color="green" />{' '}
             <span className="font-semibold"> Saldo disponível:</span>
-            {balance ? (
-              Number(balance).toLocaleString('pt-BR', {
-                style: 'currency',
-                currency: 'BRL',
-              })
+            {eyeOpen ? (
+              balance ? (
+                Number(balance).toLocaleString('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                })
+              ) : (
+                <LoaderCircle size={16} className="animate-spin mt-1" />
+              )
             ) : (
-              <LoaderCircle size={16} className="animate-spin mt-1" />
+              <p>
+                {' '}
+                R$<span className="font-bold mim-w-[70px]"> ... </span>
+              </p>
             )}
+            <div onClick={() => setOpenEye(!eyeOpen)}>
+              {' '}
+              {eyeOpen ? <Eye /> : <EyeOff />}
+            </div>
           </p>
           <MobileSideBar />
           <DropdownMenu onOpenChange={handleToggle}>

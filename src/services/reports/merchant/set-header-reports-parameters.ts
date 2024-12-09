@@ -1,31 +1,34 @@
 import { api } from '@/services/api'
-interface headerReportParameters {
-  logo: string
-  site: string
-  phone: string
-  addres: string
-  city: string
+export interface headerReportParameters {
+  parameterName: string
+  str?: string
+  money?: string
+  boolean?: string
+  integer?: string
+  date?: string
 }
 
 export const setHeaderReportPameters = async ({
-  addres,
-  city,
-  logo,
-  phone,
-  site,
+  parameterName,
+  str,
+  money,
+  boolean,
+  integer,
+  date,
 }: headerReportParameters) => {
   try {
-    const response = await api.post(`/header-reports`, {
-      addres,
-      city,
-      logo,
-      phone,
-      site,
+    const response = await api.put(`/merchant-settings`, {
+      parameter_name: parameterName,
+      str,
+      money,
+      boolean,
+      integer,
+      date,
     })
 
     return response.status
   } catch (error) {
-    console.log(error)
+    console.log('erro na requisição', error)
     return null
   }
 }

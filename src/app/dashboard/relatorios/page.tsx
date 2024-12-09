@@ -4,99 +4,168 @@ import { CardsRelatorio } from './components/card-relatorio'
 import { Label } from '@/components/ui/label'
 import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
-import { useForm } from 'react-hook-form'
-import { setHeaderReportPameters } from '@/services/reports/merchant/set-header-reports-parameters'
+
+import {
+  headerReportParameters,
+  setHeaderReportPameters,
+} from '@/services/reports/merchant/set-header-reports-parameters'
 import { getHeaderReportPameters } from '@/services/reports/merchant/get-header-reports-parameters'
 
-type FormValues = {
-  logo: string
-  site: string
-  phone: string
-  addres: string
-  city: string
-}
 export default function Relatorios() {
-  const [formHeader, setFormHeader] = useState(false)
+  const [showFormHeader, setFormHeader] = useState(false)
+  const [addresValue, setAdressValue] = useState('')
+  const [cityValue, setCityValue] = useState('')
+  const [logoValue, setLogoValue] = useState('')
+  const [siteValue, setSiteValue] = useState('')
+  const [phoneValue, setPhoneValue] = useState('')
 
-  const {
-    register,
-    handleSubmit,
-    getValues,
-    setValue,
-    formState: { errors },
-  } = useForm<FormValues>()
-
-  const formSubmit = async () => {
-    const { addres, city, logo, phone, site } = getValues()
-
+  const formSubmit = async ({
+    parameterName,
+    str,
+    money,
+    boolean,
+    integer,
+    date,
+  }: headerReportParameters) => {
     const res = await setHeaderReportPameters({
-      addres,
-      city,
-      logo,
-      phone,
-      site,
+      parameterName,
+      str,
+      money,
+      boolean,
+      integer,
+      date,
     })
+    console.log('resultado form submit ---', res)
     if (!res) {
-      alert('Erro ao salvar parametros')
+      alert('Erro ao salvar parametro')
     } else {
-      alert('Parametros salvos')
+      setAdressValue('')
+      setCityValue('')
+      setLogoValue('')
+      setSiteValue('')
+      setPhoneValue('')
+      alert('Parametro salvo')
     }
   }
 
   useEffect(() => {
-    const res = async () => {
+    const fetchParams = async () => {
       const data = await getHeaderReportPameters()
 
       if (data) {
-        setValue('addres', data?.addres)
-        setValue('city', data?.city)
-        setValue('logo', data?.logo)
-        setValue('site', data?.site)
-        setValue('phone', data?.phone)
+        setAdressValue(data?.addres)
+        setCityValue(data?.city)
+        setLogoValue(data?.logo)
+        setSiteValue(data?.site)
+        setPhoneValue(data?.phone)
       }
     }
+
+    fetchParams()
   }, [])
 
   return (
     <div>
       <Button
-        onClick={() => setFormHeader(!formHeader)}
-        className="my-10 bg-stone-300 hover:bg-slate-400"
+        onClick={() => setFormHeader(!showFormHeader)}
+        className="my-10 bg-slate-300 hover:bg-slate-400"
       >
         {' '}
-        {formHeader ? 'Fechar' : 'Editar cabeçalho dos relatórios'}{' '}
+        {showFormHeader ? 'Fechar' : 'Editar cabeçalho dos relatórios'}{' '}
       </Button>
 
-      {formHeader && (
-        <div className="mb-10 max-w-72 border-2 p-6">
-          <form onSubmit={handleSubmit(formSubmit)}>
-            <Label> Url da logo</Label>
-            <Input {...register('logo', { required: true, minLength: 10 })} />
-            {errors.logo && <p> {errors.logo.message} ai</p>}
-            <Label> Url do site</Label>
-            <Input {...register('site', { required: true })} />
-            {errors.site && <p role="alert">{errors.site.message}</p>}
+      {showFormHeader && (
+        <div>
+          <span className="text-lg"> Parâmetros do relatório</span>
+          <div className="flex flex-rol gap-8 mb-10 max-w-xl justify-between   flex-wrap border-2 p-6">
+            <div className="mb-4  w-full">
+              <Label> Url da logo</Label>
+              <Input
+                className="flex max-w-xl"
+                onChange={(e) => setLogoValue(e.target.value)}
+                defaultValue={logoValue}
+              />
+              <Button
+                className="mt-4 "
+                onClick={() =>
+                  formSubmit({
+                    parameterName: 'TX_URL_IMG_LOG',
+                    str: logoValue,
+                  })
+                }
+              >
+                {' '}
+                Salvar
+              </Button>
+            </div>
 
-            <Label> Telefone</Label>
-            <Input {...register('phone', { required: true })} />
-            {errors.phone && <p role="alert">{errors.phone.message}</p>}
+            <div className="mb-4">
+              <Label> Url do site </Label>
+              <Input
+                onChange={(e) => setSiteValue(e.target.value)}
+                defaultValue={siteValue}
+              />
+              <Button
+                className="mt-4"
+                onClick={() =>
+                  formSubmit({
+                    parameterName: 'TX_URL_SIT_INT',
+                    str: siteValue,
+                  })
+                }
+              >
+                {' '}
+                Salvar
+              </Button>
+            </div>
+            <div className="mb-4">
+              <Label> Telefone</Label>
+              <Input
+                onChange={(e) => setPhoneValue(e.target.value)}
+                defaultValue={phoneValue}
+              />
+              <Button
+                className="mt-4 "
+                onClick={() =>
+                  formSubmit({ parameterName: 'TX_NR_TEL', str: phoneValue })
+                }
+              >
+                {' '}
+                Salvar
+              </Button>
+            </div>
+            <div className="mb-8 flex flex-row gap-4 items-start">
+              <div>
+                <Label> Endereço</Label>
+                <Input
+                  placeholder="Rua h, 46"
+                  onChange={(e) => setAdressValue(e.target.value)}
+                  defaultValue={addresValue}
+                />
+                <Button
+                  className="mt-4 "
+                  onClick={() =>
+                    formSubmit({
+                      parameterName: 'TX_END_VND',
+                      str: addresValue + ' / ' + cityValue,
+                    })
+                  }
+                >
+                  {' '}
+                  Salvar
+                </Button>
+              </div>
 
-            <Label> Endereço</Label>
-            <Input
-              placeholder="Rua h, 46"
-              {...register('addres', { required: true })}
-            />
-            {errors.addres && <p role="alert">{errors.addres.message}</p>}
-
-            <Label> Cidade</Label>
-            <Input
-              placeholder="Cidade, MG"
-              {...register('city', { required: true })}
-            />
-            {errors.city && <p role="alert">{errors.city.message}</p>}
-
-            <Button className="mt-4 "> Salvar</Button>
-          </form>
+              <div>
+                <Label> Cidade</Label>
+                <Input
+                  placeholder="Cidade, MG"
+                  onChange={(e) => setCityValue(e.target.value)}
+                  defaultValue={cityValue}
+                />
+              </div>
+            </div>
+          </div>
         </div>
       )}
 

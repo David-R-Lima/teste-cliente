@@ -84,14 +84,8 @@ export default function DashboardLayout({ children }: Props) {
         }
         // Buscar o saldo
         const fetchBalance = async () => {
-          console.log('dentro do fetch')
           const response: IbalanceResponseProps | null =
             await getMerchantBalanceReport()
-
-          console.log(
-            ' resposta api no useEfect --',
-            response?.balance.balanceCurrent,
-          )
 
           if (response) {
             setBalance(response.balance.balanceCurrent)

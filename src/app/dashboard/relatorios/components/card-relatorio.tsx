@@ -2,16 +2,10 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { getMerchantBalanceReport } from '@/services/reports/merchant/get-balance-report'
-import { getMerchantMovementsReport } from '@/services/reports/merchant/get-merchant-movements-report'
-import { LoaderCircle, PiggyBank } from 'lucide-react'
-import { useEffect, useState } from 'react'
 
-interface IbalanceResponseProps {
-  balance: {
-    balanceCurrent: string
-  }
-}
+import { getMerchantMovementsReport } from '@/services/reports/merchant/get-merchant-movements-report'
+import { LoaderCircle } from 'lucide-react'
+import { useState } from 'react'
 
 export function CardsRelatorio() {
   const [dateIni, setDateIni] = useState<string>('')

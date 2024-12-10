@@ -16,6 +16,11 @@ export function AdminSideBar({ open }: Props) {
       label: 'Relatórios PagBttis',
       icon: <Lock className="h-6 w-6 sidebar-icon shrink-0" />,
     },
+    {
+      href: '/painel/admin/parameters',
+      label: 'Parâmetros Vendedores',
+      icon: <Lock className="h-6 w-6 sidebar-icon shrink-0" />,
+    },
   ]
 
   return (

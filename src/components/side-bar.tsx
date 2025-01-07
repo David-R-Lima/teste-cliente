@@ -10,6 +10,7 @@ import {
   Ticket,
   Settings,
   FileText,
+  Link2,
 } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -66,6 +67,11 @@ export function SideBar({ open }: Props) {
       href: '/dashboard/relatorios',
       label: 'Relatórios',
       icon: <FileText className="h-6 w-6 sidebar-icon shrink-0" />,
+    },
+    {
+      href: '/dashboard/payment-links',
+      label: 'Links de pagamento',
+      icon: <Link2 className="h-6 w-6 sidebar-icon shrink-0" />,
     },
     {
       href: '/dashboard/settings',

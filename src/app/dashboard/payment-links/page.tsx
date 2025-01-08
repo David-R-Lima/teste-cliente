@@ -11,6 +11,7 @@ import { useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { PaymentLinksColumns } from './plans-columns'
 import { fetchAllPaymentLink } from '@/services/payment-link'
+import { CreatePaymentLinkForm } from './components/create-payment-link-form'
 
 export default function ProductsComponent() {
   const [page, setPage] = useState<number>(1)
@@ -35,7 +36,7 @@ export default function ProductsComponent() {
             <Filter />
             <p>Filtros</p>
           </Button> */}
-          {/* <CreatePlanForm></CreatePlanForm> */}
+          <CreatePaymentLinkForm></CreatePaymentLinkForm>
         </div>
         <TableComponent
           name="Links de pagamentos"

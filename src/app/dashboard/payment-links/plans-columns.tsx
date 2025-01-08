@@ -2,9 +2,16 @@
 
 import { Button } from '@/components/ui/button'
 import { ColumnDef } from '@tanstack/react-table'
-import { ArrowUpDown, Clipboard } from 'lucide-react'
+import { ArrowUpDown, Clipboard, MoreVertical } from 'lucide-react'
 import { Plans } from '@/services/products/plans/types'
 import { PaymentLink } from '@/services/payment-link/types'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
+import Link from 'next/link'
+import { formatCurrency } from '@/utils/formatCurrency'
 
 export const PaymentLinksColumns: ColumnDef<PaymentLink>[] = [
   {
@@ -61,6 +68,9 @@ export const PaymentLinksColumns: ColumnDef<PaymentLink>[] = [
         </Button>
       )
     },
+    accessorFn: (original: PaymentLink) => {
+      return formatCurrency(original.value / 100)
+    },
   },
   {
     accessorKey: 'description',
@@ -78,48 +88,21 @@ export const PaymentLinksColumns: ColumnDef<PaymentLink>[] = [
     },
   },
   {
-    accessorKey: 'period_type',
-    header: ({ column }) => {
+    id: 'actions',
+    cell: ({ row }) => {
+      const paymentLink = row.original
       return (
-        <Button
-          variant="link"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          className="italic font-bold"
-        >
-          Tipo do período
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        <Popover>
+          <PopoverTrigger>
+            <MoreVertical />
+          </PopoverTrigger>
+          <PopoverContent className="w-full">
+            <Button variant={'link'} asChild>
+              <Link href={'/payment-link/' + paymentLink.id}>Link</Link>
+            </Button>
+          </PopoverContent>
+        </Popover>
       )
     },
   },
-  {
-    accessorKey: 'test_days',
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="link"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          className="italic font-bold"
-        >
-          Dias de teste
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      )
-    },
-  },
-  // {
-  //   id: 'actions',
-  //   cell: ({ row }) => {
-  //     const promptGroup = row.original
-  //     return (
-  //       <Popover>
-  //         <PopoverTrigger>
-  //           <MoreVertical />
-  //         </PopoverTrigger>
-  //         <PopoverContent className="w-full">
-  //         </PopoverContent>
-  //       </Popover>
-  //     )
-  //   },
-  // },
 ]

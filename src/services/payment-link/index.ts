@@ -1,62 +1,29 @@
 import { QueryFunctionContext } from '@tanstack/react-query'
-import { PaymentLink } from './types'
+import { PaymentLink, TypeSchemaLink } from './types'
+import { api } from '../api'
 
-export function fetchPaymentLink(
+export async function fetchPaymentLink(
   ctx: QueryFunctionContext,
 ): Promise<PaymentLink> {
   const [, id] = ctx.queryKey
 
-  const paymentLink: PaymentLink = {
-    id: id as string,
-    url: 'https://example.com/payment/12345',
-    name: 'Payment Link 1',
-    description: 'This is a test payment link',
-    endDate: new Date(),
-    value: 10000,
-    billingType: 'subscription',
-    chargeType: 'recurring',
-    dueDateLimitDays: 30,
-    subscriptionCycle: 'monthly',
-    maxInstallmentCount: 10,
-    notificationEnabled: true,
-  }
+  const res = await api.get<{ link: PaymentLink }>('/payment-link/' + id)
 
-  const promise = new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve(paymentLink)
-    }, 2000) // Simulate API request delay
-  })
-
-  return promise as Promise<PaymentLink>
+  return res.data.link
 }
 
-export function fetchAllPaymentLink(
+export async function fetchAllPaymentLink(
   ctx: QueryFunctionContext,
 ): Promise<PaymentLink[]> {
   const [, id] = ctx.queryKey
 
-  const paymentLink: PaymentLink[] = [
-    {
-      id: id as string,
-      url: 'https://example.com/payment/12345',
-      name: 'Payment Link 1',
-      description: 'This is a test payment link',
-      endDate: new Date(),
-      value: 10000,
-      billingType: 'subscription',
-      chargeType: 'recurring',
-      dueDateLimitDays: 30,
-      subscriptionCycle: 'monthly',
-      maxInstallmentCount: 10,
-      notificationEnabled: true,
-    },
-  ]
+  const res = await api.get<{ links: PaymentLink[] }>('/payment-links?page=1')
 
-  const promise = new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve(paymentLink)
-    }, 2000) // Simulate API request delay
-  })
+  return res.data.links
+}
 
-  return promise as Promise<PaymentLink[]>
+export async function createPaymentLink(data: TypeSchemaLink) {
+  const res = await api.post('/payment-link', data)
+
+  return res.data
 }

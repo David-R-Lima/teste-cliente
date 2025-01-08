@@ -85,6 +85,7 @@ export default function PaymentLink() {
             <>
               <div className="mt-10 space-y-2">
                 <Input placeholder="Titular do cartão"></Input>
+                <Input placeholder="Cpf do dono do cartão"></Input>
                 <Input placeholder="Número do cartão"></Input>
                 <div className="flex space-x-2">
                   <Input placeholder="Validade (MM/AA)"></Input>
@@ -132,6 +133,12 @@ export default function PaymentLink() {
             </div>
           )}
         </div>
+      </div>
+    )
+  } else {
+    return (
+      <div>
+        <h1>Este link de pagamento não existe!</h1>
       </div>
     )
   }

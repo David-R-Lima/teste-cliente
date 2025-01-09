@@ -6,7 +6,6 @@ import {
   TableComponentError,
 } from '@/components/table'
 import { useQuery } from '@tanstack/react-query'
-import { getPlans } from '@/services/products/plans'
 import { useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { PaymentLinksColumns } from './plans-columns'

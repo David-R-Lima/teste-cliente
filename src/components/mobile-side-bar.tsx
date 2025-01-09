@@ -17,6 +17,7 @@ import {
   FileText,
   Webhook,
   Lock,
+  Link2,
 } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -105,6 +106,13 @@ export function MobileSideBar() {
           >
             <FileText className="h-4 w-4" />
             Relatórios
+          </Link>
+          <Link
+            href={'/dashboard/payment-links'}
+            className={`flex items-center gap-3 rounded-lg py-2 ${path[2] === 'payment-links' ? 'text-primary text-lg' : 'text-muted-foreground transition-all hover:text-primary'}`}
+          >
+            <Link2 className="h-4 w-4" />
+            Links de pagamento
           </Link>
           <Link
             href={'/dashboard/settings'}

@@ -32,12 +32,15 @@ import Barcode from 'react-barcode'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { RenderQRCodeSectionPaymentLink } from './components/render-qr-code'
+import { useHookFormMask } from 'use-mask-input'
+import { fetchAddress } from '@/lib/viacep'
 
 export default function PaymentLink() {
   const [step, setStep] = useState(1)
   const [paymentType, setPaymentType] = useState<PaymentType | undefined>()
   const [qrCode, setQrCode] = useState<QrCode[] | undefined>()
   const [boleto, setBoleto] = useState<Boleto | undefined>(undefined)
+  const [displayAddressForm, setDisplayAddressForm] = useState<boolean>(false)
   const params = useParams()
 
   const [cardToTokenize, setCardToTokenize] = useState<{
@@ -104,65 +107,109 @@ export default function PaymentLink() {
     },
   })
 
+  const registerWithMask = useHookFormMask(register)
+
   useEffect(() => {
     if (paymentLinkQuery.data) {
       setValue('payment_link_id', paymentLinkQuery.data.link.id)
     }
   }, [paymentLinkQuery.data])
 
+  const address = useMutation({
+    mutationFn: fetchAddress,
+    mutationKey: ['fetchAddress'],
+    onSuccess: (data) => {
+      return data
+    },
+    onError: (error) => {
+      return error
+    },
+  })
+
+  const handleAddressMutation = async (cep: string) => {
+    const data = await address.mutateAsync(cep)
+    setValue('payer.address.street', data.logradouro)
+    setValue('payer.address.neighborhood', data.bairro)
+    setValue('payer.address.city', data.localidade)
+    setValue('payer.address.state', data.uf)
+  }
+
   const tokenize = () => {
     return new Promise((resolve, reject) => {
-      try {
-        if (paymentLinkQuery.data?.publicKey) {
-          BttisCreditCard.setPubKey(
-            paymentLinkQuery.data.publicKey,
-          ).setCreditCard({
-            number: cardToTokenize.card_number,
-            cvc: cardToTokenize.card_cvv,
-            expirationMonth: cardToTokenize.card_expiration_month,
-            expirationYear: cardToTokenize.card_expiration_year,
-            cardHolder: cardToTokenize.card_holder,
-            cpf: cardToTokenize.cpf,
-          })
+      if (paymentLinkQuery.data?.publicKey) {
+        BttisCreditCard.setPubKey(
+          paymentLinkQuery.data.publicKey,
+        ).setCreditCard({
+          number: cardToTokenize.card_number,
+          cvc: cardToTokenize.card_cvv,
+          expirationMonth: cardToTokenize.card_expiration_month,
+          expirationYear: cardToTokenize.card_expiration_year,
+          cardHolder: cardToTokenize.card_holder,
+          cpf: cardToTokenize.cpf,
+        })
 
-          const card = async () => {
-            await BttisCreditCard.hash()
-              .then((data) => {
-                console.log(data)
-                setValue('card_token', data.value)
-                resolve(data.value)
-              })
-              .catch((err) => {
-                reject(new Error(err.value))
-              })
-          }
-
-          card()
-        } else {
-          const errorMessage = 'Error ao tokenizar cartão'
-          toast.error(errorMessage)
-          reject(new Error(errorMessage))
+        const card = async () => {
+          await BttisCreditCard.hash()
+            .then((data) => {
+              if (data.error) {
+                reject(new Error(data.value))
+                return
+              }
+              setValue('card_token', data.value)
+              resolve(data.value)
+            })
+            .catch((err) => {
+              reject(new Error(err.value))
+            })
         }
-      } catch (error) {
-        toast.error('Unexpected error occurred during tokenization')
-        reject(error)
+
+        card()
+      } else {
+        const errorMessage = 'Error ao tokenizar cartão'
+        reject(new Error(errorMessage))
       }
     })
   }
 
   const handleSubmitMutation = async () => {
     if (paymentType === PaymentType.CREDIT_CARD) {
-      await tokenize()
+      try {
+        await tokenize()
+
+        payPaymentLinkMutation.mutate({
+          ...getValues(),
+        })
+      } catch (error) {
+        toast.error(
+          // @ts-expect-error asdajkhsdlkj
+          error.message || 'An error occurred during payment tokenization.',
+        )
+      }
+    } else {
+      payPaymentLinkMutation.mutate({
+        ...getValues(),
+      })
     }
-
-    console.log(getValues())
-
-    payPaymentLinkMutation.mutate({
-      ...getValues(),
-    })
   }
 
-  if (paymentLinkQuery.isLoading) return <div>Loading...</div>
+  if (
+    payPaymentLinkMutation.isSuccess &&
+    paymentType === PaymentType.CREDIT_CARD
+  ) {
+    return (
+      <div className="flex flex-col items-center justify-center h-[70vh]">
+        <h1 className="font-bold">Pagamento realizado com sucesso!</h1>
+      </div>
+    )
+  }
+
+  if (paymentLinkQuery.isLoading)
+    return (
+      <div className="flex flex-col items-center justify-center h-[70vh]">
+        <Loader2 size={124} className="animate-spin"></Loader2>
+        <h1>Aguarde um instante</h1>
+      </div>
+    )
 
   if (paymentLinkQuery.data) {
     return (
@@ -209,37 +256,72 @@ export default function PaymentLink() {
               <Input placeholder="Email" {...register('payer.email')}></Input>
               <Input
                 placeholder="Telefone"
-                {...register('payer.phone')}
+                {...registerWithMask('payer.phone', '99 9 9999-9999', {
+                  autoUnmask: true,
+                })}
               ></Input>
               <Input
                 placeholder="Cpf"
-                {...register('payer.document.text')}
+                {...registerWithMask('payer.document.text', 'cpf', {
+                  autoUnmask: true,
+                })}
               ></Input>
               <div>
                 <hr />
+                <h1 className="mt-4">Endereço</h1>
               </div>
               <Input
                 placeholder="CEP"
-                {...register('payer.address.cep')}
+                {...registerWithMask('payer.address.cep', '99999-999', {
+                  autoUnmask: true,
+                })}
+                onChange={async (e) => {
+                  if (e.target.value.length !== 8) return
+                  handleAddressMutation(e.currentTarget.value)
+                }}
               ></Input>
-              <div className="flex space-x-2">
-                <Input
-                  placeholder="Estado"
-                  {...register('payer.address.state')}
-                ></Input>
-                <Input
-                  placeholder="Cidade"
-                  {...register('payer.address.city')}
-                ></Input>
+              <div className="flex items-center justify-between">
+                {watch('payer.address.street') ? (
+                  <p className="text-secondary-foreground text-sm px-2 xl:max-w-[28rem]">{`${watch('payer.address.street')}, ${watch('payer.address.neighborhood')} - ${watch('payer.address.city')}, ${watch('payer.address.state')}`}</p>
+                ) : (
+                  <p className="text-secondary-foreground lg:truncate text-sm px-2 xl:max-w-[28rem] text-gray-500 italic">
+                    Ex: Rua Edson Nogueira, Porto das Cachoeiras - Central de
+                    Minas, Minas Gerais
+                  </p>
+                )}
+                <div
+                  className="flex justify-end"
+                  onClick={() => {
+                    setDisplayAddressForm(!displayAddressForm)
+                  }}
+                >
+                  <p className="text-secondary-foreground text-sm text-gray-500 underline hover:cursor-pointer">
+                    Não sei o cep
+                  </p>
+                </div>
               </div>
-              <Input
-                placeholder="Bairro"
-                {...register('payer.address.neighborhood')}
-              ></Input>
-              <Input
-                placeholder="Rua"
-                {...register('payer.address.street')}
-              ></Input>
+              {displayAddressForm && (
+                <>
+                  <div className="flex space-x-2">
+                    <Input
+                      placeholder="Estado"
+                      {...register('payer.address.state')}
+                    ></Input>
+                    <Input
+                      placeholder="Cidade"
+                      {...register('payer.address.city')}
+                    ></Input>
+                  </div>
+                  <Input
+                    placeholder="Bairro"
+                    {...register('payer.address.neighborhood')}
+                  ></Input>
+                  <Input
+                    placeholder="Rua"
+                    {...register('payer.address.street')}
+                  ></Input>
+                </>
+              )}
               <Input
                 placeholder="Número"
                 {...register('payer.address.number')}
@@ -255,7 +337,6 @@ export default function PaymentLink() {
             <>
               <div className="mt-10 space-y-2">
                 <div>
-                  <Label>Titular</Label>
                   <Input
                     placeholder="Titular do cartão"
                     onChange={(e) => {
@@ -267,9 +348,8 @@ export default function PaymentLink() {
                   ></Input>
                 </div>
                 <div>
-                  <Label>Cpf</Label>
                   <Input
-                    placeholder="Cpf do dono do cartão"
+                    placeholder="Cpf do titular"
                     onChange={(e) => {
                       setCardToTokenize({
                         ...cardToTokenize,
@@ -279,7 +359,6 @@ export default function PaymentLink() {
                   ></Input>
                 </div>
                 <div>
-                  <Label>Número</Label>
                   <Input
                     placeholder="Número do cartão"
                     onChange={(e) => {
@@ -288,12 +367,13 @@ export default function PaymentLink() {
                         card_number: e.currentTarget.value,
                       })
                     }}
+                    maxLength={16}
                   ></Input>
                 </div>
                 <div className="flex space-x-2 justify-between">
                   <div className="flex justify-start items-center space-x-2">
                     <div>
-                      <Label>Expiration month</Label>
+                      <Label>Mês</Label>
                       <Input
                         placeholder="12"
                         className="max-w-[50px]"
@@ -307,7 +387,7 @@ export default function PaymentLink() {
                       ></Input>
                     </div>
                     <div>
-                      <Label>Expiration year</Label>
+                      <Label>Ano</Label>
                       <Input
                         placeholder="30"
                         className="max-w-[150px]"
@@ -323,7 +403,7 @@ export default function PaymentLink() {
                   </div>
                   <div>
                     {' '}
-                    <Label>Expiration month</Label>
+                    <Label>Código de segurança</Label>
                     <Input
                       placeholder="CVV"
                       onChange={(e) => {
@@ -355,18 +435,55 @@ export default function PaymentLink() {
 
           {step === 3 && paymentType === PaymentType.PIX && (
             <div className="mt-10">
+              <div className="flex items-center justify-center">
+                {payPaymentLinkMutation.isPending && (
+                  <Loader2 size={124} className="animate-spin"></Loader2>
+                )}
+              </div>
               {qrCode && <RenderQRCodeSectionPaymentLink qrcode={qrCode[0]} />}
             </div>
           )}
 
           {step === 3 && paymentType === PaymentType.BOLETO && (
-            <div className="mt-10">{boleto && renderBoletoSection(boleto)}</div>
+            <div className="mt-10">
+              <div className="flex items-center justify-center">
+                {payPaymentLinkMutation.isPending && (
+                  <Loader2 size={124} className="animate-spin"></Loader2>
+                )}
+              </div>
+              {boleto && renderBoletoSection(boleto)}
+            </div>
           )}
 
           {(step === 1 || step === 2) && (
             <Button
               className="w-full mt-4"
               onClick={() => {
+                if (step === 1 && !paymentType) {
+                  toast.error('Selecione um método de pagamento')
+                  return
+                }
+
+                if (step === 2) {
+                  if (!getValues('payer.name')) {
+                    toast.error('Preencha o nome do comprador')
+                    return
+                  }
+                  if (!getValues('payer.email')) {
+                    toast.error('Preencha o email do comprador')
+                    return
+                  }
+
+                  if (!getValues('payer.phone')) {
+                    toast.error('Preencha o telefone do comprador')
+                    return
+                  }
+                  if (!getValues('payer.document.text')) {
+                    toast.error('Preencha o cpf do comprador')
+                    return
+                  }
+                }
+
                 setStep(step + 1)
 
                 if (step === 2 && paymentType !== PaymentType.CREDIT_CARD) {
@@ -378,7 +495,7 @@ export default function PaymentLink() {
             </Button>
           )}
         </div>
-        <div className="p-2 self-start space-y-2 min-w-[10vw] max-w-[10vw]">
+        <div className="p-2 self-start space-y-2 min-w-[15vw] max-w-[15vw]">
           <h1>{paymentLinkQuery.data?.link.name}</h1>
           <h1>Descrição: {paymentLinkQuery.data?.link.description}</h1>
           <h1>
@@ -391,13 +508,18 @@ export default function PaymentLink() {
               </p>
             </div>
           )}
+          <div className="flex flex-col space-y-2 justify-end border-2 p-4 rounded-lg">
+            <Label>Cupom de desconto</Label>
+            <Input></Input>
+            <Button>Aplicar</Button>
+          </div>
         </div>
       </div>
     )
   } else {
     return (
-      <div>
-        <h1>Este link de pagamento não existe!</h1>
+      <div className="flex flex-col items-center justify-center h-[70vh]">
+        <h1>Este link de pagamento não foi encontrado!</h1>
       </div>
     )
   }

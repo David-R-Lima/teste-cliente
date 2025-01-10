@@ -1,11 +1,7 @@
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Charges, ChargeStatus, PaymentType } from '@/services/charges/types'
-import dayjs from 'dayjs'
-import { useEffect, useState } from 'react'
+import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { toast } from 'sonner'
 import Image from 'next/image'
-import { AlarmClock, AlarmClockOff, LoaderCircle } from 'lucide-react'
 import { QrCode } from '@/services/payment-link/types'
 
 interface Props {

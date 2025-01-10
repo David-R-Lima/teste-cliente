@@ -1,6 +1,5 @@
 'use client'
 
-import { RenderQRCodeSection } from '@/app/dashboard/charges/components/pix-payment-page'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -12,7 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Charges, ChargeStatus, PaymentType } from '@/services/charges/types'
+import { PaymentType } from '@/services/charges/types'
 import { Country, DocumentType } from '@/services/customers/types'
 import { fetchPaymentLink, payPaymentLink } from '@/services/payment-link'
 import {

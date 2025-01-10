@@ -214,19 +214,7 @@ export default function PaymentLink() {
   if (paymentLinkQuery.data) {
     return (
       <div className="flex items-start justify-center mt-20 space-x-8">
-        <div className=" flex flex-col justify-start border-r-2 p-4 min-w-[40vw] max-w-[40vw]">
-          <div className="self-start">
-            <h1 className="font-bold">{paymentLinkQuery.data?.link.name}</h1>
-            <h1 className="italic">
-              {paymentLinkQuery.data?.link.description}
-            </h1>
-            <h1 className="mt-2">
-              <span className="font-bold">Valor: </span>
-              <span>
-                {formatCurrency(paymentLinkQuery.data.link.value / 100)}
-              </span>
-            </h1>
-          </div>
+        <div className=" flex flex-col justify-start border-r-2 p-4 min-w-[40vw] max-w-[70vw]">
           {step === 1 && (
             <div className="mt-10">
               <Select
@@ -495,16 +483,23 @@ export default function PaymentLink() {
             </Button>
           )}
         </div>
-        <div className="p-2 self-start space-y-2 min-w-[15vw] max-w-[15vw]">
-          <h1>{paymentLinkQuery.data?.link.name}</h1>
-          <h1>Descrição: {paymentLinkQuery.data?.link.description}</h1>
+        <div className="p-2 self-start space-y-2 min-w-[20vw] max-w-[20vw] text-sm">
           <h1>
-            Valor: {formatCurrency(paymentLinkQuery.data.link.value / 100)}
+            <span className="font-bold">Nome: </span>
+            {paymentLinkQuery.data?.link.name}
+          </h1>
+          <h1>
+            <span className="font-bold">Descrição: </span>{' '}
+            {paymentLinkQuery.data?.link.description}
+          </h1>
+          <h1>
+            <span className="font-bold">Valor: </span>{' '}
+            {formatCurrency(paymentLinkQuery.data.link.value / 100)}
           </h1>
           {paymentType && (
             <div className="">
               <p>
-                <strong>Método de pagamento selecionado:</strong> {paymentType}
+                <strong>Método de pagamento:</strong> {paymentType}
               </p>
             </div>
           )}

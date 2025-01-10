@@ -40,7 +40,9 @@ export function RenderQRCodeSectionPaymentLink(data: Props) {
                   <Image src={qrCodeSrc} height={100} width={300} alt="" />
                 )}
               </div>
-              <p className="p-4 border-2 rounded-lg">{data.qrcode?.text}</p>
+              <p className="p-4 border-2 rounded-lg max-w-[600px]">
+                {data.qrcode?.text}
+              </p>
               <Button
                 onClick={(e) => {
                   e.preventDefault()

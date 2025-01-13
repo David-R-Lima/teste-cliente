@@ -44,6 +44,7 @@ export const payPaymentLinkSchema = z.object({
   }),
   payment_type: z.nativeEnum(PaymentType),
   card_token: z.string().optional(),
+  cupom: z.string().optional(),
   payer: z.object({
     name: z.string().max(50, {
       message: 'Payer name must have at most 50 characters',

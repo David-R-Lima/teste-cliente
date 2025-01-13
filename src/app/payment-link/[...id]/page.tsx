@@ -504,8 +504,7 @@ export default function PaymentLink() {
           )}
           <div className="flex flex-col space-y-2 justify-end border-2 p-4 rounded-lg">
             <Label>Cupom de desconto</Label>
-            <Input></Input>
-            <Button>Aplicar</Button>
+            <Input {...register('cupom')}></Input>
           </div>
         </div>
       </div>

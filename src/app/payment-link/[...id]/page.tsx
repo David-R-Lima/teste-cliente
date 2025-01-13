@@ -73,10 +73,12 @@ export default function PaymentLink() {
     onSuccess: (data) => {
       if (data.qr_codes) {
         setQrCode(data.qr_codes)
+        setStep(3)
       }
 
       if (data.boleto) {
         setBoleto(data.boleto)
+        setStep(3)
       }
 
       if (paymentType === PaymentType.CREDIT_CARD) {
@@ -443,43 +445,51 @@ export default function PaymentLink() {
           )}
 
           {(step === 1 || step === 2) && (
-            <Button
-              className="w-full mt-4"
-              onClick={() => {
-                if (step === 1 && !paymentType) {
-                  toast.error('Selecione um método de pagamento')
-                  return
-                }
+            <>
+              {payPaymentLinkMutation.isPending ? (
+                <Button className="w-full mt-4">
+                  <Loader2 className="animate-spin"></Loader2>
+                </Button>
+              ) : (
+                <Button
+                  className="w-full mt-4"
+                  onClick={() => {
+                    if (step === 1 && !paymentType) {
+                      toast.error('Selecione um método de pagamento')
+                      return
+                    }
 
-                if (step === 2) {
-                  if (!getValues('payer.name')) {
-                    toast.error('Preencha o nome do comprador')
-                    return
-                  }
-                  if (!getValues('payer.email')) {
-                    toast.error('Preencha o email do comprador')
-                    return
-                  }
+                    if (step === 2) {
+                      if (!getValues('payer.name')) {
+                        toast.error('Preencha o nome do comprador')
+                        return
+                      }
+                      if (!getValues('payer.email')) {
+                        toast.error('Preencha o email do comprador')
+                        return
+                      }
 
-                  if (!getValues('payer.phone')) {
-                    toast.error('Preencha o telefone do comprador')
-                    return
-                  }
-                  if (!getValues('payer.document.text')) {
-                    toast.error('Preencha o cpf do comprador')
-                    return
-                  }
-                }
+                      if (!getValues('payer.phone')) {
+                        toast.error('Preencha o telefone do comprador')
+                        return
+                      }
+                      if (!getValues('payer.document.text')) {
+                        toast.error('Preencha o cpf do comprador')
+                        return
+                      }
+                    }
 
-                setStep(step + 1)
-
-                if (step === 2 && paymentType !== PaymentType.CREDIT_CARD) {
-                  handleSubmitMutation()
-                }
-              }}
-            >
-              Continuar
-            </Button>
+                    if (step === 2 && paymentType !== PaymentType.CREDIT_CARD) {
+                      handleSubmitMutation()
+                    } else {
+                      setStep(step + 1)
+                    }
+                  }}
+                >
+                  Continuar
+                </Button>
+              )}
+            </>
           )}
         </div>
         <div className="p-2 self-start space-y-2 min-w-[20vw] max-w-[20vw] text-sm">

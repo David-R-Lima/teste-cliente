@@ -46,7 +46,7 @@ export function CreatePaymentLinkForm() {
     onSuccess: () => {
       toast.message('Plano cadastrado com sucesso!')
       queryClient.invalidateQueries({
-        queryKey: ['payment-link'],
+        queryKey: ['payment-links'],
       })
       setOpen(false)
     },
@@ -58,6 +58,7 @@ export function CreatePaymentLinkForm() {
   const handleSumbitMutation = async (data: TypeSchemaLink) => {
     await submit.mutateAsync({
       ...data,
+      value: data.value ? data.value * 100 : undefined,
     })
   }
 

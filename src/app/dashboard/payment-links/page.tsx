@@ -17,7 +17,7 @@ export default function ProductsComponent() {
   const { status } = useSession()
 
   const { data, isLoading, isError } = useQuery({
-    queryKey: ['plans', page],
+    queryKey: ['payment-links', page],
     queryFn: fetchAllPaymentLink,
     enabled: status === 'authenticated',
   })

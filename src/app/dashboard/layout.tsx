@@ -60,7 +60,7 @@ export default function DashboardLayout({ children }: Props) {
   const router = useRouter()
   const queryClient = useQueryClient()
   const [balance, setBalance] = useState<string | null>(null)
-  const [eyeOpen, setOpenEye] = useState(true)
+  const [eyeOpen, setOpenEye] = useState(false)
 
   const handleToggle = () => {
     setIsOpen(!isOpen)

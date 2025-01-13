@@ -12,7 +12,8 @@ interface Props {
 
 export function Response({ data }: Props) {
   const renderProperties = (properties: BodyProps[], level: number) => {
-    const bgClass = level % 2 !== 0 ? 'bg-muted' : 'bg-accent'
+    const bgClass = level % 2 !== 0 ? 'bg-muted' : 'bg-accent/40'
+
     const borderClass = level > 0 ? 'border-2' : ''
 
     return properties.map((property, index) => (
@@ -52,7 +53,7 @@ export function Response({ data }: Props) {
             return (
               <div
                 key={index}
-                className="space-y-2 bg-muted p-4 rounded-lg my-4"
+                className="space-y-2 bg-muted/40 p-4 rounded-lg my-4"
               >
                 <div className="flex space-x-2">
                   <h1 className={`text-bold ${colorClass}`}>

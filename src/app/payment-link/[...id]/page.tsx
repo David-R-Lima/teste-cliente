@@ -24,7 +24,7 @@ import { formatCurrency } from '@/utils/formatCurrency'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { BttisCreditCard } from 'bttis-encrypt1-sdk-js'
-import { Loader2 } from 'lucide-react'
+import { Check, Loader2, X } from 'lucide-react'
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import Barcode from 'react-barcode'
@@ -33,6 +33,7 @@ import { toast } from 'sonner'
 import { RenderQRCodeSectionPaymentLink } from './components/render-qr-code'
 import { useHookFormMask } from 'use-mask-input'
 import { fetchAddress } from '@/lib/viacep'
+import { ValidateCupom } from '@/services/cupons'
 
 export default function PaymentLink() {
   const [step, setStep] = useState(1)
@@ -40,6 +41,8 @@ export default function PaymentLink() {
   const [qrCode, setQrCode] = useState<QrCode[] | undefined>()
   const [boleto, setBoleto] = useState<Boleto | undefined>(undefined)
   const [displayAddressForm, setDisplayAddressForm] = useState<boolean>(false)
+  const [cupomValid, setCupomValid] = useState<number | undefined>(undefined)
+  const [cupom, setCupom] = useState<string | undefined>(undefined)
   const params = useParams()
 
   const [cardToTokenize, setCardToTokenize] = useState<{
@@ -192,6 +195,14 @@ export default function PaymentLink() {
       })
     }
   }
+
+  const validateCupomMutation = useMutation({
+    mutationFn: ValidateCupom,
+    mutationKey: ['validateCupom'],
+    onSuccess: (data) => {
+      setCupomValid(data)
+    },
+  })
 
   if (
     payPaymentLinkMutation.isSuccess &&
@@ -512,9 +523,35 @@ export default function PaymentLink() {
               </p>
             </div>
           )}
-          <div className="flex flex-col space-y-2 justify-end border-2 p-4 rounded-lg">
+          <div className="flex flex-col space-y-4 justify-end border-2 p-4 rounded-lg">
             <Label>Cupom de desconto</Label>
-            <Input {...register('cupom')}></Input>
+            <Input
+              onChange={(e) => {
+                setCupom(e.currentTarget.value)
+              }}
+            ></Input>
+            {cupomValid === 1 && (
+              <div className="flex items-center space-x-2">
+                <Check className="text-green-500" />
+                <p>Cupom válido</p>
+              </div>
+            )}
+            {cupomValid === 2 && (
+              <div className="flex items-center space-x-2">
+                <X className="text-red-500" />
+                <p>Cupom inválido</p>
+              </div>
+            )}
+            {cupom && (
+              <Button
+                onClick={() => {
+                  validateCupomMutation.mutate(cupom)
+                  setValue('cupom', cupom)
+                }}
+              >
+                Aplicar
+              </Button>
+            )}
           </div>
         </div>
       </div>

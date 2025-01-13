@@ -15,6 +15,7 @@ export interface PaymentLink {
   subscriptionCycle: string
   maxInstallmentCount: number
   notificationEnabled: boolean
+  merchantId: string
 }
 
 export const CreatePaymentLinkSchema = z.object({

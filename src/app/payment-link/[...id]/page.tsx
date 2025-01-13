@@ -11,7 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { PaymentType } from '@/services/charges/types'
+import { ChargeType, PaymentType } from '@/services/charges/types'
 import { Country, DocumentType } from '@/services/customers/types'
 import { fetchPaymentLink, payPaymentLink } from '@/services/payment-link'
 import {
@@ -200,7 +200,14 @@ export default function PaymentLink() {
     mutationFn: ValidateCupom,
     mutationKey: ['validateCupom'],
     onSuccess: (data) => {
-      setCupomValid(data)
+      if (data.valid) {
+        setCupomValid(1)
+      } else {
+        setCupomValid(2)
+      }
+    },
+    onError: () => {
+      setCupomValid(2)
     },
   })
 
@@ -545,7 +552,13 @@ export default function PaymentLink() {
             {cupom && (
               <Button
                 onClick={() => {
-                  validateCupomMutation.mutate(cupom)
+                  validateCupomMutation.mutate({
+                    code: cupom,
+                    value: paymentLinkQuery.data.link.value ?? 1,
+                    cupom_payment_type: paymentLinkQuery.data.link
+                      .chargeType as ChargeType,
+                    merchant_id: paymentLinkQuery.data.link.merchantId,
+                  })
                   setValue('cupom', cupom)
                 }}
               >

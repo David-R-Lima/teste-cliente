@@ -1,3 +1,4 @@
+import { z } from 'zod'
 import { ChargeType } from '../charges/types'
 
 export enum CupomValueType {
@@ -18,3 +19,20 @@ export interface Cupom {
   createdAt: Date
   updatedAt: Date | null
 }
+
+export const ValidateCupomFormSchema = z.object({
+  code: z
+    .string({
+      required_error: 'Name is required',
+    })
+    .max(50, {
+      message: 'name must be less than 50 caracters',
+    }),
+  value: z.coerce.number({
+    required_error: 'Value is required',
+  }),
+  cupom_payment_type: z.nativeEnum(ChargeType),
+  merchant_id: z.string(),
+})
+
+export type validateCupomFormSchema = z.infer<typeof ValidateCupomFormSchema>

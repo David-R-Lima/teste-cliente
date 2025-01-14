@@ -176,12 +176,19 @@ export default function PaymentLink() {
   }
 
   const handleSubmitMutation = async () => {
+    const data = getValues()
+
+    if (cupomValid === 2) {
+      toast.error('Este cupom é inválido.')
+      return
+    }
     if (paymentType === PaymentType.CREDIT_CARD) {
       try {
         await tokenize()
 
         payPaymentLinkMutation.mutate({
-          ...getValues(),
+          ...data,
+          cupom: data.cupom === '' ? undefined : data.cupom,
         })
       } catch (error) {
         toast.error(
@@ -191,7 +198,8 @@ export default function PaymentLink() {
       }
     } else {
       payPaymentLinkMutation.mutate({
-        ...getValues(),
+        ...data,
+        cupom: data.cupom === '' ? undefined : data.cupom,
       })
     }
   }
@@ -535,6 +543,10 @@ export default function PaymentLink() {
             <Input
               onChange={(e) => {
                 setCupom(e.currentTarget.value)
+
+                if (e.currentTarget.value === '') {
+                  setCupomValid(undefined)
+                }
               }}
             ></Input>
             {cupomValid === 1 && (

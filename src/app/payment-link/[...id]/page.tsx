@@ -77,17 +77,31 @@ export default function PaymentLink() {
     onSuccess: (data) => {
       if (data.qr_codes) {
         setQrCode(data.qr_codes)
-        setCookie('qrcode', data.qr_codes, {
-          maxAge: 3600 * 24,
-        })
+        setCookie(
+          'qrcode',
+          {
+            link_id: params.id[0],
+            qrCodes: data.qr_codes,
+          },
+          {
+            maxAge: 3600 * 24,
+          },
+        )
         setStep(3)
       }
 
       if (data.boleto) {
         setBoleto(data.boleto)
-        setCookie('boleto', data.boleto, {
-          maxAge: 3600 * 24,
-        })
+        setCookie(
+          'boleto',
+          {
+            link_id: params.id[0],
+            boleto: data.boleto,
+          },
+          {
+            maxAge: 3600 * 24,
+          },
+        )
         setStep(3)
       }
 
@@ -183,8 +197,6 @@ export default function PaymentLink() {
   }
 
   const handleSubmitMutation = async () => {
-    const data = getValues()
-
     if (cupomValid === 2) {
       toast.error('Este cupom é inválido.')
       return
@@ -192,6 +204,8 @@ export default function PaymentLink() {
     if (paymentType === PaymentType.CREDIT_CARD) {
       try {
         await tokenize()
+
+        const data = getValues()
 
         payPaymentLinkMutation.mutate({
           ...data,
@@ -204,6 +218,7 @@ export default function PaymentLink() {
         )
       }
     } else {
+      const data = getValues()
       payPaymentLinkMutation.mutate({
         ...data,
         cupom: data.cupom === '' ? undefined : data.cupom,
@@ -231,9 +246,14 @@ export default function PaymentLink() {
 
     if (qrCodeCookie) {
       const tempQRCodes: QrCode[] = []
-      const parsedCookie = JSON.parse(qrCodeCookie) as QrCode[]
+      const parsedCookie = JSON.parse(qrCodeCookie) as {
+        qrCodes: QrCode[]
+        link_id: string
+      }
 
-      tempQRCodes.push(parsedCookie[0])
+      if (parsedCookie.link_id !== params.id[0]) return
+
+      tempQRCodes.push(parsedCookie.qrCodes[0])
       setQrCode(tempQRCodes)
 
       setStep(3)
@@ -242,8 +262,17 @@ export default function PaymentLink() {
     const boletoCookie = getCookie('boleto')
 
     if (boletoCookie) {
-      const tempBoleto: Boleto = JSON.parse(boletoCookie) as Boleto
-      setBoleto(tempBoleto)
+      const tempBoleto: {
+        boleto: Boleto
+        link_id: string
+      } = JSON.parse(boletoCookie) as {
+        boleto: Boleto
+        link_id: string
+      }
+
+      if (tempBoleto.link_id !== params.id[0]) return
+
+      setBoleto(tempBoleto.boleto)
 
       setStep(3)
     }

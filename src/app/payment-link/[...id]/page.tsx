@@ -321,7 +321,7 @@ export default function PaymentLink() {
             </div>
           )}
           {step !== 3 && (
-            <div className="flex flex-col space-y-4 justify-end border-2 p-4 rounded-lg">
+            <div className="flex flex-col space-y-4 justify-end py-4 rounded-lg">
               <Label>Cupom de desconto</Label>
               <Input
                 onChange={(e) => {

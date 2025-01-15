@@ -29,14 +29,13 @@ import {
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
-  PaginationLink,
 } from '@/components/ui/pagination'
 
 import { useState } from 'react'
 import { Button } from './ui/button'
 import { ChevronLeft, ChevronRight, CircleX, Loader2 } from 'lucide-react'
+import { Input } from './ui/input'
 
 interface DataTableProps<TData, TValue> {
   name: string
@@ -138,10 +137,17 @@ export function TableComponent<TData, TValue>({
               </Button>
             </PaginationItem>
             <PaginationItem>
-              <PaginationLink>{page}</PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationEllipsis />
+              <Input
+                type="number"
+                value={page}
+                className="w-[60px]"
+                onChange={(e) => {
+                  const newPage = parseInt(e.target.value)
+                  if (Number.isInteger(newPage) && newPage >= 1) {
+                    setPage(newPage)
+                  }
+                }}
+              ></Input>
             </PaginationItem>
             <PaginationItem>
               <Button

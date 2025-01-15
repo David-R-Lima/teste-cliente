@@ -36,7 +36,7 @@ export function RenderQRCodeSectionPaymentLink(data: Props) {
                   <Image src={qrCodeSrc} height={100} width={300} alt="" />
                 )}
               </div>
-              <p className="p-4 border-2 rounded-lg max-w-[600px]">
+              <p className="p-4 border-2 rounded-lg max-w-[600px] break-all">
                 {data.qrcode?.text}
               </p>
               <Button

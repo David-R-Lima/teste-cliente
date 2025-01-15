@@ -299,10 +299,73 @@ export default function PaymentLink() {
 
   if (paymentLinkQuery.data) {
     return (
-      <div className="flex items-start justify-center mt-20 space-x-8">
-        <div className=" flex flex-col justify-start border-r-2 p-4 min-w-[40vw] max-w-[70vw]">
+      <div className="flex flex-col items-center md:flex-row-reverse md:items-start justify-center mt-20 md:space-x-8">
+        <div className="p-2 md:self-start md:ml-4 space-y-2 w-[90vw] md:min-w-[20vw] md:max-w-[20vw] text-sm">
+          <h1>
+            <span className="font-bold">Nome: </span>
+            {paymentLinkQuery.data?.link.name}
+          </h1>
+          <h1>
+            <span className="font-bold">Descrição: </span>{' '}
+            {paymentLinkQuery.data?.link.description}
+          </h1>
+          <h1>
+            <span className="font-bold">Valor: </span>{' '}
+            {formatCurrency(paymentLinkQuery.data.link.value / 100)}
+          </h1>
+          {paymentType && (
+            <div className="">
+              <p>
+                <strong>Método de pagamento:</strong> {paymentType}
+              </p>
+            </div>
+          )}
+          {step !== 3 && (
+            <div className="flex flex-col space-y-4 justify-end border-2 p-4 rounded-lg">
+              <Label>Cupom de desconto</Label>
+              <Input
+                onChange={(e) => {
+                  setCupom(e.currentTarget.value)
+
+                  if (e.currentTarget.value === '') {
+                    setCupomValid(undefined)
+                  }
+                }}
+              ></Input>
+              {cupomValid === 1 && (
+                <div className="flex items-center space-x-2">
+                  <Check className="text-green-500" />
+                  <p>Cupom válido</p>
+                </div>
+              )}
+              {cupomValid === 2 && (
+                <div className="flex items-center space-x-2">
+                  <X className="text-red-500" />
+                  <p>Cupom inválido</p>
+                </div>
+              )}
+              {cupom && (
+                <Button
+                  onClick={() => {
+                    validateCupomMutation.mutate({
+                      code: cupom,
+                      value: paymentLinkQuery.data.link.value ?? 1,
+                      cupom_payment_type: paymentLinkQuery.data.link
+                        .chargeType as ChargeType,
+                      merchant_id: paymentLinkQuery.data.link.merchantId,
+                    })
+                    setValue('cupom', cupom)
+                  }}
+                >
+                  Aplicar
+                </Button>
+              )}
+            </div>
+          )}
+        </div>
+        <div className=" flex flex-col justify-start md:border-r-2 p-4 w-[90vw] md:min-w-[40vw] md:max-w-[70vw]">
           {step === 1 && (
-            <div className="mt-10">
+            <div>
               <Select
                 onValueChange={(e) => {
                   setPaymentType(e as PaymentType)
@@ -325,7 +388,7 @@ export default function PaymentLink() {
           )}
 
           {step === 2 && (
-            <div className="space-y-2 mt-10">
+            <div className="space-y-2">
               <Input placeholder="Nome" {...register('payer.name')}></Input>
               <Input placeholder="Email" {...register('payer.email')}></Input>
               <Input
@@ -409,7 +472,7 @@ export default function PaymentLink() {
 
           {step === 3 && paymentType === PaymentType.CREDIT_CARD && (
             <>
-              <div className="mt-10 space-y-2">
+              <div className="space-y-2">
                 <div>
                   <Input
                     placeholder="Titular do cartão"
@@ -508,7 +571,7 @@ export default function PaymentLink() {
           )}
 
           {step === 3 && (paymentType === PaymentType.PIX || qrCode) && (
-            <div className="mt-10">
+            <div>
               <div className="flex items-center justify-center">
                 {payPaymentLinkMutation.isPending && (
                   <Loader2 size={124} className="animate-spin"></Loader2>
@@ -519,7 +582,7 @@ export default function PaymentLink() {
           )}
 
           {step === 3 && (paymentType === PaymentType.BOLETO || boleto) && (
-            <div className="mt-10">
+            <div>
               <div className="flex items-center justify-center">
                 {payPaymentLinkMutation.isPending && (
                   <Loader2 size={124} className="animate-spin"></Loader2>
@@ -575,69 +638,6 @@ export default function PaymentLink() {
                 </Button>
               )}
             </>
-          )}
-        </div>
-        <div className="p-2 self-start space-y-2 min-w-[20vw] max-w-[20vw] text-sm">
-          <h1>
-            <span className="font-bold">Nome: </span>
-            {paymentLinkQuery.data?.link.name}
-          </h1>
-          <h1>
-            <span className="font-bold">Descrição: </span>{' '}
-            {paymentLinkQuery.data?.link.description}
-          </h1>
-          <h1>
-            <span className="font-bold">Valor: </span>{' '}
-            {formatCurrency(paymentLinkQuery.data.link.value / 100)}
-          </h1>
-          {paymentType && (
-            <div className="">
-              <p>
-                <strong>Método de pagamento:</strong> {paymentType}
-              </p>
-            </div>
-          )}
-          {step !== 3 && (
-            <div className="flex flex-col space-y-4 justify-end border-2 p-4 rounded-lg">
-              <Label>Cupom de desconto</Label>
-              <Input
-                onChange={(e) => {
-                  setCupom(e.currentTarget.value)
-
-                  if (e.currentTarget.value === '') {
-                    setCupomValid(undefined)
-                  }
-                }}
-              ></Input>
-              {cupomValid === 1 && (
-                <div className="flex items-center space-x-2">
-                  <Check className="text-green-500" />
-                  <p>Cupom válido</p>
-                </div>
-              )}
-              {cupomValid === 2 && (
-                <div className="flex items-center space-x-2">
-                  <X className="text-red-500" />
-                  <p>Cupom inválido</p>
-                </div>
-              )}
-              {cupom && (
-                <Button
-                  onClick={() => {
-                    validateCupomMutation.mutate({
-                      code: cupom,
-                      value: paymentLinkQuery.data.link.value ?? 1,
-                      cupom_payment_type: paymentLinkQuery.data.link
-                        .chargeType as ChargeType,
-                      merchant_id: paymentLinkQuery.data.link.merchantId,
-                    })
-                    setValue('cupom', cupom)
-                  }}
-                >
-                  Aplicar
-                </Button>
-              )}
-            </div>
           )}
         </div>
       </div>

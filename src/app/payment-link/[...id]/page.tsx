@@ -329,6 +329,8 @@ export default function PaymentLink() {
 
                   if (e.currentTarget.value === '') {
                     setCupomValid(undefined)
+                    setCupom(undefined)
+                    setValue('cupom', undefined)
                   }
                 }}
               ></Input>

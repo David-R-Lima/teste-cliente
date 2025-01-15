@@ -660,7 +660,7 @@ const renderBoletoSection = (boleto: Boleto) => {
         </CardHeader>
         <CardContent>
           <div className="flex flex-col items-center justify-center space-y-4">
-            <div className="mb-4">
+            <div className="mb-4 flex items-center justify-center w-[100%]">
               <Barcode value={boleto.identificationField} displayValue={true} />
             </div>
             <Button

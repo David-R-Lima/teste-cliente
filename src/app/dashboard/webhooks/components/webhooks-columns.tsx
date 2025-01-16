@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { Webhooks } from '@/services/webhooks/types'
+import { UseUpdateModalStore } from '@/store/update-webhook-store'
 import { ColumnDef } from '@tanstack/react-table'
 import { ArrowUpDown, CircleCheck, CircleX, Pencil, Trash2 } from 'lucide-react'
 
@@ -64,10 +65,25 @@ export const WebhooksColumns: ColumnDef<Webhooks>[] = [
         </Button>
       )
     },
-    cell: () => {
+    cell: ({ row }) => {
+      const webhook = row.original
+
+      const { changeModalState, setWebhook, changeModalType } =
+        UseUpdateModalStore()
+
       return (
         <div className="flex w-full items-center justify-center gap-2">
-          <Button className="felx items-center gap-1" variant="default">
+          <Button
+            className="felx items-center gap-1"
+            variant="default"
+            onClick={() => {
+              changeModalState()
+              setWebhook(webhook)
+              changeModalType({
+                type: 'update',
+              })
+            }}
+          >
             <Pencil className="w-4 h-4" />
             <span>Editar</span>
           </Button>

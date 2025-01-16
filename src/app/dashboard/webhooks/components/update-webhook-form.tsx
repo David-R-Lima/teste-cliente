@@ -1,27 +1,21 @@
 'use client'
 
-import { CreateWebhook } from '@/services/webhooks'
+import { UpdateWebhook } from '@/services/webhooks'
 import {
   WebhookChargeEvent,
   WebhookRecurrenceEvent,
   WebhookTransferEvent,
 } from '@/services/webhooks/types'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { DialogHeader } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
-import {
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogTitle,
-} from '@radix-ui/react-dialog'
-import { Loader2, CirclePlus } from 'lucide-react'
+import { Dialog, DialogContent, DialogTitle } from '@radix-ui/react-dialog'
+import { Loader2 } from 'lucide-react'
 import { Switch } from '@/components/ui/switch'
 import { Label } from '@/components/ui/label'
 import {
@@ -36,8 +30,10 @@ import {
   convertTransferEventsToPortuguese,
 } from '@/utils/handle-webhook-events'
 import { UseUpdateModalStore } from '@/store/update-webhook-store'
+import { zodResolver } from '@hookform/resolvers/zod'
 
-const CreateWebhookFormSchema = z.object({
+const UpdateFormSchemaWebhook = z.object({
+  id: z.string(),
   name: z.string({ required_error: 'Nome do webhook é obrigatório' }),
   destination_url: z.string({
     required_error: 'A url de destino é obrigatório',
@@ -48,9 +44,9 @@ const CreateWebhookFormSchema = z.object({
   events: z.string().array().optional().nullable(),
 })
 
-export type FormSchemaWebhook = z.infer<typeof CreateWebhookFormSchema>
+export type updateFormSchemaWebhook = z.infer<typeof UpdateFormSchemaWebhook>
 
-export function CreateWebhookForm() {
+export function UpdateWebhookForm() {
   const [chargeEventsChecked, setChargeEventsChecked] = useState<string[]>([])
   const [recurrenceEventsChecked, setRecurrenceEventsChecked] = useState<
     string[]
@@ -60,16 +56,17 @@ export function CreateWebhookForm() {
   )
   const [statusSwitchChecked, setStatusSwitchChecked] = useState<boolean>(true)
 
-  const { changeModalState, modalState, changeModalType } =
+  const { changeModalState, modalState, changeModalType, webhook } =
     UseUpdateModalStore()
 
   const queryClient = useQueryClient()
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
-  } = useForm<FormSchemaWebhook>({
-    resolver: zodResolver(CreateWebhookFormSchema),
+  } = useForm<updateFormSchemaWebhook>({
+    resolver: zodResolver(UpdateFormSchemaWebhook),
     defaultValues: {
       status: true,
       events: [],
@@ -83,20 +80,21 @@ export function CreateWebhookForm() {
   const transferWebhookEventsAvailables = Object.values(WebhookTransferEvent)
 
   const submit = useMutation({
-    mutationFn: CreateWebhook,
-    mutationKey: ['createWebhookMutation'],
+    mutationFn: UpdateWebhook,
+    mutationKey: ['updateWebhookMutation'],
     onSuccess: () => {
-      toast.message('Webhook criado com sucesso!')
+      toast.message('Webhook atualizado com sucesso!')
       queryClient.invalidateQueries({
         queryKey: ['webhooks'],
       })
+      changeModalState()
     },
     onError: (error) => {
       toast.error(error.message)
     },
   })
 
-  const handleSumbitMutation = async (data: FormSchemaWebhook) => {
+  const handleSumbitMutation = async (data: updateFormSchemaWebhook) => {
     const events = [
       ...chargeEventsChecked,
       ...recurrenceEventsChecked,
@@ -111,26 +109,57 @@ export function CreateWebhookForm() {
     })
   }
 
+  useEffect(() => {
+    if (webhook) {
+      setValue('id', webhook.id?.toString())
+      setValue('name', webhook.name)
+      setValue('destination_url', webhook.destination_url)
+      setValue('token', webhook.token)
+
+      if (webhook.status === 'ACTIVE') {
+        setStatusSwitchChecked(true)
+      } else {
+        setStatusSwitchChecked(false)
+      }
+
+      webhook.events.map((event) => {
+        if (
+          chargeWebhookEventsAvailables.includes(event as WebhookChargeEvent)
+        ) {
+          setChargeEventsChecked((prev) => [...prev, event])
+        } else if (
+          recurrenceWebhookEventsAvailables.includes(
+            event as WebhookRecurrenceEvent,
+          )
+        ) {
+          setRecurrenceEventsChecked((prev) => [...prev, event])
+        } else if (
+          transferWebhookEventsAvailables.includes(
+            event as WebhookTransferEvent,
+          )
+        ) {
+          setTransferEventsChecked((prev) => [...prev, event])
+        }
+
+        return true
+      })
+    }
+  }, [webhook])
+
   return (
     <Dialog
       open={modalState}
       onOpenChange={() => {
         changeModalState()
 
-        if (!modalState) {
-          changeModalType({
-            type: 'create',
-          })
-        } else {
-          changeModalType({
-            type: undefined,
-          })
-        }
+        changeModalType({
+          type: undefined,
+        })
       }}
     >
       <DialogContent className="flex flex-col">
         <DialogHeader className="w-full px-5">
-          <DialogTitle className="text-xl">Cadastrar Webhook</DialogTitle>
+          <DialogTitle className="text-xl">Editar Webhook</DialogTitle>
         </DialogHeader>
         <form
           onSubmit={handleSubmit(handleSumbitMutation)}

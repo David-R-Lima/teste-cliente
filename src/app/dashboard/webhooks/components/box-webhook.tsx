@@ -20,21 +20,25 @@ import { useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { WebhooksColumns } from './webhooks-columns'
 import { CreateWebhookForm } from './create-webhook'
+import { UpdateWebhookForm } from './update-webhook-form'
+import { UseUpdateModalStore } from '@/store/update-webhook-store'
 
 export function BoxWebhook() {
   const [page, setPage] = useState<number>(1)
-  const [modalOpen, setModalOpen] = useState(false)
   const { status } = useSession()
+
+  const { changeModalState, modalState, webhook, modalType, changeModalType } =
+    UseUpdateModalStore()
+
+  console.log(modalState)
+  console.log(webhook)
+  console.log(modalType)
 
   const { data } = useQuery({
     queryKey: ['webhooks', page],
     queryFn: getWebhooks,
     enabled: status === 'authenticated',
   })
-
-  const getModalOpen = (open: boolean) => {
-    setModalOpen(open)
-  }
 
   return (
     <div className="w-full h-full relative">
@@ -59,20 +63,37 @@ export function BoxWebhook() {
         <TabsContent value="webhook" className="w-full">
           <Card className="w-full">
             <CardContent className="space-y-2">
-              <div className="space-y-1 flex flex-col justify-end px-4 py-1 rounded-base m-2 max-w-[80vw]">
-                <CreateWebhookForm setModalOpen={getModalOpen} />
-              </div>
-              {!modalOpen ? (
-                data?.webhooks ? (
-                  <TableComponent
-                    name="Webhooks"
-                    columns={WebhooksColumns}
-                    data={data.webhooks}
-                    page={page}
-                    setPage={setPage}
-                  ></TableComponent>
-                ) : null
-              ) : null}
+              <Button
+                className="mt-4"
+                onClick={() => {
+                  changeModalState()
+                  changeModalType({
+                    type: 'create',
+                  })
+                }}
+              >
+                Criar webhook
+              </Button>
+              {modalState && modalType === 'create' && (
+                <div className="space-y-1 flex flex-col justify-end px-4 py-1 rounded-base m-2 max-w-[80vw]">
+                  <CreateWebhookForm />
+                </div>
+              )}
+              {modalState && webhook && modalType === 'update' && (
+                <div className="space-y-1 flex flex-col justify-end px-4 py-1 rounded-base m-2 max-w-[80vw]">
+                  <UpdateWebhookForm />
+                </div>
+              )}
+
+              {!modalState && data?.webhooks && (
+                <TableComponent
+                  name="Webhooks"
+                  columns={WebhooksColumns}
+                  data={data.webhooks}
+                  page={page}
+                  setPage={setPage}
+                ></TableComponent>
+              )}
             </CardContent>
           </Card>
         </TabsContent>

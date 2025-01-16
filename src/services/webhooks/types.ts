@@ -1,7 +1,7 @@
 export interface Webhooks {
   id: number
   name: string
-  destinationUrl: string
+  destination_url: string
   token: string
   status: string
   events: string[]

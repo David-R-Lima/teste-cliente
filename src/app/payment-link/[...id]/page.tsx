@@ -26,7 +26,7 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { BttisCreditCard } from 'bttis-encrypt1-sdk-js'
 import { Check, Loader2, X } from 'lucide-react'
 import { useParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import Barcode from 'react-barcode'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -35,6 +35,8 @@ import { useHookFormMask } from 'use-mask-input'
 import { fetchAddress } from '@/lib/viacep'
 import { ValidateCupom } from '@/services/cupons'
 import { getCookie, setCookie } from 'cookies-next'
+import { Socket } from '@/components/providers/socket-providet'
+import { socket } from '@/socket'
 
 export default function PaymentLink() {
   const [step, setStep] = useState(1)
@@ -133,12 +135,6 @@ export default function PaymentLink() {
   })
 
   const registerWithMask = useHookFormMask(register)
-
-  useEffect(() => {
-    if (paymentLinkQuery.data) {
-      setValue('payment_link_id', paymentLinkQuery.data.link.id)
-    }
-  }, [paymentLinkQuery.data])
 
   const address = useMutation({
     mutationFn: fetchAddress,
@@ -242,6 +238,12 @@ export default function PaymentLink() {
   })
 
   useEffect(() => {
+    if (paymentLinkQuery.data) {
+      setValue('payment_link_id', paymentLinkQuery.data.link.id)
+    }
+  }, [paymentLinkQuery.data])
+
+  useEffect(() => {
     const qrCodeCookie = getCookie('qrcode')
 
     if (qrCodeCookie) {
@@ -277,6 +279,20 @@ export default function PaymentLink() {
       setStep(3)
     }
   }, [])
+
+  const handleNewNotifications = useCallback(() => {
+    socket.on('payed', () => {
+      setStep(4)
+      console.log('dlkjsalkdja')
+    })
+    return () => {
+      socket.off('new-notification')
+    }
+  }, [])
+
+  useEffect(() => {
+    handleNewNotifications()
+  }, [handleNewNotifications])
 
   if (
     payPaymentLinkMutation.isSuccess &&
@@ -642,6 +658,8 @@ export default function PaymentLink() {
             </>
           )}
         </div>
+        {/* <Socket id={params.id[0]}></Socket> */}
+        <Socket id={'123'}></Socket>
       </div>
     )
   } else {

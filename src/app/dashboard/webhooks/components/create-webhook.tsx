@@ -15,13 +15,8 @@ import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { DialogHeader } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
-import {
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogTitle,
-} from '@radix-ui/react-dialog'
-import { Loader2, CirclePlus } from 'lucide-react'
+import { Dialog, DialogContent, DialogTitle } from '@radix-ui/react-dialog'
+import { Loader2 } from 'lucide-react'
 import { Switch } from '@/components/ui/switch'
 import { Label } from '@/components/ui/label'
 import {

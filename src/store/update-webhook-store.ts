@@ -19,8 +19,7 @@ export const UseUpdateModalStore = create<UpdateWebhookModalState>((set) => ({
   modalState: false,
   changeModalState: () => set((state) => ({ modalState: !state.modalState })),
   webhook: undefined,
-  setWebhook: (webhook: Webhooks) => set((state) => ({ webhook })),
+  setWebhook: (webhook: Webhooks) => set(() => ({ webhook })),
   modalType: undefined,
-  changeModalType: (type: ModalType) =>
-    set((state) => ({ modalType: type.type })),
+  changeModalType: (type: ModalType) => set(() => ({ modalType: type.type })),
 }))

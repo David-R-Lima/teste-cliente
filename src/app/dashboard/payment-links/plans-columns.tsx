@@ -3,7 +3,6 @@
 import { Button } from '@/components/ui/button'
 import { ColumnDef } from '@tanstack/react-table'
 import { ArrowUpDown, Clipboard, MoreVertical } from 'lucide-react'
-import { Plans } from '@/services/products/plans/types'
 import { PaymentLink } from '@/services/payment-link/types'
 import {
   Popover,

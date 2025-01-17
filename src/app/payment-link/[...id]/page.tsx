@@ -288,10 +288,7 @@ export default function PaymentLink() {
     handleNewNotifications()
   }, [handleNewNotifications])
 
-  if (
-    payPaymentLinkMutation.isSuccess &&
-    paymentType === PaymentType.CREDIT_CARD
-  ) {
+  if (step === 4) {
     return (
       <div className="flex flex-col items-center justify-center h-[70vh]">
         <h1 className="font-bold">Pagamento realizado com sucesso!</h1>

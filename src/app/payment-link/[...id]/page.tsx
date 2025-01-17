@@ -109,30 +109,25 @@ export default function PaymentLink() {
 
       if (paymentType === PaymentType.CREDIT_CARD) {
         toast.success('Pagamento realizado com sucesso!')
+        setStep(4)
       }
     },
   })
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    getValues,
-    watch,
-    formState: { errors },
-  } = useForm<PayPaymentLinkSchema>({
-    resolver: zodResolver(payPaymentLinkSchema),
-    defaultValues: {
-      payer: {
-        document: {
-          document_type: DocumentType.CPF,
-        },
-        address: {
-          country: Country.BR,
+  const { register, setValue, getValues, watch } =
+    useForm<PayPaymentLinkSchema>({
+      resolver: zodResolver(payPaymentLinkSchema),
+      defaultValues: {
+        payer: {
+          document: {
+            document_type: DocumentType.CPF,
+          },
+          address: {
+            country: Country.BR,
+          },
         },
       },
-    },
-  })
+    })
 
   const registerWithMask = useHookFormMask(register)
 
@@ -281,9 +276,8 @@ export default function PaymentLink() {
   }, [])
 
   const handleNewNotifications = useCallback(() => {
-    socket.on('payed', (v) => {
+    socket.on('payed', () => {
       setStep(4)
-      console.log(v)
     })
     return () => {
       socket.off('payed')

@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getSocketInstance } from '../../../../../server/socket'
 
 export async function POST(req: NextRequest) {
+  console.log(req)
   try {
     const body = await req.json()
     const token = req.headers.get('x-authencity-token')

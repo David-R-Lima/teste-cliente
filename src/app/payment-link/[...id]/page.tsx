@@ -281,12 +281,12 @@ export default function PaymentLink() {
   }, [])
 
   const handleNewNotifications = useCallback(() => {
-    socket.on('payed', () => {
+    socket.on('payed', (v) => {
       setStep(4)
-      console.log('dlkjsalkdja')
+      console.log(v)
     })
     return () => {
-      socket.off('new-notification')
+      socket.off('payed')
     }
   }, [])
 
@@ -658,8 +658,7 @@ export default function PaymentLink() {
             </>
           )}
         </div>
-        {/* <Socket id={params.id[0]}></Socket> */}
-        <Socket id={'123'}></Socket>
+        <Socket id={params.id[0]}></Socket>
       </div>
     )
   } else {

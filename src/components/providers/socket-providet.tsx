@@ -9,14 +9,20 @@ interface Props {
 
 export function Socket({ id }: Props) {
   useEffect(() => {
-    if (id) {
+    if (!id) return
+
+    if (!socket.connected) {
       socket.connect()
-      socket.emit('register', id)
     }
 
+    socket.emit('register', id)
+
     return () => {
-      socket.disconnect()
+      if (socket.connected) {
+        socket.disconnect()
+      }
     }
   }, [id])
+
   return null
 }

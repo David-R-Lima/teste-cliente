@@ -16,6 +16,7 @@ export interface PaymentLink {
   maxInstallmentCount: number
   notificationEnabled: boolean
   merchantId: string
+  recurrenceId: string
 }
 
 export const CreatePaymentLinkSchema = z.object({

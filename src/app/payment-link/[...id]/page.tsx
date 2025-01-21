@@ -389,8 +389,12 @@ export default function PaymentLink() {
                   <SelectItem value={PaymentType.CREDIT_CARD}>
                     Cartão
                   </SelectItem>
-                  <SelectItem value={PaymentType.PIX}>Pix</SelectItem>
-                  <SelectItem value={PaymentType.BOLETO}>Boleto</SelectItem>
+                  {!paymentLinkQuery.data.link.recurrenceId && (
+                    <SelectItem value={PaymentType.PIX}>Pix</SelectItem>
+                  )}
+                  {!paymentLinkQuery.data.link.recurrenceId && (
+                    <SelectItem value={PaymentType.BOLETO}>Boleto</SelectItem>
+                  )}
                 </SelectContent>
               </Select>
             </div>

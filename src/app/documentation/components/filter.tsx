@@ -142,7 +142,12 @@ export function Filters() {
       <Input
         value={searchTerm}
         onChange={handleInputChange}
-        onFocus={() => setOpen(true)}
+        onFocus={() => {
+          setOpen(true)
+        }}
+        onBlur={() => {
+          setOpen(false)
+        }}
         placeholder="Pesquise..."
         className="w-full"
       />
@@ -153,6 +158,9 @@ export function Filters() {
               key={index}
               href={item.href}
               className="flex items-center space-x-4 py-4 px-4 border-b border-gray-200 hover:bg-gray-100 cursor-pointer text-gray-800"
+              onMouseDown={(e) => {
+                e.preventDefault()
+              }}
             >
               <p>{item.name}</p>
               <div>{item.httpMethod}</div>

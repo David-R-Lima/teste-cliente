@@ -162,7 +162,7 @@ export default function DashboardLayout({ children }: Props) {
             <PiggyBank color="green" />{' '}
             <span className="font-semibold"> Saldo disponível:</span>
             {eyeOpen ? (
-              balance ? (
+              typeof balance === 'number' ? (
                 Number(balance).toLocaleString('pt-BR', {
                   style: 'currency',
                   currency: 'BRL',

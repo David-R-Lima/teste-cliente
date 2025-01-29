@@ -119,6 +119,26 @@ export function Filters() {
       href: '/documentation/recurrences/delete-signature',
       httpMethod: <Delete></Delete>,
     },
+    {
+      name: 'Criar link de pagamento',
+      href: '/documentation/payment-links/create-payment-link',
+      httpMethod: <Post></Post>,
+    },
+    {
+      name: 'Buscar link de pagamento',
+      href: '/documentation/payment-links/fetch-payment-links',
+      httpMethod: <Get></Get>,
+    },
+    {
+      name: 'Buscar link de pagamento pelo id',
+      href: '/documentation/payment-links/get-payment-link',
+      httpMethod: <Get></Get>,
+    },
+    {
+      name: 'Pagar link de pagamento',
+      href: '/documentation/payment-links/pay-payment-link',
+      httpMethod: <Post></Post>,
+    },
   ]
   const [filteredValues, setFilteredValues] = useState<values[]>([])
   const [searchTerm, setSearchTerm] = useState('')

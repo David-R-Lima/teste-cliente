@@ -202,6 +202,37 @@ export default function Layout({
               <p className="text-sm">Deletar assinatura</p>
             </Link>
           </div>
+          <div className="space-y-1">
+            <h1 className="font-bold">Link de pagamentos</h1>
+            <Link
+              href="/documentation/payment-links/create-payment-link"
+              className="flex space-x-2 items-center p-2 hover:cursor-pointer"
+            >
+              <Post />
+              <p className="text-sm">Criar link</p>
+            </Link>
+            <Link
+              href="/documentation/payment-links/get-payment-link"
+              className="flex space-x-2 items-center p-2 hover:cursor-pointer"
+            >
+              <Get />
+              <p className="text-sm">Buscar link pelo id</p>
+            </Link>
+            <Link
+              href="/documentation/payment-links/fetch-payment-links"
+              className="flex space-x-2 items-center p-2 hover:cursor-pointer"
+            >
+              <Get />
+              <p className="text-sm">Buscar links</p>
+            </Link>
+            <Link
+              href="/documentation/payment-links/pay-payment-link"
+              className="flex space-x-2 items-center p-2 hover:cursor-pointer"
+            >
+              <Post />
+              <p className="text-sm">Pagar link</p>
+            </Link>
+          </div>
         </div>
         <div className="absolute top-2 left-2 flex lg:hidden">
           <MobileDocumentationSidebar></MobileDocumentationSidebar>

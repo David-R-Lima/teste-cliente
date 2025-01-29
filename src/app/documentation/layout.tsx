@@ -233,6 +233,44 @@ export default function Layout({
               <p className="text-sm">Pagar link</p>
             </Link>
           </div>
+          <div className="space-y-1">
+            <h1 className="font-bold">Cupons</h1>
+            <Link
+              href="/documentation/cupons/create-cupom"
+              className="flex space-x-2 items-center p-2 hover:cursor-pointer"
+            >
+              <Post />
+              <p className="text-sm">Criar cupom</p>
+            </Link>
+            <Link
+              href="/documentation/cupons/get-cupons"
+              className="flex space-x-2 items-center p-2 hover:cursor-pointer"
+            >
+              <Get />
+              <p className="text-sm">Buscar cupons</p>
+            </Link>
+            <Link
+              href="/documentation/cupons/activate-cupom"
+              className="flex space-x-2 items-center p-2 hover:cursor-pointer"
+            >
+              <Patch />
+              <p className="text-sm">Ativar cupom</p>
+            </Link>
+            <Link
+              href="/documentation/cupons/inactivate-cupom"
+              className="flex space-x-2 items-center p-2 hover:cursor-pointer"
+            >
+              <Patch />
+              <p className="text-sm">Inativar cupom</p>
+            </Link>
+            <Link
+              href="/documentation/cupons/validate-cupom"
+              className="flex space-x-2 items-center p-2 hover:cursor-pointer"
+            >
+              <Post />
+              <p className="text-sm">Validar cupom</p>
+            </Link>
+          </div>
         </div>
         <div className="absolute top-2 left-2 flex lg:hidden">
           <MobileDocumentationSidebar></MobileDocumentationSidebar>

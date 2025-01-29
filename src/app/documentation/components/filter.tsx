@@ -139,6 +139,31 @@ export function Filters() {
       href: '/documentation/payment-links/pay-payment-link',
       httpMethod: <Post></Post>,
     },
+    {
+      name: 'Criar cupom',
+      href: '/documentation/cupons/create-cupom',
+      httpMethod: <Post></Post>,
+    },
+    {
+      name: 'Ativar cupom',
+      href: '/documentation/cupons/activate-cupom',
+      httpMethod: <Patch></Patch>,
+    },
+    {
+      name: 'Inativar cupom',
+      href: '/documentation/cupons/inactivate-cupom',
+      httpMethod: <Patch></Patch>,
+    },
+    {
+      name: 'buscar cupons',
+      href: '/documentation/cupons/get-cupons',
+      httpMethod: <Get></Get>,
+    },
+    {
+      name: 'Validar cupom',
+      href: '/documentation/cupons/validate-cupom',
+      httpMethod: <Post></Post>,
+    },
   ]
   const [filteredValues, setFilteredValues] = useState<values[]>([])
   const [searchTerm, setSearchTerm] = useState('')

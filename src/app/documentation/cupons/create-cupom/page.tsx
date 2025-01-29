@@ -1,7 +1,6 @@
 import { Body } from '../../components/body'
 import { Header } from '../../components/header'
 import { Post } from '../../components/http-methods'
-import { PathParams } from '../../components/parameters'
 import { Response } from '../../components/response'
 import { PageFormat } from '../../pageformat'
 import { BodyProps, ResponseProps } from '../../type'

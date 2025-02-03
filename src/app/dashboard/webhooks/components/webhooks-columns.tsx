@@ -39,13 +39,13 @@ export const WebhooksColumns: ColumnDef<Webhooks>[] = [
       if (webhook.status === 'ACTIVE') {
         return (
           <div className="flex w-full items-center justify-center">
-            <CircleCheck className="text-green-500" />
+            <CircleCheck className="text-white bg-primary" />
           </div>
         )
       } else {
         return (
           <div className="flex w-full items-center justify-center">
-            <CircleX className="text-red-500" />
+            <CircleX className="text-white bg-red-300" />
           </div>
         )
       }
@@ -74,7 +74,7 @@ export const WebhooksColumns: ColumnDef<Webhooks>[] = [
       return (
         <div className="flex w-full items-center justify-center gap-2">
           <Button
-            className="felx items-center gap-1"
+            className="felx items-center gap-1 text-secondary"
             variant="default"
             onClick={() => {
               changeModalState()
@@ -88,7 +88,7 @@ export const WebhooksColumns: ColumnDef<Webhooks>[] = [
             <span>Editar</span>
           </Button>
           <Button
-            className="felx items-center gap-1 bg-red-500 hover:bg-red-400"
+            className="felx items-center gap-1 bg-red-500 hover:bg-red-400 text-secondary"
             variant="default"
           >
             <Trash2 className="w-4 h-4" />

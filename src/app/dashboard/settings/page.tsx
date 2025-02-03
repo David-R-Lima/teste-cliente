@@ -13,7 +13,12 @@ export default function Setting() {
 
   return (
     <div>
-      <div className="space-y-4">
+            <div>
+        <h1 className=" font-bold text-secondary text-2xl">
+          Configurações {'>'} Parâmetros
+        </h1>
+      </div>
+      <div className="space-y-4 mt-6 ">
         {parameterQuery?.data &&
           parameterQuery.data.map((parameter) => {
             if (parameter.name === 'CD_REC_TRA_TIP_PDR') return null

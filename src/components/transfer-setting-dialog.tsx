@@ -2,6 +2,7 @@
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -69,16 +70,59 @@ export function TransferSettingDialog({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant={'outline'} className="flex space-x-2 items-center">
-          <Settings className="size-6 text-primary" />
-          <p>Configurações</p>
+        <Button className="flex space-x-2 items-center">
+          <Settings className="size-6 text-secondary" />
+          <p className="text-secondary">Configurações</p>
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="bg-primary-foreground">
         <DialogHeader>
-          <DialogTitle>Padrão: {defaultTransfer}</DialogTitle>
+          <DialogTitle className="text-secondary font-bold text-xl">
+            Área de Transferências
+          </DialogTitle>
+          <DialogDescription>
+            Configure a conta de destino das suas transferências.
+          </DialogDescription>
         </DialogHeader>
-        <div className="space-y-2">
+        <div className="flex items-center justify-around">
+          <Card>
+            <CardContent>
+              {pixKey && (
+                <div className="space-y-2 mt-4">
+                  <div className="flex space-x-2 items-center">
+                    <Checkbox
+                      checked={defaultTransfer === 'PIX'}
+                      onClick={async () => {
+                        if (defaultTransfer !== 'PIX') {
+                          await updateDefaultMutation.mutateAsync({
+                            typeString: 'PIX',
+                            id: pixKey.id,
+                          })
+                        }
+                      }}
+                    ></Checkbox>
+                    <p>Padrão</p>
+                  </div>
+                  <p>
+                    <strong>Chave PIX:</strong> {pixKey.key}
+                  </p>
+                  <p>
+                    <strong>Tipo:</strong> {pixKey.pix_key_type}
+                  </p>
+                  <CreatePixKey>Trocar chave pix</CreatePixKey>
+                </div>
+              )}
+              {!pixKey && (
+                <div className="mt-6">
+                  <CreatePixKey>
+                    <div className="flex items-center space-x-2 text-secondary">
+                      <Plus /> <p>Cadastrar chave pix</p>
+                    </div>
+                  </CreatePixKey>
+                </div>
+              )}
+            </CardContent>
+          </Card>
           <Card>
             <CardContent>
               {bankAccount &&
@@ -128,48 +172,10 @@ export function TransferSettingDialog({
               {!bankAccount && (
                 <div className="mt-6">
                   <CreateBank>
-                    <div className="flex items-center space-x-2">
-                      <Plus /> Banco
+                    <div className="flex items-center space-x-2 text-secondary">
+                      <Plus /> <p>Cadastar Banco</p>
                     </div>
                   </CreateBank>
-                </div>
-              )}
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent>
-              {pixKey && (
-                <div className="space-y-2 mt-4">
-                  <div className="flex space-x-2 items-center">
-                    <Checkbox
-                      checked={defaultTransfer === 'PIX'}
-                      onClick={async () => {
-                        if (defaultTransfer !== 'PIX') {
-                          await updateDefaultMutation.mutateAsync({
-                            typeString: 'PIX',
-                            id: pixKey.id,
-                          })
-                        }
-                      }}
-                    ></Checkbox>
-                    <p>Padrão</p>
-                  </div>
-                  <p>
-                    <strong>Chave PIX:</strong> {pixKey.key}
-                  </p>
-                  <p>
-                    <strong>Tipo:</strong> {pixKey.pix_key_type}
-                  </p>
-                  <CreatePixKey>Trocar chave pix</CreatePixKey>
-                </div>
-              )}
-              {!pixKey && (
-                <div className="mt-6">
-                  <CreatePixKey>
-                    <div className="flex items-center space-x-2">
-                      <Plus /> Chave pix
-                    </div>
-                  </CreatePixKey>
                 </div>
               )}
             </CardContent>

@@ -176,8 +176,8 @@ export function CreateChargeForm() {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button className="space-x-2">
-          <Plus />
-          <p>Cobrança</p>
+          <Plus className="text-secondary" />
+          <p className="text-secondary">Nova Cobrança</p>
         </Button>
       </DialogTrigger>
       <DialogContent className="flex flex-col min-w-[80vw] min-h-[90vh]">
@@ -962,7 +962,7 @@ export function CreateChargeForm() {
                   <Input
                     type="number"
                     min={0}
-                    max={watch('value') - 1 ?? 100}
+                    max={watch('value') ? watch('value') - 1 : 100}
                     placeholder="Porcentagem da multa *"
                     {...register('boleto_payment_method.fine_percentage')}
                   ></Input>

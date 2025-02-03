@@ -10,6 +10,7 @@ import {
   setHeaderReportPameters,
 } from '@/services/reports/merchant/set-header-reports-parameters'
 import { getHeaderReportPameters } from '@/services/reports/merchant/get-header-reports-parameters'
+import { SlidersHorizontal } from 'lucide-react'
 
 export default function Relatorios() {
   const [showFormHeader, setFormHeader] = useState(false)
@@ -65,14 +66,20 @@ export default function Relatorios() {
   }, [])
 
   return (
-    <div>
-      <Button
-        onClick={() => setFormHeader(!showFormHeader)}
-        className="my-10 bg-slate-300 hover:bg-slate-400"
-      >
-        {' '}
-        {showFormHeader ? 'Fechar' : 'Editar cabeçalho dos relatórios'}{' '}
-      </Button>
+    <div className="space-y-6">
+      <div className="space-y-4">
+        <h1 className="font-extrabold text-secondary text-2xl">Relatórios</h1>
+
+        <Button
+          onClick={() => setFormHeader(!showFormHeader)}
+          className=" bg-primary text-secondary space-x-2"
+        >
+          <SlidersHorizontal></SlidersHorizontal>
+          <p>
+            {showFormHeader ? 'Fechar' : 'Editar cabeçalho dos relatórios'}{' '}
+          </p>
+        </Button>
+      </div>
 
       {showFormHeader && (
         <div>

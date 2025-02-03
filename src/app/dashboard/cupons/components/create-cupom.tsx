@@ -86,8 +86,8 @@ export function CreateCupomForm() {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button className="space-x-2">
-          <Plus />
-          <p>Cupom</p>
+          <Plus className="text-secondary" />
+          <p className="text-secondary">Novo Cupom</p>
         </Button>
       </DialogTrigger>
       <DialogContent className="flex flex-col min-w-[80vw] min-h-[90vh]">

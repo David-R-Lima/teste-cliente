@@ -224,8 +224,8 @@ export function CreateCustomerForm() {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button className="space-x-2">
-          <Plus />
-          <p>Cliente</p>
+          <Plus className="text-secondary" />
+          <p className="text-secondary">Novo Cliente</p>
         </Button>
       </DialogTrigger>
       <DialogContent className="flex flex-col min-w-[80vw] h-[90vh]">

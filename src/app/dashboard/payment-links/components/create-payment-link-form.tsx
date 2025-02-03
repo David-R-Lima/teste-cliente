@@ -66,8 +66,8 @@ export function CreatePaymentLinkForm() {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button className="space-x-2">
-          <Plus />
-          <p>Link de pagamento</p>
+          <Plus className="text-secondary" />
+          <p className="text-secondary">Link de pagamento</p>
         </Button>
       </DialogTrigger>
       <DialogContent className="flex flex-col min-w-[80vw] min-h-[90vh]">

@@ -1,10 +1,14 @@
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardTitle,
+} from '@/components/ui/card'
+import { InputWithoutBorder } from '@/components/ui/input-without-border'
 
 import { getMerchantMovementsReport } from '@/services/reports/merchant/get-merchant-movements-report'
-import { LoaderCircle } from 'lucide-react'
+import { FileSpreadsheet, LoaderCircle, Search } from 'lucide-react'
 import { useState } from 'react'
 
 export function CardsRelatorio() {
@@ -40,41 +44,63 @@ export function CardsRelatorio() {
   return (
     <div className="flex flex-col gap-2">
       <Card>
-        <CardTitle className="p-6 ">Movimentações</CardTitle>
-        <CardContent>
-          <span className="mb-8"> Filtros</span>
-          <div className="flex flex-row gap-2 mb-4">
+        <CardContent className="space-y-8 mt-6">
+          <CardTitle className="text-secondary">Movimentações</CardTitle>
+          <CardDescription>
+            Defina o período e informações adicionais para seu relatório
+          </CardDescription>
+          <div className="flex flex-row items-center gap-2 mb-4">
             <div>
-              <Label> Data Inicial</Label>
-              <Input
-                id="date_ini"
-                className="w-100"
-                type="date"
-                onChange={(e) => setDateIni(e.target.value)}
-              ></Input>
-            </div>
-
-            <div>
-              <Label> Data final</Label>
-              <Input
-                className="w-100"
-                type="date"
-                onChange={(e) => setDateFin(e.target.value)}
-              ></Input>
+              <div className="flex space-x-4">
+                <div className="flex items-center border-b-2">
+                  <Search />
+                  <InputWithoutBorder
+                    placeholder="Data Inicial"
+                    type="date"
+                    onChange={(e) => setDateIni(e.target.value)}
+                  ></InputWithoutBorder>
+                </div>
+              </div>
             </div>
             <div>
-              <Label> Nome participante</Label>
-              <Input
-                className="w-100"
-                type="text"
-                onChange={(e) => setClientName(e.target.value)}
-              ></Input>
+              <div className="flex space-x-4">
+                <div className="flex items-center border-b-2">
+                  <Search />
+                  <InputWithoutBorder
+                    placeholder="Data Final"
+                    type="date"
+                    onChange={(e) => setDateFin(e.target.value)}
+                  ></InputWithoutBorder>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div className="flex space-x-4">
+                <div className="flex items-center border-b-2">
+                  <Search />
+                  <InputWithoutBorder
+                    placeholder="Nome do participante"
+                    type="text"
+                    onChange={(e) => setClientName(e.target.value)}
+                  ></InputWithoutBorder>
+                </div>
+              </div>
             </div>
           </div>
-          <Button className="min-w-[70px]" onClick={() => fetchReport()}>
-            {' '}
-            {isLoading ? <LoaderCircle className="animate-spin" /> : 'Gerar'}
-          </Button>
+          {isLoading && (
+            <Button className="min-w-[70px]" disabled>
+              <LoaderCircle className="animate-spin" />
+            </Button>
+          )}
+          {!isLoading && (
+            <Button
+              className="min-w-[70px] text-secondary space-x-2"
+              onClick={() => fetchReport()}
+            >
+              <FileSpreadsheet />
+              <p>Gerar relatório</p>
+            </Button>
+          )}
         </CardContent>
       </Card>
     </div>

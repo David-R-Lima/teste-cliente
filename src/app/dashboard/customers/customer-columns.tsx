@@ -69,7 +69,7 @@ export const CustomersColumns: ColumnDef<Customers>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           className="italic font-bold"
         >
-          Email
+          E-mail
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       )

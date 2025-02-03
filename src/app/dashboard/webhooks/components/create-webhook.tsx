@@ -124,12 +124,12 @@ export function CreateWebhookForm() {
       }}
     >
       <DialogContent className="flex flex-col">
-        <DialogHeader className="w-full px-5">
+        <DialogHeader className="w-full">
           <DialogTitle className="text-xl">Cadastrar Webhook</DialogTitle>
         </DialogHeader>
         <form
           onSubmit={handleSubmit(handleSumbitMutation)}
-          className="space-y-4 p-4 rounded-lg max-h-[80vh] overflow-auto"
+          className="space-y-4 mt-4 rounded-lg max-h-[80vh] overflow-auto"
         >
           <div className="space-y-4 p-4 bg-accent rounded-lg">
             <div className="flex items-center space-x-2">

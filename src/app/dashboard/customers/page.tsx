@@ -11,6 +11,8 @@ import { useState } from 'react'
 import { CreateCustomerForm } from './components/create-customer-form'
 import { useSession } from 'next-auth/react'
 import { CustomersColumns } from './customer-columns'
+import { Search } from 'lucide-react'
+import { InputWithoutBorder } from '@/components/ui/input-without-border'
 
 export default function CustomersComponent() {
   const [page, setPage] = useState<number>(1)
@@ -32,12 +34,37 @@ export default function CustomersComponent() {
   if (data) {
     return (
       <div className="space-y-4">
-        <div className="flex space-x-4">
-          {/* <Button className="space-x-2">
-            <Filter />
-            <p>Filtros</p>
-          </Button> */}
-          <CreateCustomerForm></CreateCustomerForm>
+        <div className="flex flex-col space-y-4">
+          <h1 className="font-extrabold text-secondary text-2xl">
+            Meus Clientes
+          </h1>
+
+          <div className="flex justify-between  pt-4">
+            <div>
+              <CreateCustomerForm></CreateCustomerForm>
+            </div>
+            <div className="flex space-x-4">
+              <div className="flex items-center border-b-2">
+                <h1>
+                  Clientes cadastrados:{' '}
+                  <span className="text-secondary font-bold">12</span>
+                </h1>
+              </div>
+              <div className="flex items-center border-b-2">
+                <h1>
+                  Clientes ativos:{' '}
+                  <span className="text-secondary font-bold">12</span>
+                </h1>
+              </div>
+              <div className="flex items-center border-b-2">
+                <Search />
+                <InputWithoutBorder
+                  placeholder="Faça uma consulta"
+                  className="w-[20vw]"
+                ></InputWithoutBorder>
+              </div>
+            </div>
+          </div>
         </div>
         <TableComponent
           name={'Clientes'}

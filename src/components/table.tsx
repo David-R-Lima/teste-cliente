@@ -67,106 +67,47 @@ export function TableComponent<TData, TValue>({
   })
 
   return (
-    <Card className="relative">
-      <CardHeader>
-        <CardTitle>{name}</CardTitle>
-      </CardHeader>
-      <CardContent className="mb-[4rem] min-h-[10vh]">
-        <Table>
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id} className="text-center">
-                      {flexRender(
-                        header.column.columnDef.header,
-                        header.getContext(),
-                      )}
-                    </TableHead>
-                  )
-                })}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody className="w-full">
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && 'selected'}
-                  className="flex-col justify-start items-start"
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} className="text-center">
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow className="relative">
-                <TableCell colSpan={columns.length} className="text-center ">
-                  Sem resultados.
+    <Table>
+      <TableHeader className="bg-primary-foreground">
+        {table.getHeaderGroups().map((headerGroup) => (
+          <TableRow key={headerGroup.id}>
+            {headerGroup.headers.map((header) => {
+              return (
+                <TableHead key={header.id} className="text-center">
+                  {flexRender(
+                    header.column.columnDef.header,
+                    header.getContext(),
+                  )}
+                </TableHead>
+              )
+            })}
+          </TableRow>
+        ))}
+      </TableHeader>
+      <TableBody className="w-full">
+        {table.getRowModel().rows?.length ? (
+          table.getRowModel().rows.map((row) => (
+            <TableRow
+              key={row.id}
+              data-state={row.getIsSelected() && 'selected'}
+              className="flex-col justify-start items-start even:bg-gray-100"
+            >
+              {row.getVisibleCells().map((cell) => (
+                <TableCell key={cell.id} className="text-center">
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </CardContent>
-      <CardFooter className="">
-        <Pagination>
-          <PaginationContent className="space-x-4">
-            <PaginationItem>
-              <Button
-                className="space-x-2"
-                disabled={page === 1}
-                onClick={() => {
-                  if (page > 1) {
-                    setPage((previousValue) => {
-                      return previousValue - 1
-                    })
-                  }
-                }}
-              >
-                <ChevronLeft className="size-5"></ChevronLeft>
-                <p>Anterior</p>
-              </Button>
-            </PaginationItem>
-            <PaginationItem>
-              <Input
-                type="number"
-                value={page}
-                className="w-[60px]"
-                onChange={(e) => {
-                  const newPage = parseInt(e.target.value)
-                  if (Number.isInteger(newPage) && newPage >= 1) {
-                    setPage(newPage)
-                  }
-                }}
-              ></Input>
-            </PaginationItem>
-            <PaginationItem>
-              <Button
-                className="space-x-2"
-                disabled={data.length < 10}
-                onClick={() => {
-                  setPage((previousValue) => {
-                    return previousValue + 1
-                  })
-                }}
-              >
-                <p>Próximo</p>
-                <ChevronRight className="size-5"></ChevronRight>
-              </Button>
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
-      </CardFooter>
-    </Card>
+              ))}
+            </TableRow>
+          ))
+        ) : (
+          <TableRow className="relative">
+            <TableCell colSpan={columns.length} className="text-center ">
+              Sem resultados.
+            </TableCell>
+          </TableRow>
+        )}
+      </TableBody>
+    </Table>
   )
 }
 

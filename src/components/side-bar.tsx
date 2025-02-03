@@ -139,20 +139,22 @@ export function SideBar({ open }: Props) {
             key={index}
           ></SidebarButton>
         ))}
-          <div             onClick={async () => {
-                        deleteCookie('access_token.hub')
-                        deleteCookie('next-auth.callback-url')
-                        deleteCookie('next-auth.csrf-token')
-                        queryClient.removeQueries()
-                        await signOut({ redirect: false })
-                        router.push('/')
-                      }}>
+        <div
+          onClick={async () => {
+            deleteCookie('access_token.hub')
+            deleteCookie('next-auth.callback-url')
+            deleteCookie('next-auth.csrf-token')
+            queryClient.removeQueries()
+            await signOut({ redirect: false })
+            router.push('/')
+          }}
+        >
           <SidebarButton
-            href={"/"}
+            href={'/'}
             icon={<LogOut className="h-6 w-6 sidebar-icon shrink-0" />}
-            label={"Sair"}
+            label={'Sair'}
           ></SidebarButton>
-          </div>
+        </div>
       </div>
     </div>
   )

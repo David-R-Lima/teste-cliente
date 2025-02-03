@@ -36,7 +36,7 @@ export default function Cupons() {
 
           <div className="flex justify-between  pt-4">
             <div>
-            <CreateCupomForm></CreateCupomForm>
+              <CreateCupomForm></CreateCupomForm>
             </div>
             <div className="flex space-x-4">
               <div className="flex items-center border-b-2">

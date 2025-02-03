@@ -39,13 +39,13 @@ export const WebhooksColumns: ColumnDef<Webhooks>[] = [
       if (webhook.status === 'ACTIVE') {
         return (
           <div className="flex w-full items-center justify-center">
-            <CircleCheck className="fill-white bg-primary" />
+            <CircleCheck className="fill-primary text-white" />
           </div>
         )
       } else {
         return (
           <div className="flex w-full items-center justify-center">
-            <CircleX className="fill-white bg-red-300" />
+            <CircleX className="fill-red-300 text-white" />
           </div>
         )
       }

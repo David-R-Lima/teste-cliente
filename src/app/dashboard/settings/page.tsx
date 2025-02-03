@@ -13,7 +13,7 @@ export default function Setting() {
 
   return (
     <div>
-            <div>
+      <div>
         <h1 className=" font-bold text-secondary text-2xl">
           Configurações {'>'} Parâmetros
         </h1>

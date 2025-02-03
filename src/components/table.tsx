@@ -113,24 +113,24 @@ export function TableComponent<TData, TValue>({
           <PaginationContent>
             <PaginationItem
               onClick={() => {
-                if(page > 1) {
+                if (page > 1) {
                   setPage(page - 1)
                 }
               }}
-              className={`${page <= 1 ? 'bg-primary-foreground' :'bg-primary' } size-8 rounded-sm hover:cursor-pointer`}
+              className={`${page <= 1 ? 'bg-primary-foreground' : 'bg-primary'} size-8 rounded-sm hover:cursor-pointer`}
             >
               <ChevronLeft className="size-8 text-secondary"></ChevronLeft>
             </PaginationItem>
             <PaginationItem className="flex items-center justify-center bg-primary size-8 rounded-sm">
-            <p className='text-secondary font-bold text-xl'>{page}</p>
+              <p className="text-secondary font-bold text-xl">{page}</p>
             </PaginationItem>
             <PaginationItem
-                            onClick={() => {
-                              if(data.length === 10) {
-                                setPage(page + 1)
-                              }
-                            }}
-                            className={`${data.length !== 10 ? 'bg-primary-foreground' :'bg-primary' } size-8 rounded-sm hover:cursor-pointer`}
+              onClick={() => {
+                if (data.length === 10) {
+                  setPage(page + 1)
+                }
+              }}
+              className={`${data.length !== 10 ? 'bg-primary-foreground' : 'bg-primary'} size-8 rounded-sm hover:cursor-pointer`}
             >
               <ChevronRight className="size-8 text-secondary"></ChevronRight>
             </PaginationItem>

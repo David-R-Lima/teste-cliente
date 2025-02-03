@@ -105,13 +105,13 @@ export const SubscribersColumns: ColumnDef<Subscriber>[] = [
       if (subscriber.is_active) {
         return (
           <div className="flex w-full items-center justify-center">
-            <CircleCheck className="text-white bg-primary" />
+            <CircleCheck className="fill-white bg-primary" />
           </div>
         )
       } else {
         return (
           <div className="flex w-full items-center justify-center">
-            <CircleX className="text-white bg-red-300" />
+            <CircleX className="fill-white bg-red-300" />
           </div>
         )
       }

@@ -67,7 +67,7 @@ export function TableComponent<TData, TValue>({
   })
 
   return (
-    <Table className='rounded-lg overflow-hidden'>
+    <Table className="rounded-lg overflow-hidden">
       <TableHeader className="bg-primary-foreground">
         {table.getHeaderGroups().map((headerGroup) => (
           <TableRow key={headerGroup.id}>

@@ -16,6 +16,7 @@ import { getMerchantBalanceReport } from '@/services/reports/merchant/get-balanc
 import Header from '@/components/header'
 import { getCookie } from 'cookies-next'
 import { SideBar } from '@/components/side-bar'
+import { MobileSideBar } from '@/components/mobile-side-bar'
 interface Props {
   children: JSX.Element
 }
@@ -81,7 +82,6 @@ export default function DashboardLayout({ children }: Props) {
         </div>
 
         <div className="flex flex-col flex-1 ml-[0vw] md:ml-[28vw] lg:ml-[22vw] xl:ml-[15vw]">
-          <hr />
           <main className="flex-1 flex flex-col gap-4 p-4 lg:gap-6 lg:p-6">
             {children}
           </main>

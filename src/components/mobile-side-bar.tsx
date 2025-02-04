@@ -29,7 +29,7 @@ export function MobileSideBar() {
         <Button
           variant="outline"
           size="icon"
-          className="absolute left-2 shrink-0 xl:hidden"
+          className="absolute left-2 shrink-0 md:hidden bg-primary"
         >
           <Menu className="h-5 w-5" />
           <span className="sr-only">Toggle navigation menu</span>

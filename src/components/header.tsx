@@ -19,6 +19,7 @@ import { useRouter } from 'next/navigation'
 import { User } from '@/services/user/types'
 import { deleteCookie } from 'cookies-next'
 import { useQueryClient } from '@tanstack/react-query'
+import { MobileSideBar } from './mobile-side-bar'
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false)
@@ -34,10 +35,11 @@ export default function Header() {
   const queryClient = useQueryClient()
 
   return (
-    <header className="fixed w-full flex justify-between px-10 py-2 bg-primary h-[4rem] z-50">
+    <header className="fixed w-full items-center flex justify-between px-10 py-2 bg-primary h-[4rem] z-50">
+      <MobileSideBar></MobileSideBar>
       <Link
         href="/"
-        className={`flex items-center gap-2 font-semibold text-secondary`}
+        className={`flex items-center gap-2 font-semibold text-secondary ml-6 md:ml-0`}
       >
         <Package2 className="h-6 w-6" />
         <span className="font-bold">PagBttis</span>

@@ -12,23 +12,15 @@ import {
   Link2,
   User,
   SlidersHorizontal,
-  LogOut,
 } from 'lucide-react'
-import { usePathname, useRouter } from 'next/navigation'
 import { SidebarButton } from './sidebar-button'
-import { deleteCookie } from 'cookies-next'
-import { signOut } from 'next-auth/react'
-import { useQueryClient } from '@tanstack/react-query'
+import { ExitComponent } from './exit-component'
 
 interface Props {
   open: boolean
 }
 
 export function SideBar({ open }: Props) {
-  const path = usePathname().split('/')
-  const queryClient = useQueryClient()
-  const router = useRouter()
-
   const groupOne = [
     {
       href: '/dashboard',
@@ -36,7 +28,7 @@ export function SideBar({ open }: Props) {
       icon: <Home className="h-6 w-6 sidebar-icon shrink-0" />,
     },
     {
-      href: '/dashboard',
+      href: '/dashboard/minha-conta',
       label: 'Minha Conta',
       icon: <User className="h-6 w-6 sidebar-icon shrink-0" />,
     },
@@ -102,7 +94,7 @@ export function SideBar({ open }: Props) {
 
   return (
     <div
-      className={`fixed flex flex-col pt-4 bg-primary-foreground w-[15vw] h-[100vh]`}
+      className={`flex flex-col pt-4 bg-primary-foreground w-full h-[100vh] z-50`}
     >
       <div className="my-4 w-full">
         {groupOne.map((item, index) => (
@@ -139,22 +131,7 @@ export function SideBar({ open }: Props) {
             key={index}
           ></SidebarButton>
         ))}
-        <div
-          onClick={async () => {
-            deleteCookie('access_token.hub')
-            deleteCookie('next-auth.callback-url')
-            deleteCookie('next-auth.csrf-token')
-            queryClient.removeQueries()
-            await signOut({ redirect: false })
-            router.push('/')
-          }}
-        >
-          <SidebarButton
-            href={'/'}
-            icon={<LogOut className="h-6 w-6 sidebar-icon shrink-0" />}
-            label={'Sair'}
-          ></SidebarButton>
-        </div>
+        <ExitComponent></ExitComponent>
       </div>
     </div>
   )

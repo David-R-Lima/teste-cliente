@@ -19,11 +19,6 @@ import { SideBar } from '@/components/side-bar'
 interface Props {
   children: JSX.Element
 }
-interface IbalanceResponseProps {
-  balance: {
-    balanceCurrent: string
-  }
-}
 
 export default function DashboardLayout({ children }: Props) {
   const [isExpired, setIsExpired] = useState(false)
@@ -41,16 +36,6 @@ export default function DashboardLayout({ children }: Props) {
           setIsExpired(true)
           return
         }
-        // Buscar o saldo
-        // const fetchBalance = async () => {
-        //   const response: IbalanceResponseProps | null =
-        //     await getMerchantBalanceReport()
-
-        //   if (response) {
-        //     setBalance(response.balance.balanceCurrent)
-        //   }
-        // }
-        // fetchBalance()
 
         const expiryTime = payload.exp * 1000 // Ensure the timestamp is in milliseconds
         const now = Date.now()
@@ -91,13 +76,11 @@ export default function DashboardLayout({ children }: Props) {
       )}
       <Header></Header>
       <div className="flex mt-[4rem]">
-        <div className="w-[15vw]">
+        <div className="fixed hidden md:block md:w-[28vw] lg:w-[22vw] xl:w-[15vw] h-screen z-50">
           <SideBar open={true}></SideBar>
         </div>
-        <div className="flex flex-col flex-1">
-          {/* <div className="gap-4 p-4 lg:gap-6 lg:p-6">
-            <ApiKeys />
-          </div> */}
+
+        <div className="flex flex-col flex-1 ml-[0vw] md:ml-[28vw] lg:ml-[22vw] xl:ml-[15vw]">
           <hr />
           <main className="flex-1 flex flex-col gap-4 p-4 lg:gap-6 lg:p-6">
             {children}

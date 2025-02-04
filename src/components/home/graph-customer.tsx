@@ -51,7 +51,7 @@ export function ClientGrowthChart() {
   } satisfies ChartConfig
 
   return (
-    <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
+    <ChartContainer config={chartConfig} className="h-[90%] w-full">
       <LineChart accessibilityLayer data={data}>
         <CartesianGrid vertical={false} />
         <XAxis

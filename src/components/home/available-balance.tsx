@@ -1,4 +1,14 @@
-import { CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts'
+import {
+  Area,
+  AreaChart,
+  CartesianGrid,
+  Line,
+  LineChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from 'recharts'
 import { Card, CardContent } from '../ui/card'
 import { useState } from 'react'
 import {
@@ -26,27 +36,50 @@ export function AvailableBalance() {
   )
   const [integerPart, decimalPart] = formattedNumber.split(',')
 
-  const [data] = useState<MonthData[]>([
-    { month: 'Janeiro', count: 0 },
-    { month: 'Fevereiro', count: 2 },
-    { month: 'Março', count: 4 },
-    { month: 'Abril', count: 5 },
-    { month: 'Maio', count: 3 },
-    { month: 'Junho', count: 9 },
-    { month: 'Julho', count: 21 },
-    { month: 'Agosto', count: 19 },
-    { month: 'Setembro', count: 17 },
-    { month: 'Outubro', count: 31 },
-    { month: 'Novembro', count: 25 },
-    { month: 'Dezembro', count: 33 },
-  ])
-
-  const chartConfig = {
-    desktop: {
-      label: 'Desktop',
-      color: '#2563eb',
+  const data = [
+    {
+      name: 'Page A',
+      uv: 4000,
+      pv: 2400,
+      amt: 2400,
     },
-  } satisfies ChartConfig
+    {
+      name: 'Page B',
+      uv: 3000,
+      pv: 1398,
+      amt: 2210,
+    },
+    {
+      name: 'Page C',
+      uv: 2000,
+      pv: 9800,
+      amt: 2290,
+    },
+    {
+      name: 'Page D',
+      uv: 2780,
+      pv: 3908,
+      amt: 2000,
+    },
+    {
+      name: 'Page E',
+      uv: 1890,
+      pv: 4800,
+      amt: 2181,
+    },
+    {
+      name: 'Page F',
+      uv: 2390,
+      pv: 3800,
+      amt: 2500,
+    },
+    {
+      name: 'Page G',
+      uv: 3490,
+      pv: 4300,
+      amt: 2100,
+    },
+  ]
 
   return (
     <Card className="lg:flex lg:flex-col w-[50%] ">
@@ -62,27 +95,27 @@ export function AvailableBalance() {
           </span>
         </div>
         <div className="h-[60%]">
-          <ChartContainer config={chartConfig} className="h-[90%] w-full">
-            <LineChart accessibilityLayer data={data}>
-              <CartesianGrid vertical={false} />
-              <XAxis
-                dataKey="month"
-                tickLine={false}
-                tickMargin={10}
-                axisLine={false}
-                tickFormatter={(value) => {
-                  return value.slice(0, 3)
-                }}
+          <ResponsiveContainer width="100%" height="100%">
+            <AreaChart
+              width={500}
+              height={400}
+              data={data}
+              margin={{
+                top: 10,
+                right: 30,
+                left: 0,
+                bottom: 0,
+              }}
+            >
+              <Tooltip />
+              <Area
+                type="monotone"
+                dataKey="uv"
+                stroke="#6DD387"
+                fill="#6DD387"
               />
-              <YAxis></YAxis>
-              <ChartTooltip content={<ChartTooltipContent />} />
-              <Line
-                dataKey={'count'}
-                fill="var(--color-desktop)"
-                strokeWidth={3}
-              ></Line>
-            </LineChart>
-          </ChartContainer>
+            </AreaChart>
+          </ResponsiveContainer>
         </div>
         <div className="flex justify-between">
           <p className="font-bold hover:text-primary hover:cursor-pointer">

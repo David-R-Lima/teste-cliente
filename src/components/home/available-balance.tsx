@@ -11,13 +11,19 @@ import { MonthData } from '@/lib/MonthData'
 import { useBalance } from '@/hooks/useBalance'
 
 export function AvailableBalance() {
+  const balance = useBalance()
+
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('pt-BR', {
       style: 'decimal',
       minimumFractionDigits: 2,
     }).format(value / 100)
   }
-  const formattedNumber = formatCurrency(11134)
+  const formattedNumber = formatCurrency(
+    balance.data?.balance.balanceCurrent
+      ? Number(balance.data?.balance.balanceCurrent)
+      : 0,
+  )
   const [integerPart, decimalPart] = formattedNumber.split(',')
 
   const [data] = useState<MonthData[]>([
@@ -41,10 +47,6 @@ export function AvailableBalance() {
       color: '#2563eb',
     },
   } satisfies ChartConfig
-
-  const balance = useBalance()
-
-  console.log(balance)
 
   return (
     <Card className="lg:flex lg:flex-col w-[50%] ">

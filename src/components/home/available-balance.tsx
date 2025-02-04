@@ -17,7 +17,7 @@ export function AvailableBalance() {
     return new Intl.NumberFormat('pt-BR', {
       style: 'decimal',
       minimumFractionDigits: 2,
-    }).format(value / 100)
+    }).format(value)
   }
   const formattedNumber = formatCurrency(
     balance.data?.balance.balanceCurrent

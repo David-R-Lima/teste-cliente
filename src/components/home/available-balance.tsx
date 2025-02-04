@@ -8,6 +8,7 @@ import {
   ChartTooltipContent,
 } from '../ui/chart'
 import { MonthData } from '@/lib/MonthData'
+import { useBalance } from '@/hooks/useBalance'
 
 export function AvailableBalance() {
   const formatCurrency = (value: number) => {
@@ -40,6 +41,10 @@ export function AvailableBalance() {
       color: '#2563eb',
     },
   } satisfies ChartConfig
+
+  const balance = useBalance()
+
+  console.log(balance)
 
   return (
     <Card className="lg:flex lg:flex-col w-[50%] ">

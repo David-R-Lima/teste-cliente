@@ -105,10 +105,10 @@ export function TransferSettingDialog({
                   </div>
                   <div className="space-y-1 p-4 rounded-lg w-full h-[70%]">
                     <p>
-                      <strong>Chave PIX:</strong> 123131
+                      <strong>Chave PIX:</strong> {pixKey.key}
                     </p>
                     <p>
-                      <strong>Tipo:</strong> 1231231
+                      <strong>Tipo:</strong> {pixKey.pix_key_type}
                     </p>
                   </div>
 

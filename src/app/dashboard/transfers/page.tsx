@@ -50,55 +50,97 @@ export default function Transfers() {
 
   const bankQuery = useBanks()
 
-  if (bankAccountQuery.isLoading || bankQuery.isLoading || transfers.isLoading)
-    return <TableComponentSkeleton />
+  // if (bankAccountQuery.isLoading || bankQuery.isLoading || transfers.isLoading)
+  //   return <TableComponentSkeleton />
 
-  if (transfers.isError) return <TableComponentError />
+  // if (transfers.isError) return <TableComponentError />
 
-  if (bankAccountQuery.data?.bank_accounts && transfers.data) {
-    return (
-      <div className="flex flex-col space-y-6">
-        <div className="flex flex-col space-y-4">
-          <h1 className="font-extrabold text-secondary text-2xl">
-            Transferências
-          </h1>
+  // if (bankAccountQuery.data?.bank_accounts && transfers.data) {
+  //   return (
+  //     <div className="flex flex-col space-y-6">
+  //       <div className="flex flex-col space-y-4">
+  //         <h1 className="font-extrabold text-secondary text-2xl">
+  //           Transferências
+  //         </h1>
 
-          <div className="flex justify-between  pt-4">
-            <div>
-              <TransferSettingDialog
-                bankAccount={bankAccountQuery.data?.bank_accounts[0]}
-                defaultTransfer={transferSettingQuery.data?.type_string ?? ''}
-                pixKey={pixKeyQuery.data}
-              ></TransferSettingDialog>
+  //         <div className="flex justify-between  pt-4">
+  //           <div>
+  //             <TransferSettingDialog
+  //               bankAccount={bankAccountQuery.data?.bank_accounts[0]}
+  //               defaultTransfer={transferSettingQuery.data?.type_string ?? ''}
+  //               pixKey={pixKeyQuery.data}
+  //             ></TransferSettingDialog>
+  //           </div>
+  //           <div className="flex space-x-4">
+  //             <div className="flex items-center border-b-2">
+  //               <Search />
+  //               <InputWithoutBorder
+  //                 placeholder="Faça uma consulta"
+  //                 className="w-[20vw]"
+  //               ></InputWithoutBorder>
+  //             </div>
+  //             <div className="flex items-center border-b-2">
+  //               <Calendar />
+  //               <InputWithoutBorder
+  //                 placeholder="Mês atual"
+  //                 className="w-[15vw]"
+  //               ></InputWithoutBorder>
+  //             </div>
+  //           </div>
+  //         </div>
+  //       </div>
+  //       <TableComponent
+  //         name="Transferências realizadas"
+  //         columns={TransferColumns}
+  //         data={[]}
+  //         page={page}
+  //         setPage={setPage}
+  //       ></TableComponent>
+  //     </div>
+  //   )
+  // }
+  return (
+    <div className="flex flex-col space-y-6">
+      <div className="flex flex-col space-y-4">
+        <h1 className="font-extrabold text-secondary text-2xl">
+          Transferências
+        </h1>
+
+        <div className="flex justify-between  pt-4">
+          <div>
+            <TransferSettingDialog
+              bankAccount={bankAccountQuery.data?.bank_accounts[0]}
+              defaultTransfer={transferSettingQuery.data?.type_string ?? ''}
+              pixKey={pixKeyQuery.data}
+            ></TransferSettingDialog>
+          </div>
+          <div className="flex space-x-4">
+            <div className="flex items-center border-b-2">
+              <Search />
+              <InputWithoutBorder
+                placeholder="Faça uma consulta"
+                className="w-[20vw]"
+              ></InputWithoutBorder>
             </div>
-            <div className="flex space-x-4">
-              <div className="flex items-center border-b-2">
-                <Search />
-                <InputWithoutBorder
-                  placeholder="Faça uma consulta"
-                  className="w-[20vw]"
-                ></InputWithoutBorder>
-              </div>
-              <div className="flex items-center border-b-2">
-                <Calendar />
-                <InputWithoutBorder
-                  placeholder="Mês atual"
-                  className="w-[15vw]"
-                ></InputWithoutBorder>
-              </div>
+            <div className="flex items-center border-b-2">
+              <Calendar />
+              <InputWithoutBorder
+                placeholder="Mês atual"
+                className="w-[15vw]"
+              ></InputWithoutBorder>
             </div>
           </div>
         </div>
-        <TableComponent
-          name="Transferências realizadas"
-          columns={TransferColumns}
-          data={[]}
-          page={page}
-          setPage={setPage}
-        ></TableComponent>
       </div>
-    )
-  }
+      <TableComponent
+        name="Transferências realizadas"
+        columns={TransferColumns}
+        data={[]}
+        page={page}
+        setPage={setPage}
+      ></TableComponent>
+    </div>
+  )
 
   return <TableComponentSkeleton />
 }

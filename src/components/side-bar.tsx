@@ -15,6 +15,9 @@ import {
 } from 'lucide-react'
 import { SidebarButton } from './sidebar-button'
 import { ExitComponent } from './exit-component'
+import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
+import Link from 'next/link'
+import { Button } from './ui/button'
 
 export function SideBar() {
   const groupOne = [
@@ -119,14 +122,32 @@ export function SideBar() {
         <hr />
       </div>
       <div className="my-4">
-        {groupThree.map((item, index) => (
-          <SidebarButton
-            href={item.href}
-            icon={item.icon}
-            label={item.label}
-            key={index}
-          ></SidebarButton>
-        ))}
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              className={`flex justify-start px-[2.5rem] bg-primary-foreground text-secondary w-full h-[3rem] space-x-4 hover:bg-white`}
+            >
+              <SlidersHorizontal className="h-6 w-6 sidebar-icon shrink-0" />
+              <span className="font-bold">Configurações</span>
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="bg-white w-full">
+            <Link
+              href={'/dashboard/webhooks'}
+              className={`flex items-center px-[2.5rem] hover:bg-primary-foreground text-secondary w-full h-[3rem] space-x-4 hover:bg-white`}
+            >
+              <Webhook className="h-6 w-6 sidebar-icon shrink-0" />
+              <span className="font-bold">Webhooks</span>
+            </Link>
+            <Link
+              href={'/dashboard/settings'}
+              className={`flex items-center px-[2.5rem] hover:bg-primary-foreground text-secondary w-full h-[3rem] space-x-4 hover:bg-white`}
+            >
+              <SlidersHorizontal className="h-6 w-6 sidebar-icon shrink-0" />
+              <span className="font-bold">Parâmetros</span>
+            </Link>
+          </PopoverContent>
+        </Popover>
         <ExitComponent></ExitComponent>
       </div>
     </div>

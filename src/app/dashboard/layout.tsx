@@ -78,7 +78,7 @@ export default function DashboardLayout({ children }: Props) {
       <Header></Header>
       <div className="flex mt-[4rem]">
         <div className="fixed hidden md:block md:w-[28vw] lg:w-[22vw] xl:w-[15vw] h-screen z-50">
-          <SideBar open={true}></SideBar>
+          <SideBar></SideBar>
         </div>
 
         <div className="flex flex-col flex-1 ml-[0vw] md:ml-[28vw] lg:ml-[22vw] xl:ml-[15vw]">

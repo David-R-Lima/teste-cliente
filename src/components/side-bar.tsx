@@ -1,26 +1,22 @@
 'use client'
 import {
   Home,
-  Package,
   Users,
   Webhook,
   DollarSign,
   List,
-  HandCoins,
   Ticket,
   FileText,
   Link2,
   User,
   SlidersHorizontal,
+  ArrowLeftRight,
+  ClipboardList,
 } from 'lucide-react'
 import { SidebarButton } from './sidebar-button'
 import { ExitComponent } from './exit-component'
 
-interface Props {
-  open: boolean
-}
-
-export function SideBar({ open }: Props) {
+export function SideBar() {
   const groupOne = [
     {
       href: '/dashboard',
@@ -35,7 +31,7 @@ export function SideBar({ open }: Props) {
     {
       href: '/dashboard/transfers',
       label: 'Transferências',
-      icon: <HandCoins className="h-6 w-6 sidebar-icon shrink-0" />,
+      icon: <ArrowLeftRight className="h-6 w-6 sidebar-icon shrink-0" />,
     },
     {
       href: '/dashboard/relatorios',
@@ -63,7 +59,7 @@ export function SideBar({ open }: Props) {
     {
       href: '/dashboard/plans',
       label: 'Planos',
-      icon: <Package className="h-6 w-6 sidebar-icon shrink-0" />,
+      icon: <ClipboardList className="h-6 w-6 sidebar-icon shrink-0" />,
     },
 
     {

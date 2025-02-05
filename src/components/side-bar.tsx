@@ -1,26 +1,25 @@
 'use client'
 import {
   Home,
-  Package,
   Users,
   Webhook,
   DollarSign,
   List,
-  HandCoins,
   Ticket,
   FileText,
   Link2,
   User,
   SlidersHorizontal,
+  ArrowLeftRight,
+  ClipboardList,
 } from 'lucide-react'
 import { SidebarButton } from './sidebar-button'
 import { ExitComponent } from './exit-component'
+import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
+import Link from 'next/link'
+import { Button } from './ui/button'
 
-interface Props {
-  open: boolean
-}
-
-export function SideBar({ open }: Props) {
+export function SideBar() {
   const groupOne = [
     {
       href: '/dashboard',
@@ -35,7 +34,7 @@ export function SideBar({ open }: Props) {
     {
       href: '/dashboard/transfers',
       label: 'Transferências',
-      icon: <HandCoins className="h-6 w-6 sidebar-icon shrink-0" />,
+      icon: <ArrowLeftRight className="h-6 w-6 sidebar-icon shrink-0" />,
     },
     {
       href: '/dashboard/relatorios',
@@ -63,7 +62,7 @@ export function SideBar({ open }: Props) {
     {
       href: '/dashboard/plans',
       label: 'Planos',
-      icon: <Package className="h-6 w-6 sidebar-icon shrink-0" />,
+      icon: <ClipboardList className="h-6 w-6 sidebar-icon shrink-0" />,
     },
 
     {
@@ -123,14 +122,32 @@ export function SideBar({ open }: Props) {
         <hr />
       </div>
       <div className="my-4">
-        {groupThree.map((item, index) => (
-          <SidebarButton
-            href={item.href}
-            icon={item.icon}
-            label={item.label}
-            key={index}
-          ></SidebarButton>
-        ))}
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              className={`flex justify-start px-[2.5rem] bg-primary-foreground text-secondary w-full h-[3rem] space-x-4 hover:bg-white`}
+            >
+              <SlidersHorizontal className="h-6 w-6 sidebar-icon shrink-0" />
+              <span className="font-bold">Configurações</span>
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="bg-white w-full">
+            <Link
+              href={'/dashboard/webhooks'}
+              className={`flex items-center px-[2.5rem] hover:bg-primary-foreground text-secondary w-full h-[3rem] space-x-4 hover:bg-white`}
+            >
+              <Webhook className="h-6 w-6 sidebar-icon shrink-0" />
+              <span className="font-bold">Webhooks</span>
+            </Link>
+            <Link
+              href={'/dashboard/settings'}
+              className={`flex items-center px-[2.5rem] hover:bg-primary-foreground text-secondary w-full h-[3rem] space-x-4 hover:bg-white`}
+            >
+              <SlidersHorizontal className="h-6 w-6 sidebar-icon shrink-0" />
+              <span className="font-bold">Parâmetros</span>
+            </Link>
+          </PopoverContent>
+        </Popover>
         <ExitComponent></ExitComponent>
       </div>
     </div>

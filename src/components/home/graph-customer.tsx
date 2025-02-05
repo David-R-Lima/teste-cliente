@@ -1,13 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import {
-  ChartContainer,
-  type ChartConfig,
-  ChartTooltipContent,
-  ChartTooltip,
-} from '@/components/ui/chart'
-
-import { CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts'
-import { useState } from 'react'
+import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis } from 'recharts'
 
 export function GraphClient() {
   return (
@@ -23,54 +15,33 @@ export function GraphClient() {
 }
 
 export function ClientGrowthChart() {
-  interface MonthData {
-    month: string
-    count: number
-  }
-
-  const [data] = useState<MonthData[]>([
-    { month: 'Janeiro', count: 0 },
-    { month: 'Fevereiro', count: 2 },
-    { month: 'Março', count: 4 },
-    { month: 'Abril', count: 5 },
-    { month: 'Maio', count: 3 },
-    { month: 'Junho', count: 9 },
-    { month: 'Julho', count: 21 },
-    { month: 'Agosto', count: 19 },
-    { month: 'Setembro', count: 17 },
-    { month: 'Outubro', count: 31 },
-    { month: 'Novembro', count: 25 },
-    { month: 'Dezembro', count: 33 },
-  ])
-
-  const chartConfig = {
-    desktop: {
-      label: 'Desktop',
-      color: '#2563eb',
-    },
-  } satisfies ChartConfig
+  const data = [
+    { month: 'Janeiro', uv: 200 },
+    { month: 'Fevereiro', uv: 400 },
+    { month: 'Março', uv: 1000 },
+    { month: 'Abril', uv: 700 },
+    { month: 'Maio', uv: 1200 },
+    { month: 'Junho', uv: 300 },
+    { month: 'Julho', uv: 900 },
+  ]
 
   return (
-    <ChartContainer config={chartConfig} className="h-[90%] w-full">
-      <LineChart accessibilityLayer data={data}>
-        <CartesianGrid vertical={false} />
-        <XAxis
-          dataKey="month"
-          tickLine={false}
-          tickMargin={10}
-          axisLine={false}
-          tickFormatter={(value) => {
-            return value.slice(0, 3)
-          }}
-        />
-        <YAxis></YAxis>
-        <ChartTooltip content={<ChartTooltipContent />} />
-        <Line
-          dataKey={'count'}
-          fill="var(--color-desktop)"
-          strokeWidth={3}
-        ></Line>
-      </LineChart>
-    </ChartContainer>
+    <ResponsiveContainer width="100%" height="100%" className="p-6">
+      <AreaChart
+        width={500}
+        height={400}
+        data={data}
+        margin={{
+          top: 10,
+          right: 30,
+          left: 0,
+          bottom: 0,
+        }}
+      >
+        <Tooltip />
+        <Area type="monotone" dataKey="uv" stroke="#ADB7F9" fill="#ADB7F9" />
+        <XAxis dataKey={'month'}></XAxis>
+      </AreaChart>
+    </ResponsiveContainer>
   )
 }

@@ -75,7 +75,7 @@ export function TransferSettingDialog({
           <p className="text-secondary">Configurações</p>
         </Button>
       </DialogTrigger>
-      <DialogContent className="bg-primary-foreground">
+      <DialogContent className="bg-primary-foreground min-w-[40%]">
         <DialogHeader>
           <DialogTitle className="text-secondary font-bold text-xl">
             Área de Transferências
@@ -84,12 +84,12 @@ export function TransferSettingDialog({
             Configure a conta de destino das suas transferências.
           </DialogDescription>
         </DialogHeader>
-        <div className="flex items-center justify-around">
-          <Card>
-            <CardContent>
+        <div className="flex justify-around w-full space-x-8 py-6">
+          <Card className="w-full">
+            <CardContent className="flex flex-col flex-grow w-full h-full space-y-2 mt-4">
               {pixKey && (
-                <div className="space-y-2 mt-4">
-                  <div className="flex space-x-2 items-center">
+                <>
+                  <div className="flex space-x-2 items-center px-4">
                     <Checkbox
                       checked={defaultTransfer === 'PIX'}
                       onClick={async () => {
@@ -103,14 +103,21 @@ export function TransferSettingDialog({
                     ></Checkbox>
                     <p>Padrão</p>
                   </div>
-                  <p>
-                    <strong>Chave PIX:</strong> {pixKey.key}
-                  </p>
-                  <p>
-                    <strong>Tipo:</strong> {pixKey.pix_key_type}
-                  </p>
-                  <CreatePixKey>Trocar chave pix</CreatePixKey>
-                </div>
+                  <div className="space-y-1 p-4 rounded-lg w-full h-[70%]">
+                    <p>
+                      <strong>Chave PIX:</strong> 123131
+                    </p>
+                    <p>
+                      <strong>Tipo:</strong> 1231231
+                    </p>
+                  </div>
+
+                  <div className="p-4">
+                    <CreatePixKey>
+                      <p>Trocar chave pix</p>
+                    </CreatePixKey>
+                  </div>
+                </>
               )}
               {!pixKey && (
                 <div className="mt-6">
@@ -123,14 +130,14 @@ export function TransferSettingDialog({
               )}
             </CardContent>
           </Card>
-          <Card>
-            <CardContent>
+          <Card className="w-full">
+            <CardContent className="flex flex-col flex-grow w-full h-full space-y-2 mt-4">
               {bankAccount &&
                 bankQuery?.data?.banks.find(
                   (bank) => bank.code === bankAccount.bank_code,
                 ) && (
-                  <div className="space-y-4 mt-4">
-                    <div className="flex space-x-2 items-center">
+                  <>
+                    <div className="flex space-x-2 items-center px-4">
                       <Checkbox
                         checked={defaultTransfer === 'CONTA BANCARIA'}
                         onClick={async () => {
@@ -144,7 +151,7 @@ export function TransferSettingDialog({
                       ></Checkbox>
                       <p>Padrão</p>
                     </div>
-                    <div className="space-y-1 p-4 bg-muted rounded-lg">
+                    <div className="space-y-1 p-4 rounded-lg h-[70%]">
                       <p>
                         <strong>Agência:</strong> {bankAccount?.bank_branch}
                       </p>
@@ -164,10 +171,12 @@ export function TransferSettingDialog({
                         {getAccountType(bankAccount?.account_bank_type)}
                       </p>
                     </div>
-                    <CreateBank>
-                      <p>Trocar banco</p>
-                    </CreateBank>
-                  </div>
+                    <div className="p-4">
+                      <CreateBank>
+                        <p>Trocar banco</p>
+                      </CreateBank>
+                    </div>
+                  </>
                 )}
               {!bankAccount && (
                 <div className="mt-6">

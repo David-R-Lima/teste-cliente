@@ -82,7 +82,9 @@ export function CreateBank({ children }: Props) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="flex space-x-2 items-center">{children}</Button>
+        <Button className="flex space-x-2 items-center w-full text-secondary">
+          {children}
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <form

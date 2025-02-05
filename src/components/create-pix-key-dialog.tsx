@@ -79,7 +79,9 @@ export function CreatePixKey({ children }: Props) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="flex space-x-2 items-center">{children}</Button>
+        <Button className="flex space-x-2 items-center w-full text-secondary self-end">
+          {children}
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <form

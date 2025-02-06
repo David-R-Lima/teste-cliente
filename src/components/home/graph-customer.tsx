@@ -1,7 +1,12 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { CustomerMetrics } from '@/services/graphs'
 import { useQuery } from '@tanstack/react-query'
+import { useEffect } from 'react'
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis } from 'recharts'
+import dayjs from 'dayjs'
+import 'dayjs/locale/pt-br'
+
+dayjs.locale('pt-br')
 
 export function GraphClient() {
   return (
@@ -17,15 +22,10 @@ export function GraphClient() {
 }
 
 export function ClientGrowthChart() {
-  const data = [
-    { month: 'Janeiro', uv: 200 },
-    { month: 'Fevereiro', uv: 400 },
-    { month: 'Março', uv: 1000 },
-    { month: 'Abril', uv: 700 },
-    { month: 'Maio', uv: 1200 },
-    { month: 'Junho', uv: 300 },
-    { month: 'Julho', uv: 900 },
-  ]
+  const customerData: {
+    month: string
+    number: number
+  }[] = []
 
   const customerMetricsMetricQuery = useQuery({
     queryKey: ['customer-metrics'],
@@ -34,12 +34,25 @@ export function ClientGrowthChart() {
 
   console.log(customerMetricsMetricQuery)
 
+  useEffect(() => {
+    if (customerMetricsMetricQuery.data) {
+      const { customerMetrics } = customerMetricsMetricQuery.data
+      customerMetrics.forEach((item) => {
+        const monthName = dayjs(`${item.month}-01`).format('MMMM')
+        customerData.push({
+          month: monthName.charAt(0).toUpperCase() + monthName.slice(1), // Capitalize month
+          number: item.number,
+        })
+      })
+    }
+  }, [customerMetricsMetricQuery.data])
+
   return (
     <ResponsiveContainer width="100%" height="100%" className="p-6">
       <AreaChart
         width={500}
         height={400}
-        data={data}
+        data={customerData}
         margin={{
           top: 10,
           right: 30,

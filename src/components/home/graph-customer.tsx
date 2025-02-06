@@ -71,7 +71,12 @@ export function ClientGrowthChart() {
         }}
       >
         <Tooltip />
-        <Area type="monotone" dataKey="uv" stroke="#ADB7F9" fill="#ADB7F9" />
+        <Area
+          type="monotone"
+          dataKey="number"
+          stroke="#ADB7F9"
+          fill="#ADB7F9"
+        />
         <XAxis dataKey={'month'}></XAxis>
       </AreaChart>
     </ResponsiveContainer>

@@ -125,10 +125,10 @@ export function SideBar() {
         <Popover>
           <PopoverTrigger asChild>
             <Button
-              className={`flex justify-start px-[2.5rem] bg-primary-foreground text-secondary w-full h-[3rem] space-x-4 hover:bg-white`}
+              className={`flex justify-start px-[2.5rem] bg-primary-foreground text-secondary w-full h-[3rem] space-x-4 hover:bg-white text-sm`}
             >
               <SlidersHorizontal className="h-6 w-6 sidebar-icon shrink-0" />
-              <span className="font-bold">Configurações</span>
+              <span className="font-bold text-">Configurações</span>
             </Button>
           </PopoverTrigger>
           <PopoverContent className="bg-white w-full">

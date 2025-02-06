@@ -1,4 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { CustomerMetrics } from '@/services/graphs'
+import { useQuery } from '@tanstack/react-query'
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis } from 'recharts'
 
 export function GraphClient() {
@@ -24,6 +26,13 @@ export function ClientGrowthChart() {
     { month: 'Junho', uv: 300 },
     { month: 'Julho', uv: 900 },
   ]
+
+  const customerMetricsMetricQuery = useQuery({
+    queryKey: ['customer-metrics'],
+    queryFn: CustomerMetrics,
+  })
+
+  console.log(customerMetricsMetricQuery)
 
   return (
     <ResponsiveContainer width="100%" height="100%" className="p-6">

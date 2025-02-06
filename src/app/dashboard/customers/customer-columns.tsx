@@ -133,13 +133,13 @@ export const CustomersColumns: ColumnDef<Customers>[] = [
       if (subscriber.is_active) {
         return (
           <div className="flex w-full items-center justify-center">
-            <CircleCheck className="text-green-500" />
+            <CircleCheck className="fill-primary text-white" />
           </div>
         )
       } else {
         return (
           <div className="flex w-full items-center justify-center">
-            <CircleX className="text-red-500" />
+            <CircleX className="fill-red-300 text-white" />
           </div>
         )
       }

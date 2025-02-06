@@ -1,10 +1,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { CustomerMetrics } from '@/services/graphs'
-import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis } from 'recharts'
 import dayjs from 'dayjs'
 import 'dayjs/locale/pt-br'
+import { useCustomerMetrics } from '@/hooks/useCustomerMetrics'
 
 dayjs.locale('pt-br')
 
@@ -29,12 +28,7 @@ export function ClientGrowthChart() {
     }[]
   >([])
 
-  const customerMetricsMetricQuery = useQuery({
-    queryKey: ['customer-metrics'],
-    queryFn: CustomerMetrics,
-  })
-
-  console.log(customerMetricsMetricQuery)
+  const customerMetricsMetricQuery = useCustomerMetrics()
 
   useEffect(() => {
     if (customerMetricsMetricQuery.data) {

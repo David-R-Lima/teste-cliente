@@ -1,33 +1,21 @@
-import { EyeIcon, EyeOffIcon } from 'lucide-react'
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
-import { useState } from 'react'
-import { MonthData } from '@/lib/MonthData'
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from '../ui/chart'
-import {
-  Area,
-  AreaChart,
-  CartesianGrid,
-  Line,
-  LineChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from 'recharts'
+import { Card, CardContent } from '../ui/card'
+import { Area, AreaChart, ResponsiveContainer, Tooltip } from 'recharts'
+import { useBalance } from '@/hooks/useBalance'
 
 export function ToBeAvailable() {
+  const balance = useBalance()
+
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('pt-BR', {
       style: 'decimal',
       minimumFractionDigits: 2,
-    }).format(value / 100)
+    }).format(value)
   }
-  const formattedNumber = formatCurrency(1223456)
+  const formattedNumber = formatCurrency(
+    balance.data?.balance.totalDebitAfterLastBalance
+      ? Number(balance.data?.balance.totalDebitAfterLastBalance)
+      : 0,
+  )
   const [integerPart, decimalPart] = formattedNumber.split(',')
 
   const data = [

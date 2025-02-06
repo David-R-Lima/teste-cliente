@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { CustomerMetrics } from '@/services/graphs'
 import { useQuery } from '@tanstack/react-query'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis } from 'recharts'
 import dayjs from 'dayjs'
 import 'dayjs/locale/pt-br'
@@ -22,10 +22,12 @@ export function GraphClient() {
 }
 
 export function ClientGrowthChart() {
-  const customerData: {
-    month: string
-    number: number
-  }[] = []
+  const [customerData, setCustomerData] = useState<
+    {
+      month: string
+      number: number
+    }[]
+  >([])
 
   const customerMetricsMetricQuery = useQuery({
     queryKey: ['customer-metrics'],
@@ -37,13 +39,21 @@ export function ClientGrowthChart() {
   useEffect(() => {
     if (customerMetricsMetricQuery.data) {
       const { customerMetrics } = customerMetricsMetricQuery.data
+
+      const temp: {
+        month: string
+        number: number
+      }[] = []
+
       customerMetrics.forEach((item) => {
         const monthName = dayjs(`${item.month}-01`).format('MMMM')
-        customerData.push({
+        temp.push({
           month: monthName.charAt(0).toUpperCase() + monthName.slice(1), // Capitalize month
           number: item.number,
         })
       })
+
+      setCustomerData(temp)
     }
   }, [customerMetricsMetricQuery.data])
 

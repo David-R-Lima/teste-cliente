@@ -24,7 +24,7 @@ export const SubscribersColumns: ColumnDef<Subscriber>[] = [
     accessorKey: 'id',
     header: () => {
       return (
-        <Button variant="link" className="italic font-bold">
+        <Button variant="link" className="italic font-bold text-secondary">
           Id
         </Button>
       )
@@ -33,7 +33,7 @@ export const SubscribersColumns: ColumnDef<Subscriber>[] = [
       const charge = row.original
       if (charge.id) {
         return (
-          <div className="flex items-center justify-center">
+          <div className="flex items-center justify-center text-secondary">
             <Clipboard
               className="hover:text-primary hover:cursor-pointer"
               onClick={() => {
@@ -52,7 +52,7 @@ export const SubscribersColumns: ColumnDef<Subscriber>[] = [
         <Button
           variant="link"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          className="italic font-bold"
+          className="italic font-bold text-secondary"
         >
           Primeira cobrança
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -72,7 +72,7 @@ export const SubscribersColumns: ColumnDef<Subscriber>[] = [
         <Button
           variant="link"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          className="italic font-bold"
+          className="italic font-bold text-secondary"
         >
           Próxima cobrança
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -92,7 +92,7 @@ export const SubscribersColumns: ColumnDef<Subscriber>[] = [
         <Button
           variant="link"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          className="italic font-bold"
+          className="italic font-bold text-secondary"
         >
           Ativo
           <ArrowUpDown className="ml-2 h-4 w-4" />

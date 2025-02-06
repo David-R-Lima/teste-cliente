@@ -1,9 +1,11 @@
 import { Area, AreaChart, ResponsiveContainer, Tooltip } from 'recharts'
 import { Card, CardContent } from '../ui/card'
 import { useBalance } from '@/hooks/useBalance'
+import { useRouter } from 'next/navigation'
 
 export function AvailableBalance() {
   const balance = useBalance()
+  const router = useRouter()
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('pt-BR', {
@@ -100,7 +102,12 @@ export function AvailableBalance() {
           </ResponsiveContainer>
         </div>
         <div className="flex justify-between">
-          <p className="font-bold hover:text-primary hover:cursor-pointer">
+          <p
+            className="font-bold hover:text-primary hover:cursor-pointer"
+            onClick={() => {
+              router.push('/dashboard/transfers')
+            }}
+          >
             Transferir
           </p>
           <p className="font-bold hover:text-primary hover:cursor-pointer">

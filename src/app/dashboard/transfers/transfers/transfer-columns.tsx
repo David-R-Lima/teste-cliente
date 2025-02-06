@@ -14,7 +14,7 @@ export const TransferColumns: ColumnDef<Transfer>[] = [
         <Button
           variant="link"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          className="italic font-bold"
+          className="italic font-bold text-secondary"
         >
           Id da transferência
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -29,7 +29,7 @@ export const TransferColumns: ColumnDef<Transfer>[] = [
         <Button
           variant="link"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          className="italic font-bold"
+          className="italic font-bold text-secondary"
         >
           Descrição
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -44,7 +44,7 @@ export const TransferColumns: ColumnDef<Transfer>[] = [
         <Button
           variant="link"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          className="italic font-bold"
+          className="italic font-bold text-secondary"
         >
           Valor
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -66,7 +66,7 @@ export const TransferColumns: ColumnDef<Transfer>[] = [
         <Button
           variant="link"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          className="italic font-bold"
+          className="italic font-bold text-secondary"
         >
           Situação
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -81,7 +81,7 @@ export const TransferColumns: ColumnDef<Transfer>[] = [
         <Button
           variant="link"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          className="italic font-bold"
+          className="italic font-bold text-secondary"
         >
           Data de criação
           <ArrowUpDown className="ml-2 h-4 w-4" />

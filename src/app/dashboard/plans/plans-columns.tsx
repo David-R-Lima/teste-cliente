@@ -10,7 +10,7 @@ export const PlansColumns: ColumnDef<Plans>[] = [
     accessorKey: 'id',
     header: () => {
       return (
-        <Button variant="link" className="italic font-bold">
+        <Button variant="link" className="italic font-bold text-secondary">
           Id
         </Button>
       )
@@ -19,7 +19,7 @@ export const PlansColumns: ColumnDef<Plans>[] = [
       const charge = row.original
       if (charge.id) {
         return (
-          <div className="flex items-center justify-center">
+          <div className="flex items-center justify-center text-secondary">
             <Clipboard
               className="hover:text-primary hover:cursor-pointer"
               onClick={() => {
@@ -38,7 +38,7 @@ export const PlansColumns: ColumnDef<Plans>[] = [
         <Button
           variant="link"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          className="italic font-bold"
+          className="italic font-bold text-secondary"
         >
           Nome
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -53,7 +53,7 @@ export const PlansColumns: ColumnDef<Plans>[] = [
         <Button
           variant="link"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          className="italic font-bold"
+          className="italic font-bold text-secondary"
         >
           Valor
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -75,7 +75,7 @@ export const PlansColumns: ColumnDef<Plans>[] = [
         <Button
           variant="link"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          className="italic font-bold"
+          className="italic font-bold text-secondary"
         >
           Descrição
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -90,7 +90,7 @@ export const PlansColumns: ColumnDef<Plans>[] = [
         <Button
           variant="link"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          className="italic font-bold"
+          className="italic font-bold text-secondary"
         >
           Tipo do período
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -105,7 +105,7 @@ export const PlansColumns: ColumnDef<Plans>[] = [
         <Button
           variant="link"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          className="italic font-bold"
+          className="italic font-bold text-secondary"
         >
           Dias de teste
           <ArrowUpDown className="ml-2 h-4 w-4" />

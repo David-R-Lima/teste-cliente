@@ -1,23 +1,5 @@
-import {
-  Area,
-  AreaChart,
-  CartesianGrid,
-  Line,
-  LineChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from 'recharts'
+import { Area, AreaChart, ResponsiveContainer, Tooltip } from 'recharts'
 import { Card, CardContent } from '../ui/card'
-import { useState } from 'react'
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from '../ui/chart'
-import { MonthData } from '@/lib/MonthData'
 import { useBalance } from '@/hooks/useBalance'
 
 export function AvailableBalance() {

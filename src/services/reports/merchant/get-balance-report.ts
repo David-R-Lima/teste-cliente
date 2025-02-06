@@ -3,6 +3,8 @@ import { api } from '@/services/api'
 interface IbalanceResponseProps {
   balance: {
     balanceCurrent: string
+    totalDebitAfterLastBalance: number
+    totalCreditAfterLastBalance: number
   }
 }
 

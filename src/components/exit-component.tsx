@@ -17,7 +17,7 @@ export function ExitComponent() {
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger className="flex items-center px-[2.5rem] bg-primary-foreground text-secondary w-full h-[3rem] space-x-4 hover:bg-white">
+      <AlertDialogTrigger className="flex items-center px-[2.5rem] bg-primary-foreground text-secondary w-full h-[3rem] space-x-4 hover:bg-white text-sm">
         <LogOut className="h-6 w-6 sidebar-icon shrink-0" />
         <p className="font-bold">Sair</p>
       </AlertDialogTrigger>

@@ -7,3 +7,10 @@ export async function CustomerMetrics() {
   )
   return data
 }
+
+export async function ChargeMetrics() {
+  const { data } = await api.get<{ chargeMetrics: ICustomerMetrics[] }>(
+    '/merchant-charge-metrics',
+  )
+  return data
+}

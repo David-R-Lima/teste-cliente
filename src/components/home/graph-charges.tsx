@@ -21,7 +21,7 @@ export function GraphClient() {
   )
 }
 
-export function ClientGrowthChart() {
+export function ChargeGrowthChartComponent() {
   const [chargeData, setChargeData] = useState<
     {
       month: string
@@ -51,6 +51,8 @@ export function ClientGrowthChart() {
       setChargeData(temp)
     }
   }, [chargeMetricsMetricQuery.data])
+
+  console.log(chargeData)
 
   return (
     <ResponsiveContainer width="100%" height="100%" className="p-6">

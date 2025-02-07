@@ -7,6 +7,7 @@ import { ToBeAvailable } from '@/components/home/to-be-available'
 import { ClientGrowthChart } from '@/components/home/graph-customer'
 import { useCustomerMetrics } from '@/hooks/useCustomerMetrics'
 import { useChargeMetrics } from '@/hooks/useChargeMetrics'
+import { ChargeGrowthChartComponent } from '@/components/home/graph-charges'
 
 export default function Dashboard() {
   const [item, setItem] = useState<string>('customer')
@@ -72,7 +73,7 @@ export default function Dashboard() {
                     : 0}
                 </span>
               </div>
-              <ClientGrowthChart></ClientGrowthChart>
+              <ChargeGrowthChartComponent></ChargeGrowthChartComponent>
             </div>
           )}
         </div>

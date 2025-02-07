@@ -25,21 +25,21 @@ export default function Dashboard() {
         <div>
           <Button
             variant={'link'}
-            className={`"font-bold ${item === 'customer' ? 'text-primary' : 'text-secondary'}"`}
+            className={`font-bold ${item === 'customer' ? 'text-primary' : 'text-secondary'}`}
             onClick={() => setItem('customer')}
           >
             Clientes
           </Button>
           <Button
             variant={'link'}
-            className={`"font-bold ${item === 'charges' ? 'text-primary' : 'text-secondary'}"`}
+            className={`font-bold ${item === 'charges' ? 'text-primary' : 'text-secondary'}`}
             onClick={() => setItem('charges')}
           >
             Cobranças
           </Button>
           <Button
             variant={'link'}
-            className={`"font-bold ${item === 'subscriptions' ? 'text-primary' : 'text-secondary'}"`}
+            className={`font-bold ${item === 'subscriptions' ? 'text-primary' : 'text-secondary'}`}
             onClick={() => setItem('subscriptions')}
           >
             Assinaturas

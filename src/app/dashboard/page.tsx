@@ -67,9 +67,10 @@ export default function Dashboard() {
                 <span className="text-secondary font-black text-xl">Total</span>
                 <span className="text-secondary font-black text-8xl">
                   {chargeMetric.data
-                    ? chargeMetric.data.chargeMetrics[
-                        chargeMetric.data.chargeMetrics.length - 1
-                      ]?.number
+                    ? chargeMetric.data.chargeMetrics.reduce(
+                        (sum, metric) => sum + (metric.number || 0),
+                        0,
+                      )
                     : 0}
                 </span>
               </div>

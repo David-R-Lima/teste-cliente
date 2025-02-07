@@ -22,7 +22,7 @@ export default function Dashboard() {
         <ToBeAvailable></ToBeAvailable>
       </div>
       <div className="border-2 rounded-lg h-[35vh] p-4">
-        <div className="text-secondary">
+        <div>
           <Button
             variant={'link'}
             className={`"font-bold ${item === 'customer' ? 'text-primary' : 'text-secondary'}"`}

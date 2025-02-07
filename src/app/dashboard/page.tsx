@@ -32,7 +32,7 @@ export default function Dashboard() {
           <Button
             variant={'link'}
             className="text-secondary font-bold"
-            onClick={() => setItem('billing')}
+            onClick={() => setItem('charges')}
           >
             Cobranças
           </Button>

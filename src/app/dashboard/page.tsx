@@ -48,7 +48,7 @@ export default function Dashboard() {
         <div className="h-[280px] p-6">
           {item === 'customer' && (
             <div className="flex items-center h-full">
-              <div className="flex flex-col items-center bg-primary-foreground p-8 rounded-lg">
+              <div className="hidden lg:flex flex-col items-center bg-primary-foreground p-8 rounded-lg">
                 <span className="text-secondary font-black text-xl">Total</span>
                 <span className="text-secondary font-black text-8xl">
                   {customerMetric.data
@@ -63,7 +63,7 @@ export default function Dashboard() {
           )}
           {item === 'charges' && (
             <div className="flex items-center h-full">
-              <div className="flex flex-col items-center bg-primary-foreground p-8 rounded-lg">
+              <div className="hidden lg:flex flex-col items-center bg-primary-foreground p-8 rounded-lg">
                 <span className="text-secondary font-black text-xl">Total</span>
                 <span className="text-secondary font-black text-8xl">
                   {chargeMetric.data

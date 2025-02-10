@@ -45,7 +45,7 @@ export default function Dashboard() {
             Assinaturas
           </Button>
         </div>
-        <div className="h-[280px] p-6 w-[80%] md:w-[70%] lg:w-[50%] ">
+        <div className="h-[280px] p-6">
           {item === 'customer' && (
             <div className="flex items-center h-full">
               <div className="flex flex-col items-center bg-primary-foreground p-8 rounded-lg">

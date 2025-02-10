@@ -17,7 +17,7 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-4">
-      <div className="flex justify-between h-[50vh] space-x-8">
+      <div className="flex flex-col lg:flex-row justify-between lg:h-[50vh] space-y-4 lg:space-y-0 lg:space-x-8 w-full">
         <AvailableBalance></AvailableBalance>
         <ToBeAvailable></ToBeAvailable>
       </div>
@@ -45,7 +45,7 @@ export default function Dashboard() {
             Assinaturas
           </Button>
         </div>
-        <div className="h-[280px] p-6">
+        <div className="h-[280px] p-6 w-[80%] md:w-[70%] lg:w-[50%] ">
           {item === 'customer' && (
             <div className="flex items-center h-full">
               <div className="flex flex-col items-center bg-primary-foreground p-8 rounded-lg">

@@ -64,7 +64,7 @@ export function ToBeAvailable() {
   ]
 
   return (
-    <Card className="lg:flex lg:flex-col w-[50%] ">
+    <Card className="lg:flex lg:flex-col w-[100%] lg:w-[50%] ">
       <CardContent className="flex flex-col space-y-4 p-8 h-full">
         <h1 className="font-bold">Saldo a ser liberado</h1>
         <div>

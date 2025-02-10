@@ -2,10 +2,13 @@ import { Area, AreaChart, ResponsiveContainer, Tooltip } from 'recharts'
 import { Card, CardContent } from '../ui/card'
 import { useBalance } from '@/hooks/useBalance'
 import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import { EyeIcon, EyeOffIcon } from 'lucide-react'
 
 export function AvailableBalance() {
   const balance = useBalance()
   const router = useRouter()
+  const [display, setDisplay] = useState(false)
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('pt-BR', {
@@ -68,14 +71,30 @@ export function AvailableBalance() {
   return (
     <Card className="lg:flex lg:flex-col w-[100%] lg:w-[50%] ">
       <CardContent className="flex flex-col space-y-4 p-8 h-full">
-        <h1 className="font-bold">Saldo disponível</h1>
+        <div className="flex space-x-2">
+          <h1 className="font-bold">Saldo disponível</h1>
+          {display && (
+            <EyeIcon
+              onClick={() => {
+                setDisplay(false)
+              }}
+            ></EyeIcon>
+          )}
+          {!display && (
+            <EyeOffIcon
+              onClick={() => {
+                setDisplay(true)
+              }}
+            ></EyeOffIcon>
+          )}
+        </div>
         <div>
           <span className="text-4xl font-black text-secondary">R$</span>
           <span className="text-7xl font-black text-secondary">
-            {integerPart}
+            {display ? integerPart : '...'}
           </span>
           <span className="text-4xl font-black text-secondary">
-            ,{decimalPart}
+            ,{display ? decimalPart : '..'}
           </span>
         </div>
         <div className="h-[60%]">

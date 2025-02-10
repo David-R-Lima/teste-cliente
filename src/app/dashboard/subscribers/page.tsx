@@ -12,6 +12,7 @@ import { useQuery } from '@tanstack/react-query'
 import { Search } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import { useState } from 'react'
+import { SubscribersColumnsMobile } from './subscribers-columns-mobile'
 
 export default function CustomersComponent() {
   const [page, setPage] = useState<number>(1)
@@ -36,7 +37,7 @@ export default function CustomersComponent() {
         <div className="flex flex-col space-y-4">
           <h1 className="font-extrabold text-secondary text-2xl">Assinantes</h1>
 
-          <div className="flex justify-between  pt-4">
+          <div className="hidden md:flex justify-between  pt-4">
             <div className="flex space-x-4">
               <div className="flex items-center border-b-2">
                 <h1>
@@ -60,13 +61,24 @@ export default function CustomersComponent() {
             </div>
           </div>
         </div>
-        <TableComponent
-          name="Assinantes"
-          columns={SubscribersColumns}
-          data={subscribers}
-          page={page}
-          setPage={setPage}
-        ></TableComponent>
+        <div className="hidden md:block">
+          <TableComponent
+            name="Assinantes"
+            columns={SubscribersColumns}
+            data={subscribers}
+            page={page}
+            setPage={setPage}
+          ></TableComponent>
+        </div>
+        <div className="block md:hidden max-w-[100vw]">
+          <TableComponent
+            name="Assinantes"
+            columns={SubscribersColumnsMobile}
+            data={subscribers}
+            page={page}
+            setPage={setPage}
+          ></TableComponent>
+        </div>
       </div>
     )
   }

@@ -13,6 +13,7 @@ import { CreatePlanForm } from './components/create-plan-form'
 import { useSession } from 'next-auth/react'
 import { Search } from 'lucide-react'
 import { InputWithoutBorder } from '@/components/ui/input-without-border'
+import { PlansColumnsMobile } from './plans-columns-mobile'
 
 export default function ProductsComponent() {
   const [page, setPage] = useState<number>(1)
@@ -39,7 +40,7 @@ export default function ProductsComponent() {
             <div>
               <CreatePlanForm></CreatePlanForm>
             </div>
-            <div className="flex space-x-4">
+            <div className="hidden md:flex space-x-4">
               <div className="flex items-center border-b-2">
                 <Search />
                 <InputWithoutBorder
@@ -50,13 +51,25 @@ export default function ProductsComponent() {
             </div>
           </div>
         </div>
-        <TableComponent
-          name="Planos"
-          columns={PlansColumns}
-          data={data.plans}
-          page={page}
-          setPage={setPage}
-        ></TableComponent>
+
+        <div className="hidden md:block">
+          <TableComponent
+            name="Planos"
+            columns={PlansColumns}
+            data={data.plans}
+            page={page}
+            setPage={setPage}
+          ></TableComponent>
+        </div>
+        <div className="block md:hidden max-w-[100vw]">
+          <TableComponent
+            name="Planos"
+            columns={PlansColumnsMobile}
+            data={data.plans}
+            page={page}
+            setPage={setPage}
+          ></TableComponent>
+        </div>
       </div>
     )
   }

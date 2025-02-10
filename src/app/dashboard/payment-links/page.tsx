@@ -8,11 +8,12 @@ import {
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useSession } from 'next-auth/react'
-import { PaymentLinksColumns } from './plans-columns'
+import { PaymentLinksColumns } from './payment-link-columns'
 import { fetchAllPaymentLink } from '@/services/payment-link'
 import { CreatePaymentLinkForm } from './components/create-payment-link-form'
 import { InputWithoutBorder } from '@/components/ui/input-without-border'
 import { Search } from 'lucide-react'
+import { PaymentLinksColumnsMobile } from './payment-link-columns-mobile'
 
 export default function ProductsComponent() {
   const [page, setPage] = useState<number>(1)
@@ -41,7 +42,7 @@ export default function ProductsComponent() {
             <div>
               <CreatePaymentLinkForm></CreatePaymentLinkForm>
             </div>
-            <div className="flex space-x-4">
+            <div className="hidden md:flex space-x-4">
               <div className="flex items-center border-b-2">
                 <Search />
                 <InputWithoutBorder
@@ -52,13 +53,25 @@ export default function ProductsComponent() {
             </div>
           </div>
         </div>
-        <TableComponent
-          name="Links de pagamentos"
-          columns={PaymentLinksColumns}
-          data={data}
-          page={page}
-          setPage={setPage}
-        ></TableComponent>
+
+        <div className="hidden md:block">
+          <TableComponent
+            name="Links de pagamentos"
+            columns={PaymentLinksColumns}
+            data={data}
+            page={page}
+            setPage={setPage}
+          ></TableComponent>
+        </div>
+        <div className="block md:hidden max-w-[100vw]">
+          <TableComponent
+            name="Links de pagamentos"
+            columns={PaymentLinksColumnsMobile}
+            data={data}
+            page={page}
+            setPage={setPage}
+          ></TableComponent>
+        </div>
       </div>
     )
   }

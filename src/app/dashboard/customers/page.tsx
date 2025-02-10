@@ -13,6 +13,7 @@ import { useSession } from 'next-auth/react'
 import { CustomersColumns } from './customer-columns'
 import { Search } from 'lucide-react'
 import { InputWithoutBorder } from '@/components/ui/input-without-border'
+import { CustomersColumnsMobile } from './customer-columns-mobile'
 
 export default function CustomersComponent() {
   const [page, setPage] = useState<number>(1)
@@ -39,7 +40,7 @@ export default function CustomersComponent() {
             Meus Clientes
           </h1>
 
-          <div className="flex justify-between  pt-4">
+          <div className="hidden md:flex justify-between  pt-4">
             <div>
               <CreateCustomerForm></CreateCustomerForm>
             </div>
@@ -66,13 +67,24 @@ export default function CustomersComponent() {
             </div>
           </div>
         </div>
-        <TableComponent
-          name={'Clientes'}
-          columns={CustomersColumns}
-          data={customers}
-          page={page}
-          setPage={setPage}
-        />
+        <div className="hidden md:block">
+          <TableComponent
+            name={'Clientes'}
+            columns={CustomersColumns}
+            data={customers}
+            page={page}
+            setPage={setPage}
+          />
+        </div>
+        <div className="block md:hidden max-w-[100vw]">
+          <TableComponent
+            name={'Clientes'}
+            columns={CustomersColumnsMobile}
+            data={customers}
+            page={page}
+            setPage={setPage}
+          />
+        </div>
       </div>
     )
   }

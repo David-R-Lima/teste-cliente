@@ -13,6 +13,7 @@ import { CreateChargeForm } from './components/create-charge-form'
 import { useSession } from 'next-auth/react'
 import { Search } from 'lucide-react'
 import { InputWithoutBorder } from '@/components/ui/input-without-border'
+import { ChargesColumnsMobile } from './charges-columns-mobile'
 
 export default function ChargesComponent() {
   const [page, setPage] = useState<number>(1)
@@ -41,7 +42,7 @@ export default function ChargesComponent() {
             <div>
               <CreateChargeForm></CreateChargeForm>
             </div>
-            <div className="flex items-center border-b-2">
+            <div className="hidden md:flex items-center border-b-2">
               <Search />
               <InputWithoutBorder
                 placeholder="Faça uma consulta"
@@ -50,13 +51,24 @@ export default function ChargesComponent() {
             </div>
           </div>
         </div>
-        <TableComponent
-          name={'Cobranças'}
-          columns={ChargesColumns}
-          data={charges}
-          page={page}
-          setPage={setPage}
-        />
+        <div className="hidden md:block">
+          <TableComponent
+            name={'Cobranças'}
+            columns={ChargesColumns}
+            data={charges}
+            page={page}
+            setPage={setPage}
+          />
+        </div>
+        <div className="block md:hidden max-w-[100vw]">
+          <TableComponent
+            name={'Cobranças'}
+            columns={ChargesColumnsMobile}
+            data={charges}
+            page={page}
+            setPage={setPage}
+          />
+        </div>
       </div>
     )
   }

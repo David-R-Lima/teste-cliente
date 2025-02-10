@@ -26,7 +26,14 @@ export function ClientGrowthChart() {
       month: string
       number: number
     }[]
-  >([])
+  >([
+    { month: 'Janeiro', number: 50 },
+    { month: 'Fevereiro', number: 60 },
+    { month: 'Março', number: 75 },
+    { month: 'Abril', number: 85 },
+    { month: 'Maio', number: 95 },
+    { month: 'Junho', number: 120 },
+  ])
 
   const customerMetricsMetricQuery = useCustomerMetrics()
 
@@ -54,7 +61,7 @@ export function ClientGrowthChart() {
   return (
     <ResponsiveContainer width="100%" height="100%" className="p-6">
       <AreaChart
-        width={500}
+        width={1000}
         height={400}
         data={customerData}
         margin={{

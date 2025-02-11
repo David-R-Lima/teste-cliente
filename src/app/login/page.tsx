@@ -120,7 +120,12 @@ export default function Dashboard() {
               onSubmit={submitForm.handleSubmit(handleSumbitMutation)}
             >
               <div className="grid gap-2">
-                <Input id="code" type="text" {...submitForm.register('code')} />
+                <Input
+                  id="code"
+                  type="text"
+                  value={submitForm.watch('code')}
+                  {...submitForm.register('code')}
+                />
                 {submitForm.formState.errors.code && (
                   <p className="text-red-500">
                     {submitForm.formState.errors.code.message}

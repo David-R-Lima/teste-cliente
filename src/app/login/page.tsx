@@ -59,7 +59,6 @@ export default function Dashboard() {
       })
     },
     onSuccess: ({ data }) => {
-      console.log(data)
       setSentCode(true)
       submitForm.setValue('user_id', data.user_id)
       submitForm.setValue('code', '')

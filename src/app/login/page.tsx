@@ -62,6 +62,7 @@ export default function Dashboard() {
       console.log(data)
       setSentCode(true)
       submitForm.setValue('user_id', data.user_id)
+      submitForm.setValue('code', '')
       toast.success('Código de confirmação enviado para seu email')
     },
   })

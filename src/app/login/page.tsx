@@ -104,8 +104,6 @@ export default function Dashboard() {
     }
   }
 
-  console.log(submitForm.formState.errors)
-
   if (session.status === 'unauthenticated') {
     if (sentCode) {
       return (

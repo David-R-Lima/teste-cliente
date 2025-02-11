@@ -27,10 +27,8 @@ const formSchema = z.object({
 })
 
 const submitFormSchema = z.object({
-  code: z.string({
-    required_error: 'Insira codigo',
-  }),
-  user_id: z.string(),
+  code: z.string().optional(),
+  user_id: z.string().optional(),
 })
 
 export type formSchemaData = z.infer<typeof formSchema>
@@ -105,6 +103,8 @@ export default function Dashboard() {
       router.replace('/dashboard')
     }
   }
+
+  console.log(submitForm.formState.errors)
 
   if (session.status === 'unauthenticated') {
     if (sentCode) {

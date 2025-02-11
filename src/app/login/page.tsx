@@ -10,6 +10,8 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
 import { Loader2 } from 'lucide-react'
+import { generateCode } from '@/services/user'
+import { useState } from 'react'
 
 const formSchema = z.object({
   email: z
@@ -24,11 +26,22 @@ const formSchema = z.object({
     .min(8),
 })
 
+const submitFormSchema = z.object({
+  code: z.string({
+    required_error: 'Insira um email válido!',
+  }),
+  user_id: z.string({
+    required_error: 'A senha deve ter pelo menos 8 caracteres!',
+  }),
+})
+
 export type formSchemaData = z.infer<typeof formSchema>
+export type submitFormSchemaData = z.infer<typeof submitFormSchema>
 
 export default function Dashboard() {
   const router = useRouter()
   const session = useSession()
+  const [sentCode, setSentCode] = useState(false)
 
   const {
     register,
@@ -38,11 +51,29 @@ export default function Dashboard() {
     resolver: zodResolver(formSchema),
   })
 
-  const signInMutation = useMutation({
+  const submitForm = useForm<submitFormSchemaData>({
+    resolver: zodResolver(formSchema),
+  })
+
+  const generateCodeMutation = useMutation({
     mutationFn: async (form: formSchemaData) => {
-      return await signIn('credentials', {
+      return await generateCode({
         email: form.email,
         password: form.password,
+      })
+    },
+    onSuccess: (data) => {
+      setSentCode(true)
+      submitForm.setValue('user_id', data.data.user_id)
+      toast.success('Código de confirmação enviado para seu email')
+    },
+  })
+
+  const signInMutation = useMutation({
+    mutationFn: async (form: submitFormSchemaData) => {
+      return await signIn('credentials', {
+        code: form.code,
+        user_id: form.user_id,
         redirect: false,
         callbackUrl: '/login',
       })
@@ -60,7 +91,11 @@ export default function Dashboard() {
     },
   })
 
-  const handleSumbitMutation = async (data: formSchemaData) => {
+  const handleGenerateCode = async (data: formSchemaData) => {
+    await generateCodeMutation.mutateAsync(data)
+  }
+
+  const handleSumbitMutation = async (data: submitFormSchemaData) => {
     await signInMutation.mutateAsync(data)
   }
 
@@ -73,51 +108,86 @@ export default function Dashboard() {
   }
 
   if (session.status === 'unauthenticated') {
-    return (
-      <div className="flex items-center h-[100vh]">
-        <div className="mx-auto grid w-[350px] gap-6">
-          <div className="grid gap-2 text-center">
-            <h1 className="text-3xl font-bold">Login</h1>
-            <p className="text-balance text-muted-foreground">
-              Faça o login para acessar o painel
-            </p>
+    if (sentCode) {
+      return (
+        <div className="flex items-center h-[100vh]">
+          <div className="mx-auto grid w-[350px] gap-6">
+            <div className="grid gap-2 text-center">
+              <h1 className="text-3xl font-bold">Login</h1>
+              <p className="text-balance text-muted-foreground">
+                Faça o login para acessar o painel
+              </p>
+            </div>
+            <form
+              className="grid gap-6"
+              onSubmit={submitForm.handleSubmit(handleSumbitMutation)}
+            >
+              <div className="grid gap-2">
+                <Input id="code" type="text" {...submitForm.register('code')} />
+                {submitForm.formState.errors.code && (
+                  <p className="text-red-500">
+                    {submitForm.formState.errors.code.message}
+                  </p>
+                )}
+              </div>
+              <Button type="submit" className="w-full">
+                {signInMutation.isPending ? (
+                  <Loader2 className="animate-spin" />
+                ) : (
+                  'Login'
+                )}
+              </Button>
+            </form>
           </div>
-          <form
-            className="grid gap-6"
-            onSubmit={handleSubmit(handleSumbitMutation)}
-          >
-            <div className="grid gap-2">
-              <Input
-                id="email"
-                type="email"
-                placeholder="email@example.com"
-                {...register('email')}
-              />
-              {errors.email && (
-                <p className="text-red-500">{errors.email.message}</p>
-              )}
-            </div>
-            <div className="grid gap-2">
-              <Input
-                id="email"
-                type="password"
-                placeholder="********"
-                {...register('password')}
-              />
-              {errors.password && (
-                <p className="text-red-500">{errors.password.message}</p>
-              )}
-            </div>
-            <Button type="submit" className="w-full">
-              {signInMutation.isPending ? (
-                <Loader2 className="animate-spin" />
-              ) : (
-                'Login'
-              )}
-            </Button>
-          </form>
         </div>
-      </div>
-    )
+      )
+    } else {
+      return (
+        <div className="flex items-center h-[100vh]">
+          <div className="mx-auto grid w-[350px] gap-6">
+            <div className="grid gap-2 text-center">
+              <h1 className="text-3xl font-bold">Login</h1>
+              <p className="text-balance text-muted-foreground">
+                Faça o login para acessar o painel
+              </p>
+            </div>
+            <form
+              className="grid gap-6"
+              onSubmit={handleSubmit(handleGenerateCode)}
+            >
+              <div className="grid gap-2">
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="email@example.com"
+                  {...register('email')}
+                />
+                {errors.email && (
+                  <p className="text-red-500">{errors.email.message}</p>
+                )}
+              </div>
+              <div className="grid gap-2">
+                <Input
+                  id="email"
+                  type="password"
+                  placeholder="********"
+                  {...register('password')}
+                />
+                {errors.password && (
+                  <p className="text-red-500">{errors.password.message}</p>
+                )}
+              </div>
+              <Button type="submit" className="w-full">
+                {signInMutation.isPending ? (
+                  <Loader2 className="animate-spin" />
+                ) : (
+                  'Login'
+                )}
+              </Button>
+            </form>
+          </div>
+        </div>
+      )
+    }
   }
 }

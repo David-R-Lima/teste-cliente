@@ -9,21 +9,21 @@ const handler = NextAuth({
     CredentialsProvider({
       name: 'Credentials',
       credentials: {
-        email: {
-          label: 'Email',
+        code: {
+          label: 'Code',
           type: 'text',
-          placeholder: 'example@email.com',
+          placeholder: 'XXXXXX',
         },
-        password: { label: 'password', type: 'password' },
+        user_id: { label: 'user_id', type: 'text' },
       },
 
       async authorize(credentials) {
         let res
 
         try {
-          res = await apiGateway.post('/sessions', {
-            email: credentials?.email,
-            password: credentials?.password,
+          res = await apiGateway.post('/verification-code/validate', {
+            code: credentials?.code,
+            user_id: credentials?.user_id,
           })
         } catch (error) {
           throw new Error('Error loging in')

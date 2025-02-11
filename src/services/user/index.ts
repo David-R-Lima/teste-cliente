@@ -7,10 +7,13 @@ export async function generateCode({
   email: string
   password: string
 }) {
-  const data = await api.post('/sessions', {
-    email,
-    password,
-  })
+  const data = await api.post<{ valid: boolean; user_id: string }>(
+    '/sessions',
+    {
+      email,
+      password,
+    },
+  )
 
   return data
 }

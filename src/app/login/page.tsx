@@ -48,7 +48,7 @@ export default function Dashboard() {
   })
 
   const submitForm = useForm<submitFormSchemaData>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(submitFormSchema),
   })
 
   const generateCodeMutation = useMutation({

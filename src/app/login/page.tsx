@@ -28,11 +28,9 @@ const formSchema = z.object({
 
 const submitFormSchema = z.object({
   code: z.string({
-    required_error: 'Insira um email válido!',
+    required_error: 'Insira codigo',
   }),
-  user_id: z.string({
-    required_error: 'A senha deve ter pelo menos 8 caracteres!',
-  }),
+  user_id: z.string(),
 })
 
 export type formSchemaData = z.infer<typeof formSchema>
@@ -62,9 +60,10 @@ export default function Dashboard() {
         password: form.password,
       })
     },
-    onSuccess: (data) => {
+    onSuccess: ({ data }) => {
+      console.log(data)
       setSentCode(true)
-      submitForm.setValue('user_id', data.data.user_id)
+      submitForm.setValue('user_id', data.user_id)
       toast.success('Código de confirmação enviado para seu email')
     },
   })
@@ -115,7 +114,7 @@ export default function Dashboard() {
             <div className="grid gap-2 text-center">
               <h1 className="text-3xl font-bold">Login</h1>
               <p className="text-balance text-muted-foreground">
-                Faça o login para acessar o painel
+                Insira o código
               </p>
             </div>
             <form

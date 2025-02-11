@@ -48,7 +48,7 @@ export default function Dashboard() {
   })
 
   const submitForm = useForm<submitFormSchemaData>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(submitFormSchema),
   })
 
   const generateCodeMutation = useMutation({
@@ -103,8 +103,6 @@ export default function Dashboard() {
       router.replace('/dashboard')
     }
   }
-
-  console.log(submitForm.formState.errors)
 
   if (session.status === 'unauthenticated') {
     if (sentCode) {

@@ -11,7 +11,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
 import { Loader2 } from 'lucide-react'
 import { generateCode } from '@/services/user'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const formSchema = z.object({
   email: z
@@ -39,10 +39,42 @@ export default function Dashboard() {
   const session = useSession()
   const [sentCode, setSentCode] = useState(false)
 
+  const [seconds, setSeconds] = useState(30)
+  const [isDisabled, setIsDisabled] = useState(false)
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout | null = null
+    if (seconds > 0 && isDisabled) {
+      interval = setInterval(() => {
+        setSeconds((prev) => prev - 1)
+      }, 1000)
+    } else if (seconds === 0) {
+      if (interval) {
+        clearInterval(interval)
+      }
+      setIsDisabled(false)
+      setSeconds(30)
+    }
+
+    return () => {
+      if (interval !== null) {
+        clearInterval(interval)
+      }
+    }
+  }, [seconds, isDisabled])
+
+  const handleRegenerateCodeClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+    handleGenerateCode(getValues())
+    setIsDisabled(true)
+    setSeconds(30)
+  }
+
   const {
     register,
     handleSubmit,
     formState: { errors },
+    getValues,
   } = useForm<formSchemaData>({
     resolver: zodResolver(formSchema),
   })
@@ -96,12 +128,18 @@ export default function Dashboard() {
     await signInMutation.mutateAsync(data)
   }
 
-  if (session.status === 'authenticated') {
-    if (session.data?.user.user_type === 'ADMIN') {
-      router.replace('/painel/admin')
-    } else {
-      router.replace('/dashboard')
+  useEffect(() => {
+    if (session.status === 'authenticated') {
+      if (session.data?.user.user_type === 'ADMIN') {
+        router.replace('/painel/admin')
+      } else {
+        router.replace('/dashboard')
+      }
     }
+  }, [session, router])
+
+  if (session.status === 'authenticated') {
+    return null
   }
 
   if (session.status === 'unauthenticated') {
@@ -112,7 +150,7 @@ export default function Dashboard() {
             <div className="grid gap-2 text-center">
               <h1 className="text-3xl font-bold">Login</h1>
               <p className="text-balance text-muted-foreground">
-                Insira o código
+                Insira o código que for enviado ao seu e-mail
               </p>
             </div>
             <form
@@ -139,6 +177,20 @@ export default function Dashboard() {
                   'Login'
                 )}
               </Button>
+              <div className="flex flex-col items-center">
+                <Button
+                  variant={'link'}
+                  onClick={handleRegenerateCodeClick}
+                  disabled={isDisabled}
+                >
+                  Re-envie o código
+                </Button>
+                {isDisabled && (
+                  <p className="text-gray-500">
+                    Reenvie novamente em {seconds} segundos...
+                  </p>
+                )}
+              </div>
             </form>
           </div>
         </div>
@@ -183,7 +235,7 @@ export default function Dashboard() {
                 {signInMutation.isPending ? (
                   <Loader2 className="animate-spin" />
                 ) : (
-                  'Login'
+                  'Continuar'
                 )}
               </Button>
             </form>

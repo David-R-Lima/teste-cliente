@@ -1,6 +1,5 @@
 'use client'
 
-import { ApiKeys } from '@/components/api-keys'
 import { useEffect, useState } from 'react'
 import { signOut, useSession } from 'next-auth/react'
 import {
@@ -12,11 +11,9 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
-import { getMerchantBalanceReport } from '@/services/reports/merchant/get-balance-report'
 import Header from '@/components/header'
 import { getCookie } from 'cookies-next'
 import { SideBar } from '@/components/side-bar'
-import { MobileSideBar } from '@/components/mobile-side-bar'
 interface Props {
   children: JSX.Element
 }

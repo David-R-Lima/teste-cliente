@@ -1,25 +1,11 @@
 import { Card, CardContent } from '../ui/card'
 import { Area, AreaChart, ResponsiveContainer, Tooltip } from 'recharts'
-import { useBalance } from '@/hooks/useBalance'
 import { useState } from 'react'
 import { EyeIcon, EyeOffIcon } from 'lucide-react'
 
 export function ToBeAvailable() {
-  const balance = useBalance()
   const [display, setDisplay] = useState(false)
 
-  const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('pt-BR', {
-      style: 'decimal',
-      minimumFractionDigits: 2,
-    }).format(value)
-  }
-  const formattedNumber = formatCurrency(
-    balance.data?.balance.totalDebitAfterLastBalance
-      ? Number(balance.data?.balance.totalDebitAfterLastBalance)
-      : 0,
-  )
-  const [integerPart, decimalPart] = formattedNumber.split(',')
 
   const data = [
     {
@@ -89,10 +75,10 @@ export function ToBeAvailable() {
         <div>
           <span className="text-4xl font-black text-secondary">R$</span>
           <span className="text-7xl font-black text-secondary">
-            {display ? integerPart : '...'}
+            {display ? 0 : '...'}
           </span>
           <span className="text-4xl font-black text-secondary">
-            ,{display ? decimalPart : '..'}
+            ,{display ? 0 : '..'}
           </span>
         </div>
         <div className="h-[60%]">

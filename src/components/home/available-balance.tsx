@@ -72,7 +72,7 @@ export function AvailableBalance() {
     <Card className="lg:flex lg:flex-col w-[100%] lg:w-[50%] ">
       <CardContent className="flex flex-col space-y-4 p-8 h-full">
         <div className="flex space-x-2">
-          <h1 className="font-bold">Saldo disponível</h1>
+          <h1 className="font-bold">Saldo líquido</h1>
           {display && (
             <EyeIcon
               onClick={() => {

@@ -2,10 +2,27 @@ import { Card, CardContent } from '../ui/card'
 import { Area, AreaChart, ResponsiveContainer, Tooltip } from 'recharts'
 import { useState } from 'react'
 import { EyeIcon, EyeOffIcon } from 'lucide-react'
+import { useBalance } from '@/hooks/useBalance'
 
 export function ToBeAvailable() {
   const [display, setDisplay] = useState(false)
+  const balance = useBalance()
 
+  const formatCurrency = (value: number) => {
+    return new Intl.NumberFormat('pt-BR', {
+      style: 'decimal',
+      minimumFractionDigits: 2,
+    }).format(value)
+  }
+  const formattedNumber = formatCurrency(
+    balance.data?.balance.balanceCurrent
+      ? Number(
+          balance.data?.balance.totalCreditAfterLastBalance +
+            balance.data?.balance.totalDebitAfterLastBalance,
+        )
+      : 0,
+  )
+  const [integerPart, decimalPart] = formattedNumber.split(',')
 
   const data = [
     {
@@ -56,7 +73,7 @@ export function ToBeAvailable() {
     <Card className="lg:flex lg:flex-col w-[100%] lg:w-[50%] ">
       <CardContent className="flex flex-col space-y-4 p-8 h-full">
         <div className="flex space-x-2">
-          <h1 className="font-bold">Saldo a ser liberado</h1>
+          <h1 className="font-bold">Saldo bruto</h1>
           {display && (
             <EyeIcon
               onClick={() => {
@@ -75,10 +92,10 @@ export function ToBeAvailable() {
         <div>
           <span className="text-4xl font-black text-secondary">R$</span>
           <span className="text-7xl font-black text-secondary">
-            {display ? 0 : '...'}
+            {display ? integerPart : '...'}
           </span>
           <span className="text-4xl font-black text-secondary">
-            ,{display ? 0 : '..'}
+            ,{display ? decimalPart : '..'}
           </span>
         </div>
         <div className="h-[60%]">

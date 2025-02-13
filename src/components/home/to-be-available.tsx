@@ -16,10 +16,7 @@ export function ToBeAvailable() {
   }
   const formattedNumber = formatCurrency(
     balance.data?.balance.balanceCurrent
-      ? Number(
-          balance.data?.balance.totalCreditAfterLastBalance +
-            balance.data?.balance.totalDebitAfterLastBalance,
-        )
+      ? Number(balance.data?.balance.totalCreditAfterLastBalance)
       : 0,
   )
   const [integerPart, decimalPart] = formattedNumber.split(',')

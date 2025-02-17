@@ -97,29 +97,27 @@ export function AvailableBalance() {
             ,{display ? decimalPart : '..'}
           </span>
         </div>
-        <div className="h-[60%]">
-          <ResponsiveContainer width="100%" height="100%">
-            <AreaChart
-              width={500}
-              height={400}
-              data={data}
-              margin={{
-                top: 10,
-                right: 30,
-                left: 0,
-                bottom: 0,
-              }}
-            >
-              <Tooltip />
-              <Area
-                type="monotone"
-                dataKey="uv"
-                stroke="#6DD387"
-                fill="#6DD387"
-              />
-            </AreaChart>
-          </ResponsiveContainer>
-        </div>
+        <ResponsiveContainer width="100%" height="60%" className="py-10">
+          <AreaChart
+            width={1000}
+            height={400}
+            data={data}
+            margin={{
+              top: 10,
+              right: 30,
+              left: 0,
+              bottom: 0,
+            }}
+          >
+            <Tooltip />
+            <Area
+              type="monotone"
+              dataKey="uv"
+              stroke="#6DD387"
+              fill="#6DD387"
+            />
+          </AreaChart>
+        </ResponsiveContainer>
         <div className="flex justify-between">
           <p
             className="font-bold hover:text-primary hover:cursor-pointer"

@@ -24,8 +24,8 @@ import { formatCurrency } from '@/utils/formatCurrency'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { BttisCreditCard } from 'bttis-encrypt1-sdk-js'
-import { Check, Loader2, X } from 'lucide-react'
-import { useParams } from 'next/navigation'
+import { Check, Loader2, ShieldCheck, X } from 'lucide-react'
+import { notFound, useParams } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
 import Barcode from 'react-barcode'
 import { useForm } from 'react-hook-form'
@@ -576,41 +576,69 @@ export default function PaymentLink() {
             </>
           )}
 
-          {paymentType === PaymentType.PIX && <div>Pix</div>}
-
-          {paymentType === PaymentType.BOLETO && <div>Boleto</div>}
-
-          {qrCode && (
-            <div>
-              <div className="flex items-center justify-center">
-                {payPaymentLinkMutation.isPending && (
-                  <Loader2 size={124} className="animate-spin"></Loader2>
+          {paymentType === PaymentType.PIX && (
+            <Card className="mt-4">
+              <CardContent className="w-full mt-4 space-y-2">
+                <h1 className="font-extrabold">Pagamento com Pix</h1>
+                <p>1 - Pagamento em segundos</p>
+                <p>
+                  2 - Com o aplicativo do seu banco, escaneie o QR Code que será
+                  gerado em sua compra
+                </p>{' '}
+                <p>3 - Se preferir, use a opção Copia e Cola </p>
+                <div className="flex space-x-2 pt-4">
+                  <ShieldCheck className="w-6 h-6" /> <p>Compra Segura</p>
+                </div>
+                <div className="h-[1rem]"></div>
+                {!qrCode && (
+                  <Button
+                    onClick={() => {
+                      handleSubmitMutation()
+                    }}
+                  >
+                    Continuar
+                  </Button>
                 )}
-              </div>
-              {qrCode && <RenderQRCodeSectionPaymentLink qrcode={qrCode[0]} />}
-            </div>
+                <div>
+                  <div className="flex items-center justify-center">
+                    {payPaymentLinkMutation.isPending && (
+                      <Loader2 size={124} className="animate-spin"></Loader2>
+                    )}
+                  </div>
+                  {qrCode && (
+                    <RenderQRCodeSectionPaymentLink qrcode={qrCode[0]} />
+                  )}
+                </div>
+              </CardContent>
+            </Card>
           )}
 
-          {boleto && (
-            <div>
-              <div className="flex items-center justify-center">
-                {payPaymentLinkMutation.isPending && (
-                  <Loader2 size={124} className="animate-spin"></Loader2>
-                )}
-              </div>
-              {boleto && renderBoletoSection(boleto)}
-            </div>
+          {paymentType === PaymentType.BOLETO && (
+            <Card className="mt-4">
+              <CardContent className="w-full mt-4 space-y-2">
+                <h1 className="font-extrabold">Pagamento com Boleto</h1>
+                <div className="flex space-x-2 pt-4">
+                  <ShieldCheck className="w-6 h-6" /> <p>Compra Segura</p>
+                </div>
+                <div className="h-[1rem]"></div>
+                {!boleto && <Button>Continuar</Button>}
+                <div>
+                  <div className="flex items-center justify-center">
+                    {payPaymentLinkMutation.isPending && (
+                      <Loader2 size={124} className="animate-spin"></Loader2>
+                    )}
+                  </div>
+                  {boleto && renderBoletoSection(boleto)}
+                </div>
+              </CardContent>
+            </Card>
           )}
         </div>
         <Socket id={params.id[0]}></Socket>
       </div>
     )
   } else {
-    return (
-      <div className="flex flex-col items-center justify-center h-[70vh]">
-        <h1>Este link de pagamento não foi encontrado!</h1>
-      </div>
-    )
+    notFound()
   }
 }
 

@@ -621,7 +621,15 @@ export default function PaymentLink() {
                   <ShieldCheck className="w-6 h-6" /> <p>Compra Segura</p>
                 </div>
                 <div className="h-[1rem]"></div>
-                {!boleto && <Button>Continuar</Button>}
+                {!boleto && (
+                  <Button
+                    onClick={() => {
+                      handleSubmitMutation()
+                    }}
+                  >
+                    Continuar
+                  </Button>
+                )}
                 <div>
                   <div className="flex items-center justify-center">
                     {payPaymentLinkMutation.isPending && (

@@ -37,6 +37,9 @@ import { ValidateCupom } from '@/services/cupons'
 import { getCookie, setCookie } from 'cookies-next'
 import { Socket } from '@/components/providers/socket-providet'
 import { socket } from '@/socket'
+import { GetOrderById } from '@/services/order'
+import { ProductComponent } from './components/product'
+import { ProductWithImageComponent } from './components/product-with-image'
 
 export default function PaymentLink() {
   const [step, setStep] = useState(1)
@@ -64,9 +67,15 @@ export default function PaymentLink() {
     cpf: '',
   })
 
+  const orderQuery = useQuery({
+    queryKey: ['order', params.id[0]],
+    queryFn: GetOrderById,
+  })
+
   const paymentLinkQuery = useQuery({
-    queryKey: ['paymentLink', params.id[0]],
+    queryKey: ['paymentLink', orderQuery.data?.data.order.id_payment_link],
     queryFn: fetchPaymentLink,
+    enabled: !!orderQuery.data?.data.order.id_payment_link,
   })
 
   const payPaymentLinkMutation = useMutation({
@@ -296,7 +305,7 @@ export default function PaymentLink() {
     )
   }
 
-  if (paymentLinkQuery.isLoading)
+  if (paymentLinkQuery.isLoading || orderQuery.isLoading)
     return (
       <div className="flex flex-col items-center justify-center h-[70vh]">
         <Loader2 size={124} className="animate-spin"></Loader2>
@@ -368,6 +377,34 @@ export default function PaymentLink() {
                 Aplicar
               </Button>
             )}
+          </div>
+          <div>
+            <h1 className="font-bold">Produtos</h1>
+            <div className="flex flex-col items-center mt-4 space-y-4">
+              {orderQuery.data?.data.products.map((product) => {
+                return (
+                  <ProductComponent
+                    key={product.id}
+                    product={product}
+                  ></ProductComponent>
+                )
+              })}
+            </div>
+          </div>
+          <div className="pt-4">
+            <h1 className="font-bold text-lg">
+              Você também pode se interresar por
+            </h1>
+            <div className="flex flex-col items-center mt-4 space-y-4">
+              {orderQuery.data?.data.products.map((product) => {
+                return (
+                  <ProductWithImageComponent
+                    key={product.id}
+                    product={product}
+                  ></ProductWithImageComponent>
+                )
+              })}
+            </div>
           </div>
         </div>
         <div className=" flex flex-col justify-start md:border-r-2 p-4 w-[90vw] md:min-w-[40vw] md:max-w-[70vw]">

@@ -22,7 +22,7 @@ import {
 } from '@/services/payment-link/types'
 import { formatCurrency } from '@/utils/formatCurrency'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { BttisCreditCard } from 'bttis-encrypt1-sdk-js'
 import { Check, Loader2, ShieldCheck, X } from 'lucide-react'
 import { notFound, useParams } from 'next/navigation'
@@ -37,9 +37,10 @@ import { ValidateCupom } from '@/services/cupons'
 import { getCookie, setCookie } from 'cookies-next'
 import { Socket } from '@/components/providers/socket-providet'
 import { socket } from '@/socket'
-import { GetOrderById } from '@/services/order'
+import { GetOrderById, updateOrder, UpdateOrderProps } from '@/services/order'
 import { ProductComponent } from './components/product'
 import { ProductWithImageComponent } from './components/product-with-image'
+import { GetRecommendedProducts } from '@/services/products/products'
 
 export default function PaymentLink() {
   const [step, setStep] = useState(1)
@@ -50,6 +51,8 @@ export default function PaymentLink() {
   const [cupomValid, setCupomValid] = useState<number | undefined>(undefined)
   const [cupom, setCupom] = useState<string | undefined>(undefined)
   const params = useParams()
+
+  const queryClient = useQueryClient()
 
   const [cardToTokenize, setCardToTokenize] = useState<{
     card_holder: string
@@ -76,6 +79,28 @@ export default function PaymentLink() {
     queryKey: ['paymentLink', orderQuery.data?.data.order.id_payment_link],
     queryFn: fetchPaymentLink,
     enabled: !!orderQuery.data?.data.order.id_payment_link,
+  })
+
+  const recommendedProductQuery = useQuery({
+    queryKey: ['recommendedProduct', paymentLinkQuery.data?.link.merchantId],
+    queryFn: async () => {
+      const products: string[] = []
+
+      orderQuery.data?.data.products.map((p) => {
+        products.push(p.id ?? '')
+        return p
+      })
+
+      const data = await GetRecommendedProducts({
+        merchantId: paymentLinkQuery.data?.link.merchantId ?? '',
+        excludedItens: products,
+      })
+
+      return data
+    },
+    enabled:
+      !!orderQuery.data?.data.order.id_payment_link &&
+      !!paymentLinkQuery.data?.link.merchantId,
   })
 
   const payPaymentLinkMutation = useMutation({
@@ -120,6 +145,21 @@ export default function PaymentLink() {
         toast.success('Pagamento realizado com sucesso!')
         setStep(4)
       }
+    },
+  })
+
+  const updateOrderMutation = useMutation({
+    mutationFn: async (data: UpdateOrderProps) => {
+      const updatedOrder = await updateOrder(data)
+      return updatedOrder
+    },
+    onSuccess: () => {
+      window.location.reload()
+    },
+    onError: (error) => {
+      toast.error(error.message, {
+        id: 'update-mutation-error',
+      })
     },
   })
 
@@ -240,6 +280,10 @@ export default function PaymentLink() {
       setCupomValid(2)
     },
   })
+
+  const handleUpdateOrderMutation = async (data: UpdateOrderProps) => {
+    await updateOrderMutation.mutateAsync(data)
+  }
 
   useEffect(() => {
     if (paymentLinkQuery.data) {
@@ -396,11 +440,26 @@ export default function PaymentLink() {
               Você também pode se interresar por
             </h1>
             <div className="flex flex-col items-center mt-4 space-y-4">
-              {orderQuery.data?.data.products.map((product) => {
+              {recommendedProductQuery.data?.products?.map((product) => {
+                const existingProductIds =
+                  orderQuery.data?.data.products.map((p) => {
+                    return p.id ? p.id : ''
+                  }) ?? []
                 return (
                   <ProductWithImageComponent
-                    key={product.id}
+                    key={product?.id}
                     product={product}
+                    onCick={() => {
+                      const updatedProductIds = [
+                        ...existingProductIds,
+                        product?.id ?? '',
+                      ]
+                      handleUpdateOrderMutation({
+                        itens: updatedProductIds,
+                        orderId: params.id[0],
+                        merchantId: paymentLinkQuery.data.link.merchantId,
+                      })
+                    }}
                   ></ProductWithImageComponent>
                 )
               })}

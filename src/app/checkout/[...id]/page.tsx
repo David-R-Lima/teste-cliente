@@ -416,7 +416,7 @@ export default function PaymentLink() {
           </div>
           <div>
             <h1 className="font-bold">Produtos</h1>
-            <div className="flex flex-col items-center mt-4 space-y-4">
+            <div className="flex flex-col items-center mt-4 space-y-4 max-h-[300px] overflow-y-scroll p-2">
               {orderQuery.data?.data.products.map((product) => {
                 return (
                   <ProductComponent

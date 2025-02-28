@@ -12,6 +12,7 @@ import {
   SlidersHorizontal,
   ArrowLeftRight,
   ClipboardList,
+  Apple,
 } from 'lucide-react'
 import { SidebarButton } from './sidebar-button'
 import { ExitComponent } from './exit-component'
@@ -74,6 +75,11 @@ export function SideBar() {
       href: '/dashboard/cupons',
       label: 'Cupons',
       icon: <Ticket className="h-6 w-6 sidebar-icon shrink-0" />,
+    },
+    {
+      href: '/dashboard/products',
+      label: 'Produtos',
+      icon: <Apple className="h-6 w-6 sidebar-icon shrink-0" />,
     },
   ]
 

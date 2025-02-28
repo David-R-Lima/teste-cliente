@@ -37,6 +37,11 @@ import { ValidateCupom } from '@/services/cupons'
 import { getCookie, setCookie } from 'cookies-next'
 import { Socket } from '@/components/providers/socket-providet'
 import { socket } from '@/socket'
+import { GetOrderById, updateOrder, UpdateOrderProps } from '@/services/order'
+import { ProductComponent } from './components/product'
+import { ProductWithImageComponent } from './components/product-with-image'
+import { GetRecommendedProducts } from '@/services/products/products'
+
 export default function PaymentLink() {
   const [step, setStep] = useState(1)
   const [paymentType, setPaymentType] = useState<PaymentType | undefined>()
@@ -63,9 +68,37 @@ export default function PaymentLink() {
     cpf: '',
   })
 
+  const orderQuery = useQuery({
+    queryKey: ['order', params.id[0]],
+    queryFn: GetOrderById,
+  })
+
   const paymentLinkQuery = useQuery({
-    queryKey: ['paymentLink', params.id[0]],
+    queryKey: ['paymentLink', orderQuery.data?.data.order.id_payment_link],
     queryFn: fetchPaymentLink,
+    enabled: !!orderQuery.data?.data.order.id_payment_link,
+  })
+
+  const recommendedProductQuery = useQuery({
+    queryKey: ['recommendedProduct', paymentLinkQuery.data?.link.merchantId],
+    queryFn: async () => {
+      const products: string[] = []
+
+      orderQuery.data?.data.products.map((p) => {
+        products.push(p.id ?? '')
+        return p
+      })
+
+      const data = await GetRecommendedProducts({
+        merchantId: paymentLinkQuery.data?.link.merchantId ?? '',
+        excludedItens: products,
+      })
+
+      return data
+    },
+    enabled:
+      !!orderQuery.data?.data.order.id_payment_link &&
+      !!paymentLinkQuery.data?.link.merchantId,
   })
 
   const payPaymentLinkMutation = useMutation({
@@ -110,6 +143,23 @@ export default function PaymentLink() {
         toast.success('Pagamento realizado com sucesso!')
         setStep(4)
       }
+    },
+  })
+
+  const updateOrderMutation = useMutation({
+    mutationFn: async (data: UpdateOrderProps) => {
+      const updatedOrder = await updateOrder(data)
+      return updatedOrder
+    },
+    onSuccess: () => {
+      setCookie('qrcode', '', { expires: new Date() })
+      setCookie('boleto', '', { expires: new Date() })
+      window.location.reload()
+    },
+    onError: (error) => {
+      toast.error(error.message, {
+        id: 'update-mutation-error',
+      })
     },
   })
 
@@ -231,6 +281,10 @@ export default function PaymentLink() {
     },
   })
 
+  const handleUpdateOrderMutation = async (data: UpdateOrderProps) => {
+    await updateOrderMutation.mutateAsync(data)
+  }
+
   useEffect(() => {
     if (paymentLinkQuery.data) {
       setValue('payment_link_id', paymentLinkQuery.data.link.id)
@@ -295,7 +349,7 @@ export default function PaymentLink() {
     )
   }
 
-  if (paymentLinkQuery.isLoading)
+  if (paymentLinkQuery.isLoading || orderQuery.isLoading)
     return (
       <div className="flex flex-col items-center justify-center h-[70vh]">
         <Loader2 size={124} className="animate-spin"></Loader2>
@@ -307,14 +361,6 @@ export default function PaymentLink() {
     return (
       <div className="flex flex-col items-center md:flex-row-reverse md:items-start justify-center mt-10 md:space-x-8">
         <div className="p-2 md:self-start md:ml-4 space-y-2 w-[90vw] md:min-w-[20vw] md:max-w-[20vw] text-sm">
-          <h1>
-            <span className="font-bold">Nome: </span>
-            {paymentLinkQuery.data?.link.name}
-          </h1>
-          <h1>
-            <span className="font-bold">Descrição: </span>{' '}
-            {paymentLinkQuery.data?.link.description}
-          </h1>
           <h1>
             <span className="font-bold">Valor: </span>{' '}
             {formatCurrency(paymentLinkQuery.data.link.value / 100)}
@@ -367,6 +413,49 @@ export default function PaymentLink() {
                 Aplicar
               </Button>
             )}
+          </div>
+          <div>
+            <h1 className="font-bold">Produtos</h1>
+            <div className="flex flex-col items-center mt-4 space-y-4">
+              {orderQuery.data?.data.products.map((product) => {
+                return (
+                  <ProductComponent
+                    key={product.id}
+                    product={product}
+                  ></ProductComponent>
+                )
+              })}
+            </div>
+          </div>
+          <div className="hidden md:block pt-4">
+            <h1 className="font-bold text-lg">
+              Você também pode se interresar por
+            </h1>
+            <div className="flex flex-col items-center mt-4 space-y-4">
+              {recommendedProductQuery.data?.products?.map((product) => {
+                const existingProductIds =
+                  orderQuery.data?.data.products.map((p) => {
+                    return p.id ? p.id : ''
+                  }) ?? []
+                return (
+                  <ProductWithImageComponent
+                    key={product?.id}
+                    product={product}
+                    onCick={() => {
+                      const updatedProductIds = [
+                        ...existingProductIds,
+                        product?.id ?? '',
+                      ]
+                      handleUpdateOrderMutation({
+                        itens: updatedProductIds,
+                        orderId: params.id[0],
+                        merchantId: paymentLinkQuery.data.link.merchantId,
+                      })
+                    }}
+                  ></ProductWithImageComponent>
+                )
+              })}
+            </div>
           </div>
         </div>
         <div className=" flex flex-col justify-start md:border-r-2 p-4 w-[90vw] md:min-w-[40vw] md:max-w-[70vw]">
@@ -640,6 +729,38 @@ export default function PaymentLink() {
               </CardContent>
             </Card>
           )}
+        </div>
+
+        <div className="block md:hidden w-full">
+          <div className="border w-full"></div>
+          <h1 className="font-bold text-lg px-4 mt-4">
+            Você também pode se interresar por
+          </h1>
+          <div className="flex flex-col items-center mt-4 space-y-4 px-4">
+            {recommendedProductQuery.data?.products?.map((product) => {
+              const existingProductIds =
+                orderQuery.data?.data.products.map((p) => {
+                  return p.id ? p.id : ''
+                }) ?? []
+              return (
+                <ProductWithImageComponent
+                  key={product?.id}
+                  product={product}
+                  onCick={() => {
+                    const updatedProductIds = [
+                      ...existingProductIds,
+                      product?.id ?? '',
+                    ]
+                    handleUpdateOrderMutation({
+                      itens: updatedProductIds,
+                      orderId: params.id[0],
+                      merchantId: paymentLinkQuery.data.link.merchantId,
+                    })
+                  }}
+                ></ProductWithImageComponent>
+              )
+            })}
+          </div>
         </div>
         <Socket id={params.id[0]}></Socket>
       </div>

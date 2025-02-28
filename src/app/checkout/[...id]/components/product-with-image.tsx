@@ -18,8 +18,8 @@ export function ProductWithImageComponent({ product, onCick }: Props) {
           <Image
             src={product.image_url}
             alt="imagem"
-            width={100}
-            height={100}
+            width={200}
+            height={50}
           ></Image>
         )}
         <h1>{product.name}</h1>

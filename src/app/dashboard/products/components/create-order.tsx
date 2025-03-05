@@ -93,7 +93,8 @@ export function CreateOrderForm() {
                 value={currentValue}
               ></Input>
               <Button
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault()
                   const updatedProductIds = [...itens, currentValue]
                   setValue('itens', updatedProductIds)
                 }}

@@ -30,3 +30,15 @@ export async function updateOrder({
 
   return res.data
 }
+
+export interface CreateOrderProps {
+  itens: string[]
+}
+
+export async function createOrder(itens: CreateOrderProps) {
+  const res = await api.post('/orders', {
+    itens: itens.itens,
+  })
+
+  return res.data
+}

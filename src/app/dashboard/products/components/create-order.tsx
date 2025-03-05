@@ -46,7 +46,7 @@ export function CreateOrderForm() {
     mutationFn: createOrder,
     mutationKey: ['createOrderMutation'],
     onSuccess: () => {
-      toast.message('Order cadastrado com sucesso!')
+      toast.message('Pedido cadastrado com sucesso!')
       queryClient.invalidateQueries({
         queryKey: ['products'],
       })

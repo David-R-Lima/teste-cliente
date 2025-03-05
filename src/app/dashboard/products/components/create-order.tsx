@@ -24,7 +24,7 @@ const FormSchema = z.object({
 
 export type createProductFormSchema = z.infer<typeof FormSchema>
 
-export function CreateProductForm() {
+export function CreateOrderForm() {
   const [open, setOpen] = useState(false)
   const [currentValue, setCurrentValue] = useState('')
   const queryClient = useQueryClient()

@@ -13,7 +13,7 @@ import { InputWithoutBorder } from '@/components/ui/input-without-border'
 import { ProductColumns } from './components/products-columns'
 import { GetProducts } from '@/services/products/products'
 import { CreateProductForm } from './components/create-product-form'
-
+import { CreateOrderForm } from './components/create-order'
 export default function ProductsComponent() {
   const [page, setPage] = useState<number>(1)
   const { status } = useSession()
@@ -38,6 +38,9 @@ export default function ProductsComponent() {
           <div className="flex justify-between  pt-4">
             <div>
               <CreateProductForm></CreateProductForm>
+            </div>
+            <div>
+              <CreateOrderForm></CreateOrderForm>
             </div>
             <div className="hidden md:flex space-x-4">
               <div className="flex items-center border-b-2">

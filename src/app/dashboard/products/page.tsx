@@ -36,10 +36,8 @@ export default function ProductsComponent() {
           <h1 className="font-extrabold text-secondary text-2xl">Produtos</h1>
 
           <div className="flex justify-between  pt-4">
-            <div>
+            <div className="flex space-x-4 items-center justify-start">
               <CreateProductForm></CreateProductForm>
-            </div>
-            <div>
               <CreateOrderForm></CreateOrderForm>
             </div>
             <div className="hidden md:flex space-x-4">

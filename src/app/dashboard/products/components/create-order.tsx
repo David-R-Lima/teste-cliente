@@ -37,6 +37,9 @@ export function CreateOrderForm() {
     formState: { errors },
   } = useForm<createProductFormSchema>({
     resolver: zodResolver(FormSchema),
+    defaultValues: {
+      itens: [],
+    },
   })
 
   const submit = useMutation({

@@ -465,7 +465,7 @@ export default function PaymentLink() {
             <Input placeholder="Email" {...register('payer.email')}></Input>
             <Input
               placeholder="Telefone"
-              {...registerWithMask('payer.phone', '99 9 9999-9999', {
+              {...registerWithMask('payer.phone', '+99 99 9 9999-9999', {
                 autoUnmask: true,
               })}
             ></Input>

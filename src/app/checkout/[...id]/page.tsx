@@ -762,7 +762,7 @@ export default function PaymentLink() {
             })}
           </div>
         </div>
-        <Socket id={params.id[0]}></Socket>
+        <Socket id={paymentLinkQuery.data.link.id}></Socket>
       </div>
     )
   } else {

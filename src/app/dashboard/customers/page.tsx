@@ -17,10 +17,13 @@ import { CustomersColumnsMobile } from './customer-columns-mobile'
 
 export default function CustomersComponent() {
   const [page, setPage] = useState<number>(1)
+  const [filter, setFilter] = useState<string | undefined>(undefined)
   const { status } = useSession()
 
+  let currentFilter
+
   const { data, isLoading, isError } = useQuery({
-    queryKey: ['customers', page],
+    queryKey: ['customers', page, currentFilter],
     queryFn: getCustomers,
     retry: 0,
     enabled: status === 'authenticated',
@@ -58,10 +61,15 @@ export default function CustomersComponent() {
                 </h1>
               </div>
               <div className="flex items-center border-b-2">
-                <Search />
+                <Search
+                  onClick={() => {
+                    currentFilter = filter
+                  }}
+                />
                 <InputWithoutBorder
                   placeholder="Faça uma consulta"
                   className="w-[20vw]"
+                  onChange={(e) => setFilter(e.target.value)}
                 ></InputWithoutBorder>
               </div>
             </div>

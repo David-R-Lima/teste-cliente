@@ -4,10 +4,15 @@ import { QueryFunctionContext } from '@tanstack/react-query'
 import { api } from '../api'
 
 export const getCustomers = async (ctx: QueryFunctionContext) => {
-  const [, page] = ctx.queryKey
+  const [, page, filter] = ctx.queryKey
+  let filters = `?page=${page}`
+
+  if (filter) {
+    filters += `&filter=${filter}`
+  }
 
   const { data } = await api.get<{ customers: Customers[] }>(
-    '/customers' + `?page=${page}`,
+    '/customers' + filters,
   )
 
   return data.customers

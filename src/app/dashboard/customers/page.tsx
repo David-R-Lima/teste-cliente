@@ -64,14 +64,15 @@ export default function CustomersComponent() {
               <div className="flex items-center border-b-2">
                 <Search
                   onClick={() => {
-                    console.log('filter')
                     setCurrentFilter(filter)
                   }}
+                  className="hover:cursor-pointer"
                 />
                 <InputWithoutBorder
                   placeholder="Faça uma consulta"
                   className="w-[20vw]"
                   onChange={(e) => setFilter(e.target.value)}
+                  value={filter}
                 ></InputWithoutBorder>
               </div>
             </div>

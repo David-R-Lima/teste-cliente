@@ -17,10 +17,7 @@ export interface UpdateOrderProps {
   orderId: string
   itens: string[]
 }
-export async function updateOrder({
-  itens,
-  orderId,
-}: UpdateOrderProps) {
+export async function updateOrder({ itens, orderId }: UpdateOrderProps) {
   const res = await api.patch<Order>('/order/' + orderId, {
     itens,
   })

@@ -448,8 +448,7 @@ export default function PaymentLink() {
                       ]
                       handleUpdateOrderMutation({
                         itens: updatedProductIds,
-                        orderId: params.id[0],
-                        merchantId: paymentLinkQuery.data.link.merchantId,
+                        orderId: params.id[0]
                       })
                     }}
                   ></ProductWithImageComponent>
@@ -753,8 +752,7 @@ export default function PaymentLink() {
                     ]
                     handleUpdateOrderMutation({
                       itens: updatedProductIds,
-                      orderId: params.id[0],
-                      merchantId: paymentLinkQuery.data.link.merchantId,
+                      orderId: params.id[0]
                     })
                   }}
                 ></ProductWithImageComponent>

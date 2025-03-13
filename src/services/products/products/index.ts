@@ -4,25 +4,25 @@ import { QueryFunctionContext } from '@tanstack/react-query'
 import { createProductFormSchema } from '@/app/dashboard/products/components/create-product-form'
 
 export interface GetRecommendedProductsProps {
-  merchantId: string
+  orderId: string
   excludedItens?: string[]
 }
 
 export async function GetRecommendedProducts({
   excludedItens,
-  merchantId,
+  orderId,
 }: GetRecommendedProductsProps) {
   const params: Record<string, string> = {}
 
   if (excludedItens && excludedItens.length > 0) {
     params.excludedItens = excludedItens.join(',')
-    params.merchantId = merchantId
+    params.order_id = orderId
   }
 
   const res = await api.get<{ products: Product[] }>(
     '/products-recommended' +
-      '?merchantId=' +
-      merchantId +
+      '?order_id=' +
+      orderId +
       '&excludedItens=' +
       params.excludedItens,
   )

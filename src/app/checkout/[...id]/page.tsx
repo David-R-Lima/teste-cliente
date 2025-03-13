@@ -80,7 +80,7 @@ export default function PaymentLink() {
   })
 
   const recommendedProductQuery = useQuery({
-    queryKey: ['recommendedProduct', paymentLinkQuery.data?.link.merchantId],
+    queryKey: ['recommendedProduct', params.id[0]],
     queryFn: async () => {
       const products: string[] = []
 
@@ -90,7 +90,7 @@ export default function PaymentLink() {
       })
 
       const data = await GetRecommendedProducts({
-        merchantId: paymentLinkQuery.data?.link.merchantId ?? '',
+        orderId: params.id[0],
         excludedItens: products,
       })
 
@@ -448,7 +448,7 @@ export default function PaymentLink() {
                       ]
                       handleUpdateOrderMutation({
                         itens: updatedProductIds,
-                        orderId: params.id[0]
+                        orderId: params.id[0],
                       })
                     }}
                   ></ProductWithImageComponent>
@@ -752,7 +752,7 @@ export default function PaymentLink() {
                     ]
                     handleUpdateOrderMutation({
                       itens: updatedProductIds,
-                      orderId: params.id[0]
+                      orderId: params.id[0],
                     })
                   }}
                 ></ProductWithImageComponent>

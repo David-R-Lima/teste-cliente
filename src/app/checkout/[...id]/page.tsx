@@ -420,6 +420,12 @@ export default function PaymentLink() {
                   <ProductComponent
                     key={product.id}
                     product={product}
+                    onclickAdd={() => {
+                      handleUpdateOrderMutation({
+                        itens: product?.id ?? '',
+                        orderId: params.id[0],
+                      })
+                    }}
                   ></ProductComponent>
                 )
               })}
@@ -431,21 +437,13 @@ export default function PaymentLink() {
             </h1>
             <div className="flex flex-col items-center mt-4 space-y-4">
               {recommendedProductQuery.data?.products?.map((product) => {
-                const existingProductIds =
-                  orderQuery.data?.data.products.map((p) => {
-                    return p.id ? p.id : ''
-                  }) ?? []
                 return (
                   <ProductWithImageComponent
                     key={product?.id}
                     product={product}
                     onCick={() => {
-                      const updatedProductIds = [
-                        ...existingProductIds,
-                        product?.id ?? '',
-                      ]
                       handleUpdateOrderMutation({
-                        itens: updatedProductIds,
+                        itens: product?.id ?? '',
                         orderId: params.id[0],
                       })
                     }}
@@ -735,21 +733,13 @@ export default function PaymentLink() {
           </h1>
           <div className="flex flex-col items-center mt-4 space-y-4 px-4">
             {recommendedProductQuery.data?.products?.map((product) => {
-              const existingProductIds =
-                orderQuery.data?.data.products.map((p) => {
-                  return p.id ? p.id : ''
-                }) ?? []
               return (
                 <ProductWithImageComponent
                   key={product?.id}
                   product={product}
                   onCick={() => {
-                    const updatedProductIds = [
-                      ...existingProductIds,
-                      product?.id ?? '',
-                    ]
                     handleUpdateOrderMutation({
-                      itens: updatedProductIds,
+                      itens: product?.id ?? '',
                       orderId: params.id[0],
                     })
                   }}

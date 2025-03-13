@@ -14,17 +14,14 @@ export async function GetOrderById(ctx: QueryFunctionContext) {
 }
 
 export interface UpdateOrderProps {
-  merchantId: string
   orderId: string
   itens: string[]
 }
 export async function updateOrder({
   itens,
-  merchantId,
   orderId,
 }: UpdateOrderProps) {
   const res = await api.patch<Order>('/order/' + orderId, {
-    merchantId,
     itens,
   })
 

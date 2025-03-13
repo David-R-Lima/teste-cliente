@@ -5,6 +5,7 @@ export interface Product {
   value: number | null
   active: boolean | null
   image_url: string | null
+  quantity?: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }

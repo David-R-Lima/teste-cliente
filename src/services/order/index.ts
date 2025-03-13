@@ -15,7 +15,7 @@ export async function GetOrderById(ctx: QueryFunctionContext) {
 
 export interface UpdateOrderProps {
   orderId: string
-  itens: string[]
+  itens: string
 }
 export async function updateOrder({ itens, orderId }: UpdateOrderProps) {
   const res = await api.patch<Order>('/order/' + orderId, {

@@ -1,13 +1,14 @@
 'use client'
 
+import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Product } from '@/services/products/products/types'
-import Image from 'next/image'
 
 interface Props {
   product: Product
+  onclickAdd: () => void
 }
-export function ProductComponent({ product }: Props) {
+export function ProductComponent({ product, onclickAdd }: Props) {
   const value = product.value ? product.value / 100 : undefined
   return (
     <Card className="w-full flex items-center justify-start p-2">
@@ -20,7 +21,31 @@ export function ProductComponent({ product }: Props) {
           <span className="font-bold">Descrição: </span>
           {product.description}
         </h1>
-        <p>R$ {value ? value.toFixed(2) : ''}</p>
+        <p>
+          <span className="font-bold">Preço: </span>R${' '}
+          {value ? value.toFixed(2) : ''}
+        </p>
+        <div className="flex w-full space-x-2 items-center py-4">
+          <p>
+            <span className="font-bold">Quantidade:</span> {product.quantity}
+          </p>
+          <Button
+            variant={'outline'}
+            className="text-primary text-xl size-6"
+            onClick={onclickAdd}
+          >
+            +
+          </Button>
+          <Button variant={'outline'} className="text-primary text-xl size-6">
+            -
+          </Button>
+        </div>
+
+        <div className="flex space-x-2 w-full items-center justify-between">
+          <Button variant="destructive" className="">
+            Remover item
+          </Button>
+        </div>
       </CardContent>
     </Card>
   )

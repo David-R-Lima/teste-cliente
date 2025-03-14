@@ -89,6 +89,8 @@ export default function PaymentLink() {
         return p
       })
 
+      console.log(products)
+
       const data = await GetRecommendedProducts({
         orderId: params.id[0],
         excludedItens: products,

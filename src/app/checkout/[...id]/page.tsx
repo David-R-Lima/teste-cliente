@@ -342,8 +342,10 @@ export default function PaymentLink() {
   }, [handleNewNotifications])
 
   useEffect(() => {
-    console.log(orderQuery.data)
-    if (orderQuery.data?.data.order.status !== 'CRIADO') {
+    if (
+      orderQuery.data?.data.order.status &&
+      orderQuery.data?.data.order.status !== 'CRIADO'
+    ) {
       setDisplayProductButtons(false)
     }
   }, [orderQuery.data])

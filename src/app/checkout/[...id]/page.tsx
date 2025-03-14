@@ -109,6 +109,7 @@ export default function PaymentLink() {
       })
     },
     onSuccess: (data) => {
+      setDisplayProductButtons(false)
       if (data.qr_codes) {
         setQrCode(data.qr_codes)
         setCookie(

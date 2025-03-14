@@ -10,7 +10,12 @@ interface Props {
   onclickRemove: () => void
   onclickDescrease: () => void
 }
-export function ProductComponent({ product, onclickAdd }: Props) {
+export function ProductComponent({
+  product,
+  onclickAdd,
+  onclickDescrease,
+  onclickRemove,
+}: Props) {
   const value = product.value ? product.value / 100 : undefined
   return (
     <Card className="w-full flex items-center justify-start p-2">
@@ -38,13 +43,17 @@ export function ProductComponent({ product, onclickAdd }: Props) {
           >
             +
           </Button>
-          <Button variant={'outline'} className="text-primary text-xl size-6">
+          <Button
+            variant={'outline'}
+            className="text-primary text-xl size-6"
+            onClick={onclickDescrease}
+          >
             -
           </Button>
         </div>
 
         <div className="flex space-x-2 w-full items-center justify-between">
-          <Button variant="destructive" className="">
+          <Button variant="destructive" className="" onClick={onclickRemove}>
             Remover item
           </Button>
         </div>

@@ -96,7 +96,7 @@ export default function PaymentLink() {
 
       return data
     },
-    enabled: !!params.id[0],
+    enabled: !!params.id[0] && !!orderQuery.data,
   })
 
   const payPaymentLinkMutation = useMutation({

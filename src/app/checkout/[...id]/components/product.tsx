@@ -9,12 +9,14 @@ interface Props {
   onclickAdd: () => void
   onclickRemove: () => void
   onclickDescrease: () => void
+  displayButtons: boolean
 }
 export function ProductComponent({
   product,
   onclickAdd,
   onclickDescrease,
   onclickRemove,
+  displayButtons,
 }: Props) {
   const value = product.value ? product.value / 100 : undefined
   return (
@@ -36,27 +38,33 @@ export function ProductComponent({
           <p>
             <span className="font-bold">Quantidade:</span> {product.quantity}
           </p>
-          <Button
-            variant={'outline'}
-            className="text-primary text-xl size-6"
-            onClick={onclickAdd}
-          >
-            +
-          </Button>
-          <Button
-            variant={'outline'}
-            className="text-primary text-xl size-6"
-            onClick={onclickDescrease}
-          >
-            -
-          </Button>
+          {displayButtons && (
+            <>
+              <Button
+                variant={'outline'}
+                className="text-primary text-xl size-6"
+                onClick={onclickAdd}
+              >
+                +
+              </Button>
+              <Button
+                variant={'outline'}
+                className="text-primary text-xl size-6"
+                onClick={onclickDescrease}
+              >
+                -
+              </Button>
+            </>
+          )}
         </div>
 
-        <div className="flex space-x-2 w-full items-center justify-between">
-          <Button variant="destructive" className="" onClick={onclickRemove}>
-            Remover item
-          </Button>
-        </div>
+        {displayButtons && (
+          <div className="flex space-x-2 w-full items-center justify-between">
+            <Button variant="destructive" className="" onClick={onclickRemove}>
+              Remover item
+            </Button>
+          </div>
+        )}
       </CardContent>
     </Card>
   )

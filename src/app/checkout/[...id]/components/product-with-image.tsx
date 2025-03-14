@@ -8,8 +8,13 @@ import Image from 'next/image'
 interface Props {
   product: Product
   onCick: () => void
+  displayButtons: boolean
 }
-export function ProductWithImageComponent({ product, onCick }: Props) {
+export function ProductWithImageComponent({
+  product,
+  onCick,
+  displayButtons,
+}: Props) {
   const value = product.value ? product.value / 100 : undefined
   return (
     <Card className="w-full flex items-center justify-center">
@@ -24,15 +29,17 @@ export function ProductWithImageComponent({ product, onCick }: Props) {
         )}
         <h1>{product.name}</h1>
         <p>R$ {value ? value.toFixed(2) : ''}</p>
-        <Button
-          className="w-full"
-          onClick={(e) => {
-            e.preventDefault()
-            onCick()
-          }}
-        >
-          Adicionar
-        </Button>
+        {displayButtons && (
+          <Button
+            className="w-full"
+            onClick={(e) => {
+              e.preventDefault()
+              onCick()
+            }}
+          >
+            Adicionar
+          </Button>
+        )}
       </CardContent>
     </Card>
   )

@@ -424,6 +424,21 @@ export default function PaymentLink() {
                       handleUpdateOrderMutation({
                         itens: product?.id ?? '',
                         orderId: params.id[0],
+                        type: 'ADD',
+                      })
+                    }}
+                    onclickDescrease={() => {
+                      handleUpdateOrderMutation({
+                        itens: product?.id ?? '',
+                        orderId: params.id[0],
+                        type: 'DECREASE',
+                      })
+                    }}
+                    onclickRemove={() => {
+                      handleUpdateOrderMutation({
+                        itens: product?.id ?? '',
+                        orderId: params.id[0],
+                        type: 'REMOVE',
                       })
                     }}
                   ></ProductComponent>
@@ -445,6 +460,7 @@ export default function PaymentLink() {
                       handleUpdateOrderMutation({
                         itens: product?.id ?? '',
                         orderId: params.id[0],
+                        type: 'ADD',
                       })
                     }}
                   ></ProductWithImageComponent>
@@ -741,6 +757,7 @@ export default function PaymentLink() {
                     handleUpdateOrderMutation({
                       itens: product?.id ?? '',
                       orderId: params.id[0],
+                      type: 'ADD',
                     })
                   }}
                 ></ProductWithImageComponent>

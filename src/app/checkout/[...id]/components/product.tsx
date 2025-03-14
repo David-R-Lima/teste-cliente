@@ -7,6 +7,8 @@ import { Product } from '@/services/products/products/types'
 interface Props {
   product: Product
   onclickAdd: () => void
+  onclickRemove: () => void
+  onclickDescrease: () => void
 }
 export function ProductComponent({ product, onclickAdd }: Props) {
   const value = product.value ? product.value / 100 : undefined

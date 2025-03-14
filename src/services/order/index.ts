@@ -18,9 +18,10 @@ export interface UpdateOrderProps {
   itens: string
   type: 'ADD' | 'REMOVE' | 'DECREASE'
 }
-export async function updateOrder({ itens, orderId }: UpdateOrderProps) {
+export async function updateOrder({ itens, orderId, type }: UpdateOrderProps) {
   const res = await api.patch<Order>('/order/' + orderId, {
     itens,
+    type,
   })
 
   return res.data

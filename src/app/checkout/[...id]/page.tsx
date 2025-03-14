@@ -50,6 +50,8 @@ export default function PaymentLink() {
   const [displayAddressForm, setDisplayAddressForm] = useState<boolean>(false)
   const [cupomValid, setCupomValid] = useState<number | undefined>(undefined)
   const [cupom, setCupom] = useState<string | undefined>(undefined)
+  const [displayProductButtons, setDisplayProductButtons] =
+    useState<boolean>(true)
   const params = useParams()
 
   const [cardToTokenize, setCardToTokenize] = useState<{
@@ -339,6 +341,12 @@ export default function PaymentLink() {
     handleNewNotifications()
   }, [handleNewNotifications])
 
+  useEffect(() => {
+    if (orderQuery.data?.data.order.status !== 'CRIADO') {
+      setDisplayProductButtons(false)
+    }
+  }, [])
+
   if (step === 4) {
     return (
       <div className="flex flex-col items-center justify-center h-[70vh]">
@@ -420,6 +428,7 @@ export default function PaymentLink() {
                   <ProductComponent
                     key={product.id}
                     product={product}
+                    displayButtons={displayProductButtons}
                     onclickAdd={() => {
                       handleUpdateOrderMutation({
                         itens: product?.id ?? '',
@@ -456,6 +465,7 @@ export default function PaymentLink() {
                   <ProductWithImageComponent
                     key={product?.id}
                     product={product}
+                    displayButtons={displayProductButtons}
                     onCick={() => {
                       handleUpdateOrderMutation({
                         itens: product?.id ?? '',
@@ -753,6 +763,7 @@ export default function PaymentLink() {
                 <ProductWithImageComponent
                   key={product?.id}
                   product={product}
+                  displayButtons={displayProductButtons}
                   onCick={() => {
                     handleUpdateOrderMutation({
                       itens: product?.id ?? '',

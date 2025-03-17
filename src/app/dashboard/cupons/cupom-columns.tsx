@@ -36,6 +36,13 @@ export const CupomColumns: ColumnDef<Cupom>[] = [
         </Button>
       )
     },
+    accessorFn: (cupom: Cupom) => {
+      const value = cupom.value / 100
+      return value.toLocaleString('pt-BR', {
+        style: 'currency',
+        currency: 'BRL',
+      })
+    },
   },
   {
     accessorKey: 'cupom_payment_type',

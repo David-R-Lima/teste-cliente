@@ -32,7 +32,8 @@ export const ValidateCupomFormSchema = z.object({
     required_error: 'Value is required',
   }),
   cupom_payment_type: z.nativeEnum(ChargeType),
-  merchant_id: z.string(),
+  merchant_id: z.string().optional(),
+  payment_link_id: z.string().optional(),
 })
 
 export type validateCupomFormSchema = z.infer<typeof ValidateCupomFormSchema>

@@ -416,6 +416,8 @@ export default function PaymentLink() {
                     cupom_payment_type: paymentLinkQuery.data.link
                       .chargeType as ChargeType,
                     merchant_id: paymentLinkQuery.data.link.merchantId,
+                    payment_link_id:
+                      orderQuery.data?.data.order.id_payment_link ?? undefined,
                   })
                   setValue('cupom', cupom)
                 }}

@@ -28,8 +28,8 @@ export function BoxWebhook() {
   const [page, setPage] = useState<number>(1)
   const { status } = useSession()
   const [selectedWebhook, setSelectedWebhook] = useState<
-    Record<string, string>
-  >({})
+    Record<string, string> | undefined
+  >(undefined)
 
   const { changeModalState, modalState, webhook, modalType, changeModalType } =
     UseUpdateModalStore()
@@ -146,9 +146,11 @@ export function BoxWebhook() {
                     </div>
                   )) || <></>}
                 </div>
-                <div className="p-2 border-2">
-                  <pre>{JSON.stringify(selectedWebhook, null, 2)}</pre>
-                </div>
+                {selectedWebhook && (
+                  <div className="p-2 border-2">
+                    <pre>{JSON.stringify(selectedWebhook, null, 2)}</pre>
+                  </div>
+                )}
               </div>
             </TabsContent>
           </Tabs>

@@ -147,7 +147,7 @@ export function BoxWebhook() {
                   )) || <></>}
                 </div>
                 <div className="">
-                  {JSON.stringify(selectedWebhook, null, 2)}
+                  <pre>{JSON.stringify(selectedWebhook, null, 2)}</pre>
                 </div>
               </div>
             </TabsContent>

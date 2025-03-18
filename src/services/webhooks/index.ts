@@ -45,7 +45,7 @@ export async function GetSentWebhooks(ctx: QueryFunctionContext) {
     totalDocuments: number
     totalPages: number
     webhooks: SentWebhooks[]
-  }>('/sent-webhooks?page=' + page)
+  }>('/webhooks-sent?page=' + page)
 
   return data
 }

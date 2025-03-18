@@ -26,6 +26,7 @@ import { InputWithoutBorder } from '@/components/ui/input-without-border'
 
 export function BoxWebhook() {
   const [page, setPage] = useState<number>(1)
+  const [webhookPage, setWebhookPage] = useState<number>(1)
   const { status } = useSession()
   const [selectedWebhook, setSelectedWebhook] = useState<
     Record<string, string> | undefined
@@ -41,7 +42,7 @@ export function BoxWebhook() {
   })
 
   const sentWebhookQuery = useQuery({
-    queryKey: ['sent-webhooks', 1],
+    queryKey: ['sent-webhooks', webhookPage],
     queryFn: GetSentWebhooks,
     enabled: status === 'authenticated',
   })
@@ -133,7 +134,7 @@ export function BoxWebhook() {
                           ...web.payload.payload,
                         })
                       }}
-                      className="p-2 border-2 text-sm"
+                      className="p-2 border-2 text-sm hover:cursor-pointer"
                     >
                       <p>
                         <span className="font-bold">Destino:</span>{' '}
@@ -145,6 +146,26 @@ export function BoxWebhook() {
                       </p>
                     </div>
                   )) || <></>}
+                  <div className="flex items-center justify-center">
+                    <Button
+                      onClick={() => {
+                        if (webhookPage === 0) {
+                          return
+                        }
+                        setWebhookPage(webhookPage - 1)
+                      }}
+                    >
+                      -
+                    </Button>
+                    <p>{webhookPage}</p>
+                    <Button
+                      onClick={() => {
+                        setWebhookPage(webhookPage + 1)
+                      }}
+                    >
+                      +
+                    </Button>
+                  </div>
                 </div>
                 {selectedWebhook && (
                   <div className="p-2 border-2">

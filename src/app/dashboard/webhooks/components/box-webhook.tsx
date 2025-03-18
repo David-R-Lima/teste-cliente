@@ -123,8 +123,8 @@ export function BoxWebhook() {
               </div>
             </TabsContent>
             <TabsContent value="log-webhook">
-              <div className="flex">
-                <div>
+              <div className="flex max-w-[80%]">
+                <div className="w-[30%]">
                   {sentWebhookQuery.data?.webhooks?.map((web, index) => (
                     <div
                       key={index}
@@ -133,13 +133,22 @@ export function BoxWebhook() {
                           ...web.payload.payload,
                         })
                       }}
+                      className="p-2 border-2-black text-sm"
                     >
-                      <p>Destino: {web.destination_url}</p>
-                      <p>Status: {web.status}</p>
+                      <p>
+                        <span className="font-bold">Destino:</span>{' '}
+                        {web.destination_url}
+                      </p>
+                      <p>
+                        <span className="font-bold">Status: </span>
+                        {web.status}
+                      </p>
                     </div>
                   )) || <></>}
                 </div>
-                <div className="">{JSON.stringify(selectedWebhook)}</div>
+                <div className="">
+                  {JSON.stringify(selectedWebhook, null, 2)}
+                </div>
               </div>
             </TabsContent>
           </Tabs>

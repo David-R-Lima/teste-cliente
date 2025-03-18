@@ -27,6 +27,9 @@ import { InputWithoutBorder } from '@/components/ui/input-without-border'
 export function BoxWebhook() {
   const [page, setPage] = useState<number>(1)
   const { status } = useSession()
+  const [selectedWebhook, setSelectedWebhook] = useState<
+    Record<string, string>
+  >({})
 
   const { changeModalState, modalState, webhook, modalType, changeModalType } =
     UseUpdateModalStore()
@@ -117,6 +120,26 @@ export function BoxWebhook() {
                     setPage={setPage}
                   ></TableComponent>
                 )}
+              </div>
+            </TabsContent>
+            <TabsContent value="log-webhook">
+              <div className="flex">
+                <div>
+                  {sentWebhookQuery.data?.webhooks?.map((web, index) => (
+                    <div
+                      key={index}
+                      onClick={() => {
+                        setSelectedWebhook({
+                          ...web.payload.payload,
+                        })
+                      }}
+                    >
+                      <p>Destino: {web.destination_url}</p>
+                      <p>Status: {web.status}</p>
+                    </div>
+                  )) || <></>}
+                </div>
+                <div className="">{JSON.stringify(selectedWebhook)}</div>
               </div>
             </TabsContent>
           </Tabs>

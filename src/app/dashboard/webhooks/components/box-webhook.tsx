@@ -133,7 +133,7 @@ export function BoxWebhook() {
                           ...web.payload.payload,
                         })
                       }}
-                      className="p-2 border-2-black text-sm"
+                      className="p-2 border-2 text-sm"
                     >
                       <p>
                         <span className="font-bold">Destino:</span>{' '}
@@ -146,7 +146,7 @@ export function BoxWebhook() {
                     </div>
                   )) || <></>}
                 </div>
-                <div className="">
+                <div className="p-2 border-2">
                   <pre>{JSON.stringify(selectedWebhook, null, 2)}</pre>
                 </div>
               </div>

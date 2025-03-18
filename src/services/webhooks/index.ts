@@ -1,6 +1,6 @@
 import { QueryFunctionContext } from '@tanstack/react-query'
 import { api } from '../api'
-import { Webhooks, WebhookTemplateStatus } from './types'
+import { SentWebhooks, Webhooks, WebhookTemplateStatus } from './types'
 import { FormSchemaWebhook } from '@/app/dashboard/webhooks/components/create-webhook'
 import { updateFormSchemaWebhook } from '@/app/dashboard/webhooks/components/update-webhook-form'
 
@@ -36,4 +36,16 @@ export async function UpdateWebhook(data: updateFormSchemaWebhook) {
   })
 
   return res.data.webhook
+}
+
+export async function GetSentWebhooks(ctx: QueryFunctionContext) {
+  const [, page] = ctx.queryKey
+
+  const { data } = await api.get<{
+    totalDocuments: number
+    totalPages: number
+    webhooks: SentWebhooks[]
+  }>('/sent-webhooks?page=' + page)
+
+  return data
 }

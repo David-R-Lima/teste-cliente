@@ -15,7 +15,7 @@ import { Label } from '@/components/ui/label'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Bell, NotepadText, Search, Webhook } from 'lucide-react'
 import { useQuery } from '@tanstack/react-query'
-import { getWebhooks } from '@/services/webhooks'
+import { GetSentWebhooks, getWebhooks } from '@/services/webhooks'
 import { useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { WebhooksColumns } from './webhooks-columns'
@@ -36,6 +36,14 @@ export function BoxWebhook() {
     queryFn: getWebhooks,
     enabled: status === 'authenticated',
   })
+
+  const sentWebhookQuery = useQuery({
+    queryKey: ['sent-webhooks', 1],
+    queryFn: GetSentWebhooks,
+    enabled: status === 'authenticated',
+  })
+
+  console.log(sentWebhookQuery.data)
 
   return (
     <div className="w-full h-full relative">

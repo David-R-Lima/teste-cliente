@@ -9,6 +9,16 @@ export interface Webhooks {
   updatedAt: string
 }
 
+export interface SentWebhooks {
+  attempt: number
+  destination_url: string
+  status: string
+  status_code: number
+  payload: {
+    payload: Record<string, string>
+  }
+}
+
 export enum WebhookAvailableEvent {
   CHARGE_CREATED = 'CHARGE_CREATED',
   CHARGE_AUTHORIZED = 'CHARGE_AUTHORIZED',

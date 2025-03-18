@@ -124,8 +124,8 @@ export function BoxWebhook() {
               </div>
             </TabsContent>
             <TabsContent value="log-webhook">
-              <div className="flex max-w-[80%]">
-                <div className="w-[30%]">
+              <div className="flex max-w-[80%] space-x-2">
+                <div className="w-[30%] space-y-2">
                   {sentWebhookQuery.data?.webhooks?.map((web, index) => (
                     <div
                       key={index}
@@ -146,7 +146,7 @@ export function BoxWebhook() {
                       </p>
                     </div>
                   )) || <></>}
-                  <div className="flex items-center justify-center">
+                  <div className="flex items-center justify-center space-x-2">
                     <Button
                       onClick={() => {
                         if (webhookPage === 0) {

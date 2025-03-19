@@ -125,7 +125,7 @@ export function BoxWebhook() {
               </div>
             </TabsContent>
             <TabsContent value="log-webhook">
-              <div className="flex max-w-[80%] space-x-2">
+              <div className="flex w-full space-x-2">
                 <div className="w-[40%] space-y-2">
                   {sentWebhookQuery.data?.webhooks?.map((web, index) => (
                     <div

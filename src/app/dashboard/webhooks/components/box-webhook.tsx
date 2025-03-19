@@ -200,6 +200,10 @@ export function BoxWebhook() {
                         {req.requestUrl}
                       </p>
                       <p>
+                        <span className="font-bold">Método:</span>{' '}
+                        {req.requestMethod}
+                      </p>
+                      <p>
                         <span className="font-bold">Status: </span>
                         {req.statusCode}
                       </p>

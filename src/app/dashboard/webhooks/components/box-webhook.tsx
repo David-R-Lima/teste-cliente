@@ -216,18 +216,18 @@ export function BoxWebhook() {
                   <div className="flex items-center justify-center space-x-2">
                     <Button
                       onClick={() => {
-                        if (webhookPage === 0) {
+                        if (requestLogs === 0) {
                           return
                         }
-                        setRequestLogs(webhookPage - 1)
+                        setRequestLogs(requestLogs - 1)
                       }}
                     >
                       -
                     </Button>
-                    <p>{webhookPage}</p>
+                    <p>{requestLogs}</p>
                     <Button
                       onClick={() => {
-                        setRequestLogs(webhookPage + 1)
+                        setRequestLogs(requestLogs + 1)
                       }}
                     >
                       +

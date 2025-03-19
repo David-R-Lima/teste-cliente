@@ -146,7 +146,7 @@ export function BoxWebhook() {
                         {web.status}
                       </p>
                       <p>
-                        Date de envio:{' '}
+                        <span className="font-bold">Date de envio: </span>
                         {dayjs(web.sent_date).format('YYYY-MM-DD HH:mm')}
                       </p>
                     </div>
@@ -173,7 +173,7 @@ export function BoxWebhook() {
                   </div>
                 </div>
                 {selectedWebhook && (
-                  <div className="p-2 border-2">
+                  <div className="p-2 border-2 min-w-[60%]">
                     <pre>{JSON.stringify(selectedWebhook, null, 2)}</pre>
                   </div>
                 )}

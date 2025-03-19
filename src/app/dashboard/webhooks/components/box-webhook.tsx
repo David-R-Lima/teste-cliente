@@ -24,10 +24,12 @@ import { UpdateWebhookForm } from './update-webhook-form'
 import { UseUpdateModalStore } from '@/store/update-webhook-store'
 import { InputWithoutBorder } from '@/components/ui/input-without-border'
 import dayjs from 'dayjs'
+import { GetRequestLogs } from '@/services/request-logs'
 
 export function BoxWebhook() {
   const [page, setPage] = useState<number>(1)
   const [webhookPage, setWebhookPage] = useState<number>(1)
+  const [requestLogs, setRequestLogs] = useState<number>(1)
   const { status } = useSession()
   const [selectedWebhook, setSelectedWebhook] = useState<
     Record<string, string> | undefined
@@ -45,6 +47,12 @@ export function BoxWebhook() {
   const sentWebhookQuery = useQuery({
     queryKey: ['sent-webhooks', webhookPage],
     queryFn: GetSentWebhooks,
+    enabled: status === 'authenticated',
+  })
+
+  const requestLogsQuery = useQuery({
+    queryKey: ['request-logs', requestLogs],
+    queryFn: GetRequestLogs,
     enabled: status === 'authenticated',
   })
 
@@ -177,6 +185,51 @@ export function BoxWebhook() {
                     <pre>{JSON.stringify(selectedWebhook, null, 2)}</pre>
                   </div>
                 )}
+              </div>
+            </TabsContent>
+            <TabsContent value="log-requisicao">
+              <div className="flex w-full space-x-2">
+                <div className="w-[40%] space-y-2">
+                  {requestLogsQuery.data?.requests.map((req, index) => (
+                    <div
+                      key={index}
+                      className="p-2 border-2 text-sm hover:cursor-pointer"
+                    >
+                      <p>
+                        <span className="font-bold">Destino:</span>{' '}
+                        {req.requestUrl}
+                      </p>
+                      <p>
+                        <span className="font-bold">Status: </span>
+                        {req.statusCode}
+                      </p>
+                      <p>
+                        <span className="font-bold">Date de envio: </span>
+                        {dayjs(req.createdAt).format('YYYY-MM-DD HH:mm')}
+                      </p>
+                    </div>
+                  )) || <></>}
+                  <div className="flex items-center justify-center space-x-2">
+                    <Button
+                      onClick={() => {
+                        if (webhookPage === 0) {
+                          return
+                        }
+                        setRequestLogs(webhookPage - 1)
+                      }}
+                    >
+                      -
+                    </Button>
+                    <p>{webhookPage}</p>
+                    <Button
+                      onClick={() => {
+                        setRequestLogs(webhookPage + 1)
+                      }}
+                    >
+                      +
+                    </Button>
+                  </div>
+                </div>
               </div>
             </TabsContent>
           </Tabs>

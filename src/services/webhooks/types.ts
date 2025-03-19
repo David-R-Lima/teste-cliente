@@ -17,6 +17,7 @@ export interface SentWebhooks {
   payload: {
     payload: Record<string, string>
   }
+  sent_date: Date
 }
 
 export enum WebhookAvailableEvent {

@@ -23,6 +23,7 @@ import { CreateWebhookForm } from './create-webhook'
 import { UpdateWebhookForm } from './update-webhook-form'
 import { UseUpdateModalStore } from '@/store/update-webhook-store'
 import { InputWithoutBorder } from '@/components/ui/input-without-border'
+import dayjs from 'dayjs'
 
 export function BoxWebhook() {
   const [page, setPage] = useState<number>(1)
@@ -143,6 +144,10 @@ export function BoxWebhook() {
                       <p>
                         <span className="font-bold">Status: </span>
                         {web.status}
+                      </p>
+                      <p>
+                        Date de envio:{' '}
+                        {dayjs(web.sent_date).format('YYYY-MM-DD HH:mm')}
                       </p>
                     </div>
                   )) || <></>}

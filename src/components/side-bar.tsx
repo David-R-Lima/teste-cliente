@@ -65,10 +65,9 @@ export function SideBar() {
       label: 'Planos',
       icon: <ClipboardList className="h-6 w-6 sidebar-icon shrink-0" />,
     },
-
     {
-      href: '/dashboard/payment-links',
-      label: 'Links de pagamento',
+      href: '/dashboard/order',
+      label: 'Pedidos',
       icon: <Link2 className="h-6 w-6 sidebar-icon shrink-0" />,
     },
     {

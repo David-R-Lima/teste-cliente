@@ -38,3 +38,12 @@ export async function createOrder(itens: CreateOrderProps) {
 
   return res.data
 }
+
+export async function GetOrders(ctx: QueryFunctionContext) {
+  const [, page] = ctx.queryKey
+  const res = await api.get<{
+    orders: Order[]
+  }>(`/orders?page=${page}`)
+
+  return res.data
+}

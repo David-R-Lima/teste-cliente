@@ -66,7 +66,7 @@ export function SideBar() {
       icon: <ClipboardList className="h-6 w-6 sidebar-icon shrink-0" />,
     },
     {
-      href: '/dashboard/order',
+      href: '/dashboard/orders',
       label: 'Pedidos',
       icon: <Link2 className="h-6 w-6 sidebar-icon shrink-0" />,
     },

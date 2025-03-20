@@ -83,12 +83,14 @@ export const OrderColumns: ColumnDef<Order>[] = [
           <PopoverTrigger>
             <MoreVertical />
           </PopoverTrigger>
-          <PopoverContent className="w-full">
+          <PopoverContent className="w-full flex items-center justify-center">
             <Button variant={'link'} asChild>
               <Link href={'/checkout/' + order.id}>Link</Link>
             </Button>
             <Dialog>
-              <DialogTrigger>+ Informações</DialogTrigger>
+              <DialogTrigger asChild>
+                <Button variant={'link'}>+ Informações</Button>
+              </DialogTrigger>
               <DialogContent className="max-h-[50vh]">
                 <span>Produtos:</span>
                 <div className="flex flex-col overflow-y-scroll max-h-[90%] p-2 space-y-2">

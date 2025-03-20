@@ -11,6 +11,7 @@ import {
 import Link from 'next/link'
 import { Order } from '@/services/order/types'
 import dayjs from 'dayjs'
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 
 export const OrderColumns: ColumnDef<Order>[] = [
   {
@@ -76,7 +77,7 @@ export const OrderColumns: ColumnDef<Order>[] = [
   {
     id: 'actions',
     cell: ({ row }) => {
-      const paymentLink = row.original
+      const order = row.original
       return (
         <Popover>
           <PopoverTrigger>
@@ -84,8 +85,25 @@ export const OrderColumns: ColumnDef<Order>[] = [
           </PopoverTrigger>
           <PopoverContent className="w-full">
             <Button variant={'link'} asChild>
-              <Link href={'/checkout/' + paymentLink.id}>Link</Link>
+              <Link href={'/checkout/' + order.id}>Link</Link>
             </Button>
+            <Dialog>
+              <DialogTrigger>+ Informações</DialogTrigger>
+              <DialogContent className="max-h-[50vh]">
+                <div className="flex flex-col">
+                  <span>Produtos:</span>
+                  {order.product_orders &&
+                    order.product_orders.map((order) => {
+                      return (
+                        <div key={order.id}>
+                          <p>Nome: {order.product?.name}</p>
+                          <p>Quantidade: {order.quantity}</p>
+                        </div>
+                      )
+                    })}
+                </div>
+              </DialogContent>
+            </Dialog>
           </PopoverContent>
         </Popover>
       )

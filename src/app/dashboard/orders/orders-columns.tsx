@@ -90,14 +90,26 @@ export const OrderColumns: ColumnDef<Order>[] = [
             <Dialog>
               <DialogTrigger>+ Informações</DialogTrigger>
               <DialogContent className="max-h-[50vh]">
-                <div className="flex flex-col">
+                <div className="flex flex-col overflow-y-scroll max-h-[90%]">
                   <span>Produtos:</span>
                   {order.product_orders &&
                     order.product_orders.map((order) => {
                       return (
-                        <div key={order.id}>
+                        <div
+                          key={order.id}
+                          className="p-2 border-2 rounded-lg "
+                        >
                           <p>Nome: {order.product?.name}</p>
                           <p>Quantidade: {order.quantity}</p>
+                          <p>
+                            Valor:{' '}
+                            {order.product && order.product.value
+                              ? order.product.value.toLocaleString('pt-BR', {
+                                  style: 'currency',
+                                  currency: 'BRL',
+                                })
+                              : ''}
+                          </p>
                         </div>
                       )
                     })}

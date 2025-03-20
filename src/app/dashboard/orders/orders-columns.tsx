@@ -90,10 +90,14 @@ export const OrderColumns: ColumnDef<Order>[] = [
             <Dialog>
               <DialogTrigger>+ Informações</DialogTrigger>
               <DialogContent className="max-h-[50vh]">
-                <div className="flex flex-col overflow-y-scroll max-h-[90%]">
-                  <span>Produtos:</span>
+                <span>Produtos:</span>
+                <div className="flex flex-col overflow-y-scroll max-h-[90%] p-2 space-y-2">
                   {order.product_orders &&
                     order.product_orders.map((order) => {
+                      let value = order?.product?.value
+                      if (value) {
+                        value = value / 100
+                      }
                       return (
                         <div
                           key={order.id}
@@ -103,8 +107,8 @@ export const OrderColumns: ColumnDef<Order>[] = [
                           <p>Quantidade: {order.quantity}</p>
                           <p>
                             Valor:{' '}
-                            {order.product && order.product.value
-                              ? order.product.value.toLocaleString('pt-BR', {
+                            {value
+                              ? value.toLocaleString('pt-BR', {
                                   style: 'currency',
                                   currency: 'BRL',
                                 })

@@ -38,7 +38,7 @@ export async function GET(req: NextRequest) {
   } catch (error) {
     if (error instanceof AxiosError) {
       return NextResponse.json(
-        { message: error.message },
+        { message: error.response?.data?.message || error.message },
         { status: error.response?.status || 500 },
       )
     } else {
@@ -85,7 +85,7 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     if (error instanceof AxiosError) {
       return NextResponse.json(
-        { message: error.message },
+        { message: error.response?.data?.message || error.message },
         { status: error.response?.status || 500 },
       )
     } else {
@@ -132,7 +132,7 @@ export async function DELETE(req: NextRequest) {
   } catch (error) {
     if (error instanceof AxiosError) {
       return NextResponse.json(
-        { message: error.message },
+        { message: error.response?.data?.message || error.message },
         { status: error.response?.status || 500 },
       )
     } else {
@@ -179,7 +179,7 @@ export async function PATCH(req: NextRequest) {
   } catch (error) {
     if (error instanceof AxiosError) {
       return NextResponse.json(
-        { message: error.message },
+        { message: error.response?.data?.message || error.message },
         { status: error.response?.status || 500 },
       )
     } else {
@@ -226,7 +226,7 @@ export async function PUT(req: NextRequest) {
   } catch (error) {
     if (error instanceof AxiosError) {
       return NextResponse.json(
-        { message: error.message },
+        { message: error.response?.data?.message || error.message },
         { status: error.response?.status || 500 },
       )
     } else {

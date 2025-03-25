@@ -8,6 +8,7 @@ import { ClientGrowthChart } from '@/components/home/graph-customer'
 import { useCustomerMetrics } from '@/hooks/useCustomerMetrics'
 import { useChargeMetrics } from '@/hooks/useChargeMetrics'
 import { ChargeGrowthChartComponent } from '@/components/home/graph-charges'
+import { ToBeReleased } from '@/components/home/to-be-released'
 
 export default function Dashboard() {
   const [item, setItem] = useState<string>('customer')
@@ -19,7 +20,7 @@ export default function Dashboard() {
     <div className="space-y-4">
       <div className="flex flex-col lg:flex-row justify-between lg:h-[50vh] space-y-4 lg:space-y-0 lg:space-x-8 w-full">
         <AvailableBalance></AvailableBalance>
-        <ToBeAvailable></ToBeAvailable>
+        <ToBeReleased></ToBeReleased>
       </div>
       <div className="border-2 rounded-lg h-[35vh] p-4">
         <div>

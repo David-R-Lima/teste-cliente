@@ -1,6 +1,7 @@
 'use client'
-
 import Link from 'next/link'
+
+import type { JSX } from 'react'
 
 interface Props {
   href: string

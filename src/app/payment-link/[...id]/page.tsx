@@ -25,8 +25,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { BttisCreditCard } from 'bttis-encrypt1-sdk-js'
 import { Check, Loader2, ShieldCheck, X } from 'lucide-react'
-import { notFound, useParams } from 'next/navigation'
-import { useCallback, useEffect, useState } from 'react'
+import { notFound } from 'next/navigation'
+import { use, useCallback, useEffect, useState } from 'react'
 import Barcode from 'react-barcode'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -37,7 +37,10 @@ import { ValidateCupom } from '@/services/cupons'
 import { getCookie, setCookie } from 'cookies-next'
 import { Socket } from '@/components/providers/socket-providet'
 import { socket } from '@/socket'
-export default function PaymentLink() {
+
+type Params = Promise<{ id: string }>
+
+export default function PaymentLink(props: { params: Params }) {
   const [step, setStep] = useState(1)
   const [paymentType, setPaymentType] = useState<PaymentType | undefined>()
   const [qrCode, setQrCode] = useState<QrCode[] | undefined>()
@@ -45,7 +48,8 @@ export default function PaymentLink() {
   const [displayAddressForm, setDisplayAddressForm] = useState<boolean>(false)
   const [cupomValid, setCupomValid] = useState<number | undefined>(undefined)
   const [cupom, setCupom] = useState<string | undefined>(undefined)
-  const params = useParams()
+
+  const { id } = use(props.params)
 
   const [cardToTokenize, setCardToTokenize] = useState<{
     card_holder: string
@@ -64,7 +68,7 @@ export default function PaymentLink() {
   })
 
   const paymentLinkQuery = useQuery({
-    queryKey: ['paymentLink', params.id[0]],
+    queryKey: ['paymentLink', id],
     queryFn: fetchPaymentLink,
   })
 
@@ -81,7 +85,7 @@ export default function PaymentLink() {
         setCookie(
           'qrcode',
           {
-            link_id: params.id[0],
+            link_id: id,
             qrCodes: data.qr_codes,
           },
           {
@@ -96,7 +100,7 @@ export default function PaymentLink() {
         setCookie(
           'boleto',
           {
-            link_id: params.id[0],
+            link_id: id,
             boleto: data.boleto,
           },
           {
@@ -247,7 +251,7 @@ export default function PaymentLink() {
         link_id: string
       }
 
-      if (parsedCookie.link_id !== params.id[0]) return
+      if (parsedCookie.link_id !== id) return
 
       tempQRCodes.push(parsedCookie.qrCodes[0])
       setQrCode(tempQRCodes)
@@ -266,7 +270,7 @@ export default function PaymentLink() {
         link_id: string
       }
 
-      if (tempBoleto.link_id !== params.id[0]) return
+      if (tempBoleto.link_id !== id) return
 
       setBoleto(tempBoleto.boleto)
 
@@ -641,7 +645,7 @@ export default function PaymentLink() {
             </Card>
           )}
         </div>
-        <Socket id={params.id[0]}></Socket>
+        <Socket id={id}></Socket>
       </div>
     )
   } else {

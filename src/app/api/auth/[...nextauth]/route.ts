@@ -31,7 +31,9 @@ const handler = NextAuth({
 
         const token = res.data.access_token
 
-        cookies().set('access_token.hub', token, {
+        const cookieStore = await cookies()
+
+        cookieStore.set('access_token.hub', token, {
           expires: dayjs().add(3, 'day').toDate(),
         })
 

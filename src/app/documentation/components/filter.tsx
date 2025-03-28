@@ -1,7 +1,7 @@
 'use client'
 
 import { Input } from '@/components/ui/input'
-import { useState } from 'react'
+import { useState, type JSX } from 'react'
 import { Delete, Get, Patch, Post } from './http-methods'
 import Link from 'next/link'
 

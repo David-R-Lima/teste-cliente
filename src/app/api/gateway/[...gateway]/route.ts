@@ -24,7 +24,7 @@ export async function GET(req: NextRequest) {
     },
   }
 
-  const token = cookies().get('access_token.hub')
+  const token = (await cookies()).get('access_token.hub')
 
   if (token) {
     // @ts-expect-error sla
@@ -71,7 +71,7 @@ export async function POST(req: NextRequest) {
     },
   }
 
-  const token = cookies().get('access_token.hub')
+  const token = (await cookies()).get('access_token.hub')
 
   if (token) {
     // @ts-expect-error sla
@@ -118,7 +118,7 @@ export async function DELETE(req: NextRequest) {
     },
   }
 
-  const token = cookies().get('access_token.hub')
+  const token = (await cookies()).get('access_token.hub')
 
   if (token) {
     // @ts-expect-error sla
@@ -165,7 +165,7 @@ export async function PATCH(req: NextRequest) {
     },
   }
 
-  const token = cookies().get('access_token.hub')
+  const token = (await cookies()).get('access_token.hub')
 
   if (token) {
     // @ts-expect-error sla
@@ -212,7 +212,7 @@ export async function PUT(req: NextRequest) {
     },
   }
 
-  const token = cookies().get('access_token.hub')
+  const token = (await cookies()).get('access_token.hub')
 
   if (token) {
     // @ts-expect-error sla

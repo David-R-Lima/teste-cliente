@@ -57,8 +57,8 @@ export function ChargeGrowthChartComponent() {
   return (
     <ResponsiveContainer width="100%" height="100%" className="p-6">
       <AreaChart
-        width={500}
-        height={400}
+        width={1300}
+        height={150}
         data={chargeData}
         margin={{
           top: 10,

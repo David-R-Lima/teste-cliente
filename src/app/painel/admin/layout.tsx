@@ -19,7 +19,7 @@ import {
 
 import { MobileSideBar } from '@/components/mobile-side-bar'
 import { Label } from '@/components/ui/label'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, type JSX } from 'react'
 import { ThemePickerHeader } from '@/components/theme-picker-header'
 import { signOut, useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'

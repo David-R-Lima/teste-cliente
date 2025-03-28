@@ -25,8 +25,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { BttisCreditCard } from 'bttis-encrypt1-sdk-js'
 import { Check, Loader2, ShieldCheck, X } from 'lucide-react'
-import { notFound, useParams } from 'next/navigation'
-import { useCallback, useEffect, useState } from 'react'
+import { notFound } from 'next/navigation'
+import { use, useCallback, useEffect, useState } from 'react'
 import Barcode from 'react-barcode'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -42,7 +42,9 @@ import { ProductComponent } from './components/product'
 import { ProductWithImageComponent } from './components/product-with-image'
 import { GetRecommendedProducts } from '@/services/products/products'
 
-export default function PaymentLink() {
+type Params = Promise<{ id: string }>
+
+export default function PaymentLink(props: { params: Params }) {
   const [step, setStep] = useState(1)
   const [paymentType, setPaymentType] = useState<PaymentType | undefined>()
   const [qrCode, setQrCode] = useState<QrCode[] | undefined>()
@@ -52,7 +54,8 @@ export default function PaymentLink() {
   const [cupom, setCupom] = useState<string | undefined>(undefined)
   const [displayProductButtons, setDisplayProductButtons] =
     useState<boolean>(true)
-  const params = useParams()
+
+  const { id } = use(props.params)
 
   const [cardToTokenize, setCardToTokenize] = useState<{
     card_holder: string
@@ -71,7 +74,7 @@ export default function PaymentLink() {
   })
 
   const orderQuery = useQuery({
-    queryKey: ['order', params.id[0]],
+    queryKey: ['order', id],
     queryFn: GetOrderById,
   })
 
@@ -82,7 +85,7 @@ export default function PaymentLink() {
   })
 
   const recommendedProductQuery = useQuery({
-    queryKey: ['recommendedProduct', params.id[0]],
+    queryKey: ['recommendedProduct', id],
     queryFn: async () => {
       const products: string[] = []
 
@@ -92,13 +95,13 @@ export default function PaymentLink() {
       })
 
       const data = await GetRecommendedProducts({
-        orderId: params.id[0],
+        orderId: id,
         excludedItens: products,
       })
 
       return data
     },
-    enabled: !!params.id[0] && !!orderQuery.data,
+    enabled: !!id && !!orderQuery.data,
   })
 
   const payPaymentLinkMutation = useMutation({
@@ -115,7 +118,7 @@ export default function PaymentLink() {
         setCookie(
           'qrcode',
           {
-            link_id: params.id[0],
+            link_id: id,
             qrCodes: data.qr_codes,
           },
           {
@@ -130,7 +133,7 @@ export default function PaymentLink() {
         setCookie(
           'boleto',
           {
-            link_id: params.id[0],
+            link_id: id,
             boleto: data.boleto,
           },
           {
@@ -302,7 +305,7 @@ export default function PaymentLink() {
         link_id: string
       }
 
-      if (parsedCookie.link_id !== params.id[0]) return
+      if (parsedCookie.link_id !== id) return
 
       tempQRCodes.push(parsedCookie.qrCodes[0])
       setQrCode(tempQRCodes)
@@ -321,7 +324,7 @@ export default function PaymentLink() {
         link_id: string
       }
 
-      if (tempBoleto.link_id !== params.id[0]) return
+      if (tempBoleto.link_id !== id) return
 
       setBoleto(tempBoleto.boleto)
 
@@ -438,21 +441,21 @@ export default function PaymentLink() {
                     onclickAdd={() => {
                       handleUpdateOrderMutation({
                         itens: product?.id ?? '',
-                        orderId: params.id[0],
+                        orderId: id,
                         type: 'ADD',
                       })
                     }}
                     onclickDescrease={() => {
                       handleUpdateOrderMutation({
                         itens: product?.id ?? '',
-                        orderId: params.id[0],
+                        orderId: id,
                         type: 'DECREASE',
                       })
                     }}
                     onclickRemove={() => {
                       handleUpdateOrderMutation({
                         itens: product?.id ?? '',
-                        orderId: params.id[0],
+                        orderId: id,
                         type: 'REMOVE',
                       })
                     }}
@@ -475,7 +478,7 @@ export default function PaymentLink() {
                     onCick={() => {
                       handleUpdateOrderMutation({
                         itens: product?.id ?? '',
-                        orderId: params.id[0],
+                        orderId: id,
                         type: 'ADD',
                       })
                     }}
@@ -773,7 +776,7 @@ export default function PaymentLink() {
                   onCick={() => {
                     handleUpdateOrderMutation({
                       itens: product?.id ?? '',
-                      orderId: params.id[0],
+                      orderId: id,
                       type: 'ADD',
                     })
                   }}

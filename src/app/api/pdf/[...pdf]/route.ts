@@ -25,7 +25,7 @@ export async function GET(req: NextRequest) {
     },
   }
 
-  const token = cookies().get('access_token.hub')
+  const token = (await cookies()).get('access_token.hub')
 
   if (token) {
     // @ts-expect-error sla

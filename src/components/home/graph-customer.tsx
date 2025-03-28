@@ -61,8 +61,8 @@ export function ClientGrowthChart() {
   return (
     <ResponsiveContainer width="100%" height="100%" className="p-6">
       <AreaChart
-        width={1000}
-        height={400}
+        width={1300}
+        height={150}
         data={customerData}
         margin={{
           top: 10,

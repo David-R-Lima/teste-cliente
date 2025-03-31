@@ -3,14 +3,15 @@ import { api } from '@/services/api'
 interface IbalanceResponseProps {
   balance: {
     balanceCurrent: string
-    totalDebitAfterLastBalance: number
-    totalCreditAfterLastBalance: number
+    date: Date
   }
 }
 
 export const getMerchantBalanceReport = async () => {
   try {
-    const response = await api.get<IbalanceResponseProps>(`/balance`)
+    const response = await api.get<IbalanceResponseProps>(
+      `/merchant-account-balance`,
+    )
 
     return response.data
   } catch (error) {

@@ -8,4 +8,5 @@ export interface Product {
   quantity?: number | null
   createdAt: Date | null
   updatedAt: Date | null
+  merchantId: string | null
 }

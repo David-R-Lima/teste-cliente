@@ -46,7 +46,7 @@ const handler = NextAuth({
 
         const user = session.data
 
-        const pubKey = await apiGateway.get('/credit-card-key', {
+        const pubKey = await apiGateway.get('/credit-card-key?id=' + user.id, {
           headers: {
             authorization: 'Bearer ' + token,
             'client-key': process.env.CLIENT_KEY,

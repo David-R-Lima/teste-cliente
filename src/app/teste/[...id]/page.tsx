@@ -154,7 +154,6 @@ export default function Page(props: { params: Params }) {
   const tokenize = () => {
     return new Promise((resolve, reject) => {
       if (pubKeyQuery.data?.key) {
-        console.log(pubKeyQuery.data?.key)
         BttisCreditCard.setPubKey(pubKeyQuery.data?.key).setCreditCard({
           number: cardToTokenize.card_number,
           cvc: cardToTokenize.card_cvv,
@@ -171,7 +170,7 @@ export default function Page(props: { params: Params }) {
                 reject(new Error(data.value))
                 return
               }
-              setValue('card_token', process.env.NEXT_PUBLIC_TOKEN_TEMP)
+              setValue('card_token', data.value)
               resolve(data.value)
             })
             .catch((err) => {

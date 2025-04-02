@@ -444,21 +444,21 @@ export default function PaymentLink(props: { params: Params }) {
                     displayButtons={displayProductButtons}
                     onclickAdd={() => {
                       handleUpdateOrderMutation({
-                        itens: product?.id ?? '',
+                        itens: product,
                         orderId: id,
                         type: 'ADD',
                       })
                     }}
                     onclickDescrease={() => {
                       handleUpdateOrderMutation({
-                        itens: product?.id ?? '',
+                        itens: product,
                         orderId: id,
                         type: 'DECREASE',
                       })
                     }}
                     onclickRemove={() => {
                       handleUpdateOrderMutation({
-                        itens: product?.id ?? '',
+                        itens: product,
                         orderId: id,
                         type: 'REMOVE',
                       })
@@ -481,7 +481,7 @@ export default function PaymentLink(props: { params: Params }) {
                     displayButtons={displayProductButtons}
                     onCick={() => {
                       handleUpdateOrderMutation({
-                        itens: product?.id ?? '',
+                        itens: product,
                         orderId: id,
                         type: 'ADD',
                       })
@@ -779,7 +779,7 @@ export default function PaymentLink(props: { params: Params }) {
                   displayButtons={displayProductButtons}
                   onCick={() => {
                     handleUpdateOrderMutation({
-                      itens: product?.id ?? '',
+                      itens: product,
                       orderId: id,
                       type: 'ADD',
                     })

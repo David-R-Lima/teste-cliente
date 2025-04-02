@@ -15,7 +15,7 @@ export async function GetOrderById(ctx: QueryFunctionContext) {
 
 export interface UpdateOrderProps {
   orderId: string
-  itens: string
+  itens: Product
   type: 'ADD' | 'REMOVE' | 'DECREASE'
 }
 export async function updateOrder({ itens, orderId, type }: UpdateOrderProps) {

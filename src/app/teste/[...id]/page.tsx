@@ -44,7 +44,7 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { BttisCreditCard } from 'bttis-encrypt1-sdk-js'
 import { setCookie } from 'cookies-next'
 import { Check, Loader2, ShieldCheck, X } from 'lucide-react'
-import { notFound } from 'next/navigation'
+import { notFound, useSearchParams } from 'next/navigation'
 import { use, useCallback, useEffect, useState } from 'react'
 import Barcode from 'react-barcode'
 import { useForm } from 'react-hook-form'
@@ -55,6 +55,10 @@ type Params = Promise<{ id: string }>
 
 export default function Page(props: { params: Params }) {
   const { id } = use(props.params)
+
+  const searchParams = useSearchParams()
+
+  const affiliateId = searchParams.get('affiliateId')
 
   const [step, setStep] = useState(1)
   const [paymentType, setPaymentType] = useState<PaymentType | undefined>()
@@ -68,6 +72,7 @@ export default function Page(props: { params: Params }) {
     useState<boolean>(true)
 
   const [products, setProducts] = useState<Product[]>([])
+  const [displayProducts, setDisplayProducts] = useState<Product[]>([])
 
   const [cardToTokenize, setCardToTokenize] = useState<{
     card_holder: string
@@ -84,6 +89,7 @@ export default function Page(props: { params: Params }) {
     card_expiration_year: '',
     cpf: '',
   })
+
   const query = useQuery({
     queryKey: ['product', id],
     queryFn: async () => {
@@ -91,6 +97,7 @@ export default function Page(props: { params: Params }) {
 
       if (temp.product) {
         setProducts((prev) => [...prev, temp.product])
+        setDisplayProducts((prev) => [...prev, temp.product])
         setValue('merchant_id', temp.product.merchantId ?? '')
         return temp
       }
@@ -189,10 +196,12 @@ export default function Page(props: { params: Params }) {
   }
 
   const handleSubmitMutation = async () => {
+    console.log(products)
     setValue(
       'product_ids',
       products.map((product) => product.id ?? ''),
     )
+    setValue('affiliate_id', affiliateId ?? undefined)
     if (cupomValid === 2) {
       toast.error('Este cupom é inválido.')
       return
@@ -272,25 +281,58 @@ export default function Page(props: { params: Params }) {
     },
   })
 
-  const updateOrderMutation = useMutation({
-    mutationFn: async (data: UpdateOrderProps) => {
-      const updatedOrder = await updateOrder(data)
-      return updatedOrder
-    },
-    onSuccess: () => {
-      setCookie('qrcode', '', { expires: new Date() })
-      setCookie('boleto', '', { expires: new Date() })
-      window.location.reload()
-    },
-    onError: (error) => {
-      toast.error(error.message, {
-        id: 'update-mutation-error',
-      })
-    },
-  })
-
   const handleUpdateOrderMutation = async (data: UpdateOrderProps) => {
-    await updateOrderMutation.mutateAsync(data)
+    let temp = [...products]
+
+    switch (data.type) {
+      case 'ADD':
+        // Add the single product to temp (data.itens is an object, not an array)
+        temp.push(data.itens)
+        break
+
+      case 'DECREASE': {
+        if (temp.length === 1) {
+          toast.message('Você precisa ter pelo meno 1 item')
+          break
+        }
+
+        let removed = false
+        // Remove the first occurrence of the product with data.itens.id
+        temp.filter((product, index) => {
+          if (product?.id === data.itens.id && !removed) {
+            removed = true
+            temp.splice(index, 1) // Remove the product from temp
+            return false // Skip adding this product to the final array
+          }
+          return true // Keep the product
+        })
+        break
+      }
+
+      case 'REMOVE':
+        if (temp.length === 1) {
+          toast.message('Você precisa ter pelo meno 1 item')
+          break
+        }
+        // Remove all occurrences of the product with data.itens.id
+        temp = temp.filter((product) => product?.id !== data.itens.id)
+        break
+
+      default:
+        // If no action matches, keep temp as is
+        break
+    }
+
+    setProducts(temp)
+
+    const dProducts = temp.reduce<Product[]>((acc, product) => {
+      if (!acc.some((p) => p.id === product.id)) {
+        acc.push(product)
+      }
+      return acc
+    }, [])
+
+    setDisplayProducts(dProducts)
   }
 
   const handleNewNotifications = useCallback(() => {
@@ -385,7 +427,7 @@ export default function Page(props: { params: Params }) {
         <div>
           <h1 className="font-bold">Produtos</h1>
           <div className="flex flex-col items-center mt-4 space-y-4 max-h-[300px] overflow-y-scroll p-2">
-            {products.map((product) => {
+            {displayProducts.map((product) => {
               return (
                 <ProductComponent
                   key={product.id}
@@ -393,21 +435,21 @@ export default function Page(props: { params: Params }) {
                   displayButtons={displayProductButtons}
                   onclickAdd={() => {
                     handleUpdateOrderMutation({
-                      itens: product?.id ?? '',
+                      itens: product,
                       orderId: id,
                       type: 'ADD',
                     })
                   }}
                   onclickDescrease={() => {
                     handleUpdateOrderMutation({
-                      itens: product?.id ?? '',
+                      itens: product,
                       orderId: id,
                       type: 'DECREASE',
                     })
                   }}
                   onclickRemove={() => {
                     handleUpdateOrderMutation({
-                      itens: product?.id ?? '',
+                      itens: product,
                       orderId: id,
                       type: 'REMOVE',
                     })
@@ -430,7 +472,7 @@ export default function Page(props: { params: Params }) {
                   displayButtons={displayProductButtons}
                   onCick={() => {
                     handleUpdateOrderMutation({
-                      itens: product?.id ?? '',
+                      itens: product,
                       orderId: id,
                       type: 'ADD',
                     })
@@ -724,7 +766,7 @@ export default function Page(props: { params: Params }) {
                 displayButtons={displayProductButtons}
                 onCick={() => {
                   handleUpdateOrderMutation({
-                    itens: product?.id ?? '',
+                    itens: product,
                     orderId: id,
                     type: 'ADD',
                   })

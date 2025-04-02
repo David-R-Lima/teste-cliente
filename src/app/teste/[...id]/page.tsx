@@ -62,6 +62,7 @@ export default function Page(props: { params: Params }) {
   const [displayAddressForm, setDisplayAddressForm] = useState<boolean>(false)
   const [cupomValid, setCupomValid] = useState<number | undefined>(undefined)
   const [cupom, setCupom] = useState<string | undefined>(undefined)
+  const [chargeId, setChargeId] = useState<string | undefined>(undefined)
   const [displayProductButtons, setDisplayProductButtons] =
     useState<boolean>(true)
 
@@ -230,6 +231,9 @@ export default function Page(props: { params: Params }) {
     },
     onSuccess: (data) => {
       setDisplayProductButtons(false)
+      if (data.charge_id) {
+        setChargeId(data.charge_id)
+      }
       if (data.qr_codes) {
         setQrCode(data.qr_codes)
         setCookie(
@@ -716,7 +720,7 @@ export default function Page(props: { params: Params }) {
           })}
         </div>
       </div>
-      {/* <Socket id={paymentLinkQuery.data.link.id}></Socket> */}
+      <Socket id={chargeId}></Socket>
     </div>
   )
 }

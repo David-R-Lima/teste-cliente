@@ -13,10 +13,10 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Token inválido' }, { status: 401 })
     }
 
-    if (body.event === 'CHARGE_PAID' && body.payment_link.length > 0) {
+    if (body.event === 'CHARGE_PAID') {
       const io = await getSocketInstance()
 
-      io.in(body.payment_link[0].payment_link_id).emit('payed')
+      io.in(body.charge.id).emit('payed')
     }
   } catch (error) {
     console.error('Erro ao emitir evento:', error)

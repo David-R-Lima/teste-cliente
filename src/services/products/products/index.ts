@@ -81,6 +81,7 @@ interface BuyProductsProps {
 export async function BuyProducts(req: BuyProductsProps) {
   console.log(req)
   const res = await api.post<{
+    charge_id: string
     qr_codes?: QrCode[]
     boleto?: Boleto
   }>('/buy-products', req)

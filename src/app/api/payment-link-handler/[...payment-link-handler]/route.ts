@@ -16,6 +16,8 @@ export async function POST(req: NextRequest) {
     if (body.event === 'CHARGE_PAID') {
       const io = await getSocketInstance()
 
+      console.log('Emitindo evento para:', body.charge.id)
+
       io.in(body.charge.id).emit('payed')
     }
   } catch (error) {

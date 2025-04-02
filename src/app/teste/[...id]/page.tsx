@@ -720,7 +720,7 @@ export default function Page(props: { params: Params }) {
           })}
         </div>
       </div>
-      <Socket id={chargeId}></Socket>
+      {chargeId && <Socket id={chargeId}></Socket>}
     </div>
   )
 }

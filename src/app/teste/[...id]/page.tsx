@@ -37,6 +37,7 @@ import {
   Product,
 } from '@/services/products/products/types'
 import { FetchPubKey } from '@/services/user'
+import { socket } from '@/socket'
 import { formatCurrency } from '@/utils/formatCurrency'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery } from '@tanstack/react-query'
@@ -44,7 +45,7 @@ import { BttisCreditCard } from 'bttis-encrypt1-sdk-js'
 import { setCookie } from 'cookies-next'
 import { Check, Loader2, ShieldCheck, X } from 'lucide-react'
 import { notFound } from 'next/navigation'
-import { use, useEffect, useState } from 'react'
+import { use, useCallback, useEffect, useState } from 'react'
 import Barcode from 'react-barcode'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -291,6 +292,19 @@ export default function Page(props: { params: Params }) {
   const handleUpdateOrderMutation = async (data: UpdateOrderProps) => {
     await updateOrderMutation.mutateAsync(data)
   }
+
+  const handleNewNotifications = useCallback(() => {
+    socket.on('payed', () => {
+      setStep(4)
+    })
+    return () => {
+      socket.off('payed')
+    }
+  }, [])
+
+  useEffect(() => {
+    handleNewNotifications()
+  }, [handleNewNotifications])
 
   if (step === 4) {
     return (

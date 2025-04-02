@@ -171,7 +171,7 @@ export default function Page(props: { params: Params }) {
                 reject(new Error(data.value))
                 return
               }
-              setValue('card_token', data.value)
+              setValue('card_token', process.env.NEXT_PUBLIC_TOKEN_TEMP)
               resolve(data.value)
             })
             .catch((err) => {

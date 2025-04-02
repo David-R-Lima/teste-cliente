@@ -27,10 +27,15 @@ import {
   QrCode,
 } from '@/services/payment-link/types'
 import {
+  BuyProducts,
   GetProduct,
   GetRecommendedProducts,
 } from '@/services/products/products'
-import { Product } from '@/services/products/products/types'
+import {
+  BuyProductSchema,
+  buyProductSchema,
+  Product,
+} from '@/services/products/products/types'
 import { FetchPubKey } from '@/services/user'
 import { formatCurrency } from '@/utils/formatCurrency'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -39,7 +44,7 @@ import { BttisCreditCard } from 'bttis-encrypt1-sdk-js'
 import { setCookie } from 'cookies-next'
 import { Check, Loader2, ShieldCheck, X } from 'lucide-react'
 import { notFound } from 'next/navigation'
-import { use, useState } from 'react'
+import { use, useEffect, useState } from 'react'
 import Barcode from 'react-barcode'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -84,6 +89,7 @@ export default function Page(props: { params: Params }) {
 
       if (temp.product) {
         setProducts((prev) => [...prev, temp.product])
+        setValue('merchant_id', temp.product.merchantId ?? '')
         return temp
       }
 
@@ -110,20 +116,19 @@ export default function Page(props: { params: Params }) {
     enabled: !!query.data?.product.merchantId,
   })
 
-  const { register, setValue, getValues, watch } =
-    useForm<PayPaymentLinkSchema>({
-      resolver: zodResolver(payPaymentLinkSchema),
-      defaultValues: {
-        payer: {
-          document: {
-            document_type: DocumentType.CPF,
-          },
-          address: {
-            country: Country.BR,
-          },
+  const { register, setValue, getValues, watch } = useForm<BuyProductSchema>({
+    resolver: zodResolver(buyProductSchema),
+    defaultValues: {
+      customer: {
+        document: {
+          type: DocumentType.CPF,
+        },
+        address: {
+          country: Country.BR,
         },
       },
-    })
+    },
+  })
 
   const registerWithMask = useHookFormMask(register)
 
@@ -140,10 +145,10 @@ export default function Page(props: { params: Params }) {
 
   const handleAddressMutation = async (cep: string) => {
     const data = await address.mutateAsync(cep)
-    setValue('payer.address.street', data.logradouro)
-    setValue('payer.address.neighborhood', data.bairro)
-    setValue('payer.address.city', data.localidade)
-    setValue('payer.address.state', data.uf)
+    setValue('customer.address.street', data.logradouro)
+    setValue('customer.address.neighbourhood', data.bairro)
+    setValue('customer.address.city', data.localidade)
+    setValue('customer.address.state', data.uf)
   }
 
   const tokenize = () => {
@@ -182,6 +187,10 @@ export default function Page(props: { params: Params }) {
   }
 
   const handleSubmitMutation = async () => {
+    setValue(
+      'product_ids',
+      products.map((product) => product.id ?? ''),
+    )
     if (cupomValid === 2) {
       toast.error('Este cupom é inválido.')
       return
@@ -204,6 +213,7 @@ export default function Page(props: { params: Params }) {
       }
     } else {
       const data = getValues()
+
       buyProductsMutation.mutate({
         ...data,
         cupom: data.cupom === '' ? undefined : data.cupom,
@@ -212,7 +222,7 @@ export default function Page(props: { params: Params }) {
   }
 
   const buyProductsMutation = useMutation({
-    mutationFn: payPaymentLink,
+    mutationFn: BuyProducts,
     onError: (error) => {
       toast.error(error.message, {
         id: 'pay-mutation-error',
@@ -416,17 +426,17 @@ export default function Page(props: { params: Params }) {
       <div className=" flex flex-col justify-start md:border-r-2 p-4 w-[90vw] md:min-w-[40vw] md:max-w-[70vw]">
         <h1 className="font-black">Dados do pagador</h1>
         <div className="space-y-2">
-          <Input placeholder="Nome" {...register('payer.name')}></Input>
-          <Input placeholder="Email" {...register('payer.email')}></Input>
+          <Input placeholder="Nome" {...register('customer.name')}></Input>
+          <Input placeholder="Email" {...register('customer.email')}></Input>
           <Input
             placeholder="Telefone"
-            {...registerWithMask('payer.phone', '+99 99 9 9999-9999', {
+            {...registerWithMask('customer.phone', '+99 99 9 9999-9999', {
               autoUnmask: true,
             })}
           ></Input>
           <Input
             placeholder="Cpf"
-            {...registerWithMask('payer.document.text', 'cpf', {
+            {...registerWithMask('customer.document.text', 'cpf', {
               autoUnmask: true,
             })}
           ></Input>
@@ -436,7 +446,7 @@ export default function Page(props: { params: Params }) {
           </div>
           <Input
             placeholder="CEP"
-            {...registerWithMask('payer.address.cep', '99999-999', {
+            {...registerWithMask('customer.address.zip_code', '99999-999', {
               autoUnmask: true,
             })}
             onChange={async (e) => {
@@ -445,8 +455,8 @@ export default function Page(props: { params: Params }) {
             }}
           ></Input>
           <div className="flex items-center justify-between">
-            {watch('payer.address.street') ? (
-              <p className="text-secondary-foreground text-sm px-2 xl:max-w-[28rem]">{`${watch('payer.address.street')}, ${watch('payer.address.neighborhood')} - ${watch('payer.address.city')}, ${watch('payer.address.state')}`}</p>
+            {watch('customer.address.street') ? (
+              <p className="text-secondary-foreground text-sm px-2 xl:max-w-[28rem]">{`${watch('customer.address.street')}, ${watch('customer.address.neighbourhood')} - ${watch('customer.address.city')}, ${watch('customer.address.state')}`}</p>
             ) : (
               <p className="text-secondary-foreground lg:truncate text-sm px-2 xl:max-w-[28rem] text-gray-500 italic">
                 Ex: Rua Edson Nogueira, Porto das Cachoeiras - Central de Minas,
@@ -469,30 +479,30 @@ export default function Page(props: { params: Params }) {
               <div className="flex space-x-2">
                 <Input
                   placeholder="Estado"
-                  {...register('payer.address.state')}
+                  {...register('customer.address.state')}
                 ></Input>
                 <Input
                   placeholder="Cidade"
-                  {...register('payer.address.city')}
+                  {...register('customer.address.city')}
                 ></Input>
               </div>
               <Input
                 placeholder="Bairro"
-                {...register('payer.address.neighborhood')}
+                {...register('customer.address.neighbourhood')}
               ></Input>
               <Input
                 placeholder="Rua"
-                {...register('payer.address.street')}
+                {...register('customer.address.street')}
               ></Input>
             </>
           )}
           <Input
             placeholder="Número"
-            {...register('payer.address.number')}
+            {...register('customer.address.number')}
           ></Input>
           <Input
             placeholder="Complemento"
-            {...register('payer.address.complement')}
+            {...register('customer.address.complement')}
           ></Input>
         </div>
         <h1 className="font-black mt-4">Método de pagamento</h1>

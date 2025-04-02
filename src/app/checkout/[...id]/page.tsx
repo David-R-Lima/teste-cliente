@@ -85,7 +85,11 @@ export default function PaymentLink(props: { params: Params }) {
   })
 
   const recommendedProductQuery = useQuery({
-    queryKey: ['recommendedProduct', id],
+    queryKey: [
+      'recommendedProduct',
+      id,
+      paymentLinkQuery.data?.link.merchantId,
+    ],
     queryFn: async () => {
       const products: string[] = []
 
@@ -95,8 +99,8 @@ export default function PaymentLink(props: { params: Params }) {
       })
 
       const data = await GetRecommendedProducts({
-        orderId: id,
         excludedItens: products,
+        merchantId: paymentLinkQuery.data?.link.merchantId ?? '',
       })
 
       return data

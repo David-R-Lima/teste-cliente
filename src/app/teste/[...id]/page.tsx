@@ -326,9 +326,19 @@ export default function Page(props: { params: Params }) {
     setProducts(temp)
 
     const dProducts = temp.reduce<Product[]>((acc, product) => {
-      if (!acc.some((p) => p.id === product.id)) {
+      const existingProduct = acc.find((p) => p.id === product.id)
+
+      if (existingProduct) {
+        if (existingProduct.quantity) {
+          existingProduct.quantity += 1
+        } else {
+          existingProduct.quantity = 1
+        }
+      } else {
+        product.quantity = 1
         acc.push(product)
       }
+
       return acc
     }, [])
 

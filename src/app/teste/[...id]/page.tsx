@@ -17,6 +17,7 @@ import {
 } from '@/components/ui/select'
 import { fetchAddress } from '@/lib/viacep'
 import { ChargeType, PaymentType } from '@/services/charges/types'
+import { ValidateCupom } from '@/services/cupons'
 import { Country, DocumentType } from '@/services/customers/types'
 import { updateOrder, UpdateOrderProps } from '@/services/order'
 import { payPaymentLink } from '@/services/payment-link'
@@ -96,8 +97,20 @@ export default function Page(props: { params: Params }) {
       const temp = await GetProduct(id)
 
       if (temp.product) {
-        setProducts((prev) => [...prev, temp.product])
-        setDisplayProducts((prev) => [...prev, temp.product])
+        setProducts((prev) => [
+          ...prev,
+          {
+            ...temp.product,
+            quantity: 1,
+          },
+        ])
+        setDisplayProducts((prev) => [
+          ...prev,
+          {
+            ...temp.product,
+            quantity: 1,
+          },
+        ])
         setValue('merchant_id', temp.product.merchantId ?? '')
         return temp
       }
@@ -281,6 +294,21 @@ export default function Page(props: { params: Params }) {
     },
   })
 
+  const validateCupomMutation = useMutation({
+    mutationFn: ValidateCupom,
+    mutationKey: ['validateCupom'],
+    onSuccess: (data) => {
+      if (data.valid) {
+        setCupomValid(1)
+      } else {
+        setCupomValid(2)
+      }
+    },
+    onError: () => {
+      setCupomValid(2)
+    },
+  })
+
   const handleUpdateOrderMutation = async (data: UpdateOrderProps) => {
     let temp = [...products]
 
@@ -365,14 +393,6 @@ export default function Page(props: { params: Params }) {
       </div>
     )
   }
-
-  //   if (paymentLinkQuery.isLoading || orderQuery.isLoading)
-  //     return (
-  //       <div className="flex flex-col items-center justify-center h-[70vh]">
-  //         <Loader2 size={124} className="animate-spin"></Loader2>
-  //         <h1>Aguarde um instante</h1>
-  //       </div>
-  //     )
 
   return (
     <div className="flex flex-col items-center md:flex-row-reverse md:items-start justify-center mt-10 md:space-x-8">

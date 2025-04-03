@@ -66,8 +66,6 @@ export default function Page(props: { params: Params }) {
   const [qrCode, setQrCode] = useState<QrCode[] | undefined>()
   const [boleto, setBoleto] = useState<Boleto | undefined>(undefined)
   const [displayAddressForm, setDisplayAddressForm] = useState<boolean>(false)
-  const [cupomValid, setCupomValid] = useState<number | undefined>(undefined)
-  const [cupom, setCupom] = useState<string | undefined>(undefined)
   const [chargeId, setChargeId] = useState<string | undefined>(undefined)
   const [displayProductButtons, setDisplayProductButtons] =
     useState<boolean>(true)
@@ -209,16 +207,11 @@ export default function Page(props: { params: Params }) {
   }
 
   const handleSubmitMutation = async () => {
-    console.log(products)
     setValue(
       'product_ids',
       products.map((product) => product.id ?? ''),
     )
     setValue('affiliate_id', affiliateId ?? undefined)
-    if (cupomValid === 2) {
-      toast.error('Este cupom é inválido.')
-      return
-    }
     if (paymentType === PaymentType.CREDIT_CARD) {
       try {
         await tokenize()
@@ -291,21 +284,6 @@ export default function Page(props: { params: Params }) {
         toast.success('Pagamento realizado com sucesso!')
         setStep(4)
       }
-    },
-  })
-
-  const validateCupomMutation = useMutation({
-    mutationFn: ValidateCupom,
-    mutationKey: ['validateCupom'],
-    onSuccess: (data) => {
-      if (data.valid) {
-        setCupomValid(1)
-      } else {
-        setCupomValid(2)
-      }
-    },
-    onError: () => {
-      setCupomValid(2)
     },
   })
 
@@ -412,47 +390,7 @@ export default function Page(props: { params: Params }) {
         )}
         <div className="flex flex-col space-y-4 justify-end py-4 rounded-lg">
           <Label>Cupom de desconto</Label>
-          <Input
-            onChange={(e) => {
-              setCupom(e.currentTarget.value)
-
-              if (e.currentTarget.value === '') {
-                setCupomValid(undefined)
-                setCupom(undefined)
-                setValue('cupom', undefined)
-              }
-            }}
-          ></Input>
-          {cupomValid === 1 && (
-            <div className="flex items-center space-x-2">
-              <Check className="text-green-500" />
-              <p>Cupom válido</p>
-            </div>
-          )}
-          {cupomValid === 2 && (
-            <div className="flex items-center space-x-2">
-              <X className="text-red-500" />
-              <p>Cupom inválido</p>
-            </div>
-          )}
-          {/* {cupom && (
-            <Button
-              onClick={() => {
-                validateCupomMutation.mutate({
-                  code: cupom,
-                  value: paymentLinkQuery.data.link.value ?? 1,
-                  cupom_payment_type: paymentLinkQuery.data.link
-                    .chargeType as ChargeType,
-                  merchant_id: paymentLinkQuery.data.link.merchantId,
-                  payment_link_id:
-                    orderQuery.data?.data.order.id_payment_link ?? undefined,
-                })
-                setValue('cupom', cupom)
-              }}
-            >
-              Aplicar
-            </Button>
-          )} */}
+          <Input {...register('cupom')}></Input>
         </div>
         <div>
           <h1 className="font-bold">Produtos</h1>

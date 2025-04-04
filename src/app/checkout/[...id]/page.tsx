@@ -371,6 +371,8 @@ export default function Page(props: { params: Params }) {
     handleNewNotifications()
   }, [handleNewNotifications])
 
+  console.log(query.data)
+
   if (step === 4) {
     return (
       <div className="flex flex-col items-center justify-center h-[70vh]">

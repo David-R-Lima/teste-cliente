@@ -20,10 +20,8 @@ export const createCharge = async (formData: formSchema) => {
       value: formData.value * 100,
     })
 
-    console.log(data)
     return data.charge
   } catch (error) {
-    console.log('error: ', error)
     if (error instanceof AxiosError) {
       throw new Error(`${error?.response?.data?.message}`)
     } else {

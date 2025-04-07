@@ -36,7 +36,6 @@ export default function Relatorios() {
       integer,
       date,
     })
-    console.log('resultado form submit ---', res)
     if (!res) {
       alert('Erro ao salvar parametro')
     } else {

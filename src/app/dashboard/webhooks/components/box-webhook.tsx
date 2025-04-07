@@ -56,8 +56,6 @@ export function BoxWebhook() {
     enabled: status === 'authenticated',
   })
 
-  console.log(sentWebhookQuery.data)
-
   return (
     <div className="w-full h-full relative">
       <div>

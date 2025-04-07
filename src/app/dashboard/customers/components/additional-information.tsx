@@ -14,7 +14,6 @@ interface Props {
 }
 
 export function AdditionalInformation({ customer }: Props) {
-  console.log('customer: ', customer)
   return (
     <Dialog>
       <DialogTrigger className="flex items-center space-x-2">

@@ -61,7 +61,6 @@ export default function DashboardLayoutAdmin({ children }: Props) {
 
   useEffect(() => {
     if (session.status === 'authenticated') {
-      console.log('pegando user type', session.data.user.user_type)
       setUserType(session.data.user?.user_type)
       const token = getCookie('access_token.hub')
       if (token) {

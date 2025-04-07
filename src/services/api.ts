@@ -9,7 +9,6 @@ api.interceptors.response.use(
     return response
   },
   function (error: AxiosError) {
-    console.log(error)
     if (error instanceof AxiosError) {
       if (error.request.status === 500) {
         console.log(error)

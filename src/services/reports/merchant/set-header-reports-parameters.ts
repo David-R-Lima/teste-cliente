@@ -28,7 +28,6 @@ export const setHeaderReportPameters = async ({
 
     return response.status
   } catch (error) {
-    console.log('erro na requisição', error)
     return null
   }
 }

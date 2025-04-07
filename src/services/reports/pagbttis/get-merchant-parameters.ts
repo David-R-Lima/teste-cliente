@@ -24,7 +24,6 @@ export const getMerchantPameters = async (): Promise<
 
     return response.data.parameters
   } catch (error) {
-    console.log('erro na requisição', error)
     return null
   }
 }

@@ -242,7 +242,8 @@ export default function Page(props: { params: Params }) {
   const buyProductsMutation = useMutation({
     mutationFn: BuyProducts,
     onError: (error) => {
-      toast.error(error.message, {
+      // @ts-expect-error asjkdagkd
+      toast.error(error?.response?.data.message || error.message, {
         id: 'pay-mutation-error',
       })
     },

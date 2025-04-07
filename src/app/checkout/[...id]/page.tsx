@@ -242,7 +242,6 @@ export default function Page(props: { params: Params }) {
   const buyProductsMutation = useMutation({
     mutationFn: BuyProducts,
     onError: (error) => {
-      console.log(error)
       // @ts-expect-error asjkdagkd
       toast.error(error?.response?.data.message || error.message, {
         id: 'pay-mutation-error',
@@ -367,7 +366,6 @@ export default function Page(props: { params: Params }) {
     handleNewNotifications()
   }, [handleNewNotifications])
 
-  console.log(query.data)
   if (query.isLoading) {
     return (
       <div className="flex flex-col items-center justify-center h-[70vh]">

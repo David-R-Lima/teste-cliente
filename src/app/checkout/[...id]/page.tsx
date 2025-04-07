@@ -15,18 +15,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+
 import { fetchAddress } from '@/lib/viacep'
-import { ChargeType, PaymentType } from '@/services/charges/types'
-import { ValidateCupom } from '@/services/cupons'
+import { PaymentType } from '@/services/charges/types'
 import { Country, DocumentType } from '@/services/customers/types'
-import { updateOrder, UpdateOrderProps } from '@/services/order'
-import { payPaymentLink } from '@/services/payment-link'
-import {
-  Boleto,
-  payPaymentLinkSchema,
-  PayPaymentLinkSchema,
-  QrCode,
-} from '@/services/payment-link/types'
+import { UpdateOrderProps } from '@/services/order'
+import { Boleto, QrCode } from '@/services/payment-link/types'
 import {
   BuyProducts,
   GetProduct,

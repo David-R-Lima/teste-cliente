@@ -26,10 +26,12 @@ export function ProductComponent({
           <span className="font-bold">Nome: </span>
           {product.name}
         </h1>
-        <h1>
-          <span className="font-bold">Descrição: </span>
-          {product.description}
-        </h1>
+        {product.description && product.description !== '' && (
+          <h1>
+            <span className="font-bold">Descrição: </span>
+            {product.description}
+          </h1>
+        )}
         <p>
           <span className="font-bold">Preço: </span>R${' '}
           {value ? value.toFixed(2) : ''}

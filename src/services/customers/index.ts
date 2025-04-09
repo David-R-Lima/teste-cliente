@@ -19,6 +19,7 @@ export const getCustomers = async (ctx: QueryFunctionContext) => {
 }
 
 export const createCustomer = async (formData: formSchema) => {
+  console.log(formData)
   const { data } = await api.post<{ customer: Customers }>('/customers', {
     ...formData,
   })

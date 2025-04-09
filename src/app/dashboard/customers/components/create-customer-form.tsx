@@ -21,6 +21,7 @@ import { useHookFormMask } from 'use-mask-input'
 import { fetchAddress } from '@/lib/viacep'
 import { createCustomer } from '@/services/customers'
 import { toast } from 'sonner'
+import { Checkbox } from '@/components/ui/checkbox'
 
 const FormSchema = z.object({
   name: z
@@ -63,6 +64,7 @@ const FormSchema = z.object({
     )
     .optional(),
   is_active: z.boolean().optional().default(true),
+  notification_enabled: z.boolean().optional(),
   document: z.object({
     type: z.nativeEnum(DocumentType, {
       required_error: 'Tipo do documento é obrigatório! ',
@@ -175,6 +177,7 @@ export function CreateCustomerForm() {
       address: {
         country: Country.BR,
       },
+      notification_enabled: false,
     },
   })
 
@@ -316,6 +319,15 @@ export function CreateCustomerForm() {
                 ></Input>
               </div>
             )}
+
+            <div className="flex items-center space-x-2">
+              <h1>Notification enabled:</h1>
+              <Checkbox
+                onCheckedChange={(e) => {
+                  setValue('notification_enabled', e as boolean)
+                }}
+              />
+            </div>
           </div>
 
           <div className="flex flex-col space-y-4 p-4 bg-accent rounded-lg">

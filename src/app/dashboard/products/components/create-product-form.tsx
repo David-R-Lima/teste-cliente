@@ -65,7 +65,7 @@ export function CreateProductForm() {
     mutationFn: CreateProduct,
     mutationKey: ['createProductMutation'],
     onSuccess: () => {
-      toast.message('Plano cadastrado com sucesso!')
+      toast.message('Produto cadastrado com sucesso!')
       queryClient.invalidateQueries({
         queryKey: ['products'],
       })

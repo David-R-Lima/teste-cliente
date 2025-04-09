@@ -44,7 +44,7 @@ export function CreatePaymentLinkForm() {
     mutationFn: createPaymentLink,
     mutationKey: ['createPaymentLink'],
     onSuccess: () => {
-      toast.message('Plano cadastrado com sucesso!')
+      toast.message('Link de pagamento cadastrado com sucesso!')
       queryClient.invalidateQueries({
         queryKey: ['payment-links'],
       })

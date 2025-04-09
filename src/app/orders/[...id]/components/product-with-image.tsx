@@ -29,6 +29,7 @@ export function ProductWithImageComponent({
         )}
         <h1>{product.name}</h1>
         <p>R$ {value ? value.toFixed(2) : ''}</p>
+        <p className="italic">{product.description}</p>
         {displayButtons && (
           <Button
             className="w-full"

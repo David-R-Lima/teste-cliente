@@ -300,7 +300,7 @@ export default function Page(props: { params: Params }) {
 
       case 'DECREASE': {
         if (temp.length === 1) {
-          toast.message('Você precisa ter pelo meno 1 item')
+          toast.message('Você precisa ter pelo menos 1 item')
           break
         }
 

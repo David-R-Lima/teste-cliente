@@ -37,10 +37,9 @@ export async function GET(req: NextRequest) {
     return NextResponse.json(response.data)
   } catch (error) {
     if (error instanceof AxiosError) {
-      return NextResponse.json(
-        { message: error.response?.data?.message || error.message },
-        { status: error.response?.status || 500 },
-      )
+      return NextResponse.json(error.response?.data, {
+        status: error.response?.status || 500,
+      })
     } else {
       return NextResponse.json(
         { message: 'Unknown error occurred' },
@@ -84,10 +83,9 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(response.data)
   } catch (error) {
     if (error instanceof AxiosError) {
-      return NextResponse.json(
-        { message: error.response?.data?.message || error.message },
-        { status: error.response?.status || 500 },
-      )
+      return NextResponse.json(error.response?.data, {
+        status: error.response?.status || 500,
+      })
     } else {
       return NextResponse.json(
         { message: 'Unknown error occurred' },
@@ -131,10 +129,9 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json(response.data)
   } catch (error) {
     if (error instanceof AxiosError) {
-      return NextResponse.json(
-        { message: error.response?.data?.message || error.message },
-        { status: error.response?.status || 500 },
-      )
+      return NextResponse.json(error.response?.data, {
+        status: error.response?.status || 500,
+      })
     } else {
       return NextResponse.json(
         { message: 'Unknown error occurred' },
@@ -178,10 +175,9 @@ export async function PATCH(req: NextRequest) {
     return NextResponse.json(response.data)
   } catch (error) {
     if (error instanceof AxiosError) {
-      return NextResponse.json(
-        { message: error.response?.data?.message || error.message },
-        { status: error.response?.status || 500 },
-      )
+      return NextResponse.json(error.response?.data, {
+        status: error.response?.status || 500,
+      })
     } else {
       return NextResponse.json(
         { message: 'Unknown error occurred' },
@@ -225,10 +221,9 @@ export async function PUT(req: NextRequest) {
     return NextResponse.json(response.data)
   } catch (error) {
     if (error instanceof AxiosError) {
-      return NextResponse.json(
-        { message: error.response?.data?.message || error.message },
-        { status: error.response?.status || 500 },
-      )
+      return NextResponse.json(error.response?.data, {
+        status: error.response?.status || 500,
+      })
     } else {
       return NextResponse.json(
         { message: 'Unknown error occurred' },

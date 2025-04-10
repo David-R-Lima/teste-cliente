@@ -385,8 +385,8 @@ export default function Page(props: { params: Params }) {
 
   if (query.data?.product) {
     return (
-      <div className="flex flex-col items-center md:flex-row-reverse md:items-start justify-center mt-10 md:space-x-8">
-        <div className="p-2 md:self-start md:ml-4 space-y-2 w-[90vw] md:min-w-[20vw] md:max-w-[20vw] text-sm">
+      <div className="flex flex-col items-center lg:flex-row-reverse lg:items-start justify-center mt-10 lg:space-x-8">
+        <div className="p-2 lg:self-start lg:ml-4 space-y-2 w-[90vw] lg:min-w-[20vw] lg:max-w-[20vw] text-sm">
           <h1>
             <span className="font-bold">Valor: </span>{' '}
             {formatCurrency(
@@ -440,7 +440,7 @@ export default function Page(props: { params: Params }) {
               })}
             </div>
           </div>
-          <div className="hidden md:block pt-4">
+          <div className="hidden lg:block pt-4">
             <h1 className="font-bold text-lg">
               Você também pode se interresar por
             </h1>
@@ -464,7 +464,7 @@ export default function Page(props: { params: Params }) {
             </div>
           </div>
         </div>
-        <div className=" flex flex-col justify-start md:border-r-2 p-4 w-[90vw] md:min-w-[40vw] md:max-w-[70vw]">
+        <div className=" flex flex-col justify-start lg:border-r-2 p-4 w-[90vw] lg:min-w-[40vw] lg:max-w-[70vw]">
           <h1 className="font-black">Dados do pagador</h1>
           <div className="space-y-2">
             <Input placeholder="Nome" {...register('customer.name')}></Input>
@@ -733,7 +733,7 @@ export default function Page(props: { params: Params }) {
           )}
         </div>
 
-        <div className="block md:hidden w-full">
+        <div className="block lg:hidden w-full">
           <div className="border w-full"></div>
           <h1 className="font-bold text-lg px-4 mt-4">
             Você também pode se interresar por

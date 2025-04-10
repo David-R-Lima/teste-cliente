@@ -45,6 +45,8 @@ import { GetRecommendedProducts } from '@/services/products/products'
 type Params = Promise<{ id: string }>
 
 export default function PaymentLink(props: { params: Params }) {
+  return notFound()
+
   const [step, setStep] = useState(1)
   const [paymentType, setPaymentType] = useState<PaymentType | undefined>()
   const [qrCode, setQrCode] = useState<QrCode[] | undefined>()
@@ -358,443 +360,443 @@ export default function PaymentLink(props: { params: Params }) {
     }
   }, [orderQuery.data])
 
-  if (step === 4) {
-    return (
-      <div className="flex flex-col items-center justify-center h-[70vh]">
-        <h1 className="font-bold">Pagamento realizado com sucesso!</h1>
-      </div>
-    )
-  }
+  // if (step === 4) {
+  //   return (
+  //     <div className="flex flex-col items-center justify-center h-[70vh]">
+  //       <h1 className="font-bold">Pagamento realizado com sucesso!</h1>
+  //     </div>
+  //   )
+  // }
 
-  if (paymentLinkQuery.isLoading || orderQuery.isLoading)
-    return (
-      <div className="flex flex-col items-center justify-center h-[70vh]">
-        <Loader2 size={124} className="animate-spin"></Loader2>
-        <h1>Aguarde um instante</h1>
-      </div>
-    )
+  // if (paymentLinkQuery.isLoading || orderQuery.isLoading)
+  //   return (
+  //     <div className="flex flex-col items-center justify-center h-[70vh]">
+  //       <Loader2 size={124} className="animate-spin"></Loader2>
+  //       <h1>Aguarde um instante</h1>
+  //     </div>
+  //   )
 
-  if (paymentLinkQuery.data) {
-    return (
-      <div className="flex flex-col items-center md:flex-row-reverse md:items-start justify-center mt-10 md:space-x-8">
-        <div className="p-2 md:self-start md:ml-4 space-y-2 w-[90vw] md:min-w-[20vw] md:max-w-[20vw] text-sm">
-          <h1>
-            <span className="font-bold">Valor: </span>{' '}
-            {formatCurrency(paymentLinkQuery.data.link.value / 100)}
-          </h1>
-          {paymentType && (
-            <div className="">
-              <p>
-                <strong>Método de pagamento:</strong> {paymentType}
-              </p>
-            </div>
-          )}
-          <div className="flex flex-col space-y-4 justify-end py-4 rounded-lg">
-            <Label>Cupom de desconto</Label>
-            <Input
-              onChange={(e) => {
-                setCupom(e.currentTarget.value)
+  // if (paymentLinkQuery.data) {
+  //   return (
+  //     <div className="flex flex-col items-center md:flex-row-reverse md:items-start justify-center mt-10 md:space-x-8">
+  //       <div className="p-2 md:self-start md:ml-4 space-y-2 w-[90vw] md:min-w-[20vw] md:max-w-[20vw] text-sm">
+  //         <h1>
+  //           <span className="font-bold">Valor: </span>{' '}
+  //           {formatCurrency(paymentLinkQuery.data.link.value / 100)}
+  //         </h1>
+  //         {paymentType && (
+  //           <div className="">
+  //             <p>
+  //               <strong>Método de pagamento:</strong> {paymentType}
+  //             </p>
+  //           </div>
+  //         )}
+  //         <div className="flex flex-col space-y-4 justify-end py-4 rounded-lg">
+  //           <Label>Cupom de desconto</Label>
+  //           <Input
+  //             onChange={(e) => {
+  //               setCupom(e.currentTarget.value)
 
-                if (e.currentTarget.value === '') {
-                  setCupomValid(undefined)
-                  setCupom(undefined)
-                  setValue('cupom', undefined)
-                }
-              }}
-            ></Input>
-            {cupomValid === 1 && (
-              <div className="flex items-center space-x-2">
-                <Check className="text-green-500" />
-                <p>Cupom válido</p>
-              </div>
-            )}
-            {cupomValid === 2 && (
-              <div className="flex items-center space-x-2">
-                <X className="text-red-500" />
-                <p>Cupom inválido</p>
-              </div>
-            )}
-            {cupom && (
-              <Button
-                onClick={() => {
-                  validateCupomMutation.mutate({
-                    code: cupom,
-                    value: paymentLinkQuery.data.link.value ?? 1,
-                    cupom_payment_type: paymentLinkQuery.data.link
-                      .chargeType as ChargeType,
-                    merchant_id: paymentLinkQuery.data.link.merchantId,
-                    payment_link_id:
-                      orderQuery.data?.data.order.id_payment_link ?? undefined,
-                  })
-                  setValue('cupom', cupom)
-                }}
-              >
-                Aplicar
-              </Button>
-            )}
-          </div>
-          <div>
-            <h1 className="font-bold">Produtos</h1>
-            <div className="flex flex-col items-center mt-4 space-y-4 max-h-[300px] overflow-y-scroll p-2">
-              {orderQuery.data?.data.products.map((product) => {
-                return (
-                  <ProductComponent
-                    key={product.id}
-                    product={product}
-                    displayButtons={displayProductButtons}
-                    onclickAdd={() => {
-                      handleUpdateOrderMutation({
-                        itens: product,
-                        orderId: id,
-                        type: 'ADD',
-                      })
-                    }}
-                    onclickDescrease={() => {
-                      handleUpdateOrderMutation({
-                        itens: product,
-                        orderId: id,
-                        type: 'DECREASE',
-                      })
-                    }}
-                    onclickRemove={() => {
-                      handleUpdateOrderMutation({
-                        itens: product,
-                        orderId: id,
-                        type: 'REMOVE',
-                      })
-                    }}
-                  ></ProductComponent>
-                )
-              })}
-            </div>
-          </div>
-          <div className="hidden md:block pt-4">
-            <h1 className="font-bold text-lg">
-              Você também pode se interresar por
-            </h1>
-            <div className="flex flex-col items-center mt-4 space-y-4">
-              {recommendedProductQuery.data?.products?.map((product) => {
-                return (
-                  <ProductWithImageComponent
-                    key={product?.id}
-                    product={product}
-                    displayButtons={displayProductButtons}
-                    onCick={() => {
-                      handleUpdateOrderMutation({
-                        itens: product,
-                        orderId: id,
-                        type: 'ADD',
-                      })
-                    }}
-                  ></ProductWithImageComponent>
-                )
-              })}
-            </div>
-          </div>
-        </div>
-        <div className=" flex flex-col justify-start md:border-r-2 p-4 w-[90vw] md:min-w-[40vw] md:max-w-[70vw]">
-          <h1 className="font-black">Dados do pagador</h1>
-          <div className="space-y-2">
-            <Input placeholder="Nome" {...register('payer.name')}></Input>
-            <Input placeholder="Email" {...register('payer.email')}></Input>
-            <Input
-              placeholder="Telefone"
-              {...registerWithMask('payer.phone', '+99 99 9 9999-9999', {
-                autoUnmask: true,
-              })}
-            ></Input>
-            <Input
-              placeholder="Cpf"
-              {...registerWithMask('payer.document.text', 'cpf', {
-                autoUnmask: true,
-              })}
-            ></Input>
-            <div>
-              <hr />
-              <h1 className="mt-4">Endereço</h1>
-            </div>
-            <Input
-              placeholder="CEP"
-              {...registerWithMask('payer.address.cep', '99999-999', {
-                autoUnmask: true,
-              })}
-              onChange={async (e) => {
-                if (e.target.value.length !== 8) return
-                handleAddressMutation(e.currentTarget.value)
-              }}
-            ></Input>
-            <div className="flex items-center justify-between">
-              {watch('payer.address.street') ? (
-                <p className="text-secondary-foreground text-sm px-2 xl:max-w-[28rem]">{`${watch('payer.address.street')}, ${watch('payer.address.neighborhood')} - ${watch('payer.address.city')}, ${watch('payer.address.state')}`}</p>
-              ) : (
-                <p className="text-secondary-foreground lg:truncate text-sm px-2 xl:max-w-[28rem] text-gray-500 italic">
-                  Ex: Rua Edson Nogueira, Porto das Cachoeiras - Central de
-                  Minas, Minas Gerais
-                </p>
-              )}
-              <div
-                className="flex justify-end"
-                onClick={() => {
-                  setDisplayAddressForm(!displayAddressForm)
-                }}
-              >
-                <p className="text-secondary-foreground text-sm text-gray-500 underline hover:cursor-pointer">
-                  Não sei o cep
-                </p>
-              </div>
-            </div>
-            {displayAddressForm && (
-              <>
-                <div className="flex space-x-2">
-                  <Input
-                    placeholder="Estado"
-                    {...register('payer.address.state')}
-                  ></Input>
-                  <Input
-                    placeholder="Cidade"
-                    {...register('payer.address.city')}
-                  ></Input>
-                </div>
-                <Input
-                  placeholder="Bairro"
-                  {...register('payer.address.neighborhood')}
-                ></Input>
-                <Input
-                  placeholder="Rua"
-                  {...register('payer.address.street')}
-                ></Input>
-              </>
-            )}
-            <Input
-              placeholder="Número"
-              {...register('payer.address.number')}
-            ></Input>
-            <Input
-              placeholder="Complemento"
-              {...register('payer.address.complement')}
-            ></Input>
-          </div>
-          <h1 className="font-black mt-4">Método de pagamento</h1>
-          <div>
-            <Select
-              onValueChange={(e) => {
-                setPaymentType(e as PaymentType)
-                setValue('payment_type', e as PaymentType)
-              }}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Método de pagamento" />
-              </SelectTrigger>
+  //               if (e.currentTarget.value === '') {
+  //                 setCupomValid(undefined)
+  //                 setCupom(undefined)
+  //                 setValue('cupom', undefined)
+  //               }
+  //             }}
+  //           ></Input>
+  //           {cupomValid === 1 && (
+  //             <div className="flex items-center space-x-2">
+  //               <Check className="text-green-500" />
+  //               <p>Cupom válido</p>
+  //             </div>
+  //           )}
+  //           {cupomValid === 2 && (
+  //             <div className="flex items-center space-x-2">
+  //               <X className="text-red-500" />
+  //               <p>Cupom inválido</p>
+  //             </div>
+  //           )}
+  //           {cupom && (
+  //             <Button
+  //               onClick={() => {
+  //                 validateCupomMutation.mutate({
+  //                   code: cupom,
+  //                   value: paymentLinkQuery.data.link.value ?? 1,
+  //                   cupom_payment_type: paymentLinkQuery.data.link
+  //                     .chargeType as ChargeType,
+  //                   merchant_id: paymentLinkQuery.data.link.merchantId,
+  //                   payment_link_id:
+  //                     orderQuery.data?.data.order.id_payment_link ?? undefined,
+  //                 })
+  //                 setValue('cupom', cupom)
+  //               }}
+  //             >
+  //               Aplicar
+  //             </Button>
+  //           )}
+  //         </div>
+  //         <div>
+  //           <h1 className="font-bold">Produtos</h1>
+  //           <div className="flex flex-col items-center mt-4 space-y-4 max-h-[300px] overflow-y-scroll p-2">
+  //             {orderQuery.data?.data.products.map((product) => {
+  //               return (
+  //                 <ProductComponent
+  //                   key={product.id}
+  //                   product={product}
+  //                   displayButtons={displayProductButtons}
+  //                   onclickAdd={() => {
+  //                     handleUpdateOrderMutation({
+  //                       itens: product,
+  //                       orderId: id,
+  //                       type: 'ADD',
+  //                     })
+  //                   }}
+  //                   onclickDescrease={() => {
+  //                     handleUpdateOrderMutation({
+  //                       itens: product,
+  //                       orderId: id,
+  //                       type: 'DECREASE',
+  //                     })
+  //                   }}
+  //                   onclickRemove={() => {
+  //                     handleUpdateOrderMutation({
+  //                       itens: product,
+  //                       orderId: id,
+  //                       type: 'REMOVE',
+  //                     })
+  //                   }}
+  //                 ></ProductComponent>
+  //               )
+  //             })}
+  //           </div>
+  //         </div>
+  //         <div className="hidden md:block pt-4">
+  //           <h1 className="font-bold text-lg">
+  //             Você também pode se interresar por
+  //           </h1>
+  //           <div className="flex flex-col items-center mt-4 space-y-4">
+  //             {recommendedProductQuery.data?.products?.map((product) => {
+  //               return (
+  //                 <ProductWithImageComponent
+  //                   key={product?.id}
+  //                   product={product}
+  //                   displayButtons={displayProductButtons}
+  //                   onCick={() => {
+  //                     handleUpdateOrderMutation({
+  //                       itens: product,
+  //                       orderId: id,
+  //                       type: 'ADD',
+  //                     })
+  //                   }}
+  //                 ></ProductWithImageComponent>
+  //               )
+  //             })}
+  //           </div>
+  //         </div>
+  //       </div>
+  //       <div className=" flex flex-col justify-start md:border-r-2 p-4 w-[90vw] md:min-w-[40vw] md:max-w-[70vw]">
+  //         <h1 className="font-black">Dados do pagador</h1>
+  //         <div className="space-y-2">
+  //           <Input placeholder="Nome" {...register('payer.name')}></Input>
+  //           <Input placeholder="Email" {...register('payer.email')}></Input>
+  //           <Input
+  //             placeholder="Telefone"
+  //             {...registerWithMask('payer.phone', '+99 99 9 9999-9999', {
+  //               autoUnmask: true,
+  //             })}
+  //           ></Input>
+  //           <Input
+  //             placeholder="Cpf"
+  //             {...registerWithMask('payer.document.text', 'cpf', {
+  //               autoUnmask: true,
+  //             })}
+  //           ></Input>
+  //           <div>
+  //             <hr />
+  //             <h1 className="mt-4">Endereço</h1>
+  //           </div>
+  //           <Input
+  //             placeholder="CEP"
+  //             {...registerWithMask('payer.address.cep', '99999-999', {
+  //               autoUnmask: true,
+  //             })}
+  //             onChange={async (e) => {
+  //               if (e.target.value.length !== 8) return
+  //               handleAddressMutation(e.currentTarget.value)
+  //             }}
+  //           ></Input>
+  //           <div className="flex items-center justify-between">
+  //             {watch('payer.address.street') ? (
+  //               <p className="text-secondary-foreground text-sm px-2 xl:max-w-[28rem]">{`${watch('payer.address.street')}, ${watch('payer.address.neighborhood')} - ${watch('payer.address.city')}, ${watch('payer.address.state')}`}</p>
+  //             ) : (
+  //               <p className="text-secondary-foreground lg:truncate text-sm px-2 xl:max-w-[28rem] text-gray-500 italic">
+  //                 Ex: Rua Edson Nogueira, Porto das Cachoeiras - Central de
+  //                 Minas, Minas Gerais
+  //               </p>
+  //             )}
+  //             <div
+  //               className="flex justify-end"
+  //               onClick={() => {
+  //                 setDisplayAddressForm(!displayAddressForm)
+  //               }}
+  //             >
+  //               <p className="text-secondary-foreground text-sm text-gray-500 underline hover:cursor-pointer">
+  //                 Não sei o cep
+  //               </p>
+  //             </div>
+  //           </div>
+  //           {displayAddressForm && (
+  //             <>
+  //               <div className="flex space-x-2">
+  //                 <Input
+  //                   placeholder="Estado"
+  //                   {...register('payer.address.state')}
+  //                 ></Input>
+  //                 <Input
+  //                   placeholder="Cidade"
+  //                   {...register('payer.address.city')}
+  //                 ></Input>
+  //               </div>
+  //               <Input
+  //                 placeholder="Bairro"
+  //                 {...register('payer.address.neighborhood')}
+  //               ></Input>
+  //               <Input
+  //                 placeholder="Rua"
+  //                 {...register('payer.address.street')}
+  //               ></Input>
+  //             </>
+  //           )}
+  //           <Input
+  //             placeholder="Número"
+  //             {...register('payer.address.number')}
+  //           ></Input>
+  //           <Input
+  //             placeholder="Complemento"
+  //             {...register('payer.address.complement')}
+  //           ></Input>
+  //         </div>
+  //         <h1 className="font-black mt-4">Método de pagamento</h1>
+  //         <div>
+  //           <Select
+  //             onValueChange={(e) => {
+  //               setPaymentType(e as PaymentType)
+  //               setValue('payment_type', e as PaymentType)
+  //             }}
+  //           >
+  //             <SelectTrigger>
+  //               <SelectValue placeholder="Método de pagamento" />
+  //             </SelectTrigger>
 
-              <SelectContent>
-                <SelectItem value={PaymentType.CREDIT_CARD}>Cartão</SelectItem>
-                {!paymentLinkQuery.data.link.recurrenceId && (
-                  <SelectItem value={PaymentType.PIX}>Pix</SelectItem>
-                )}
-                {!paymentLinkQuery.data.link.recurrenceId && (
-                  <SelectItem value={PaymentType.BOLETO}>Boleto</SelectItem>
-                )}
-              </SelectContent>
-            </Select>
-          </div>
+  //             <SelectContent>
+  //               <SelectItem value={PaymentType.CREDIT_CARD}>Cartão</SelectItem>
+  //               {!paymentLinkQuery.data.link.recurrenceId && (
+  //                 <SelectItem value={PaymentType.PIX}>Pix</SelectItem>
+  //               )}
+  //               {!paymentLinkQuery.data.link.recurrenceId && (
+  //                 <SelectItem value={PaymentType.BOLETO}>Boleto</SelectItem>
+  //               )}
+  //             </SelectContent>
+  //           </Select>
+  //         </div>
 
-          {paymentType === PaymentType.CREDIT_CARD && (
-            <>
-              <div className="space-y-2 mt-4">
-                <div>
-                  <Input
-                    placeholder="Titular do cartão"
-                    onChange={(e) => {
-                      setCardToTokenize({
-                        ...cardToTokenize,
-                        card_holder: e.currentTarget.value,
-                      })
-                    }}
-                  ></Input>
-                </div>
-                <div>
-                  <Input
-                    placeholder="Cpf do titular"
-                    onChange={(e) => {
-                      setCardToTokenize({
-                        ...cardToTokenize,
-                        cpf: e.currentTarget.value,
-                      })
-                    }}
-                  ></Input>
-                </div>
-                <div>
-                  <Input
-                    placeholder="Número do cartão"
-                    onChange={(e) => {
-                      setCardToTokenize({
-                        ...cardToTokenize,
-                        card_number: e.currentTarget.value,
-                      })
-                    }}
-                    maxLength={16}
-                  ></Input>
-                </div>
-                <div className="flex space-x-2 justify-between">
-                  <div className="flex justify-start items-center space-x-2">
-                    <div>
-                      <Label>Mês</Label>
-                      <Input
-                        placeholder="12"
-                        className="max-w-[50px]"
-                        maxLength={2}
-                        onChange={(e) => {
-                          setCardToTokenize({
-                            ...cardToTokenize,
-                            card_expiration_month: e.currentTarget.value,
-                          })
-                        }}
-                      ></Input>
-                    </div>
-                    <div>
-                      <Label>Ano</Label>
-                      <Input
-                        placeholder="30"
-                        className="max-w-[150px]"
-                        maxLength={2}
-                        onChange={(e) => {
-                          setCardToTokenize({
-                            ...cardToTokenize,
-                            card_expiration_year: e.currentTarget.value,
-                          })
-                        }}
-                      ></Input>
-                    </div>
-                  </div>
-                  <div>
-                    {' '}
-                    <Label>Código de segurança</Label>
-                    <Input
-                      placeholder="CVV"
-                      onChange={(e) => {
-                        setCardToTokenize({
-                          ...cardToTokenize,
-                          card_cvv: e.currentTarget.value,
-                        })
-                      }}
-                    ></Input>
-                  </div>
-                </div>
-              </div>
-              {payPaymentLinkMutation.isPending ? (
-                <Button className="w-full mt-4" disabled>
-                  <Loader2 className="animate-spin"></Loader2>
-                </Button>
-              ) : (
-                <Button
-                  className="w-full mt-4"
-                  onClick={() => {
-                    handleSubmitMutation()
-                  }}
-                >
-                  Finalizar
-                </Button>
-              )}
-            </>
-          )}
+  //         {paymentType === PaymentType.CREDIT_CARD && (
+  //           <>
+  //             <div className="space-y-2 mt-4">
+  //               <div>
+  //                 <Input
+  //                   placeholder="Titular do cartão"
+  //                   onChange={(e) => {
+  //                     setCardToTokenize({
+  //                       ...cardToTokenize,
+  //                       card_holder: e.currentTarget.value,
+  //                     })
+  //                   }}
+  //                 ></Input>
+  //               </div>
+  //               <div>
+  //                 <Input
+  //                   placeholder="Cpf do titular"
+  //                   onChange={(e) => {
+  //                     setCardToTokenize({
+  //                       ...cardToTokenize,
+  //                       cpf: e.currentTarget.value,
+  //                     })
+  //                   }}
+  //                 ></Input>
+  //               </div>
+  //               <div>
+  //                 <Input
+  //                   placeholder="Número do cartão"
+  //                   onChange={(e) => {
+  //                     setCardToTokenize({
+  //                       ...cardToTokenize,
+  //                       card_number: e.currentTarget.value,
+  //                     })
+  //                   }}
+  //                   maxLength={16}
+  //                 ></Input>
+  //               </div>
+  //               <div className="flex space-x-2 justify-between">
+  //                 <div className="flex justify-start items-center space-x-2">
+  //                   <div>
+  //                     <Label>Mês</Label>
+  //                     <Input
+  //                       placeholder="12"
+  //                       className="max-w-[50px]"
+  //                       maxLength={2}
+  //                       onChange={(e) => {
+  //                         setCardToTokenize({
+  //                           ...cardToTokenize,
+  //                           card_expiration_month: e.currentTarget.value,
+  //                         })
+  //                       }}
+  //                     ></Input>
+  //                   </div>
+  //                   <div>
+  //                     <Label>Ano</Label>
+  //                     <Input
+  //                       placeholder="30"
+  //                       className="max-w-[150px]"
+  //                       maxLength={2}
+  //                       onChange={(e) => {
+  //                         setCardToTokenize({
+  //                           ...cardToTokenize,
+  //                           card_expiration_year: e.currentTarget.value,
+  //                         })
+  //                       }}
+  //                     ></Input>
+  //                   </div>
+  //                 </div>
+  //                 <div>
+  //                   {' '}
+  //                   <Label>Código de segurança</Label>
+  //                   <Input
+  //                     placeholder="CVV"
+  //                     onChange={(e) => {
+  //                       setCardToTokenize({
+  //                         ...cardToTokenize,
+  //                         card_cvv: e.currentTarget.value,
+  //                       })
+  //                     }}
+  //                   ></Input>
+  //                 </div>
+  //               </div>
+  //             </div>
+  //             {payPaymentLinkMutation.isPending ? (
+  //               <Button className="w-full mt-4" disabled>
+  //                 <Loader2 className="animate-spin"></Loader2>
+  //               </Button>
+  //             ) : (
+  //               <Button
+  //                 className="w-full mt-4"
+  //                 onClick={() => {
+  //                   handleSubmitMutation()
+  //                 }}
+  //               >
+  //                 Finalizar
+  //               </Button>
+  //             )}
+  //           </>
+  //         )}
 
-          {paymentType === PaymentType.PIX && (
-            <Card className="mt-4">
-              <CardContent className="w-full mt-4 space-y-2">
-                <h1 className="font-extrabold">Pagamento com Pix</h1>
-                <p>1 - Pagamento em segundos</p>
-                <p>
-                  2 - Com o aplicativo do seu banco, escaneie o QR Code que será
-                  gerado em sua compra
-                </p>{' '}
-                <p>3 - Se preferir, use a opção Copia e Cola </p>
-                <div className="flex space-x-2 pt-4">
-                  <ShieldCheck className="w-6 h-6" /> <p>Compra Segura</p>
-                </div>
-                <div className="h-[1rem]"></div>
-                {!qrCode && (
-                  <Button
-                    onClick={() => {
-                      handleSubmitMutation()
-                    }}
-                  >
-                    Continuar
-                  </Button>
-                )}
-                <div>
-                  <div className="flex items-center justify-center">
-                    {payPaymentLinkMutation.isPending && (
-                      <Loader2 size={124} className="animate-spin"></Loader2>
-                    )}
-                  </div>
-                  {qrCode && (
-                    <RenderQRCodeSectionPaymentLink qrcode={qrCode[0]} />
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          )}
+  //         {paymentType === PaymentType.PIX && (
+  //           <Card className="mt-4">
+  //             <CardContent className="w-full mt-4 space-y-2">
+  //               <h1 className="font-extrabold">Pagamento com Pix</h1>
+  //               <p>1 - Pagamento em segundos</p>
+  //               <p>
+  //                 2 - Com o aplicativo do seu banco, escaneie o QR Code que será
+  //                 gerado em sua compra
+  //               </p>{' '}
+  //               <p>3 - Se preferir, use a opção Copia e Cola </p>
+  //               <div className="flex space-x-2 pt-4">
+  //                 <ShieldCheck className="w-6 h-6" /> <p>Compra Segura</p>
+  //               </div>
+  //               <div className="h-[1rem]"></div>
+  //               {!qrCode && (
+  //                 <Button
+  //                   onClick={() => {
+  //                     handleSubmitMutation()
+  //                   }}
+  //                 >
+  //                   Continuar
+  //                 </Button>
+  //               )}
+  //               <div>
+  //                 <div className="flex items-center justify-center">
+  //                   {payPaymentLinkMutation.isPending && (
+  //                     <Loader2 size={124} className="animate-spin"></Loader2>
+  //                   )}
+  //                 </div>
+  //                 {qrCode && (
+  //                   <RenderQRCodeSectionPaymentLink qrcode={qrCode[0]} />
+  //                 )}
+  //               </div>
+  //             </CardContent>
+  //           </Card>
+  //         )}
 
-          {paymentType === PaymentType.BOLETO && (
-            <Card className="mt-4">
-              <CardContent className="w-full mt-4 space-y-2">
-                <h1 className="font-extrabold">Pagamento com Boleto</h1>
-                <div className="flex space-x-2 pt-4">
-                  <ShieldCheck className="w-6 h-6" /> <p>Compra Segura</p>
-                </div>
-                <div className="h-[1rem]"></div>
-                {!boleto && (
-                  <Button
-                    onClick={() => {
-                      handleSubmitMutation()
-                    }}
-                  >
-                    Continuar
-                  </Button>
-                )}
-                <div>
-                  <div className="flex items-center justify-center">
-                    {payPaymentLinkMutation.isPending && (
-                      <Loader2 size={124} className="animate-spin"></Loader2>
-                    )}
-                  </div>
-                  {boleto && renderBoletoSection(boleto)}
-                </div>
-              </CardContent>
-            </Card>
-          )}
-        </div>
+  //         {paymentType === PaymentType.BOLETO && (
+  //           <Card className="mt-4">
+  //             <CardContent className="w-full mt-4 space-y-2">
+  //               <h1 className="font-extrabold">Pagamento com Boleto</h1>
+  //               <div className="flex space-x-2 pt-4">
+  //                 <ShieldCheck className="w-6 h-6" /> <p>Compra Segura</p>
+  //               </div>
+  //               <div className="h-[1rem]"></div>
+  //               {!boleto && (
+  //                 <Button
+  //                   onClick={() => {
+  //                     handleSubmitMutation()
+  //                   }}
+  //                 >
+  //                   Continuar
+  //                 </Button>
+  //               )}
+  //               <div>
+  //                 <div className="flex items-center justify-center">
+  //                   {payPaymentLinkMutation.isPending && (
+  //                     <Loader2 size={124} className="animate-spin"></Loader2>
+  //                   )}
+  //                 </div>
+  //                 {boleto && renderBoletoSection(boleto)}
+  //               </div>
+  //             </CardContent>
+  //           </Card>
+  //         )}
+  //       </div>
 
-        <div className="block md:hidden w-full">
-          <div className="border w-full"></div>
-          <h1 className="font-bold text-lg px-4 mt-4">
-            Você também pode se interresar por
-          </h1>
-          <div className="flex flex-col items-center mt-4 space-y-4 px-4">
-            {recommendedProductQuery.data?.products?.map((product) => {
-              return (
-                <ProductWithImageComponent
-                  key={product?.id}
-                  product={product}
-                  displayButtons={displayProductButtons}
-                  onCick={() => {
-                    handleUpdateOrderMutation({
-                      itens: product,
-                      orderId: id,
-                      type: 'ADD',
-                    })
-                  }}
-                ></ProductWithImageComponent>
-              )
-            })}
-          </div>
-        </div>
-        <Socket id={paymentLinkQuery.data.link.id}></Socket>
-      </div>
-    )
-  } else {
-    notFound()
-  }
+  //       <div className="block md:hidden w-full">
+  //         <div className="border w-full"></div>
+  //         <h1 className="font-bold text-lg px-4 mt-4">
+  //           Você também pode se interresar por
+  //         </h1>
+  //         <div className="flex flex-col items-center mt-4 space-y-4 px-4">
+  //           {recommendedProductQuery.data?.products?.map((product) => {
+  //             return (
+  //               <ProductWithImageComponent
+  //                 key={product?.id}
+  //                 product={product}
+  //                 displayButtons={displayProductButtons}
+  //                 onCick={() => {
+  //                   handleUpdateOrderMutation({
+  //                     itens: product,
+  //                     orderId: id,
+  //                     type: 'ADD',
+  //                   })
+  //                 }}
+  //               ></ProductWithImageComponent>
+  //             )
+  //           })}
+  //         </div>
+  //       </div>
+  //       <Socket id={paymentLinkQuery.data.link.id}></Socket>
+  //     </div>
+  //   )
+  // } else {
+  //   notFound()
+  // }
 }
 
 const renderBoletoSection = (boleto: Boleto) => {

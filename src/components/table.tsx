@@ -14,18 +14,11 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 
 import {
   Pagination,
@@ -45,7 +38,6 @@ interface DataTableProps<TData, TValue> {
 }
 
 export function TableComponent<TData, TValue>({
-  name,
   columns,
   data,
   page,

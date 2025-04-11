@@ -11,7 +11,6 @@ import { useState } from 'react'
 export function PagBttisRelatorio() {
   const [dateIni, setDateIni] = useState<string>('')
   const [dateFin, setDateFin] = useState<string>('')
-  const [isLoading, setLoading] = useState(false)
 
   const fetchReportCashFlow = useMutation({
     mutationFn: async () => {
@@ -22,7 +21,6 @@ export function PagBttisRelatorio() {
 
         return
       }
-      setLoading(true)
 
       const pdf = await getPagBttisCashFlowReport(dateIni, dateFin)
 
@@ -31,7 +29,6 @@ export function PagBttisRelatorio() {
       const bufferPdf = new Blob([pdf], { type: 'application/pdf' })
 
       const url = URL.createObjectURL(bufferPdf)
-      setLoading(false)
       window.open(url, '_blank')
     },
   })
@@ -47,7 +44,6 @@ export function PagBttisRelatorio() {
 
         return
       }
-      setLoading(true)
 
       const pdf = await getPagBttisProfitTransactionsReport(dateIni, dateFin)
 
@@ -56,7 +52,6 @@ export function PagBttisRelatorio() {
       const bufferPdf = new Blob([pdf], { type: 'application/pdf' })
 
       const url = URL.createObjectURL(bufferPdf)
-      setLoading(false)
       window.open(url, '_blank')
     },
   })

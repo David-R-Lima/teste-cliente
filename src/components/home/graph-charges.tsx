@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react'
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis } from 'recharts'
 import dayjs from 'dayjs'
 import 'dayjs/locale/pt-br'
-import { useCustomerMetrics } from '@/hooks/useCustomerMetrics'
 import { useChargeMetrics } from '@/hooks/useChargeMetrics'
 
 dayjs.locale('pt-br')

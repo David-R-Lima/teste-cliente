@@ -15,7 +15,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { useState } from 'react'
-import { CreateProduct } from '@/services/products/products'
 import { createOrder } from '@/services/order'
 
 const FormSchema = z.object({
@@ -28,14 +27,7 @@ export function CreateOrderForm() {
   const [open, setOpen] = useState(false)
   const [currentValue, setCurrentValue] = useState('')
   const queryClient = useQueryClient()
-  const {
-    register,
-    handleSubmit,
-    getValues,
-    setValue,
-    watch,
-    formState: { errors },
-  } = useForm<createProductFormSchema>({
+  const { handleSubmit, setValue, watch } = useForm<createProductFormSchema>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       itens: [],

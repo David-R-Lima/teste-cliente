@@ -82,20 +82,6 @@ export function SideBar() {
     },
   ]
 
-  const groupThree = [
-    {
-      href: '/dashboard/webhooks',
-      label: 'Webhooks',
-      icon: <Webhook className="h-6 w-6 sidebar-icon shrink-0" />,
-    },
-
-    {
-      href: '/dashboard/settings',
-      label: 'Configurações',
-      icon: <SlidersHorizontal className="h-6 w-6 sidebar-icon shrink-0" />,
-    },
-  ]
-
   return (
     <div
       className={`flex flex-col pt-4 bg-primary-foreground w-full h-[100vh] z-50`}

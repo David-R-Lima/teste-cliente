@@ -84,9 +84,6 @@ export const OrderColumns: ColumnDef<Order>[] = [
             <MoreVertical />
           </PopoverTrigger>
           <PopoverContent className="w-full flex flex-col items-center justify-center">
-            <Button variant={'link'} asChild>
-              <Link href={'/orders/' + order.id}>Link</Link>
-            </Button>
             <Dialog>
               <DialogTrigger asChild>
                 <Button variant={'link'}>+ Informações</Button>

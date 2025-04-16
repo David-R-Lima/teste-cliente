@@ -246,6 +246,10 @@ export function CreateChargeForm() {
               </p>
             </div>
             <Input {...register('cupom')} placeholder="Cupom"></Input>
+            <Input
+              {...register('recurrence_id')}
+              placeholder="Id Recorrência"
+            ></Input>
           </div>
           <hr />
           <div className="flex flex-col space-y-2 p-4 bg-accent rounded-lg ">

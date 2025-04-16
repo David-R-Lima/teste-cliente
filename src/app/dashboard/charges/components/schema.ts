@@ -8,7 +8,7 @@ import { z } from 'zod'
 
 export const ChargeFormSchema = z.object({
   customer_id: z.string().optional(),
-
+  recurrence_id: z.string().optional(),
   value: z.coerce
     .number({
       required_error: 'Valor é obrigatório!',

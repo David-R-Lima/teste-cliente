@@ -146,6 +146,9 @@ export const ChargesColumns: ColumnDef<Charges>[] = [
     cell: ({ row }) => {
       const charge = row.original
 
+      const oneMonthAgo = dayjs().subtract(1, 'month')
+      const isOlderThanOneMonth = dayjs(charge.created_at).isBefore(oneMonthAgo)
+
       return (
         <Popover>
           <PopoverTrigger>
@@ -163,9 +166,10 @@ export const ChargesColumns: ColumnDef<Charges>[] = [
             {/** TODO: ver os status certin */}
             {(charge.situation === ChargeStatus.PAID ||
               charge.situation === ChargeStatus.AUTHORIZED) &&
-              charge.payment_type === 'CARTAO_CREDITO' && (
+              charge.payment_type === 'CARTAO_CREDITO' &&
+              !isOlderThanOneMonth && (
                 <div>
-                  <RefundChargeAlert chargeId={charge.id}></RefundChargeAlert>
+                  <RefundChargeAlert chargeId={charge.id} />
                 </div>
               )}
           </PopoverContent>

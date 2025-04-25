@@ -9,9 +9,9 @@ export interface Product {
   active: boolean | null
   image_url: string | null
   quantity?: number | null
-  createdAt: Date | null
-  updatedAt: Date | null
-  merchantId: string | null
+  created_at: Date | null
+  updated_at: Date | null
+  merchant_id: string | null
 }
 
 export const buyProductSchema = z.object({

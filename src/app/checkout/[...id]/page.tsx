@@ -103,7 +103,7 @@ export default function Page(props: { params: Params }) {
             quantity: 1,
           },
         ])
-        setValue('merchant_id', temp.product.merchantId ?? '')
+        setValue('merchant_id', temp.product.merchant_id ?? '')
         return temp
       }
 
@@ -112,29 +112,29 @@ export default function Page(props: { params: Params }) {
   })
 
   const pubKeyQuery = useQuery({
-    queryKey: ['pubKey', query.data?.product.merchantId],
+    queryKey: ['pubKey', query.data?.product.merchant_id],
     queryFn: FetchPubKey,
-    enabled: !!query.data?.product.merchantId,
+    enabled: !!query.data?.product.merchant_id,
   })
 
   const recommendedProductQuery = useQuery({
     queryKey: [
       'recommendedProduct',
       id,
-      query.data?.product.merchantId,
+      query.data?.product.merchant_id,
       displayProducts,
     ],
     queryFn: async () => {
       const productIds = displayProducts.map((product) => product.id ?? '')
 
       const data = await GetRecommendedProducts({
-        merchantId: query.data?.product.merchantId ?? '',
+        merchantId: query.data?.product.merchant_id ?? '',
         excludedItens: productIds,
       })
 
       return data
     },
-    enabled: !!query.data?.product.merchantId,
+    enabled: !!query.data?.product.merchant_id,
   })
 
   const { register, setValue, getValues, watch } = useForm<BuyProductSchema>({

@@ -74,14 +74,12 @@ export default function Page(props: { params: Params }) {
     card_cvv: string
     card_expiration_month: string
     card_expiration_year: string
-    cpf: string
   }>({
     card_holder: '',
     card_number: '',
     card_cvv: '',
     card_expiration_month: '',
     card_expiration_year: '',
-    cpf: '',
   })
 
   const query = useQuery({

@@ -129,7 +129,7 @@ export function BoxWebhook() {
                       key={index}
                       onClick={() => {
                         setSelectedWebhook({
-                          ...web.payload.payload,
+                          ...web.payload,
                         })
                       }}
                       className="p-2 border-2 text-sm hover:cursor-pointer"

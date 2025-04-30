@@ -14,9 +14,7 @@ export interface SentWebhooks {
   destination_url: string
   status: string
   status_code: number
-  payload: {
-    payload: Record<string, string>
-  }
+  payload: Record<string, string>
   sent_date: Date
 }
 

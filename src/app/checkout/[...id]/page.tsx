@@ -54,6 +54,7 @@ export default function Page(props: { params: Params }) {
   const searchParams = useSearchParams()
 
   const affiliateId = searchParams.get('affiliateId')
+  const callbackUrl = searchParams.get('callbackUrl')
 
   const [step, setStep] = useState(1)
   const [paymentType, setPaymentType] = useState<PaymentType | undefined>()
@@ -181,7 +182,7 @@ export default function Page(props: { params: Params }) {
           expirationMonth: cardToTokenize.card_expiration_month,
           expirationYear: cardToTokenize.card_expiration_year,
           cardHolder: cardToTokenize.card_holder,
-          cpf: cardToTokenize.cpf,
+          cpf: getValues('card.cpf'),
         })
 
         const card = async () => {
@@ -356,6 +357,9 @@ export default function Page(props: { params: Params }) {
   const handleNewNotifications = useCallback(() => {
     socket.on('payed', () => {
       setStep(4)
+      if (callbackUrl) {
+        window.location.href = callbackUrl
+      }
     })
     return () => {
       socket.off('payed')
@@ -582,13 +586,10 @@ export default function Page(props: { params: Params }) {
                 </div>
                 <div>
                   <Input
-                    placeholder="Cpf do titular"
-                    onChange={(e) => {
-                      setCardToTokenize({
-                        ...cardToTokenize,
-                        cpf: e.currentTarget.value,
-                      })
-                    }}
+                    placeholder="Cpf"
+                    {...registerWithMask('card.cpf', 'cpf', {
+                      autoUnmask: true,
+                    })}
                   ></Input>
                 </div>
                 <div>

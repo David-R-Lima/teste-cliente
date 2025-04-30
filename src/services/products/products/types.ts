@@ -1,5 +1,6 @@
 import { PaymentType } from '@/services/charges/types'
-import { z } from 'zod'
+import { cpf } from 'cpf-cnpj-validator'
+import { number, z } from 'zod'
 
 export interface Product {
   id: string | null
@@ -40,6 +41,11 @@ export const buyProductSchema = z.object({
       zip_code: z.string(),
     }),
   }),
+  card: z
+    .object({
+      cpf: z.string().optional(),
+    })
+    .optional(),
 })
 
 export type BuyProductSchema = z.infer<typeof buyProductSchema>

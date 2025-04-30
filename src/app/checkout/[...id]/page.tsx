@@ -286,6 +286,7 @@ export default function Page(props: { params: Params }) {
       if (paymentType === PaymentType.CREDIT_CARD) {
         toast.success('Pagamento realizado com sucesso!')
         setStep(4)
+        console.log(callbackUrl)
         if (callbackUrl) {
           window.location.href = callbackUrl
         }

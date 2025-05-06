@@ -650,7 +650,7 @@ export default function Page(props: { params: Params }) {
             </Card>
           )}
         </div>
-        {chargeId && <Socket id={id}></Socket>}
+        {chargeId && <Socket id={chargeId}></Socket>}
       </div>
     )
   } else {

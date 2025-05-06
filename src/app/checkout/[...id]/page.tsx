@@ -1,8 +1,8 @@
 'use client'
 
-import { ProductComponent } from '@/app/orders/[...id]/components/product'
-import { ProductWithImageComponent } from '@/app/orders/[...id]/components/product-with-image'
-import { RenderQRCodeSectionPaymentLink } from '@/app/orders/[...id]/components/render-qr-code'
+import { ProductComponent } from '../components/product'
+import { ProductWithImageComponent } from '../components/product-with-image'
+import { RenderQRCodeSectionPaymentLink } from '../components/render-qr-code'
 import { Socket } from '@/components/providers/socket-providet'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'

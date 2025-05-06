@@ -8,6 +8,18 @@ import {
 } from './types'
 import { api } from '../api'
 
+export async function fetchPaymentLinkForProducts(
+  ctx: QueryFunctionContext,
+): Promise<{ link: PaymentLink; publicKey: string }> {
+  const [, id] = ctx.queryKey
+
+  const res = await api.get<{ link: PaymentLink; publicKey: string }>(
+    '/payment-link/for-product/' + id,
+  )
+
+  return res.data
+}
+
 export async function fetchPaymentLink(
   ctx: QueryFunctionContext,
 ): Promise<{ link: PaymentLink; publicKey: string }> {

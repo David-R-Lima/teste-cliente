@@ -52,6 +52,7 @@ export async function createPaymentLink(data: TypeSchemaLink) {
 
 export async function payPaymentLink(data: PayPaymentLinkSchema) {
   const res = await api.post<{
+    charge_id: string
     qr_codes?: QrCode[]
     boleto?: Boleto
   }>('/payment-link/' + data.payment_link_id, data)

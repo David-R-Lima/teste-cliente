@@ -48,6 +48,7 @@ export default function Page(props: { params: Params }) {
   const [displayAddressForm, setDisplayAddressForm] = useState<boolean>(false)
   const [cupomValid, setCupomValid] = useState<number | undefined>(undefined)
   const [cupom, setCupom] = useState<string | undefined>(undefined)
+  const [chargeId, setChargeId] = useState<string | undefined>(undefined)
 
   const { id } = use(props.params)
 
@@ -108,6 +109,10 @@ export default function Page(props: { params: Params }) {
           },
         )
         setStep(3)
+      }
+
+      if (data.charge_id) {
+        setChargeId(data.charge_id)
       }
 
       if (paymentType === PaymentType.CREDIT_CARD) {
@@ -645,7 +650,7 @@ export default function Page(props: { params: Params }) {
             </Card>
           )}
         </div>
-        <Socket id={id}></Socket>
+        {chargeId && <Socket id={id}></Socket>}
       </div>
     )
   } else {

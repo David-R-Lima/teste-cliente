@@ -130,9 +130,6 @@ export function CreatePaymentLinkForm() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value={ChargeType.SINGLE}>Unico</SelectItem>
-                <SelectItem value={ChargeType.RECURRENCE}>
-                  Recorrente
-                </SelectItem>
               </SelectContent>
             </Select>
             {errors.chargeType && (

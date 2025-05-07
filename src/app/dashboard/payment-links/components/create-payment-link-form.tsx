@@ -111,6 +111,15 @@ export function CreatePaymentLinkForm() {
                 {errors.description.message}
               </span>
             )}
+            <Input
+              {...register('recurrence_id')}
+              placeholder="Id da assinatura"
+            ></Input>
+            {errors.recurrence_id && (
+              <span className="text-xs text-red-500">
+                {errors.recurrence_id.message}
+              </span>
+            )}
             <Select
               onValueChange={(e) => {
                 setValue('chargeType', e as ChargeType)

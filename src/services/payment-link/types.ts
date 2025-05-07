@@ -36,6 +36,7 @@ export const CreatePaymentLinkSchema = z.object({
       autoRedirect: z.boolean().optional(),
     })
     .optional(),
+  recurrence_id: z.string().optional(),
 })
 
 export type TypeSchemaLink = z.infer<typeof CreatePaymentLinkSchema>

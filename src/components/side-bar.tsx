@@ -13,6 +13,7 @@ import {
   ArrowLeftRight,
   ClipboardList,
   Apple,
+  LinkIcon,
 } from 'lucide-react'
 import { SidebarButton } from './sidebar-button'
 import { ExitComponent } from './exit-component'
@@ -66,14 +67,19 @@ export function SideBar() {
       icon: <ClipboardList className="h-6 w-6 sidebar-icon shrink-0" />,
     },
     {
-      href: '/dashboard/orders',
-      label: 'Pedidos',
-      icon: <Link2 className="h-6 w-6 sidebar-icon shrink-0" />,
+      href: '/dashboard/payment-links',
+      label: 'Links de pagamento',
+      icon: <LinkIcon className="h-6 w-6 sidebar-icon shrink-0" />,
     },
     {
       href: '/dashboard/cupons',
       label: 'Cupons',
       icon: <Ticket className="h-6 w-6 sidebar-icon shrink-0" />,
+    },
+    {
+      href: '/dashboard/orders',
+      label: 'Pedidos',
+      icon: <Link2 className="h-6 w-6 sidebar-icon shrink-0" />,
     },
     {
       href: '/dashboard/products',

@@ -9,6 +9,8 @@ export default function Status() {
     queryKey: ['health-check'],
   })
 
+  console.log(data)
+
   return (
     <div className="flex flex-col items-start justify-top h-[80vh] w-[90vw] lg:w-[40vw] border-4 border-primary-200 m-auto mt-10 rounded-lg p-10 space-y-2">
       <h1 className="font-bold">Status dos serviços</h1>

@@ -6,42 +6,25 @@ export enum UpDown {
 export interface Health {
   status: string
   info: {
-    'ms-pagamento'?: {
+    'ms-pagamento': {
       status: UpDown
+      message?: string
     }
-    'ms-transferencia'?: {
+    'ms-transferencia': {
       status: UpDown
+      message?: string
     }
-    'ms-relatorio'?: {
+    'ms-relatorio': {
       status: UpDown
+      message?: string
     }
-    'ms-webhook'?: {
+    'ms-webhook': {
       status: UpDown
+      message?: string
     }
-    'next-providers'?: {
+    'next-providers': {
       status: UpDown
-    }
-  }
-  error: {
-    'ms-pagamento'?: {
-      status: UpDown
-      message: 'string'
-    }
-    'ms-transferencia'?: {
-      status: UpDown
-      message: 'string'
-    }
-    'ms-relatorio'?: {
-      status: UpDown
-      message: 'string'
-    }
-    'ms-webhook'?: {
-      status: UpDown
-      message: 'string'
-    }
-    'next-providers'?: {
-      status: UpDown
-      message: 'string'
+      message?: string
     }
   }
 }

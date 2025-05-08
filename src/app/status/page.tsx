@@ -3,6 +3,7 @@
 import { VerifyHealth } from '@/services/health'
 import { UpDown } from '@/services/health/types'
 import { useQuery } from '@tanstack/react-query'
+import dayjs from 'dayjs'
 import { Loader2 } from 'lucide-react'
 
 export default function Status() {
@@ -53,6 +54,14 @@ export default function Status() {
             </div>
           )
         })}
+        {data.lastTimeChecked && (
+          <div>
+            <h2>
+              Última verificação:{' '}
+              {dayjs(data.lastTimeChecked).format('DD/MM/YYYY HH:mm')}
+            </h2>
+          </div>
+        )}
       </div>
     )
   }

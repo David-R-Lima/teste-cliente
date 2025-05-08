@@ -5,6 +5,7 @@ export enum UpDown {
 
 export interface Health {
   status: string
+  lastTimeChecked: Date
   info: {
     'ms-pagamento': {
       status: UpDown

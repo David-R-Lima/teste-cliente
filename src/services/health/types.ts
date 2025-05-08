@@ -27,5 +27,9 @@ export interface Health {
       status: UpDown
       message?: string
     }
+    market: {
+      status: UpDown
+      message?: string
+    }
   }
 }

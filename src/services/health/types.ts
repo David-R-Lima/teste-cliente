@@ -6,13 +6,19 @@ export enum UpDown {
 export interface Health {
   status: string
   info: {
-    'ms-pagamento': {
+    'ms-pagamento'?: {
       status: UpDown
     }
-    'ms-transferencia': {
+    'ms-transferencia'?: {
       status: UpDown
     }
-    'ms-relatorio': {
+    'ms-relatorio'?: {
+      status: UpDown
+    }
+    'ms-webhook'?: {
+      status: UpDown
+    }
+    'next-providers'?: {
       status: UpDown
     }
   }
@@ -30,6 +36,10 @@ export interface Health {
       message: 'string'
     }
     'ms-webhook'?: {
+      status: UpDown
+      message: 'string'
+    }
+    'next-providers'?: {
       status: UpDown
       message: 'string'
     }

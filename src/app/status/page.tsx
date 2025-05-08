@@ -32,7 +32,7 @@ export default function Status() {
             { key: 'ms-transferencia', label: 'Transferência' },
             { key: 'ms-webhook', label: 'Webhook' },
             { key: 'next-providers', label: 'Criptografia de cartão' },
-            { key: 'market', label: 'Produtos, Pedidos e afiliados' },
+            { key: 'market', label: 'Produtos, Pedidos e Afiliados' },
           ] as const
         ).map(({ key, label }) => {
           const service = data?.info?.[key]

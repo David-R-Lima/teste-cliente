@@ -11,8 +11,6 @@ export default function Status() {
     queryKey: ['health-check'],
   })
 
-  console.log(data)
-
   if (isFetching) {
     return (
       <div>
@@ -37,7 +35,6 @@ export default function Status() {
         ).map(({ key, label }) => {
           const service = data?.info?.[key]
 
-          console.log(service)
           const isUp = service?.status === UpDown.UP
           return (
             <div

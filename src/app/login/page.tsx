@@ -96,6 +96,9 @@ export default function Dashboard() {
       submitForm.setValue('code', '')
       toast.success('Código de confirmação enviado para seu email')
     },
+    onError: (err) => {
+      toast.error(err.message)
+    },
   })
 
   const signInMutation = useMutation({
@@ -237,6 +240,16 @@ export default function Dashboard() {
                 ) : (
                   'Continuar'
                 )}
+              </Button>
+
+              <Button
+                variant={'link'}
+                onClick={(e) => {
+                  e.preventDefault()
+                  router.push('/forgot-password')
+                }}
+              >
+                Esqueci a senha
               </Button>
             </form>
           </div>

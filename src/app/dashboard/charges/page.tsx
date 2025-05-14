@@ -17,10 +17,14 @@ import { ChargesColumnsMobile } from './charges-columns-mobile'
 
 export default function ChargesComponent() {
   const [page, setPage] = useState<number>(1)
+  const [filter, setFilter] = useState<string | undefined>(undefined)
+  const [currentFilter, setCurrentFilter] = useState<string | undefined>(
+    undefined,
+  )
   const { status } = useSession()
 
   const { data, isLoading, isError } = useQuery({
-    queryKey: ['charges', page],
+    queryKey: ['charges', page, currentFilter],
     queryFn: getCharges,
     retry: 0,
     enabled: status === 'authenticated',
@@ -43,10 +47,15 @@ export default function ChargesComponent() {
               <CreateChargeForm></CreateChargeForm>
             </div>
             <div className="hidden md:flex items-center border-b-2">
-              <Search />
+              <Search
+                onClick={() => {
+                  setCurrentFilter(filter)
+                }}
+              />
               <InputWithoutBorder
                 placeholder="Faça uma consulta"
                 className="w-[20vw]"
+                onChange={(e) => setFilter(e.target.value)}
               ></InputWithoutBorder>
             </div>
           </div>

@@ -5,10 +5,13 @@ import { AxiosError } from 'axios'
 import { api } from '../api'
 
 export const getCharges = async (ctx: QueryFunctionContext) => {
-  const [, page] = ctx.queryKey
-  const { data } = await api.get<{ charges: Charges[] }>(
-    '/charges?page=' + page,
-  )
+  const [, page, filter] = ctx.queryKey
+  const { data } = await api.get<{ charges: Charges[] }>('/charges', {
+    params: {
+      page,
+      filter: filter ?? undefined,
+    },
+  })
 
   return data.charges
 }

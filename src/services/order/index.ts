@@ -40,10 +40,16 @@ export async function createOrder(itens: CreateOrderProps) {
 }
 
 export async function GetOrders(ctx: QueryFunctionContext) {
-  const [, page] = ctx.queryKey
+  const [, page, filter] = ctx.queryKey
+
   const res = await api.get<{
     orders: Order[]
-  }>(`/orders?page=${page}`)
+  }>(`/orders`, {
+    params: {
+      page,
+      filter: filter ?? undefined,
+    },
+  })
 
   return res.data
 }

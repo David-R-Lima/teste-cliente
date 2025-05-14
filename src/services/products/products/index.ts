@@ -31,9 +31,14 @@ export async function GetRecommendedProducts({
 }
 
 export async function GetProducts(ctx: QueryFunctionContext) {
-  const [, page] = ctx.queryKey
+  const [, page, filter] = ctx.queryKey
 
-  const res = await api.get<{ products: Product[] }>('/products?page=' + page)
+  const res = await api.get<{ products: Product[] }>('/products', {
+    params: {
+      page,
+      filter: filter ?? undefined,
+    },
+  })
 
   return res.data
 }

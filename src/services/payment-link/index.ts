@@ -35,11 +35,14 @@ export async function fetchPaymentLink(
 export async function fetchAllPaymentLink(
   ctx: QueryFunctionContext,
 ): Promise<PaymentLink[]> {
-  const [, page] = ctx.queryKey
+  const [, page, filter] = ctx.queryKey
 
-  const res = await api.get<{ links: PaymentLink[] }>(
-    '/payment-links?page=' + page,
-  )
+  const res = await api.get<{ links: PaymentLink[] }>('/payment-links', {
+    params: {
+      page,
+      filter,
+    },
+  })
 
   return res.data.links
 }

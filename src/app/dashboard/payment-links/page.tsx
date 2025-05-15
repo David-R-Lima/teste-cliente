@@ -17,10 +17,14 @@ import { PaymentLinksColumnsMobile } from './payment-link-columns-mobile'
 
 export default function ProductsComponent() {
   const [page, setPage] = useState<number>(1)
+  const [filter, setFilter] = useState<string | undefined>(undefined)
+  const [currentFilter, setCurrentFilter] = useState<string | undefined>(
+    undefined,
+  )
   const { status } = useSession()
 
   const { data, isLoading, isError } = useQuery({
-    queryKey: ['payment-links', page],
+    queryKey: ['payment-links', page, currentFilter],
     queryFn: fetchAllPaymentLink,
     enabled: status === 'authenticated',
   })
@@ -44,10 +48,17 @@ export default function ProductsComponent() {
             </div>
             <div className="hidden md:flex space-x-4">
               <div className="flex items-center border-b-2">
-                <Search />
+                <Search
+                  onClick={() => {
+                    setCurrentFilter(filter)
+                  }}
+                  className="hover:cursor-pointer"
+                />
                 <InputWithoutBorder
                   placeholder="Faça uma consulta"
                   className="w-[20vw]"
+                  onChange={(e) => setFilter(e.target.value)}
+                  value={filter}
                 ></InputWithoutBorder>
               </div>
             </div>

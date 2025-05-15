@@ -12,9 +12,14 @@ export async function CreateCupom(data: formSchemaCupom) {
 }
 
 export async function GetAllCupons(ctx: QueryFunctionContext) {
-  const [, page] = ctx.queryKey
+  const [, page, filter] = ctx.queryKey
 
-  const { data } = await api.get<{ cupons: Cupom[] }>('/cupons?page=' + page)
+  const { data } = await api.get<{ cupons: Cupom[] }>('/cupons', {
+    params: {
+      page,
+      filter,
+    },
+  })
 
   return data.cupons
 }

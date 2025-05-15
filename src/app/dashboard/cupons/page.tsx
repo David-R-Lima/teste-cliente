@@ -16,8 +16,12 @@ import { CupomColumnsMobile } from './cupom-columns-mobile'
 
 export default function Cupons() {
   const [page, setPage] = useState(1)
+  const [filter, setFilter] = useState<string | undefined>(undefined)
+  const [currentFilter, setCurrentFilter] = useState<string | undefined>(
+    undefined,
+  )
   const { data, isError, isLoading } = useQuery({
-    queryKey: ['cupons', page],
+    queryKey: ['cupons', page, currentFilter],
     queryFn: GetAllCupons,
   })
 
@@ -39,10 +43,17 @@ export default function Cupons() {
             </div>
             <div className="hidden md:flex space-x-4">
               <div className="flex items-center border-b-2">
-                <Search />
+                <Search
+                  onClick={() => {
+                    setCurrentFilter(filter)
+                  }}
+                  className="hover:cursor-pointer"
+                />
                 <InputWithoutBorder
                   placeholder="Faça uma consulta"
                   className="w-[20vw]"
+                  onChange={(e) => setFilter(e.target.value)}
+                  value={filter}
                 ></InputWithoutBorder>
               </div>
             </div>

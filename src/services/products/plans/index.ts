@@ -4,9 +4,14 @@ import { QueryFunctionContext } from '@tanstack/react-query'
 import { api } from '@/services/api'
 
 export const getPlans = async (ctx: QueryFunctionContext) => {
-  const [, page] = ctx.queryKey
+  const [, page, filter] = ctx.queryKey
 
-  const { data } = await api.get<{ plans: Plans[] }>('/plans' + `?page=${page}`)
+  const { data } = await api.get<{ plans: Plans[] }>('/plans', {
+    params: {
+      page,
+      filter,
+    },
+  })
 
   return data
 }

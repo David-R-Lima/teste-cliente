@@ -3,9 +3,15 @@ import { Subscriber } from './types'
 import { api } from '../api'
 
 export const getSubscriptions = async (ctx: QueryFunctionContext) => {
-  const [, page] = ctx.queryKey
+  const [, page, filter] = ctx.queryKey
   const { data } = await api.get<{ recurrences: Subscriber[] }>(
-    '/subscriptions' + `?page=${page}`,
+    '/subscriptions',
+    {
+      params: {
+        page,
+        filter,
+      },
+    },
   )
 
   return data.recurrences

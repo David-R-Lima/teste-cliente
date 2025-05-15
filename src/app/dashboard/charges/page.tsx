@@ -51,6 +51,7 @@ export default function ChargesComponent() {
                 onClick={() => {
                   setCurrentFilter(filter)
                 }}
+                className="hover:cursor-pointer"
               />
               <InputWithoutBorder
                 placeholder="Faça uma consulta"

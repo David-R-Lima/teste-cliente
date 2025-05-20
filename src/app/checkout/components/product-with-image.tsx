@@ -23,7 +23,7 @@ export function ProductWithImageComponent({
           <Image
             src={product.image_url}
             alt="imagem"
-            width={200}
+            width={50}
             height={50}
           ></Image>
         )}

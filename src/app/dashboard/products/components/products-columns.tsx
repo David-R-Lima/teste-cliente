@@ -2,8 +2,14 @@
 
 import { Button } from '@/components/ui/button'
 import { ColumnDef } from '@tanstack/react-table'
-import { ArrowUpDown, Clipboard } from 'lucide-react'
+import { ArrowUpDown, Clipboard, MoreVertical } from 'lucide-react'
 import { Product } from '@/services/products/products/types'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
+import { UpdateProductForm } from './edit-product-form'
 
 export const ProductColumns: ColumnDef<Product>[] = [
   {
@@ -88,19 +94,20 @@ export const ProductColumns: ColumnDef<Product>[] = [
     },
   },
 
-  // {
-  //   id: 'actions',
-  //   cell: ({ row }) => {
-  //     const promptGroup = row.original
-  //     return (
-  //       <Popover>
-  //         <PopoverTrigger>
-  //           <MoreVertical />
-  //         </PopoverTrigger>
-  //         <PopoverContent className="w-full">
-  //         </PopoverContent>
-  //       </Popover>
-  //     )
-  //   },
-  // },
+  {
+    id: 'actions',
+    cell: ({ row }) => {
+      const promptGroup = row.original
+      return (
+        <Popover>
+          <PopoverTrigger>
+            <MoreVertical />
+          </PopoverTrigger>
+          <PopoverContent className="w-full">
+            <UpdateProductForm product={promptGroup}></UpdateProductForm>
+          </PopoverContent>
+        </Popover>
+      )
+    },
+  },
 ]

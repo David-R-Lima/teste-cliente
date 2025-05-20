@@ -44,8 +44,25 @@ export async function GetProducts(ctx: QueryFunctionContext) {
 }
 
 export async function CreateProduct(data: createProductFormSchema) {
-  const res = await api.post('/products', data)
+  console.log(data.value)
+  const res = await api.post('/products', {
+    ...data,
+    value: data.value * 100,
+  })
 
+  return res.data
+}
+
+interface UpdateProductProps {
+  id: string
+  data: createProductFormSchema
+}
+
+export async function UpdateProduct(data: UpdateProductProps) {
+  const res = await api.put('/product/' + data.id, {
+    ...data.data,
+    value: data.data.value * 100,
+  })
   return res.data
 }
 

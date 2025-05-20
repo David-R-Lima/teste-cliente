@@ -126,6 +126,26 @@ export function DisplayParameter({ parameter }: Props) {
             setValue={setValue}
           ></TransferMethodSelect>
         )}
+        {parameter.name === 'LNK_FTR_CHK' && (
+          <Input
+            type="text"
+            placeholder={parameter.merchantSetting?.type_string}
+            onChange={(e) => {
+              setValue(e.currentTarget.value)
+            }}
+            maxLength={100}
+          />
+        )}
+        {parameter.name === 'LNK_BAN_CHK' && (
+          <Input
+            type="text"
+            placeholder={parameter.merchantSetting?.type_string}
+            onChange={(e) => {
+              setValue(e.currentTarget.value)
+            }}
+            maxLength={100}
+          />
+        )}
       </CardContent>
       <CardFooter>
         <Button
